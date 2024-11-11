@@ -13,7 +13,7 @@ export const useLocalStorage = <A>(
         window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
         return defaultValue;
       }
-    } catch (err) {
+    } catch {
       return defaultValue;
     }
   });

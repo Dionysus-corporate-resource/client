@@ -7,7 +7,7 @@ interface ApiRequestOptions<T = unknown> {
   params?: Record<string, string | number | boolean>;
 }
 
-export async function apiRequest<ResponseType = any, BodyType = any>(
+export async function apiRequest<ResponseType = unknown, BodyType = unknown>(
   url: string,
   options: ApiRequestOptions<BodyType> = {},
 ): Promise<ResponseType> {

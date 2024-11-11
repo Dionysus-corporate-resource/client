@@ -26,9 +26,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/app/providers/auth-provider";
-import { NavLink } from "react-router-dom";
 import { SettingsDialog } from "./settings-dialog";
-import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import instance from "@/shared/api/axios-instance";
 
@@ -38,10 +36,10 @@ type User = {
   name: string;
 };
 
-type ResponseDto<T> = {
-  message: string;
-  user: T;
-};
+// type ResponseDto<T> = {
+//   message: string;
+//   user: T;
+// };
 
 async function getUserInfo(token: string) {
   console.log("token in side-bar", token);

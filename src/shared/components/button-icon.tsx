@@ -1,7 +1,6 @@
 import { ChevronRight, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ComponentProps, ReactNode, useEffect, useState } from "react";
-import { useTheme } from "@/hooks/use-theme";
+import { ComponentProps, ReactNode } from "react";
 
 const iconMap = {
   ChevronRight: ChevronRight,
