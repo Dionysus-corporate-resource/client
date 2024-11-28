@@ -13,7 +13,7 @@ export default function EnhancedMonochromeLandingPage() {
         style={{ borderBottom: "1px solid hsl(0 0 14.9)" }}
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-sm font-bold">Nathani Art Community</div>
+          <div className="text-sm font-bold">лтк Дионис</div>
           <nav className="hidden md:flex space-x-6 items-center">
             <a href="/login" className="hover:text-gray-300 transition-colors">
               Войти
@@ -40,19 +40,21 @@ export default function EnhancedMonochromeLandingPage() {
           <div className="absolute "></div>
           <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-                Elevate Your Experience with{" "}
+              <h1 className="text-5xl md:text-7xl font-extrabold mb-12 leading-tight">
+                {/* лтк */}
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
-                  MonoApp
+                  Логистическая транспортная компания
                 </span>
               </h1>
               <p className="text-xl mb-12 text-gray-300">
-                Unleash the power of simplicity and elegant design. Transform
-                your projects with our cutting-edge monochromatic tools.
+                Транспортная логистическая компания надежный партнер в сфере
+                транспортной логистики. Мы предлагаем комплексные решения для
+                доставки грузов любого объема и сложности по всей стране и за её
+                пределами.
               </p>
               <NavLink to="/product">
                 <Button className="bg-white text-black hover:bg-gray-200 transition-colors text-lg py-6 px-8 rounded-full shadow-lg">
-                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                  Смотреть заявки <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </NavLink>
             </div>

@@ -27,55 +27,13 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/app/providers/auth-provider";
 import { SettingsDialog } from "./settings-dialog";
-import { useEffect, useState } from "react";
-import instance from "@/shared/api/axios-instance";
-
-type User = {
-  id: string;
-  email: string;
-  name: string;
-};
-
-// type ResponseDto<T> = {
-//   message: string;
-//   user: T;
-// };
-
-async function getUserInfo(token: string) {
-  console.log("token in side-bar", token);
-  return instance.get("/api/protected", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-
-// Передавалось пропсами
-// {
-//   user,
-// }: {
-//   user: {
-//     name: string;
-//     email: string;
-//     avatar: string;
-//   };
-// }
+import { useState } from "react";
 
 export function NavUser() {
   const [open, setOpen] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(null);
 
   const authContext = useAuth();
   const { isMobile } = useSidebar();
-
-  useEffect(() => {
-    if (authContext?.token) {
-      getUserInfo(authContext?.token).then((data) => {
-        console.log("ProfileData", data);
-        setUser(data.data.user);
-      });
-    }
-  }, []);
 
   return (
     <SidebarMenu>
@@ -87,12 +45,19 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src="/avatars/shadcn.jpg" alt={user?.name} />
+                <AvatarImage
+                  src="/avatars/shadcn.jpg"
+                  alt={authContext?.user?.userName}
+                />
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user?.name}</span>
-                <span className="truncate text-xs">{user?.email}</span>
+                <span className="truncate font-semibold">
+                  {authContext?.user?.userName}
+                </span>
+                <span className="truncate text-xs">
+                  {authContext?.user?.email}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -107,12 +72,19 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src="/avatars/shadcn.jpg" alt={user?.name} />
+                  <AvatarImage
+                    src="/avatars/shadcn.jpg"
+                    alt={authContext?.user?.userName}
+                  />
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user?.name}</span>
-                  <span className="truncate text-xs">{user?.email}</span>
+                  <span className="truncate font-semibold">
+                    {authContext?.user?.userName}
+                  </span>
+                  <span className="truncate text-xs">
+                    {authContext?.user?.email}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>

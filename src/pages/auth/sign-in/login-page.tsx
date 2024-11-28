@@ -46,7 +46,7 @@ export default function LoginPage() {
         <section
           className="bg-primary text-primary-foreground p-6 flex flex-col justify-center "
           style={{
-            backgroundImage: 'url("/images/avatar.PNG")',
+            backgroundImage: 'url("/images/car.jpg")',
             backgroundSize: "cover",
             backgroundPosition: "center 120%",
           }}
