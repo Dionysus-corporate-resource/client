@@ -1,24 +1,37 @@
 import { Route, Routes } from "react-router-dom";
 import { AppLayout } from "./layouts/app-layout";
-import HomePage from "@/pages/home/home-page";
+import HomePage from "@/pages/home";
 import NotFound from "@/pages/auth/not-found/not-found";
 import Landing from "@/pages/landing/landingPage";
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import Authentication from "./providers/authenication-provider";
 import ProfilePage from "@/pages/auth/profile/profile-page";
+import Authorization from "./providers/authorization";
+import PERMISSIONS from "@/shared/api/permissions";
+import ManagerPage from "@/pages/manager/manager-page";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/product" element={<AppLayout />}>
         <Route index element={<HomePage />} />
+
         <Route
           path="/product/profile"
           element={
             <Authentication>
               <ProfilePage />
             </Authentication>
+          }
+        />
+
+        <Route
+          path="/product/manager"
+          element={
+            <Authorization permissions={[PERMISSIONS.CAN_VIEW_MANAGER]}>
+              <ManagerPage />
+            </Authorization>
           }
         />
       </Route>
