@@ -7,7 +7,7 @@ export default function HomePage() {
   const { data: bookings } = useQuery(bookingQueryOptions.getAll());
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 px-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
       {bookings?.map((booking: IBookingDto) => (
         <BookingItem booking={booking} />
       ))}

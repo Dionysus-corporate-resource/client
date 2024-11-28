@@ -19,25 +19,30 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
 
-export function NavMain({
-  items,
-}: {
-  items: {
+type IRoute = {
+  title: string;
+  url: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  items?: {
     title: string;
     url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+  };
+};
+
+type IProps = {
+  items: {
+    nameLabel: string;
+    routes: IRoute[];
+  };
+};
+
+export function NavMain({ items }: IProps) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Навигация</SidebarGroupLabel>
+      <SidebarGroupLabel>{items.nameLabel}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {items.routes.map((item) => (
           <Collapsible
             key={item.title}
             asChild

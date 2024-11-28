@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   CardContent,
   CardDescription,
@@ -7,67 +6,233 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
-import { MapPin, DollarSign, Info } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { IBooking, IBookingFormData } from "@/shared/model/types/booking";
 import { bookingApi } from "@/pages/home/api/booking-api";
-import { Separator } from "@/components/ui/separator";
 import { queryClient } from "@/shared/api/query-client";
+//
+// import { Button, Label } from "@gravity-ui/uikit";
+// import { TextInput } from "@gravity-ui/uikit";
+// import { Select } from "@gravity-ui/uikit";
+import { Text } from "@gravity-ui/uikit";
+import { TextArea } from "@gravity-ui/uikit";
+import { Button } from "@/components/ui/button";
+import { Input, Input as TextInput } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { SelectShared } from "../shared/select-shared";
+import { Separator } from "@/components/ui/separator";
 
 const mapFormDataToBid = (data: IBookingFormData): IBooking => {
   return {
-    relevance: data.relevance,
-    cargoName: data.cargoName,
-    cargoAmount: data.cargoAmount,
-    loadType: data.loadType,
+    generalInformation: {
+      relevance: data.relevance,
+      cargoName: data.cargoName,
+      cargoAmount: data.cargoAmount,
+      icon: data.icon,
+    },
     location: {
       loadingLocation: data.loadingLocation,
+      loadingLocationDate: data.loadingLocationDate,
       unloadingLocation: data.unloadingLocation,
       distance: data.distance,
     },
     terms: {
       price: data.price,
       paymentMethod: data.paymentMethod,
-      truckType: data.truckType,
+      advance: {
+        percentage: data.percentage,
+        period: data.period,
+      },
+      loadingType: data.loadingType,
     },
-    advance: {
-      percentage: data.percentage,
+    requiredTransport: {
+      carType: data.carType,
+      carTypeUnLoading: data.carTypeUnLoading,
+      carHeightLimit: data.carHeightLimit,
+      carUsage: {
+        count: data.count,
+        carPeriod: data.carPeriod,
+      },
     },
     additionalInfo: data.additionalInfo,
   };
 };
 
-export default function CreateBookingDialog() {
+export const options = {
+  icons: {
+    label: "Иконки",
+    array: [
+      {
+        value: "🌽",
+        option: "🌽",
+      },
+      {
+        value: "🛢️",
+        option: "🛢️",
+      },
+      {
+        value: "🥦",
+        option: "🥦",
+      },
+    ],
+  },
+  paymentMethod: {
+    label: "Оплата",
+    array: [
+      {
+        value: "NDS",
+        option: "НДС",
+      },
+      {
+        value: "without_NDS",
+        option: "Без НДС",
+      },
+      {
+        value: "cash",
+        option: "Наличка",
+      },
+    ],
+  },
+  loadingType: {
+    label: "Погрузка",
+    array: [
+      {
+        value: "normal",
+        option: "По норме",
+      },
+      {
+        value: "full",
+        option: "По полной",
+      },
+    ],
+  },
+  period: {
+    label: "Аванс",
+    array: [
+      {
+        value: "loading",
+        option: "При погрузке",
+      },
+      {
+        value: "un_loading",
+        option: "При выгрузке",
+      },
+    ],
+  },
+  carPeriod: {
+    label: "Машины на",
+    array: [
+      {
+        value: "Каждый_день",
+        option: "Каждый день",
+      },
+      {
+        value: "Общее",
+        option: "Весь объем",
+      },
+    ],
+  },
+  carType: {
+    label: "Тип машины",
+    array: [
+      {
+        value: "Самосвал",
+        option: "Самосвал",
+      },
+      {
+        value: "Танар",
+        option: "Танар",
+      },
+      {
+        value: "Полу_прицеп",
+        option: "Полу прицеп",
+      },
+      {
+        value: "Сцепка",
+        option: "Сцепка",
+      },
+      {
+        value: "Любые_машины",
+        option: "Любые машины",
+      },
+    ],
+  },
+  carTypeUnLoading: {
+    label: "Тип выгрузки",
+    array: [
+      {
+        value: "Боковая",
+        option: "Боковая",
+      },
+      {
+        value: "Задняя",
+        option: "Задняя",
+      },
+      {
+        value: "На_правый_бок",
+        option: "На правый бок",
+      },
+      {
+        value: "На_левый_бок",
+        option: "На левый бок",
+      },
+      {
+        value: "Задняя_самосвальная",
+        option: "Задняя самосвальная",
+      },
+      {
+        value: "Боковая_самосвальная",
+        option: "Боковая самосвальная",
+      },
+      {
+        value: "Любая",
+        option: "Любая",
+      },
+    ],
+  },
+};
+
+export default function CreateBookingForm() {
   const createBidMutation = useMutation({
     mutationFn: (formDataMutate: IBooking) => bookingApi.create(formDataMutate),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["booking"] });
+      toast({
+        title: "Форма отправлена",
+        description: "Заявка создана, поздравляю!",
+      });
+      // setOpen((prev) => !prev);
+    },
+    onError: () => {
+      queryClient.invalidateQueries({ queryKey: ["booking"] });
+      toast({
+        title: "Ошибка",
+        description: "Не удалось создать заявку(",
+        variant: "destructive",
+      });
     },
   });
 
   const [formData, setFormData] = useState<IBookingFormData>({
+    icon: "🌽",
     relevance: true,
     cargoName: "",
     cargoAmount: 0,
-    loadType: "normal",
     loadingLocation: "",
     unloadingLocation: "",
     distance: 0,
     price: 0,
     paymentMethod: "NDS",
-    truckType: "",
+    loadingLocationDate: "",
     percentage: 0,
+    period: "loading",
+    loadingType: "normal",
+    carType: "Любые_машины",
+    carTypeUnLoading: "Любая",
+    carHeightLimit: undefined,
+    count: 0,
+    carPeriod: "Каждый_день",
     additionalInfo: "",
   });
 
@@ -77,261 +242,250 @@ export default function CreateBookingDialog() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSelectChange = (name: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const booking = mapFormDataToBid(formData);
-
+    console.log("Create Data", booking);
     createBidMutation.mutate(booking, {
       onSuccess: () => {
-        toast({
-          title: "Форма отправлена",
-          description: "Данные о грузе успешно сохранены.",
-        });
-        queryClient.invalidateQueries({ queryKey: ["booking"] });
-      },
-      onError: () => {
-        queryClient.invalidateQueries({ queryKey: ["booking"] });
-        toast({
-          title: "Ошибка",
-          description: "Не удалось сохранить данные о грузе.",
+        setFormData({
+          icon: "",
+          relevance: true,
+          cargoName: "",
+          cargoAmount: 0,
+          loadingLocation: "",
+          unloadingLocation: "",
+          distance: 0,
+          price: 0,
+          paymentMethod: "NDS",
+          loadingLocationDate: "",
+          percentage: 0,
+          period: "loading",
+          loadingType: "normal",
+          carType: [],
+          carTypeUnLoading: [],
+          carHeightLimit: undefined,
+          count: 0,
+          carPeriod: "Каждый_день",
+          additionalInfo: "",
         });
       },
     });
+  };
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
     <div className="mx-auto rounded-xl flex-col justify-between h-fit">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Информация о грузе</CardTitle>
+        <CardTitle className="text-2xl">Создание заявки</CardTitle>
         <CardDescription>
           Заполните форму для создания карточки груза
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <CardContent className="flex flex-col gap-2">
-          <div className="flex justify-between gap-8">
-            <div className="flex flex-col w-full gap-2">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-2 max-w-screen-sm"
+      >
+        <CardContent>
+          <div className="grid grid-cols-1 justify-between gap-8">
+            <div className="space-y-4">
+              {/* <Text variant="subheader-2">Информация о грузе</Text> */}
               <Label className="text-base">Основная информация</Label>
               <Separator className="mb-2" />
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-4 w-full">
-                  <div className="space-y-1">
-                    <Label
-                      htmlFor="cargoName"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Название груза
-                    </Label>
-                    <Input
-                      id="cargoName"
-                      name="cargoName"
-                      placeholder="Например: Жмых"
-                      value={formData.cargoName}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label
-                      htmlFor="cargoAmount"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Количество груза
-                    </Label>
-                    <Input
-                      id="cargoAmount"
-                      name="cargoAmount"
-                      type="number"
-                      placeholder="Например: 500"
-                      value={formData.cargoAmount}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="flex gap-4 w-full">
-                  <div className="space-y-1 w-full">
-                    <Label
-                      htmlFor="truckType"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Тип требуемых машин
-                    </Label>
-                    <div className="flex">
-                      {/* <Truck className="w-4 h-4 mr-2 text-muted-foreground self-center" /> */}
-                      <Input
-                        id="truckType"
-                        name="truckType"
-                        placeholder="Например: Только сцепки с задней выгрузкой"
-                        value={formData.truckType}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
+              {/* <Separator className="mb-2" /> */}
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 w-full">
+                  <SelectShared
+                    options={options.icons}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.icon}
+                    name="icon"
+                    className="w-[150px]"
+                  />
 
-                  <div className="space-y-1">
-                    <Label
-                      htmlFor="loadType"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Тип загрузки
-                    </Label>
-                    <Select
-                      name="loadType"
-                      value={formData.loadType}
-                      onValueChange={(value) =>
-                        handleSelectChange("loadType", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Выберите тип загрузки" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="normal">По норме</SelectItem>
-                        <SelectItem value="full">По полной</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col w-full gap-2">
-              <Label className="text-base">Условия перевозки</Label>
-              <Separator className="mb-2" />
-
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-4">
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="price"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Цена (₽/т)
-                    </Label>
-                    <div className="flex">
-                      <DollarSign className="w-4 h-4 mr-2 text-muted-foreground self-center" />
-                      <Input
-                        id="price"
-                        name="price"
-                        type="number"
-                        placeholder="Например: 1000"
-                        value={formData.price}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="paymentMethod"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Способ оплаты
-                    </Label>
-                    <Select
-                      name="paymentMethod"
-                      value={formData.paymentMethod}
-                      onValueChange={(value) =>
-                        handleSelectChange("paymentMethod", value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Выберите способ оплаты" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="cash">Наличные</SelectItem>
-                        <SelectItem value="NDS">с НДС</SelectItem>
-                        <SelectItem value="without NDS">без НДС</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="additionalInfo"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Дополнительная информация
-                  </Label>
-                  <div className="flex">
-                    <Info className="w-4 h-4 mr-2 text-muted-foreground self-start mt-2" />
-                    <Textarea
-                      id="additionalInfo"
-                      name="additionalInfo"
-                      placeholder="Например: АВАНС 50% ПРИ ПОГРУЗКЕ"
-                      value={formData.additionalInfo}
-                      onChange={handleChange}
-                      className="resize-none"
-                      rows={3}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex gap-6 w-full">
-            <div className="flex flex-col gap-2 w-full">
-              <Label className="text-base">Маршрут</Label>
-              <Separator className="mb-2" />
-
-              <div className="flex gap-4 w-full">
-                <div className="space-y-1 w-full">
-                  <Label
-                    htmlFor="loadingLocation"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Место погрузки
-                  </Label>
-                  <div className="flex">
-                    <MapPin className="w-4 h-4 mr-2 text-muted-foreground self-center" />
-                    <Input
-                      id="loadingLocation"
-                      name="loadingLocation"
-                      placeholder="Например: Михайловка"
-                      value={formData.loadingLocation}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-1 w-full">
-                  <Label
-                    htmlFor="unloadingLocation"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Место разгрузки
-                  </Label>
-                  <div className="flex">
-                    <MapPin className="w-4 h-4 mr-2 text-muted-foreground self-center" />
-                    <Input
-                      id="unloadingLocation"
-                      name="unloadingLocation"
-                      placeholder="Например: Качалино"
-                      value={formData.unloadingLocation}
-                      onChange={handleChange}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1 space-y-1 w-full">
-                  <Label
-                    htmlFor="distance"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Расстояние (в км)
-                  </Label>
                   <Input
-                    id="distance"
-                    name="distance"
-                    type="number"
-                    placeholder="Например: 147"
-                    value={formData.distance}
+                    id="cargoName"
+                    name="cargoName"
+                    placeholder="Например: Жмых"
+                    value={formData.cargoName}
                     onChange={handleChange}
                   />
+
+                  <TextInput
+                    // label="Вес"
+                    id="cargoAmount"
+                    name="cargoAmount"
+                    type="number"
+                    placeholder="Например: 500"
+                    value={formData.cargoAmount}
+                    onChange={handleChange}
+                    // size="l"
+                  />
                 </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <Label className="text-base">Перевозка</Label>
+              <Separator className="mb-2" />
+              {/* <Separator className="mb-2" /> */}
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 w-full">
+                  <TextInput
+                    // label="Погрузка"
+                    id="loadingLocation"
+                    name="loadingLocation"
+                    placeholder="Ростов-на-Дону"
+                    value={formData.loadingLocation}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+
+                  <TextInput
+                    // label="Выгрузка"
+                    id="unloadingLocation"
+                    name="unloadingLocation"
+                    placeholder="Тальяти"
+                    value={formData.unloadingLocation}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+                </div>
+                <div className="flex gap-2 w-full">
+                  <TextInput
+                    // label="Дистанция"
+                    id="distance"
+                    name="distance"
+                    placeholder="300 km"
+                    value={formData.distance}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+
+                  <TextInput
+                    // label="Дата погрузки"
+                    id="loadingLocationDate"
+                    name="loadingLocationDate"
+                    placeholder="20 марта 2024"
+                    value={formData.loadingLocationDate}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Text variant="subheader-2">Условия перевозки</Text>
+              {/* <Separator className="mb-2" /> */}
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2 w-full">
+                  <TextInput
+                    // label="Ставка"
+                    id="price"
+                    name="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+
+                  <SelectShared
+                    options={options.paymentMethod}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.paymentMethod}
+                    name="paymentMethod"
+                  />
+
+                  <SelectShared
+                    options={options.loadingType}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.loadingType}
+                    name="loadingType"
+                  />
+                </div>
+                <div className="flex gap-2 w-full">
+                  <TextInput
+                    // label="Аванс"
+                    id="percentage"
+                    name="percentage"
+                    placeholder="30%"
+                    type="number"
+                    value={formData.percentage}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+
+                  <SelectShared
+                    options={options.period}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.period}
+                    name="period"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Text variant="subheader-2">Требования к транспорту</Text>
+              {/* <Separator className="mb-2" /> */}
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <SelectShared
+                    options={options.carType}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carType}
+                    name="carType"
+                  />
+
+                  <SelectShared
+                    options={options.carTypeUnLoading}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carTypeUnLoading}
+                    name="carTypeUnLoading"
+                    className="w-full"
+                  />
+                </div>
+                <div className="flex gap-2 w-full">
+                  <TextInput
+                    // label="Возможность погрузки транспорта"
+                    id="count"
+                    name="count"
+                    type="number"
+                    placeholder="5 машин"
+                    value={formData.count}
+                    onChange={handleChange}
+                    // rightContent={<Label size="s">Важно</Label>}
+                    // size="l"
+                  />
+
+                  <SelectShared
+                    options={options.carPeriod}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carPeriod}
+                    name="carPeriod"
+                  />
+
+                  <TextInput
+                    id="carHeightLimit"
+                    name="carHeightLimit"
+                    type="number"
+                    placeholder="до 3.2м"
+                    value={formData.carHeightLimit}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+                </div>
+                <TextArea
+                  placeholder="Дополнительная информация"
+                  id="additionalInfo"
+                  name="additionalInfo"
+                  size="xl"
+                  value={formData.additionalInfo}
+                  onChange={handleChange}
+                  // size="l"
+                />
               </div>
             </div>
           </div>
@@ -339,7 +493,7 @@ export default function CreateBookingDialog() {
         <CardFooter className="flex">
           <Button type="submit" className="w-full h-fit">
             {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isSubmitting ? "Отправка..." : "Отправить"} */}
+                {isSubmitting ? "Отправка..." : "Отправить"} */}
             {/* disabled={isSubmitting} */}
             Создать
           </Button>

@@ -6,12 +6,20 @@ import BrowserProvider from "./providers/browser-provider.tsx";
 import { AuthProvider } from "./providers/auth-provider.tsx";
 import QueryProvider from "./providers/query-client-provider.tsx";
 
+import { ThemeProvider } from "@gravity-ui/uikit";
+
+import "@gravity-ui/uikit/styles/fonts.css";
+import "@gravity-ui/uikit/styles/styles.css";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserProvider>
       <AuthProvider>
         <QueryProvider>
-          <App />
+          <ThemeProvider theme="light">
+            <App />
+          </ThemeProvider>
+          ,
         </QueryProvider>
       </AuthProvider>
     </BrowserProvider>

@@ -10,6 +10,7 @@ import ProfilePage from "@/pages/auth/profile/profile-page";
 import Authorization from "./providers/authorization";
 import PERMISSIONS from "@/shared/api/permissions";
 import ManagerPage from "@/pages/manager/manager-page";
+import ProposalsDevelopmentPage from "@/pages/proposals-development/ui/proposals-development-page";
 
 export default function App() {
   return (
@@ -29,8 +30,28 @@ export default function App() {
         <Route
           path="/product/manager"
           element={
-            <Authorization permissions={[PERMISSIONS.CAN_VIEW_MANAGER]}>
+            <Authorization
+              permissions={[
+                PERMISSIONS.CAN_VIEW_MANAGER,
+                PERMISSIONS.CAN_VIEW_SUPERADMIN,
+              ]}
+            >
               <ManagerPage />
+            </Authorization>
+          }
+        />
+
+        <Route
+          path="/product/proposals-development"
+          element={
+            <Authorization
+              permissions={[
+                PERMISSIONS.CAN_VIEW_MANAGER,
+                PERMISSIONS.CAN_VIEW_DISPATCHER,
+                PERMISSIONS.CAN_VIEW_SUPERADMIN,
+              ]}
+            >
+              <ProposalsDevelopmentPage />
             </Authorization>
           }
         />

@@ -1,10 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
-  PackagePlus,
-  WalletMinimal,
-  Asterisk,
   Trash,
   PencilRuler,
+  MapPin,
+  DollarSign,
+  Info,
+  Truck,
+  Calendar,
+  CreditCard,
+  ArrowDown,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -24,7 +28,7 @@ function PaymentMethodComponent({
   switch (paymentMethod) {
     case "NDS":
       return <p>(НДС)</p>;
-    case "without NDS":
+    case "without_NDS":
       return <p>(Без НДС)</p>;
     case "cash":
       return <p>(Наличкой)</p>;
@@ -34,7 +38,36 @@ function PaymentMethodComponent({
   }
 }
 
-const BadgeLoadType = ({ variant }: { variant: IBookingDto["loadType"] }) => {
+function AdvancePeriod({
+  period,
+}: {
+  period: IBookingDto["terms"]["advance"]["period"];
+}) {
+  switch (period) {
+    case "loading":
+      return <p>(при загрузке)</p>;
+    case "un_loading":
+      return <p>(при выгрузке)</p>;
+  }
+}
+function CarUsageCarPeriod({
+  period,
+}: {
+  period: IBookingDto["requiredTransport"]["carUsage"]["carPeriod"];
+}) {
+  switch (period) {
+    case "Каждый_день":
+      return <p>на каждый день</p>;
+    case "Общее":
+      return <p>всего</p>;
+  }
+}
+
+const BadgeLoadType = ({
+  variant,
+}: {
+  variant: IBookingDto["terms"]["loadingType"];
+}) => {
   switch (variant) {
     case "normal":
       return <p>ПО НОРМЕ</p>;
@@ -73,8 +106,8 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
           </div>
           <div className="flex items-center gap-1">
             <Badge variant="secondary">
-              {booking?.cargoAmount ? (
-                <p>{booking?.cargoAmount} т</p>
+              {booking?.generalInformation?.cargoAmount ? (
+                <p>{booking?.generalInformation?.cargoAmount} т</p>
               ) : (
                 <p>Неизвесто</p>
               )}
@@ -88,8 +121,8 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
         <div className="flex justify-end gap-2 w-full px-4 py-2 bg-gradient-to-r from-primary/5 to-primary/5">
           <div className="flex items-center gap-1">
             <Badge variant="secondary">
-              {booking?.cargoAmount ? (
-                <p>{booking?.cargoAmount} т</p>
+              {booking?.generalInformation?.cargoAmount ? (
+                <p>{booking?.generalInformation?.cargoAmount} т</p>
               ) : (
                 <p>Неизвесто</p>
               )}
@@ -103,7 +136,7 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
 
       <Separator />
       {/* Content Card */}
-      <CardHeader className="">
+      {/* <CardHeader className="">
         <div className="flex gap-4 justify-between items-center">
           <div className="flex items-center space-x-2 w-full">
             <CardTitle className="flex gap-2 text-2xl font-bold">
@@ -111,20 +144,17 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
             </CardTitle>
           </div>
         </div>
-      </CardHeader>
-      <CardContent className="grid gap-6">
+      </CardHeader> */}
+      {/* <CardContent className="grid gap-6">
         <div className="flex items-start space-x-2">
           <div className="ml-2">
             <div className="flex items-center">
-              {/* <MapPin className="h-4 w-4 mr-1" /> */}
               <p>{booking?.location?.loadingLocation}</p>
             </div>
             <div className="flex items-center">
-              {/* <ArrowBigRight className="h-4 w-4 mr-1" /> */}
               <p>{booking?.location?.unloadingLocation}</p>
             </div>
             <div className="flex items-center mt-1">
-              {/* <Road className="h-4 w-4 text-muted-foreground mr-1" /> */}
               <p className="text-sm text-muted-foreground ">
                 Дистанция: {booking?.location?.distance} км
               </p>
@@ -154,15 +184,139 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
           </div>
         </div>
         <div className="flex items-center  w-full space-x-2">
-          {/* <Truck className="max-h-5 max-w-5 text-muted-foreground" /> */}
           <p className="text-sm text-muted-foreground ">
             {booking?.terms?.truckType}
           </p>
         </div>
+      </CardContent> */}
+
+      <CardContent className="pt-4">
+        <div className="flex gap-2 mb-4">
+          <span className="text-lg">{booking?.generalInformation?.icon}</span>
+          <span className="text-lg">
+            {booking?.generalInformation?.cargoName}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          {/* Левая колонка */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
+                {/* <MapPin className="h-4 w-4 mr-2" /> */}
+                Местоположение
+              </h3>
+              <p className="text-sm">{booking?.location?.loadingLocation}</p>
+              <p className="text-sm">{booking?.location?.unloadingLocation}</p>
+
+              <p className="text-xs text-muted-foreground flex items-center">
+                <MapPin className="h-3 w-3 mr-1" />
+                Дистанция: {booking?.location?.distance} км
+              </p>
+              {booking?.location?.loadingLocationDate && (
+                <p className="text-xs text-muted-foreground flex items-center">
+                  <Calendar className="h-3 w-3 mr-1" />
+                  Дата погрузки: {booking?.location?.loadingLocationDate}
+                </p>
+              )}
+            </div>
+            {/* <div className="space-y-2">
+              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
+                <Calendar className="h-4 w-4 mr-2" />
+                Дата погрузки
+              </h3>
+              <p className="text-sm">20 декабря 2023</p>
+            </div> */}
+            <Separator />
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
+                {/* <DollarSign className="h-4 w-4 mr-2" /> */}
+                Условия
+              </h3>
+              <p className="text-sm flex items-center gap-1">
+                <DollarSign className="h-3 w-3 mr-1" />
+                {booking?.terms?.price} <span>₽/т</span>
+                <PaymentMethodComponent
+                  paymentMethod={booking?.terms?.paymentMethod}
+                />
+              </p>
+              {booking?.terms?.advance?.percentage !== 0 && (
+                <p className="text-sm flex items-center gap-1">
+                  <CreditCard className="h-3 w-3 mr-1" />
+                  Аванс: {booking?.terms?.advance?.percentage}%{" "}
+                  <AdvancePeriod period={booking?.terms?.advance?.period} />
+                </p>
+              )}{" "}
+              {booking?.terms?.loadingType && (
+                <p className="text-sm flex items-center gap-1">
+                  <Info className="h-3 w-3 mr-1" />
+                  Загрузка:{" "}
+                  <BadgeLoadType variant={booking?.terms?.loadingType} />
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Правая колонка */}
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
+                {/* <Truck className="h-4 w-4 mr-2" /> */}
+                Требования к транспорту
+              </h3>
+              <div className="space-y-1">
+                <div className="flex items-center flex-wrap space-x-1">
+                  <p className="text-sm flex items-center">
+                    <Truck className="h-3 w-3 mr-1" />
+                    <p>Тип:</p>
+                  </p>
+                  {booking?.requiredTransport?.carType}
+                </div>
+                <div className="flex items-center flex-wrap space-x-1">
+                  <p className="text-sm flex items-center">
+                    <ArrowDown className="h-3 w-3 mr-1" />
+                    Выгрузка:
+                  </p>
+                  {booking?.requiredTransport?.carTypeUnLoading}
+                </div>
+
+                {booking?.requiredTransport?.carHeightLimit !== 0 && (
+                  <div className="flex items-center flex-wrap space-x-1">
+                    <p className="text-sm flex items-center">
+                      <ArrowDown className="h-3 w-3 mr-1" />
+                      Ограничение по высоте:
+                    </p>
+                    {booking?.requiredTransport?.carHeightLimit}
+                    <p>м</p>
+                  </div>
+                )}
+              </div>
+              {booking?.requiredTransport?.carUsage?.count !== 0 && (
+                <Badge variant="secondary" className="text-xs space-x-2">
+                  {booking?.requiredTransport?.carUsage?.count}
+                  <p>тс</p>
+                  <CarUsageCarPeriod
+                    period={booking?.requiredTransport?.carUsage?.carPeriod}
+                  />
+                </Badge>
+              )}
+            </div>
+            <Separator />
+            <div className="space-y-2">
+              {/* <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
+                Дополнительная информация
+              </h3> */}
+              {booking?.additionalInfo && (
+                <p className="text-sm text-muted-foreground">
+                  {booking?.additionalInfo}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
       </CardContent>
 
       {/* Дополнительная информация */}
-      {booking?.additionalInfo && (
+      {/* {booking?.additionalInfo && (
         <div
           className="flex items-center space-x-2 bg-yellow-100 p-2 px-4 rounded-md w-full"
           style={{ borderRadius: "0 0 0 0" }}
@@ -172,7 +326,7 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
             {booking?.additionalInfo}
           </p>
         </div>
-      )}
+      )} */}
       <BookingToogleItemDialog
         isOpen={isOpen}
         setIsOpen={setIsOpen}

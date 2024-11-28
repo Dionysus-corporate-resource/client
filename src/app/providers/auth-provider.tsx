@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       .catch((error) => console.error(error));
 
-    // navigate(redirectPath, { replace: true });
+    navigate("/login", { replace: true });
   };
   const logOut = () => {
     console.log("logOut");

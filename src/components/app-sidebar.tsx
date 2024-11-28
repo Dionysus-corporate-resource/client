@@ -6,11 +6,12 @@ import {
   Axe,
   Command,
   GalleryVerticalEnd,
+  GitBranchPlus,
   SquareChartGantt,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
+// import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -49,78 +50,38 @@ const data = {
       plan: "Free",
     },
   ],
-  navMain: [
-    {
-      title: "Все заявки",
-      url: "/product",
-      icon: SquareChartGantt,
-      isActive: true,
-    },
-
-    // {
-    //   title: "Documentation",
-    //   url: "#",
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: "Introduction",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Get Started",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Tutorials",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Changelog",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Team",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Billing",
-    //       url: "#",
-    //     },
-    //     {
-    //       title: "Limits",
-    //       url: "#",
-    //     },
-    //   ],
-    // },
-  ],
-  projects: [
-    {
-      name: "Менеджер",
-      url: "/product/manager",
-      icon: Axe,
-    },
-    // {
-    //   name: "Sales & Marketing",
-    //   url: "#",
-    //   icon: PieChart,
-    // },
-    // {
-    //   name: "Travel",
-    //   url: "#",
-    //   icon: Map,
-    // },
-  ],
+  all: {
+    nameLabel: "Навигация",
+    routes: [
+      {
+        title: "Все заявки",
+        url: "/product",
+        icon: SquareChartGantt,
+        isActive: true,
+      },
+    ],
+  },
+  manager: {
+    nameLabel: "Для команды",
+    routes: [
+      {
+        name: "Менеджер",
+        url: "/product/manager",
+        icon: Axe,
+      },
+    ],
+  },
+  allTeams: {
+    nameLabel: "Сотрудникам",
+    routes: [
+      {
+        title: "Предложения",
+        url: "/product/proposals-development",
+        icon: GitBranchPlus,
+        isActive: true,
+      },
+    ],
+  },
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -150,10 +111,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        {authContext?.user?.roles.includes(PERMISSIONS.CAN_VIEW_MANAGER) && (
-          <NavProjects projects={data.projects} />
-        )}
+        <NavMain items={data.all} />
+
+        {authContext?.user?.roles.some(
+          (role) =>
+            role === PERMISSIONS.CAN_VIEW_MANAGER ||
+            role === PERMISSIONS.CAN_VIEW_DISPATCHER,
+        ) && <NavMain items={data.allTeams} />}
+
+        {/* {authContext?.user?.roles.some(
+          (role) => role === PERMISSIONS.CAN_VIEW_MANAGER,
+        ) && <NavProjects projects={data.manager} />} */}
       </SidebarContent>
       <SidebarFooter>{authContext?.token && <NavUser />}</SidebarFooter>
       <SidebarRail />

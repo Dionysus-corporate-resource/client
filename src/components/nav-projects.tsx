@@ -26,22 +26,27 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
 
-export function NavProjects({
-  projects,
-}: {
+type IRoute = {
+  name: string;
+  url: string;
+  icon: LucideIcon;
+};
+
+type IProps = {
   projects: {
-    name: string;
-    url: string;
-    icon: LucideIcon;
-  }[];
-}) {
+    nameLabel: string;
+    routes: IRoute[];
+  };
+};
+
+export function NavProjects({ projects }: IProps) {
   const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Для менеджеров</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
+        {projects.routes.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <NavLink to={item.url}>
@@ -78,12 +83,12 @@ export function NavProjects({
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
-        <SidebarMenuItem>
+        {/* <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <MoreHorizontal className="text-sidebar-foreground/70" />
             <span>More</span>
           </SidebarMenuButton>
-        </SidebarMenuItem>
+        </SidebarMenuItem> */}
       </SidebarMenu>
     </SidebarGroup>
   );

@@ -4,7 +4,7 @@ export type IUser = {
   userName: string;
   email: string;
   passwordHash: string;
-  roles: IRoles;
+  roles: IRoles[];
 };
 
 export type IUserDto = {
@@ -12,7 +12,7 @@ export type IUserDto = {
   userName: string;
   email: string;
   passwordHash?: string;
-  roles: IRoles;
+  roles: IRoles[];
   createdAt: string;
   updatedAt: string;
   __v: number;

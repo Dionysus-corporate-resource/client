@@ -12,19 +12,14 @@ export const bookingApi = {
       .catch((err) => console.error(err));
   },
   create: async (data: IBooking): Promise<IBookingDto> => {
-    // console.log("data create", data);
-
-    const response = await instance
-      .post("/booking", data)
-      .then((response) => {
-        console.log("create Booking", response);
-        return response.data;
-      })
-      .catch((err) => console.error(err));
-    // console.log("response create", response);
-    // console.log("token create", token);
-
-    return response;
+    try {
+      const response = await instance.post("/booking", data);
+      console.log("create Booking", response);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   },
   remove: async (bookingId: string) => {
     return instance
