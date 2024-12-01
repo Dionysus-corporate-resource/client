@@ -1,37 +1,58 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
-
-// import { NavActions } from "@/components/nav-actions";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { CircleX, PackagePlus } from "lucide-react";
-import { Outlet } from "react-router-dom";
-import { useAuth } from "../providers/auth-provider";
-import PERMISSIONS from "@/shared/api/permissions";
+import { Outlet, useLocation } from "react-router-dom";
 import CreateProposalsDevelopmentDialog from "@/pages/proposals-development/ui/components/create-proposals-development/create-proposals-development-dialog";
-import CreateBookingItemDialog from "@/pages/home/ui/components/create-booking/create-booking-dialog";
-import { useState } from "react";
+import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
+import { useAtom } from "jotai";
+import { bookingAtom, sortBookingAtom } from "@/shared/model/booking-atom";
+import { useEffect } from "react";
+
+const selectOptions: ISelectOptions[] = [
+  {
+    label: "Название груза",
+    value: "cargoName",
+  },
+  {
+    label: "Адрес погрузки",
+    value: "loadingLocation",
+  },
+  {
+    label: "Адрес выгрузки",
+    value: "unloadingLocation",
+  },
+  {
+    label: "Менеджер",
+    value: "userName",
+  },
+];
 
 export function AppLayout() {
-  const [isOpen, setIsOpen] = useState(false);
-  const contextAuth = useAuth();
+  const [bookingData] = useAtom(bookingAtom);
+  // const contextAuth = useAuth();
+  const location = useLocation();
 
+  const [, setSortBooking] = useAtom(sortBookingAtom);
+
+  useEffect(() => {
+    console.log("bookingData", bookingData);
+  }, [bookingData]);
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen ">
           <header className="flex h-14 shrink-0 items-center gap-2">
             <div className="flex flex-1 items-center gap-2 px-3">
               <SidebarTrigger />
@@ -47,35 +68,23 @@ export function AppLayout() {
               </Breadcrumb>
             </div>
             <div className="flex items-center gap-2 px-3">
-              {/* <NavActions /> */}
-              {contextAuth?.user?.roles.some(
-                (role: string) =>
-                  role === PERMISSIONS.CAN_VIEW_MANAGER ||
-                  role === PERMISSIONS.CAN_VIEW_DISPATCHER ||
-                  role === PERMISSIONS.CAN_VIEW_SUPERADMIN,
-              ) && (
+              {location.pathname === "/product" && (
                 <>
-                  <Button
-                    variant="ghost"
-                    onClick={() => setIsOpen((prev) => !prev)}
-                  >
-                    <PackagePlus />
-                    Создать заявку
-                  </Button>
-                  <Separator orientation="vertical" className=" h-4" />
+                  {bookingData && (
+                    <SortBooking
+                      bookings={bookingData}
+                      setSortItems={setSortBooking}
+                      selectOptions={selectOptions}
+                    />
+                  )}
                 </>
               )}
-              <CreateProposalsDevelopmentDialog>
-                <Button size="sm" variant="ghost">
-                  <CircleX />
-                  Нашли ошибку?
-                </Button>
-              </CreateProposalsDevelopmentDialog>
+              <Separator orientation="vertical" className=" h-4" />
+              <CreateProposalsDevelopmentDialog />
             </div>
           </header>
           <div className="flex-1 flex-wrap px-4 py-10 overflow-y-auto space-y-4">
             <Outlet />
-            <CreateBookingItemDialog isOpen={isOpen} setIsOpen={setIsOpen} />
             <Toaster />
           </div>
         </div>

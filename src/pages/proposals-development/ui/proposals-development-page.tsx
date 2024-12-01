@@ -93,37 +93,39 @@ export default function ProposalsDevelopmentPage() {
     queryFn: getProposalsDevelopment,
   });
   return (
-    <div className=" px-4 py-2 justify-items-center items-center">
-      {/* {data?.map((proposalsDevelopment) => (
+    <div className="container  mx-auto">
+      <div className="px-4 py-2 justify-items-center items-center">
+        {/* {data?.map((proposalsDevelopment) => (
         <ProposalsDevelopmentItem proposalsDevelopment={proposalsDevelopment} />
       ))} */}
 
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[50px]">Статус</TableHead>
-            <TableHead className="w-[300px]">Название</TableHead>
-            <TableHead>Описание</TableHead>
-            <TableHead className="w-[300px] text-right">Тип</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data?.map((invoice) => (
-            <TableRow key={invoice._id}>
-              <TableCell>
-                {/* <Badge variant="outline">{invoice.status}</Badge> */}
-                <StatusVariant status={invoice.status} />
-              </TableCell>
-              <TableCell className="font-medium">{invoice.name}</TableCell>
-
-              <TableCell>{invoice.description}</TableCell>
-
-              <TableCell className="text-right">{invoice.topic}</TableCell>
+        <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[50px]">Статус</TableHead>
+              <TableHead className="w-[300px]">Название</TableHead>
+              <TableHead>Описание</TableHead>
+              <TableHead className="w-[300px] text-right">Тип</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {data?.map((invoice) => (
+              <TableRow key={invoice._id}>
+                <TableCell>
+                  {/* <Badge variant="outline">{invoice.status}</Badge> */}
+                  <StatusVariant status={invoice.status} />
+                </TableCell>
+                <TableCell className="font-medium">{invoice.name}</TableCell>
+
+                <TableCell>{invoice.description}</TableCell>
+
+                <TableCell className="text-right">{invoice.topic}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

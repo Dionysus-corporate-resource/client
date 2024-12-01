@@ -44,7 +44,7 @@ export function NavProjects({ projects }: IProps) {
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Для менеджеров</SidebarGroupLabel>
+      <SidebarGroupLabel>{projects.nameLabel}</SidebarGroupLabel>
       <SidebarMenu>
         {projects.routes.map((item) => (
           <SidebarMenuItem key={item.name}>

@@ -17,7 +17,6 @@ export default function App() {
     <Routes>
       <Route path="/product" element={<AppLayout />}>
         <Route index element={<HomePage />} />
-
         <Route
           path="/product/profile"
           element={
@@ -26,7 +25,6 @@ export default function App() {
             </Authentication>
           }
         />
-
         <Route
           path="/product/manager"
           element={
@@ -40,7 +38,6 @@ export default function App() {
             </Authorization>
           }
         />
-
         <Route
           path="/product/proposals-development"
           element={

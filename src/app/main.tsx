@@ -19,7 +19,6 @@ createRoot(document.getElementById("root")!).render(
           <ThemeProvider theme="light">
             <App />
           </ThemeProvider>
-          ,
         </QueryProvider>
       </AuthProvider>
     </BrowserProvider>

@@ -564,7 +564,7 @@ export default function ToogleBookingForm({
             {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isSubmitting ? "Отправка..." : "Отправить"} */}
             {/* disabled={isSubmitting} */}
-            Создать
+            Изменить
           </Button>
         </CardFooter>
       </form>
