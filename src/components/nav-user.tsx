@@ -1,13 +1,4 @@
-"use client";
-
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Sparkles,
-} from "lucide-react";
+import { BadgeCheck, ChevronsUpDown, LogOut, Sparkles } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -99,22 +90,22 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem onClick={() => setOpen((prev) => !prev)}>
                 <BadgeCheck />
-                Account
+                Профиль
               </DropdownMenuItem>
 
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <CreditCard />
-                Billing
+                Операции
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Bell />
-                Notifications
-              </DropdownMenuItem>
+                Уведомления
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={authContext?.logOut}>
               <LogOut />
-              Log out
+              Выход
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

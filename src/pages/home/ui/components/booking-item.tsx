@@ -6,6 +6,7 @@ import {
   DollarSign,
   Truck,
   Calendar,
+  Copy,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +18,7 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import { userStorageAtom } from "@/shared/model/user-atom";
 import { IUserDto } from "@/shared/model/types/user";
+import { useAuth } from "@/app/providers/auth-provider";
 
 function PaymentMethodComponent({
   paymentMethod,
@@ -84,9 +86,32 @@ type ICheckManagerProps = {
 };
 
 function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
+  const context = useAuth();
+
+  const sentence = `
+
+  ${booking.generalInformation.icon} ${booking.generalInformation.cargoName} ${booking.generalInformation.cargoAmount}т ${booking.generalInformation.icon}
+  ‼️${booking.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.location.loadingLocationDate}‼️
+  🏳️ ${booking.location.loadingLocation}
+  🏁 ${booking.location.unloadingLocation}
+  🛣 Дистанция: ${booking.location.distance} км
+  🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
+  💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
+  ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
+  ${context?.user?.phone && `Контакты: ${context?.user?.phone}`}
+    `;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(sentence);
+    } catch (err) {
+      console.error("Ошибка при копировании текста:", err);
+    }
+  };
+
   if (user._id !== booking.manager._id) {
     return (
-      <div className="flex justify-end gap-2 w-full px-4 py-2 bg-gradient-to-r from-primary/5 to-primary/5">
+      <div className="flex justify-end gap-2 w-full px-2 bg-gradient-to-r from-primary/5 to-primary/5">
         <div className="flex items-center gap-1">
           <Badge variant="secondary">
             {booking?.generalInformation?.cargoAmount ? (
@@ -98,13 +123,21 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
           <Badge variant="outline" className="bg-white">
             {booking?.manager?.userName}
           </Badge>
+          <Button
+            onClick={() => handleCopy()}
+            size="icon"
+            variant="ghost"
+            className="active:scale-90 transition-transform duration-200"
+          >
+            <Copy />
+          </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex justify-between gap-2 w-full px-4 bg-gradient-to-r from-primary/5 to-primary/5">
+    <div className="flex justify-between gap-2 w-full px-2 bg-gradient-to-r from-primary/5 to-primary/5">
       <div className="flex items-center">
         <RemoveBookingDialogSure booking={booking}>
           <Button size="icon" variant="ghost">
@@ -132,6 +165,14 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
         <Badge variant="outline" className="bg-white">
           {booking?.manager?.userName}
         </Badge>
+        <Button
+          onClick={() => handleCopy()}
+          size="icon"
+          variant="ghost"
+          className="active:scale-75 transition-transform duration-200"
+        >
+          <Copy />
+        </Button>
       </div>
     </div>
   );

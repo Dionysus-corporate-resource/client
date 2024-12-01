@@ -90,7 +90,7 @@ export default function ToogleBookingForm({
   });
 
   const [formData, setFormData] = useState<IBookingFormData>({
-    icon: "🌽",
+    icon: "🌾",
     relevance: true,
     cargoName: "",
     cargoAmount: 0,
@@ -114,7 +114,7 @@ export default function ToogleBookingForm({
   useEffect(() => {
     if (data) {
       setFormData({
-        icon: data?.generalInformation?.icon || "🌽",
+        icon: data?.generalInformation?.icon || "🌾",
         relevance: data?.generalInformation?.relevance || true,
         cargoName: data?.generalInformation?.cargoName || "",
         cargoAmount: data?.generalInformation?.cargoAmount || 0,

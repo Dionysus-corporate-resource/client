@@ -12,10 +12,10 @@ import { NavLink } from "react-router-dom";
 // import { useAuth } from "@/app/providers/AuthProvider";
 import { useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
-import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { LockIcon, MailIcon, PhoneIcon, UserIcon } from "lucide-react";
 
 type IFormData = {
-  phone?: string;
+  phone: string;
   userName: string;
   email: string;
   password: string;
@@ -27,6 +27,7 @@ export default function RegisterPage() {
     email: "",
     password: "",
     userName: "",
+    phone: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,19 +126,19 @@ export default function RegisterPage() {
                       required
                     />
                   </div>
-                  {/* <div className="space-y-2">
+                  <div className="space-y-2">
                     <Label htmlFor="phone" className="flex items-center">
                       <PhoneIcon className="mr-2 h-4 w-4" />
-                      Phone (optional)
+                      Phone
                     </Label>
                     <Input
                       id="phone"
                       type="tel"
                       name="phone"
                       onChange={handleChange}
-                      placeholder="+1 (555) 555-5555"
+                      placeholder="+8 (918) 555-5555"
                     />
-                  </div> */}
+                  </div>
                 </div>
                 <Button type="submit" className="w-full">
                   Sign Up

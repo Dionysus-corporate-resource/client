@@ -103,17 +103,6 @@ export default function SortBooking({
 
   return (
     <div className="flex">
-      <Input
-        className="h-8 "
-        placeholder="Поиск по критериям"
-        style={{
-          borderRadius: "8px 0 0 8px",
-        }}
-        value={sortData.inputValue}
-        onChange={(e) =>
-          setSortData((prev) => ({ ...prev, inputValue: e.target.value }))
-        }
-      />
       <Select
         value={sortData.selectValue.value}
         onValueChange={(value: IsortDataTypes["selectValue"]["value"]) =>
@@ -121,10 +110,11 @@ export default function SortBooking({
         }
       >
         <SelectTrigger
-          className="h-8"
+          className="h-8 w-[300px]"
           style={{
-            borderLeft: "none",
-            borderRadius: "0",
+            // borderRight: "none",
+
+            borderRadius: "8px 0 0 8px",
           }}
         >
           <SelectValue placeholder="Название груза" />
@@ -142,6 +132,18 @@ export default function SortBooking({
           </SelectGroup>
         </SelectContent>
       </Select>
+      <Input
+        className="h-8"
+        placeholder="Поиск по критериям"
+        style={{
+          borderRadius: "0 8px 8px 0",
+          borderLeft: "none",
+        }}
+        value={sortData.inputValue}
+        onChange={(e) =>
+          setSortData((prev) => ({ ...prev, inputValue: e.target.value }))
+        }
+      />
     </div>
   );
 }

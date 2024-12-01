@@ -5,6 +5,7 @@ export type IUser = {
   email: string;
   passwordHash: string;
   roles: IRoles[];
+  phone: string;
 };
 
 export type IUserDto = {
@@ -12,6 +13,7 @@ export type IUserDto = {
   userName: string;
   email: string;
   passwordHash?: string;
+  phone: string;
   roles: IRoles[];
   createdAt: string;
   updatedAt: string;

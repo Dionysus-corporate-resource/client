@@ -1,17 +1,16 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import CreateProposalsDevelopmentForm from "./create-proposals-development-form";
-import { CircleX } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
-export default function CreateProposalsDevelopmentDialog() {
+import { ReactNode } from "react";
+
+export default function CreateProposalsDevelopmentDialog({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button size="sm" variant="ghost">
-          <CircleX />
-          Нашли ошибку?
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger>{children}</DialogTrigger>
       <DialogContent>
         <CreateProposalsDevelopmentForm />
       </DialogContent>

@@ -75,7 +75,7 @@ export default function ManagerPage() {
             заявками. Здесь вы можете создать новую заявку, отредактировать
             существующую или удалить ненужную.
           </p>
-          <div className="flex w-full items-center mt-6">
+          <div className="flex gap-2 w-full items-center mt-6">
             {cortBooking && (
               <SortBooking
                 bookings={cortBooking}
@@ -86,7 +86,7 @@ export default function ManagerPage() {
 
             <Button
               className="h-8"
-              style={{ borderRadius: "0 8px 8px 0" }}
+              // style={{ borderRadius: "0 8px 8px 0" }}
               onClick={() => setIsOpen((prev) => !prev)}
             >
               <PackagePlus />

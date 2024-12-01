@@ -80,16 +80,32 @@ export const options = {
     label: "Иконки",
     array: [
       {
-        value: "🌽",
-        option: "🌽",
+        value: "🌾",
+        option: "🌾 - пшеница",
       },
       {
         value: "🛢️",
-        option: "🛢️",
+        option: "🛢️ - селитра",
       },
       {
-        value: "🥦",
-        option: "🥦",
+        value: "🌻",
+        option: "🌻 - семечка",
+      },
+      {
+        value: "🌿",
+        option: "🌿 - лен",
+      },
+      {
+        value: "🌽",
+        option: "🌽 - кукуруза",
+      },
+      {
+        value: "🫛",
+        option: "🫛 - чечевица",
+      },
+      {
+        value: "🪨",
+        option: "🪨 - селитра 2",
       },
     ],
   },
@@ -231,7 +247,7 @@ export default function CreateBookingForm() {
   });
 
   const [formData, setFormData] = useState<IBookingFormData>({
-    icon: "🌽",
+    icon: "🌾",
     relevance: true,
     cargoName: "",
     cargoAmount: 0,

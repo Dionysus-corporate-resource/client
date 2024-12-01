@@ -13,11 +13,14 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-import CreateProposalsDevelopmentDialog from "@/pages/proposals-development/ui/components/create-proposals-development/create-proposals-development-dialog";
 import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
 import { useAtom } from "jotai";
 import { bookingAtom, sortBookingAtom } from "@/shared/model/booking-atom";
-import { useEffect } from "react";
+
+import { IBookingDto } from "@/shared/model/types/booking";
+import { useAuth } from "../providers/auth-provider";
+import { IUserDto } from "@/shared/model/types/user";
+import { NavActions } from "@/components/nav-actions";
 
 const selectOptions: ISelectOptions[] = [
   {
@@ -38,16 +41,49 @@ const selectOptions: ISelectOptions[] = [
   },
 ];
 
+function copyAllBookingTemplate(sortBooking: IBookingDto[], user: IUserDto) {
+  return sortBooking
+    .map((booking) => {
+      return `
+    ${booking.generalInformation.icon} ${booking.generalInformation.cargoName} ${booking.generalInformation.cargoAmount}т ${booking.generalInformation.icon}
+    ‼️${booking.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.location.loadingLocationDate}‼️
+    🏳️ ${booking.location.loadingLocation}
+    🏁 ${booking.location.unloadingLocation}
+    🛣 Дистанция: ${booking.location.distance} км
+    🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
+    💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
+    ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
+    ${user.phone && `Контакты: ${user.phone}`}
+      `;
+    })
+    .join("\n --- \n");
+}
+
 export function AppLayout() {
-  const [bookingData] = useAtom(bookingAtom);
-  // const contextAuth = useAuth();
+  const context = useAuth();
+
   const location = useLocation();
+  const [bookingData] = useAtom(bookingAtom); // Не отсортированные bookings
+  const [sortBooking, setSortBooking] = useAtom(sortBookingAtom); // отсортированные bookings
+  console.log("bookingData", bookingData);
+  let copyAllBookingTemplateArray = null;
 
-  const [, setSortBooking] = useAtom(sortBookingAtom);
+  if (sortBooking && context?.user) {
+    copyAllBookingTemplateArray = copyAllBookingTemplate(
+      sortBooking,
+      context?.user,
+    );
+  }
 
-  useEffect(() => {
-    console.log("bookingData", bookingData);
-  }, [bookingData]);
+  const handleCopy = async () => {
+    try {
+      if (copyAllBookingTemplateArray)
+        await navigator.clipboard.writeText(copyAllBookingTemplateArray);
+    } catch (err) {
+      console.error("Ошибка при копировании текста:", err);
+    }
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -61,26 +97,21 @@ export function AppLayout() {
                 <BreadcrumbList>
                   <BreadcrumbItem>
                     <BreadcrumbPage className=" line-clamp-1">
-                      Dionysus-corporate-resource
+                      {location.pathname === "/product" && bookingData && (
+                        <SortBooking
+                          bookings={bookingData}
+                          setSortItems={setSortBooking}
+                          selectOptions={selectOptions}
+                        />
+                      )}
                     </BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
             <div className="flex items-center gap-2 px-3">
-              {location.pathname === "/product" && (
-                <>
-                  {bookingData && (
-                    <SortBooking
-                      bookings={bookingData}
-                      setSortItems={setSortBooking}
-                      selectOptions={selectOptions}
-                    />
-                  )}
-                </>
-              )}
-              <Separator orientation="vertical" className=" h-4" />
-              <CreateProposalsDevelopmentDialog />
+              {/* <Separator orientation="vertical" className=" h-4" /> */}
+              <NavActions setCopyBookingTemplate={handleCopy} />
             </div>
           </header>
           <div className="flex-1 flex-wrap px-4 py-10 overflow-y-auto space-y-4">

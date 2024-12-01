@@ -6,11 +6,11 @@ import Landing from "@/pages/landing/landingPage";
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import Authentication from "./providers/authenication-provider";
-import ProfilePage from "@/pages/auth/profile/profile-page";
 import Authorization from "./providers/authorization";
 import PERMISSIONS from "@/shared/api/permissions";
 import ManagerPage from "@/pages/manager/manager-page";
 import ProposalsDevelopmentPage from "@/pages/proposals-development/ui/proposals-development-page";
+import ProfilePage from "@/pages/auth/profile/profile-page";
 
 export default function App() {
   return (

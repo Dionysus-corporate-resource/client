@@ -1,23 +1,4 @@
-"use client";
-
-import * as React from "react";
-import {
-  ArrowDown,
-  ArrowUp,
-  Bell,
-  Copy,
-  CornerUpLeft,
-  CornerUpRight,
-  FileText,
-  GalleryVerticalEnd,
-  LineChart,
-  Link,
-  MoreHorizontal,
-  Settings2,
-  Star,
-  Trash,
-  Trash2,
-} from "lucide-react";
+import { Bug, Copy, CopyIcon, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,95 +15,39 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { ButtonIcon } from "@/shared/components/button-icon";
-import { useTheme } from "@/hooks/use-theme";
+import { useState } from "react";
+import CreateProposalsDevelopmentDialog from "@/pages/proposals-development/ui/components/create-proposals-development/create-proposals-development-dialog";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "@/app/providers/auth-provider";
 
-const data = [
-  [
-    {
-      label: "Customize Page",
-      icon: Settings2,
-    },
-    {
-      label: "Turn into wiki",
-      icon: FileText,
-    },
-  ],
-  [
-    {
-      label: "Copy Link",
-      icon: Link,
-    },
-    {
-      label: "Duplicate",
-      icon: Copy,
-    },
-    {
-      label: "Move to",
-      icon: CornerUpRight,
-    },
-    {
-      label: "Move to Trash",
-      icon: Trash2,
-    },
-  ],
-  [
-    {
-      label: "Undo",
-      icon: CornerUpLeft,
-    },
-    {
-      label: "View analytics",
-      icon: LineChart,
-    },
-    {
-      label: "Version History",
-      icon: GalleryVerticalEnd,
-    },
-    {
-      label: "Show delete pages",
-      icon: Trash,
-    },
-    {
-      label: "Notifications",
-      icon: Bell,
-    },
-  ],
-  [
-    {
-      label: "Import",
-      icon: ArrowUp,
-    },
-    {
-      label: "Export",
-      icon: ArrowDown,
-    },
-  ],
-];
+type IProps = {
+  setCopyBookingTemplate: () => void;
+};
 
-export function NavActions() {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const { theme, toggleTheme } = useTheme();
+export function NavActions({ setCopyBookingTemplate }: IProps) {
+  const location = useLocation();
+  const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
-  // React.useEffect(() => {
-  //   setIsOpen(true);
-  // }, []);
+  const data = [
+    [
+      {
+        label: "Скопировать все заявки",
+        icon: CopyIcon,
+        action: setCopyBookingTemplate,
+      },
+    ],
+  ];
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className="hidden font-medium text-muted-foreground md:inline-block">
-        Edit Oct 08
-      </div>
-      <Button variant="ghost" size="icon" className="h-7 w-7">
-        <Star />
-      </Button>
-      <ButtonIcon
+      {/* <ButtonIcon
         variantIcons="Sun"
         theme={theme}
         actions={toggleTheme}
         variant="outline"
         styleButton="middle"
-      ></ButtonIcon>
+      ></ButtonIcon> */}
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -146,13 +71,34 @@ export function NavActions() {
                 >
                   <SidebarGroupContent className="gap-0">
                     <SidebarMenu>
-                      {group.map((item, index) => (
-                        <SidebarMenuItem key={index}>
+                      {/* {group.map((item, index) => (
+                        <SidebarMenuItem key={index} onClick={item.action}>
                           <SidebarMenuButton>
                             <item.icon /> <span>{item.label}</span>
                           </SidebarMenuButton>
                         </SidebarMenuItem>
-                      ))}
+                      ))} */}
+
+                      {location.pathname === "/product" && user && (
+                        <SidebarMenuItem
+                          key="copy"
+                          onClick={setCopyBookingTemplate}
+                        >
+                          <SidebarMenuButton className="active:scale-95 transition-transform duration-200">
+                            <Copy />
+                            Скопировать заявки
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      )}
+
+                      <CreateProposalsDevelopmentDialog>
+                        <SidebarMenuItem key="additionaly">
+                          <SidebarMenuButton className="active:scale-95 transition-transform duration-200">
+                            <Bug />
+                            Нашли ошибку?
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      </CreateProposalsDevelopmentDialog>
                     </SidebarMenu>
                   </SidebarGroupContent>
                 </SidebarGroup>

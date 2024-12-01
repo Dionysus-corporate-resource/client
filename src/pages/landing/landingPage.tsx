@@ -15,15 +15,18 @@ export default function EnhancedMonochromeLandingPage() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="text-sm font-bold">лтк Дионис</div>
           <nav className="hidden md:flex space-x-6 items-center">
-            <a href="/login" className="hover:text-gray-300 transition-colors">
+            <NavLink
+              to="/login"
+              className="hover:text-gray-300 transition-colors"
+            >
               Войти
-            </a>
-            <a
-              href="/register"
+            </NavLink>
+            <NavLink
+              to="/register"
               className="hover:text-gray-300 transition-colors"
             >
               Зарегистрироваться
-            </a>
+            </NavLink>
           </nav>
           <button
             className="md:hidden"

@@ -39,8 +39,12 @@ const StatusVariant = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <Button size="sm" variant="ghost">
-                <CircleCheckBig />
+              <Button
+                size="sm"
+                variant="ghost"
+                className="bg-green-100 hover:bg-green-100 text-green-700w-fit"
+              >
+                <CircleCheckBig className="text-green-500" />
                 {/* сделано */}
               </Button>
             </TooltipTrigger>
@@ -55,10 +59,12 @@ const StatusVariant = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <Button size="sm" variant="ghost">
-                {/* <IterationCw /> */}
-                {/* <Spline /> */}
-                <Wrench />
+              <Button
+                size="sm"
+                variant="ghost"
+                className="bg-orange-100 hover:bg-orange-200 text-orange-700 hover:text-orange-800"
+              >
+                <Wrench className="animate-swing text-orange-500" />
                 {/* в работе */}
               </Button>
             </TooltipTrigger>
@@ -73,9 +79,13 @@ const StatusVariant = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <Button size="sm" variant="ghost">
-                {/* <LoaderCircle /> */}
-                <Loader className="animate-spin" />
+              <Button
+                size="sm"
+                variant="ghost"
+                className="bg-blue-100 hover:bg-blue-100 text-blue-700 hover:text-blue-800"
+              >
+                <Loader className="animate-slow-spin text-blue-500" />
+                {/* в обработке */}
               </Button>
             </TooltipTrigger>
             <TooltipContent>
