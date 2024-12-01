@@ -1,12 +1,16 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Trash,
   PencilRuler,
   MapPin,
-  DollarSign,
   Truck,
   Calendar,
   Copy,
+  Package,
+  ArrowRight,
+  Wallet,
+  Scale,
+  Info,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -27,41 +31,16 @@ function PaymentMethodComponent({
 }) {
   switch (paymentMethod) {
     case "NDS":
-      return <span>(НДС)</span>;
+      return <span>НДС</span>;
     case "without_NDS":
-      return <span>(Без НДС)</span>;
+      return <span>Без НДС</span>;
     case "cash":
-      return <span>(Наличкой)</span>;
+      return <span>Наличкой</span>;
     // case "NDS": return <p>НДС</p>
     default:
-      return <span>(Уточнить у менеджера)</span>;
+      return <span>Уточнить у менеджера</span>;
   }
 }
-
-function AdvancePeriod({
-  period,
-}: {
-  period: IBookingDto["terms"]["advance"]["period"];
-}) {
-  switch (period) {
-    case "loading":
-      return <span>(при загрузке)</span>;
-    case "un_loading":
-      return <span>(при выгрузке)</span>;
-  }
-}
-// function CarUsageCarPeriod({
-//   period,
-// }: {
-//   period: IBookingDto["requiredTransport"]["carUsage"]["carPeriod"];
-// }) {
-//   switch (period) {
-//     case "Каждый_день":
-//       return <p>на каждый день</p>;
-//     case "Общее":
-//       return <p>всего</p>;
-//   }
-// }
 
 const BadgeLoadType = ({
   variant,
@@ -70,9 +49,9 @@ const BadgeLoadType = ({
 }) => {
   switch (variant) {
     case "normal":
-      return <p>ПО НОРМЕ</p>;
+      return "ПО НОРМЕ";
     case "full":
-      return <p>ПО ПОЛНОЙ</p>;
+      return "ПО ПОЛНОЙ";
 
     default:
       return null;
@@ -111,15 +90,11 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
 
   if (user._id !== booking?.manager?._id) {
     return (
-      <div className="flex justify-end gap-2 w-full px-2 bg-gradient-to-r from-primary/5 to-primary/5">
+      <div
+        className="flex justify-end gap-2 w-full px-2  from-primary/5 to-primary/5"
+        style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
+      >
         <div className="flex items-center gap-1">
-          <Badge variant="secondary">
-            {booking?.generalInformation?.cargoAmount ? (
-              <p>{booking?.generalInformation?.cargoAmount} т</p>
-            ) : (
-              <p>Неизвесто</p>
-            )}
-          </Badge>
           <Badge variant="outline" className="bg-white">
             {booking?.manager?.userName}
           </Badge>
@@ -137,7 +112,10 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
   }
 
   return (
-    <div className="flex justify-between gap-2 w-full px-2 bg-gradient-to-r from-primary/5 to-primary/5">
+    <div
+      className="flex justify-between gap-2 w-full px-2  from-primary/5 to-primary/5"
+      style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
+    >
       <div className="flex items-center">
         <RemoveBookingDialogSure booking={booking}>
           <Button size="icon" variant="ghost">
@@ -155,13 +133,6 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
         </Button>
       </div>
       <div className="flex items-center gap-1">
-        <Badge variant="secondary">
-          {booking?.generalInformation?.cargoAmount ? (
-            <p>{booking?.generalInformation?.cargoAmount} т</p>
-          ) : (
-            <p>Неизвесто</p>
-          )}
-        </Badge>
         <Badge variant="outline" className="bg-white">
           {booking?.manager?.userName}
         </Badge>
@@ -189,15 +160,11 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
         <CheckManager booking={booking} user={user} setIsOpen={setIsOpen} />
       ) : (
         user?.roles.includes("dispatcher") && (
-          <div className="flex justify-end gap-2 w-full px-4 py-2 bg-gradient-to-r from-primary/5 to-primary/5">
+          <div
+            className="flex justify-end gap-2 w-full px-4 py-2 from-primary/5 to-primary/5"
+            style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
+          >
             <div className="flex items-center gap-1">
-              <Badge variant="secondary">
-                {booking?.generalInformation?.cargoAmount ? (
-                  <p>{booking?.generalInformation?.cargoAmount} т</p>
-                ) : (
-                  <p>Неизвесто</p>
-                )}
-              </Badge>
               <Badge variant="outline" className="bg-white">
                 {booking?.manager?.userName}
               </Badge>
@@ -208,153 +175,151 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
 
       <Separator />
 
-      <CardContent className="pt-4">
-        <div className="flex gap-2 mb-4">
-          <span className="text-lg">{booking?.generalInformation?.icon}</span>
-          <span className="text-xl font-black">
-            {booking?.generalInformation?.cargoName}
-          </span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1 2xl:grid-cols-1 gap-8">
-          {/* Левая колонка */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
-                {/* <MapPin className="h-4 w-4 mr-2" /> */}
-                Местоположение
-              </h3>
-              <p className="text-sm">{booking?.location?.loadingLocation}</p>
-              <p className="text-sm">{booking?.location?.unloadingLocation}</p>
-
-              <p className="text-xs text-muted-foreground flex items-center">
-                <MapPin className="h-3 w-3 mr-1" />
-                Дистанция: {booking?.location?.distance} км
-              </p>
-              {booking?.location?.loadingLocationDate && (
-                <p className="text-xs text-muted-foreground flex items-center">
-                  <Calendar className="h-3 w-3 mr-1" />
-                  Дата погрузки: {booking?.location?.loadingLocationDate}
-                </p>
+      <div
+        className="w-full"
+        // style={{
+        //   borderRadius: "12px 12px 0 0 ",
+        // }}
+      >
+        <CardHeader className="space-y-1">
+          <div className="flex items-center justify-between">
+            <Badge
+              variant="default"
+              className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/10 hover:text-yellow-500 flex items-center pl-6"
+              style={{ boxShadow: "none", position: "relative" }}
+            >
+              <div
+                className="mr-1 h-3 w-3"
+                style={{ position: "absolute", left: "6px", top: "2px" }}
+              >
+                {booking?.generalInformation?.icon}
+              </div>
+              {/* <Package className="mr-1 h-3 w-3" /> */}
+              {booking?.generalInformation?.cargoName}
+            </Badge>
+            <span className="text-sm text-muted-foreground">ID: 12345</span>
+          </div>
+          <CardTitle className="flex items-center justify-between">
+            <span className="text-xl font-semibold">
+              {booking?.generalInformation?.cargoAmount ? (
+                <>{booking?.generalInformation?.cargoAmount}т</>
+              ) : (
+                "Уточнить"
               )}
+            </span>
+            <Badge variant="outline" className="ml-2">
+              <PaymentMethodComponent
+                paymentMethod={booking?.terms?.paymentMethod}
+              />
+            </Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center text-sm text-muted-foreground">
+              <MapPin className="mr-2 h-4 w-4" />
+              Маршрут
             </div>
-
-            <Separator />
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
-                <DollarSign className="h-4 w-4 mr-2" />
-                Условия
-              </h3>
-              <p className="text-sm flex items-center gap-1">
-                {/* <DollarSign className="h-3 w-3 mr-1" /> */}
-                Ставка:
-                <span className="font-semibold ml-1">
-                  {booking?.terms?.price} ₽/т
-                </span>
-                <PaymentMethodComponent
-                  paymentMethod={booking?.terms?.paymentMethod}
-                />
-              </p>
-              {booking?.terms?.advance?.percentage !== 0 && (
-                <p className="text-sm flex items-center gap-1">
-                  {/* <CreditCard className="h-3 w-3 mr-1" /> */}
-                  Аванс:
-                  <span className="font-semibold ml-1">
-                    {booking?.terms?.advance?.percentage}%{" "}
-                  </span>
-                  <AdvancePeriod period={booking?.terms?.advance?.period} />
-                </p>
-              )}{" "}
-              {booking?.terms?.loadingType && (
-                <p className="text-sm flex items-center gap-1">
-                  {/* <Info className="h-3 w-3 mr-1" /> */}
-                  Загрузка:{" "}
-                  <span className="font-semibold ml-1">
-                    <BadgeLoadType variant={booking?.terms?.loadingType} />
-                  </span>
-                </p>
-              )}
+            <div className="flex items-center gap-2">
+              <span className="font-medium">
+                {booking?.location?.loadingLocation}
+              </span>
+              <ArrowRight className="h-4 w-4 text-muted-foreground" />
+              <span className="font-medium">
+                {booking?.location?.unloadingLocation}
+              </span>
+              <Badge variant="secondary" className="ml-2">
+                {booking?.location?.distance} км
+              </Badge>
             </div>
           </div>
 
-          {/* Правая колонка */}
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
-                <Truck className="h-4 w-4 mr-2" />
-                Требования к транспорту
-              </h3>
-              <div className="space-y-1">
-                <div className="flex items-center flex-wrap space-x-1">
-                  <p className="text-sm flex items-center">
-                    {/* <Truck className="h-3 w-3 mr-1" /> */}
-                    Тип:
-                    <span className="font-semibold ml-1">
-                      {booking?.requiredTransport?.carType}
-                    </span>
-                  </p>
-                </div>
-                <div className="flex items-center flex-wrap space-x-1">
-                  <p className="text-sm flex items-center">
-                    {/* <ArrowDown className="h-3 w-3 mr-1" /> */}
-                    Выгрузка:
-                  </p>
-                  <span className="font-semibold ml-1">
-                    {booking?.requiredTransport?.carTypeUnLoading}
-                  </span>
-                </div>
+          <Separator />
 
-                {booking?.requiredTransport?.carHeightLimit !== 0 && (
-                  <div className="flex items-center flex-wrap space-x-1">
-                    <p className="text-sm flex items-center">
-                      {/* <ArrowDown className="h-3 w-3 mr-1" /> */}
-                      Ограничение по высоте:
-                    </p>
-                    <span className="font-semibold ml-1">
-                      {booking?.requiredTransport?.carHeightLimit}м
-                    </span>
-                  </div>
-                )}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Calendar className="mr-2 h-4 w-4" />
+                Дата погрузки
               </div>
-              {/* {booking?.requiredTransport?.carUsage?.count !== 0 && (
-                <Badge variant="secondary" className="text-xs space-x-2">
-                  {booking?.requiredTransport?.carUsage?.count}
-                  <p>тс</p>
-                  <CarUsageCarPeriod
-                    period={booking?.requiredTransport?.carUsage?.carPeriod}
-                  />
-                </Badge>
-              )} */}
+              <p className="font-medium">
+                {booking?.location?.loadingLocationDate}
+              </p>
             </div>
-            {booking?.additionalInfo && (
-              <>
-                <Separator />
 
-                <div className="space-y-2">
-                  <h3 className="text-sm font-semibold flex items-center text-muted-foreground">
-                    Дополнительная информация
-                  </h3>
-                  <p className="text-sm text-muted-foreground italic">
-                    {booking?.additionalInfo}
-                  </p>
+            <div className="space-y-1">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Wallet className="mr-2 h-4 w-4" />
+                Ставка
+              </div>
+              <p className="font-medium">{booking?.terms?.price} ₽/т</p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Scale className="mr-2 h-4 w-4" />
+                Тип загрузки
+              </div>
+              <p className="font-medium">
+                <BadgeLoadType variant={booking?.terms?.loadingType} />
+              </p>
+            </div>
+            {booking?.terms?.advance?.percentage !== 0 && (
+              <div className="space-y-1">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Wallet className="mr-2 h-4 w-4" />
+                  Аванс
                 </div>
-              </>
+                <p className="font-medium">
+                  {booking?.terms?.advance?.percentage}%
+                </p>
+              </div>
             )}
           </div>
-        </div>
-      </CardContent>
 
-      {/* Дополнительная информация */}
-      {/* {booking?.additionalInfo && (
-        <div
-          className="flex items-center space-x-2 bg-yellow-100 p-2 px-4 rounded-md w-full"
-          style={{ borderRadius: "0 0 0 0" }}
-        >
-          <Asterisk className="max-h-5 max-w-5 text-yellow-600" />
-          <p className="text-sm font-medium text-yellow-600">
-            {booking?.additionalInfo}
-          </p>
-        </div>
-      )} */}
+          <Separator />
+
+          <div className="space-y-2">
+            <div className="flex items-center text-sm text-muted-foreground">
+              <Truck className="mr-2 h-4 w-4" />
+              Требования к транспорту
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Тип:</span>
+                <span className="font-medium">
+                  {booking?.requiredTransport?.carType}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Выгрузка:</span>
+                <span className="font-medium">
+                  {booking?.requiredTransport?.carTypeUnLoading}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span>Ограничение высоты:</span>
+                <span className="font-medium">
+                  {booking?.requiredTransport?.carHeightLimit}м
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {booking?.additionalInfo && (
+            <>
+              <Separator />
+              <div className="space-y-2">
+                {/* <div className="flex items-center text-sm text-muted-foreground">
+                  <Info className="mr-2 h-4 w-4" />
+                  Дополнительная информация
+                </div> */}
+                <p className="text-sm italic">Пиздеж</p>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </div>
       <BookingToogleItemDialog
         isOpen={isOpen}
         setIsOpen={setIsOpen}
