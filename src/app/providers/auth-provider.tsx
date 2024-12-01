@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logUp = async (data: RegisterDto) => {
-    // console.log("logUp request", data);
+    console.log("logUp request", data);
 
     await registerRequest("/auth/register", data)
       .then((data) => {
@@ -90,6 +90,7 @@ function registerRequest(url: string, data: RegisterDto) {
     email: data.email,
     password: data.password,
     userName: data.userName,
+    phone: data.phone,
   };
   return instance.post(`${url}`, requstData);
 }

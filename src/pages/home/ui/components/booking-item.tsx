@@ -109,7 +109,7 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
     }
   };
 
-  if (user._id !== booking.manager._id) {
+  if (user._id !== booking?.manager?._id) {
     return (
       <div className="flex justify-end gap-2 w-full px-2 bg-gradient-to-r from-primary/5 to-primary/5">
         <div className="flex items-center gap-1">

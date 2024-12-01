@@ -29,6 +29,7 @@ export default function RegisterPage() {
     userName: "",
     phone: "",
   });
+  // console.log(formData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;

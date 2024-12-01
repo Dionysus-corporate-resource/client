@@ -10,7 +10,6 @@ instance.interceptors.request.use((config) => {
   if (token && token.startsWith('"') && token.endsWith('"')) {
     token = token.slice(1, -1);
   }
-
   config.headers.Authorization = token;
   return config;
 });

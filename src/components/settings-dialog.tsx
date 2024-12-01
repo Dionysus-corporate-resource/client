@@ -66,7 +66,7 @@ export function SettingsDialog({ open, setOpen }: Props) {
           Customize your settings here.
         </DialogDescription>
         <SidebarProvider className="items-start">
-          <Sidebar collapsible="none" className="hidden md:flex">
+          <Sidebar collapsible="none" className="hidden md:flex w-fit pr-6">
             <SidebarContent>
               <SidebarGroup>
                 <SidebarGroupContent>

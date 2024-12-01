@@ -26,7 +26,7 @@ type IProps = {
 
 export function NavActions({ setCopyBookingTemplate }: IProps) {
   const location = useLocation();
-  const { user } = useAuth();
+  const context = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const data = [
@@ -79,17 +79,19 @@ export function NavActions({ setCopyBookingTemplate }: IProps) {
                         </SidebarMenuItem>
                       ))} */}
 
-                      {location.pathname === "/product" && user && (
-                        <SidebarMenuItem
-                          key="copy"
-                          onClick={setCopyBookingTemplate}
-                        >
-                          <SidebarMenuButton className="active:scale-95 transition-transform duration-200">
-                            <Copy />
-                            Скопировать заявки
-                          </SidebarMenuButton>
-                        </SidebarMenuItem>
-                      )}
+                      {location.pathname === "/product" &&
+                        context &&
+                        context.user && (
+                          <SidebarMenuItem
+                            key="copy"
+                            onClick={setCopyBookingTemplate}
+                          >
+                            <SidebarMenuButton className="active:scale-95 transition-transform duration-200">
+                              <Copy />
+                              Скопировать заявки
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        )}
 
                       <CreateProposalsDevelopmentDialog>
                         <SidebarMenuItem key="additionaly">
