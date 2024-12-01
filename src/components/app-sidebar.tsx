@@ -3,15 +3,14 @@
 import * as React from "react";
 import {
   AudioWaveform,
-  Axe,
   Command,
   GalleryVerticalEnd,
   GitBranchPlus,
+  PackagePlus,
   SquareChartGantt,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-// import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
@@ -61,13 +60,24 @@ const data = {
       },
     ],
   },
+  // manager: {
+  //   nameLabel: "Для менеджеров",
+  //   routes: [
+  //     {
+  //       name: "Студия",
+  //       url: "/product/manager",
+  //       icon: PackagePlus,
+  //     },
+  //   ],
+  // },
   manager: {
-    nameLabel: "Для команды",
+    nameLabel: "Для менеджеров",
     routes: [
       {
-        name: "Менеджер",
+        title: "Студия",
         url: "/product/manager",
-        icon: Axe,
+        icon: PackagePlus,
+        isActive: true,
       },
     ],
   },
@@ -119,9 +129,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             role === PERMISSIONS.CAN_VIEW_DISPATCHER,
         ) && <NavMain items={data.allTeams} />}
 
-        {/* {authContext?.user?.roles.some(
+        {authContext?.user?.roles.some(
           (role) => role === PERMISSIONS.CAN_VIEW_MANAGER,
-        ) && <NavProjects projects={data.manager} />} */}
+        ) && <NavMain items={data.manager} />}
       </SidebarContent>
       <SidebarFooter>{authContext?.token && <NavUser />}</SidebarFooter>
       <SidebarRail />

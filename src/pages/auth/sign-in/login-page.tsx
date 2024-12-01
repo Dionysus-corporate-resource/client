@@ -48,7 +48,7 @@ export default function LoginPage() {
           style={{
             backgroundImage: 'url("/images/car.jpg")',
             backgroundSize: "cover",
-            backgroundPosition: "center 120%",
+            backgroundPosition: "center 100%",
           }}
         >
           {/* <div className="max-w-md space-y-6 bg-opacity-50 bg-black p-8 rounded-lg">
