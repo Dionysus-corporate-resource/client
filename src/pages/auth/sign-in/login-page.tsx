@@ -11,6 +11,8 @@ import { Input } from "@/components/ui/input";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
+import { toast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 type IFormData = {
   email: string;
@@ -37,18 +39,36 @@ export default function LoginPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    context?.logIn(formData);
+    context
+      ?.logIn(formData)
+      .then(() => {
+        return toast({
+          title: "Вы авторизованы",
+          description: "Поздравляю, авторизация прошла цспешно!",
+        });
+      })
+      .catch((err) => {
+        console.error("Caught!! error:", err); // Для отладки
+
+        return toast({
+          title: `${err.response.data.message}`,
+          description: "Не удалось войти(",
+          variant: "destructive",
+        });
+      });
   };
 
   return (
     <div className="flex flex-col h-screen w-screen">
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-2">
         <section
-          className="bg-primary text-primary-foreground p-6 flex flex-col justify-center "
+          className="bg-primary text-primary-foreground p-6 sm:p-10 lg:p-16 flex flex-col justify-center"
           style={{
-            backgroundImage: 'url("/images/car.jpg")',
-            backgroundSize: "cover",
-            backgroundPosition: "center 100%",
+            backgroundImage: 'url("/images/truck1.png")',
+            backgroundColor: "white",
+            backgroundPosition: "center center", // Центрируем изображение
+            backgroundRepeat: "no-repeat", // Отключаем повтор
+            backgroundSize: "contain", // Уменьшаем масштаб, чтобы все изображение поместилось
           }}
         >
           {/* <div className="max-w-md space-y-6 bg-opacity-50 bg-black p-8 rounded-lg">
@@ -132,6 +152,7 @@ export default function LoginPage() {
           </div>
         </section>
       </main>
+      <Toaster />
     </div>
   );
 }

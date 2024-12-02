@@ -6,11 +6,9 @@ import {
   Truck,
   Calendar,
   Copy,
-  Package,
   ArrowRight,
   Wallet,
   Scale,
-  Info,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";

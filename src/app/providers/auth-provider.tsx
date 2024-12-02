@@ -20,9 +20,9 @@ type RegisterDto = {
 
 interface AuthContextProps {
   token: string | null;
-  logIn: (data: LoginDto) => void;
+  logIn: (data: LoginDto) => Promise<LoginDto>;
   logOut: () => void;
-  logUp: (data: RegisterDto) => void;
+  logUp: (data: RegisterDto) => Promise<RegisterDto>;
   user: IUserDto | null;
 }
 
@@ -46,22 +46,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(response.data);
 
       navigate(redirectPath, { replace: true });
+      return response.data;
     } catch (error) {
       console.error("Login error", error);
+      throw error;
     }
   };
 
   const logUp = async (data: RegisterDto) => {
-    console.log("logUp request", data);
+    try {
+      const response = await registerRequest("/auth/register", data);
+      setToken(response.data.token);
+      console.log("registerRequest", data);
+      navigate("/login", { replace: true });
 
-    await registerRequest("/auth/register", data)
-      .then((data) => {
-        console.log("registerRequest", data);
-        setToken(data.data.token);
-      })
-      .catch((error) => console.error(error));
-
-    navigate("/login", { replace: true });
+      return response.data;
+    } catch (error) {
+      console.error("Login error", error);
+      throw error;
+    }
   };
   const logOut = () => {
     console.log("logOut");
