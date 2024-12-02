@@ -12,7 +12,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
 import { useAtom } from "jotai";
 import { bookingAtom, sortBookingAtom } from "@/shared/model/booking-atom";
@@ -21,6 +21,7 @@ import { IBookingDto } from "@/shared/model/types/booking";
 import { useAuth } from "../providers/auth-provider";
 import { IUserDto } from "@/shared/model/types/user";
 import { NavActions } from "@/components/nav-actions";
+import { Button } from "@/components/ui/button";
 
 const selectOptions: ISelectOptions[] = [
   {
@@ -111,6 +112,16 @@ export function AppLayout() {
             </div>
             <div className="flex items-center gap-2 px-3">
               {/* <Separator orientation="vertical" className=" h-4" /> */}
+              {!context?.token && (
+                <>
+                  <NavLink to="/login">
+                    <Button variant="link">Войти</Button>
+                  </NavLink>
+                  <NavLink to="/register">
+                    <Button variant="link">Зарегистрироваться</Button>
+                  </NavLink>
+                </>
+              )}
               <NavActions setCopyBookingTemplate={handleCopy} />
             </div>
           </header>

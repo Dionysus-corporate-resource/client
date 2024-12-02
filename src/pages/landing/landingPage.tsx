@@ -7,19 +7,19 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-12 flex items-center border-b">
-        <span className="ml-2 text-lg font-semibold">лтк Дионис</span>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
+        <span className="ml-2 text-lg font-medium">лтк Дионис</span>
+        <nav className="ml-auto flex">
           <NavLink
             to="/login"
             className="text-sm hover:underline underline-offset-4"
           >
-            Войти
+            <Button variant="link">Войти</Button>
           </NavLink>
           <NavLink
             to="/register"
             className="text-sm hover:underline underline-offset-4"
           >
-            Зарегистрироваться
+            <Button variant="link">Зарегистрироваться</Button>
           </NavLink>
         </nav>
       </header>
@@ -27,7 +27,7 @@ export default function LandingPage() {
         <section className="w-full py-8 md:py-12 lg:py-16 bg-black">
           <div className=" px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
+              <div className="space-y-6">
                 <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl text-white">
                   Надежные грузоперевозки для вашего бизнеса
                 </h1>
@@ -54,42 +54,50 @@ export default function LandingPage() {
           id="services"
           className="w-full py-8 md:py-12 lg:py-16 bg-gray-50"
         >
-          <div className="px-36">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-8">
-              Наши услуги
-            </h2>
+          <div className="px-36 space-y-12">
+            <div className="flex flex-col justify-center items-center">
+              <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl text-center mb-4">
+                Наши услуги
+              </h2>
+              <p className="max-w-[800px] text-sm text-gray-500 text-center">
+                Мы - ведущая компания в сфере грузоперевозок и логистики с
+                10-летним опытом работы. Наша цель - обеспечить быструю,
+                безопасную и эффективную доставку грузов для наших клиентов.
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Card className="bg-white">
-                <CardContent className="flex flex-col items-center space-y-2 p-4">
+                <CardContent className="flex flex-col items-center space-y-2 p-4 py-6">
                   <Truck className="w-8 h-8 text-primary" />
                   <h3 className="text-lg font-semibold text-center">
                     Автомобильные перевозки
                   </h3>
-                  <p className="text-sm text-center text-gray-500">
+
+                  <p className="max-w-[400px] text-sm text-center text-gray-500">
                     Быстрая и надежная доставка грузов автотранспортом по всей
                     стране.
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-white">
-                <CardContent className="flex flex-col items-center space-y-2 p-4">
+                <CardContent className="flex flex-col items-center space-y-2 p-4 py-6">
                   <Package className="w-8 h-8 text-primary" />
                   <h3 className="text-lg font-semibold text-center">
                     Складская логистика
                   </h3>
-                  <p className="text-sm text-center text-gray-500">
+                  <p className="max-w-[400px]  text-sm text-center text-gray-500">
                     Современные складские комплексы для хранения и обработки
                     ваших грузов.
                   </p>
                 </CardContent>
               </Card>
               <Card className="bg-white">
-                <CardContent className="flex flex-col items-center space-y-2 p-4">
+                <CardContent className="flex flex-col items-center space-y-2 p-4 py-6">
                   <Clock className="w-8 h-8 text-primary" />
                   <h3 className="text-lg font-semibold text-center">
                     Экспресс-доставка
                   </h3>
-                  <p className="text-sm text-center text-gray-500">
+                  <p className="max-w-[400px] text-sm text-center text-gray-500">
                     Срочная доставка грузов в кратчайшие сроки по специальным
                     тарифам.
                   </p>

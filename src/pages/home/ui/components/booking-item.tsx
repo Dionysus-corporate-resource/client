@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Wallet,
   Scale,
+  Info,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -151,6 +152,29 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
   const [user] = useAtom(userStorageAtom);
   const [isOpen, setIsOpen] = useState(false);
 
+  const context = useAuth();
+
+  const sentence = `
+
+  ${booking.generalInformation.icon} ${booking.generalInformation.cargoName} ${booking.generalInformation.cargoAmount}т ${booking.generalInformation.icon}
+  ‼️${booking.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.location.loadingLocationDate}‼️
+  🏳️ ${booking.location.loadingLocation}
+  🏁 ${booking.location.unloadingLocation}
+  🛣 Дистанция: ${booking.location.distance} км
+  🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
+  💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
+  ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
+  ${context?.user?.phone && `Контакты: ${context?.user?.phone}`}
+    `;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(sentence);
+    } catch (err) {
+      console.error("Ошибка при копировании текста:", err);
+    }
+  };
+
   return (
     <Card className="mx-auto rounded-xl flex-col justify-between  h-full mb-2 overflow-y-auto overflow-hidden transition-all hover:shadow-lg w-full">
       {/* Header Card */}
@@ -159,13 +183,21 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
       ) : (
         user?.roles.includes("dispatcher") && (
           <div
-            className="flex justify-end gap-2 w-full px-4 py-2 from-primary/5 to-primary/5"
+            className="flex justify-end gap-2 w-full px-4 from-primary/5 to-primary/5"
             style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
           >
             <div className="flex items-center gap-1">
               <Badge variant="outline" className="bg-white">
                 {booking?.manager?.userName}
               </Badge>
+              <Button
+                onClick={() => handleCopy()}
+                size="icon"
+                variant="ghost"
+                className="active:scale-75 transition-transform duration-200"
+              >
+                <Copy />
+              </Button>
             </div>
           </div>
         )
@@ -308,11 +340,11 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
             <>
               <Separator />
               <div className="space-y-2">
-                {/* <div className="flex items-center text-sm text-muted-foreground">
+                <div className="flex items-center text-sm text-muted-foreground">
                   <Info className="mr-2 h-4 w-4" />
                   Дополнительная информация
-                </div> */}
-                <p className="text-sm italic">Пиздеж</p>
+                </div>
+                <span>{booking?.additionalInfo}</span>
               </div>
             </>
           )}
