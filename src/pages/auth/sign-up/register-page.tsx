@@ -13,6 +13,8 @@ import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
 import { LockIcon, MailIcon, PhoneIcon, UserIcon } from "lucide-react";
+import { Toaster } from "@/components/ui/toaster";
+import { toast } from "@/hooks/use-toast";
 
 type IFormData = {
   phone: string;
@@ -44,7 +46,22 @@ export default function RegisterPage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    context?.logUp(formData);
+    context
+      ?.logUp(formData)
+      .then(() => {
+        return toast({
+          title: "Вы зарегестрировались",
+          description: "Поздравляю, регистрация прошла успешно!",
+        });
+      })
+      .catch((err) => {
+        console.error("Caught!! error:", err); // Для отладки
+        return toast({
+          title: `Ошибка при регистрации`,
+          description: "Проверте корректность веденных данных(",
+          variant: "destructive",
+        });
+      });
   };
 
   return (
@@ -53,9 +70,11 @@ export default function RegisterPage() {
         <section
           className="bg-primary text-primary-foreground p-6 sm:p-10 lg:p-16 flex flex-col justify-center"
           style={{
-            backgroundImage: 'url("/images/car.jpg")',
-            backgroundSize: "cover",
-            backgroundPosition: "center 120%",
+            backgroundImage: 'url("/images/truck1.png")',
+            backgroundColor: "white",
+            backgroundPosition: "center center", // Центрируем изображение
+            backgroundRepeat: "no-repeat", // Отключаем повтор
+            backgroundSize: "contain", // Уменьшаем масштаб, чтобы все изображение поместилось
           }}
         >
           {/* <div className="max-w-md space-y-6">
@@ -136,6 +155,7 @@ export default function RegisterPage() {
                       id="phone"
                       type="tel"
                       name="phone"
+                      required
                       onChange={handleChange}
                       placeholder="+8 (918) 555-5555"
                     />
@@ -166,6 +186,7 @@ export default function RegisterPage() {
           </div>
         </section>
       </main>
+      <Toaster />
     </div>
   );
 }
