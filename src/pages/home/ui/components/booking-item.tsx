@@ -340,7 +340,7 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
             <>
               <Separator />
               <div className="space-y-2">
-                <div className="flex items-center text-sm text-muted-foreground">
+                <div className="flex items-center text-sm text-muted-foreground mt-2">
                   <Info className="mr-2 h-4 w-4" />
                   Дополнительная информация
                 </div>
