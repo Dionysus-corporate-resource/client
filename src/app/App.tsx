@@ -11,6 +11,7 @@ import PERMISSIONS from "@/shared/api/permissions";
 import ManagerPage from "@/pages/manager/manager-page";
 import ProposalsDevelopmentPage from "@/pages/proposals-development/ui/proposals-development-page";
 import ProfilePage from "@/pages/auth/profile/profile-page";
+import { SignPage } from "@/pages/auth/corporate-resource";
 
 export default function App() {
   return (
@@ -58,6 +59,8 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
+      <Route path="/company-login" element={<SignPage />} />
     </Routes>
   );
 }

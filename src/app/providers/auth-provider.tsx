@@ -1,14 +1,26 @@
 import { useLocalStorage } from "@/hooks/use-localStorage";
 import instance from "@/shared/api/axios-instance";
-import { IUserDto } from "@/shared/model/types/user";
+import { IRolesCorporate, IUserDto } from "@/shared/model/types/user";
 import { userStorageAtom } from "@/shared/model/user-atom";
 import { useAtom } from "jotai";
 import { createContext, ReactNode, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-type LoginDto = {
+type LoginData = {
   email: string;
   password: string;
+  nameCompany: string;
+};
+
+type CorporateUserDto = {
+  token: string;
+  existingEmmailLogisticianInCompany: {
+    additionalInfo: string;
+    userData: IUserDto;
+    corporatePasswordHash: string;
+    corporateRoles: IRolesCorporate;
+    _id: string;
+  };
 };
 
 type RegisterDto = {
@@ -20,7 +32,7 @@ type RegisterDto = {
 
 interface AuthContextProps {
   token: string | null;
-  logIn: (data: LoginDto) => Promise<LoginDto>;
+  logIn: (data: LoginData) => Promise<CorporateUserDto>;
   logOut: () => void;
   logUp: (data: RegisterDto) => Promise<RegisterDto>;
   user: IUserDto | null;
@@ -37,13 +49,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useLocalStorage<string | null>("token", null);
   const [user, setUser] = useAtom(userStorageAtom);
 
-  const logIn = async (data: LoginDto) => {
+  const logIn = async (data: LoginData) => {
     try {
-      const response = await instance.post("/auth/login", data);
-      // console.log("loginRequest", response.data);
+      const response = await instance.post("/company/login", data);
+      console.log("loginRequest", response.data);
 
       setToken(response.data.token);
-      setUser(response.data);
+      setUser(response.data.existingEmmailLogisticianInCompany?.userData);
 
       navigate(redirectPath, { replace: true });
       return response.data;

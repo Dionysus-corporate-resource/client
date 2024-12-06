@@ -21,6 +21,12 @@ export default function LandingPage() {
           >
             <Button variant="link">Зарегистрироваться</Button>
           </NavLink>
+          <NavLink
+            to="/login-company"
+            className="text-sm hover:underline underline-offset-4"
+          >
+            <Button variant="link">Войти в компанию</Button>
+          </NavLink>
         </nav>
       </header>
       <main className="flex-1">

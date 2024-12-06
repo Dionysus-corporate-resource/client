@@ -1,4 +1,9 @@
-type IRoles = "superAdmin" | "manager" | "dispatcher";
+export type IRolesCorporate =
+  | "superAdmin"
+  | "manager"
+  | "dispatcher"
+  | "general_director";
+type IRoles = "superAdmin" | "manager" | "dispatcher" | "general_director";
 
 export type IUser = {
   userName: string;
@@ -18,7 +23,6 @@ export type IUserDto = {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  token: string;
 };
 
 // export type User<T = "client" | "server"> = T extends "client"
