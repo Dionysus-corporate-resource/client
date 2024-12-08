@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CardContent } from "@/components/ui/card";
+import { CardContent, CardFooter } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { IBooking, IBookingFormData } from "@/shared/model/types/booking";
@@ -20,6 +20,7 @@ import {
   DollarSign,
   FileText,
   Hash,
+  // Info,
   Loader,
   MapPin,
   Navigation,
@@ -84,6 +85,10 @@ export const options = {
       {
         value: "🌿",
         option: "🌿 - лен",
+      },
+      {
+        value: "🌿",
+        option: "🌿 - жмых",
       },
       {
         value: "🌽",
@@ -326,7 +331,7 @@ export default function CreateBookingForm() {
                       className="text-muted-foreground flex items-center gap-2"
                     >
                       <FileText className="h-4 w-4" />
-                      Название заявки
+                      Название груза
                     </Label>
                     <Input
                       id="cargoName"
@@ -334,6 +339,7 @@ export default function CreateBookingForm() {
                       placeholder="Например: Жмых"
                       value={formData.cargoName}
                       onChange={handleChange}
+                      required
                     />
                   </div>
 
@@ -351,7 +357,7 @@ export default function CreateBookingForm() {
                         handleSelectChange={handleSelectChange}
                         formDataValue={formData.icon}
                         name="icon"
-                        // className="w-[150px]"
+                        required
                       />
                     </div>
 
@@ -364,32 +370,22 @@ export default function CreateBookingForm() {
                         Вес груза (тонн)
                       </Label>
                       <TextInput
-                        // label="Вес"
                         id="cargoAmount"
                         name="cargoAmount"
                         type="number"
                         placeholder="Например: 500"
                         value={formData.cargoAmount}
                         onChange={handleChange}
-                        // size="l"
+                        required
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    {/* <Label
-                      htmlFor="additionalInfo"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Info className="h-4 w-4" />
-                      Дополнительная информация
-                    </Label> */}
                     <Textarea
-                      placeholder="Дополнительная информация"
                       id="additionalInfo"
                       name="additionalInfo"
                       value={formData.additionalInfo}
                       onChange={handleChange}
-                      // size="l"
                     />
                   </div>
                 </div>
@@ -413,13 +409,12 @@ export default function CreateBookingForm() {
                       Адрес погрузки
                     </Label>
                     <TextInput
-                      // label="Погрузка"
                       id="loadingLocation"
                       name="loadingLocation"
                       placeholder="Ростов-на-Дону"
                       value={formData.loadingLocation}
                       onChange={handleChange}
-                      // size="l"
+                      required
                     />
                   </div>
 
@@ -432,13 +427,12 @@ export default function CreateBookingForm() {
                       Адрес разгрузки
                     </Label>
                     <TextInput
-                      // label="Выгрузка"
                       id="unloadingLocation"
                       name="unloadingLocation"
                       placeholder="Тальяти"
                       value={formData.unloadingLocation}
                       onChange={handleChange}
-                      // size="l"
+                      required
                     />
                   </div>
                 </div>
@@ -452,13 +446,12 @@ export default function CreateBookingForm() {
                       Дистанция (км)
                     </Label>
                     <TextInput
-                      // label="Дистанция"
                       id="distance"
                       name="distance"
                       placeholder="300 km"
                       value={formData.distance}
                       onChange={handleChange}
-                      // size="l"
+                      required
                     />
                   </div>
 
@@ -471,13 +464,11 @@ export default function CreateBookingForm() {
                       Дата погрузки
                     </Label>
                     <TextInput
-                      // label="Дата погрузки"
                       id="loadingLocationDate"
                       name="loadingLocationDate"
                       placeholder="20 марта 2024"
                       value={formData.loadingLocationDate}
                       onChange={handleChange}
-                      // size="l"
                     />
                   </div>
                 </div>
@@ -491,79 +482,74 @@ export default function CreateBookingForm() {
                 {/* <DollarSign className="h-5 w-5 mr-2" /> */}
                 Условия перевозки
               </h3>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2 w-full">
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="rate"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <DollarSign className="h-4 w-4" />
-                      Ставка (р/т)
-                    </Label>
-                    <TextInput
-                      // label="Ставка"
-                      id="price"
-                      name="price"
-                      type="number"
-                      value={formData.price}
-                      onChange={handleChange}
-                      // size="l"
-                    />
-                  </div>
-
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="paymentType"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <CreditCard className="h-4 w-4" />
-                      Тип оплаты
-                    </Label>
-                    <SelectShared
-                      options={options.paymentMethod}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.paymentMethod}
-                      name="paymentMethod"
-                    />
-                  </div>
-
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="loadType"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Loader className="h-4 w-4" />
-                      Тип погрузки
-                    </Label>
-                    <SelectShared
-                      options={options.loadingType}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.loadingType}
-                      name="loadingType"
-                    />
-                  </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="rate"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <DollarSign className="h-4 w-4" />
+                    Ставка (р/т)
+                  </Label>
+                  <TextInput
+                    id="price"
+                    name="price"
+                    type="number"
+                    value={formData.price}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                <div className="flex gap-2 w-full">
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="advancePercentage"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Percent className="h-4 w-4" />
-                      Аванс (%)
-                    </Label>
-                    <TextInput
-                      // label="Аванс"
-                      id="advancePercentage"
-                      name="advancePercentage"
-                      placeholder="30%"
-                      type="number"
-                      value={formData.advancePercentage}
-                      onChange={handleChange}
-                      // size="l"
-                    />
-                  </div>
+
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="paymentType"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    Тип оплаты
+                  </Label>
+                  <SelectShared
+                    options={options.paymentMethod}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.paymentMethod}
+                    name="paymentMethod"
+                  />
+                </div>
+
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="loadType"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Loader className="h-4 w-4" />
+                    Тип погрузки
+                  </Label>
+                  <SelectShared
+                    options={options.loadingType}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.loadingType}
+                    name="loadingType"
+                  />
+                </div>
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="advancePercentage"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Percent className="h-4 w-4" />
+                    Аванс (%)
+                  </Label>
+                  <TextInput
+                    // label="Аванс"
+                    id="advancePercentage"
+                    name="advancePercentage"
+                    placeholder="30%"
+                    type="number"
+                    value={formData.advancePercentage}
+                    onChange={handleChange}
+                    // size="l"
+                  />
                 </div>
               </div>
             </div>
@@ -575,97 +561,89 @@ export default function CreateBookingForm() {
                 {/* <MapPin className="h-5 w-5 mr-2" /> */}
                 Требования к транспорту
               </h3>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2">
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="vehicleType"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <TruckIcon className="h-4 w-4" />
-                      Тип машины
-                    </Label>
-                    <SelectShared
-                      options={options.carType}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.carType}
-                      name="carType"
-                    />
-                  </div>
-
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="unloadType"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <ArrowDownWideNarrow className="h-4 w-4" />
-                      Тип выгрузки
-                    </Label>
-                    <SelectShared
-                      options={options.carTypeUnLoading}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.carTypeUnLoading}
-                      name="carTypeUnLoading"
-                      className="w-full"
-                    />
-                  </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="vehicleType"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <TruckIcon className="h-4 w-4" />
+                    Тип машины
+                  </Label>
+                  <SelectShared
+                    options={options.carType}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carType}
+                    name="carType"
+                  />
                 </div>
-                <div className="flex gap-2 w-full">
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="vehicleCount"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Hash className="h-4 w-4" />
-                      Кол-во тс
-                    </Label>
-                    <TextInput
-                      // label="Возможность погрузки транспорта"
-                      id="count"
-                      name="count"
-                      type="number"
-                      placeholder="5 машин"
-                      value={formData.count}
-                      onChange={handleChange}
-                      // rightContent={<Label size="s">Важно</Label>}
-                      // size="l"
-                    />
-                  </div>
 
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="transportNeed"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Repeat className="h-4 w-4" />
-                      Период
-                    </Label>
-                    <SelectShared
-                      options={options.carPeriod}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.carPeriod}
-                      name="carPeriod"
-                    />
-                  </div>
+                <div className="space-y-2 w-full">
+                  <Label
+                    htmlFor="unloadType"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <ArrowDownWideNarrow className="h-4 w-4" />
+                    Тип выгрузки
+                  </Label>
+                  <SelectShared
+                    options={options.carTypeUnLoading}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carTypeUnLoading}
+                    name="carTypeUnLoading"
+                    className="w-full"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="vehicleCount"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Hash className="h-4 w-4" />
+                    Кол-во тс
+                  </Label>
+                  <TextInput
+                    id="count"
+                    name="count"
+                    type="number"
+                    placeholder="5 машин"
+                    value={formData.count}
+                    onChange={handleChange}
+                  />
+                </div>
 
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="heightLimit"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Ruler className="h-4 w-4" />
-                      Высота ограничения
-                    </Label>
-                    <TextInput
-                      id="carHeightLimit"
-                      name="carHeightLimit"
-                      type="number"
-                      placeholder="до 3.2м"
-                      value={formData.carHeightLimit}
-                      onChange={handleChange}
-                      // size="l"
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="transportNeed"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Repeat className="h-4 w-4" />
+                    Период
+                  </Label>
+                  <SelectShared
+                    options={options.carPeriod}
+                    handleSelectChange={handleSelectChange}
+                    formDataValue={formData.carPeriod}
+                    name="carPeriod"
+                  />
+                </div>
+
+                <div className="space-y-2 w-full col-span-2">
+                  <Label
+                    htmlFor="heightLimit"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Ruler className="h-4 w-4" />
+                    Высота ограничения
+                  </Label>
+                  <TextInput
+                    id="carHeightLimit"
+                    name="carHeightLimit"
+                    type="number"
+                    placeholder="до 3.2м"
+                    value={formData.carHeightLimit}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
             </div>

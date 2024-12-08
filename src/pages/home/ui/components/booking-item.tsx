@@ -9,6 +9,8 @@ import {
   Wallet,
   Scale,
   Info,
+  // Eye,
+  Truck,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +23,7 @@ import { useAtom } from "jotai";
 import { corporateLogisticianStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { CorporateLogisticianDto } from "@/shared/model/types/user";
+// import { SheetCorporateBookingDetails } from "@/entities/sheet-corporate-booking-details/sheet-corporate-booking-details";
 
 function PaymentMethodComponent({
   paymentMethod,
@@ -114,12 +117,17 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
       style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
     >
       <div className="flex items-center">
+        {/* <SheetCorporateBookingDetails>
+          <Button size="icon" variant="ghost">
+            <Eye />
+          </Button>
+        </SheetCorporateBookingDetails>
+        <Separator orientation="vertical" className="h-4" /> */}
         <RemoveBookingDialogSure booking={booking}>
           <Button size="icon" variant="ghost">
             <Trash />
           </Button>
         </RemoveBookingDialogSure>
-
         <Separator orientation="vertical" className="h-4" />
         <Button
           size="icon"
@@ -276,18 +284,33 @@ export default function BookingItem({
             </div>
           </div>
 
+          {booking?.additionalInfo && (
+            <>
+              <Separator />
+              <div className="space-y-2">
+                <div className="flex items-center text-sm text-muted-foreground mt-2">
+                  <Info className="mr-2 h-4 w-4" />
+                  Дополнительная информация
+                </div>
+                <span>{booking?.additionalInfo}</span>
+              </div>
+            </>
+          )}
+
           <Separator />
 
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center text-sm text-muted-foreground">
-                <Calendar className="mr-2 h-4 w-4" />
-                Дата погрузки
+            {booking?.location?.loadingLocationDate && (
+              <div className="space-y-1">
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Дата погрузки
+                </div>
+                <p className="font-medium">
+                  {booking?.location?.loadingLocationDate}
+                </p>
               </div>
-              <p className="font-medium">
-                {booking?.location?.loadingLocationDate}
-              </p>
-            </div>
+            )}
 
             <div className="space-y-1">
               <div className="flex items-center text-sm text-muted-foreground">
@@ -319,9 +342,9 @@ export default function BookingItem({
             )}
           </div>
 
-          {/* <Separator /> */}
+          <Separator />
 
-          {/* <div className="space-y-2">
+          <div className="space-y-2">
             <div className="flex items-center text-sm text-muted-foreground">
               <Truck className="mr-2 h-4 w-4" />
               Требования к транспорту
@@ -339,29 +362,16 @@ export default function BookingItem({
                   {booking?.requiredTransport?.carTypeUnLoading}
                 </span>
               </div>
-              {booking?.requiredTransport?.carHeightLimit && (
+              {booking?.requiredTransport?.carHeightLimit !== 0 && (
                 <div className="flex justify-between text-sm">
                   <span>Ограничение высоты:</span>
                   <span className="font-medium">
                     {booking?.requiredTransport?.carHeightLimit}м
                   </span>
                 </div>
-              )}
+              )}{" "}
             </div>
-          </div> */}
-
-          {booking?.additionalInfo && (
-            <>
-              <Separator />
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-muted-foreground mt-2">
-                  <Info className="mr-2 h-4 w-4" />
-                  Дополнительная информация
-                </div>
-                <span>{booking?.additionalInfo}</span>
-              </div>
-            </>
-          )}
+          </div>
         </CardContent>
       </div>
       <BookingToogleItemDialog
@@ -372,19 +382,3 @@ export default function BookingItem({
     </Card>
   );
 }
-
-// <Button variant="ghost" size="icon" onClick={toggleCardInfo}>
-//   {isOpenInfo ? <ChevronUp /> : <ChevronDown />}
-// </Button>
-// - - -
-// className={` ${
-//   isOpenInfo ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
-// }`}
-// - - -
-// <Separator orientation="vertical" className="h-4" />
-// - - -
-// <div className="flex-shrink-0">
-//   <div className="bg-primary/5 p-3 rounded-full">
-//     <Wheat className="h-6 w-6 text-primary" />
-//   </div>
-// </div>
