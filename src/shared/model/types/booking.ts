@@ -1,4 +1,5 @@
-import { IUserDto } from "./user";
+import { LogisticianDto } from "./user";
+
 export type ValidCarTypes =
   | "Самосвал"
   | "Танар"
@@ -31,8 +32,7 @@ export type IBookingFormData = {
   distance: number;
   price: number;
   paymentMethod: "NDS" | "without_NDS" | "cash";
-  percentage?: number;
-  period: "loading" | "un_loading";
+  advancePercentage?: number | undefined;
   carType: ValidCarTypes;
   carTypeUnLoading: ValidUnloadingTypes;
   carHeightLimit?: number | undefined;
@@ -58,10 +58,7 @@ export type IBooking = {
   terms: {
     price: number;
     paymentMethod: "NDS" | "without_NDS" | "cash";
-    advance: {
-      percentage?: number;
-      period: "loading" | "un_loading";
-    };
+    advancePercentage: number | undefined;
     loadingType: "normal" | "full";
     // truckType: string; // Если поле понадобится, можно раскомментировать
   };
@@ -78,41 +75,41 @@ export type IBooking = {
 };
 
 export type IBookingDto = {
+  corporateBookingData: {
+    _id: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+    generalInformation: {
+      relevance: boolean;
+      cargoName: string;
+      cargoAmount?: number;
+      icon: string;
+    };
+    location: {
+      loadingLocation: string;
+      loadingLocationDate?: string;
+      unloadingLocation: string;
+      distance: number;
+    };
+    terms: {
+      price: number;
+      paymentMethod: "NDS" | "without_NDS" | "cash";
+      advancePercentage: number;
+      loadingType: "normal" | "full";
+      // truckType: string; // Если поле понадобится, можно раскомментировать
+    };
+    requiredTransport: {
+      carType: ValidCarTypes;
+      carTypeUnLoading: ValidUnloadingTypes;
+      carHeightLimit?: number;
+      carUsage: {
+        count?: number;
+        carPeriod: "Каждый_день" | "Общее";
+      };
+    };
+    additionalInfo?: string;
+    manager: LogisticianDto;
+  };
   _id: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-  generalInformation: {
-    relevance: boolean;
-    cargoName: string;
-    cargoAmount?: number;
-    icon: string;
-  };
-  location: {
-    loadingLocation: string;
-    loadingLocationDate?: string;
-    unloadingLocation: string;
-    distance: number;
-  };
-  terms: {
-    price: number;
-    paymentMethod: "NDS" | "without_NDS" | "cash";
-    advance: {
-      percentage?: number;
-      period: "loading" | "un_loading";
-    };
-    loadingType: "normal" | "full";
-    // truckType: string; // Если поле понадобится, можно раскомментировать
-  };
-  requiredTransport: {
-    carType: ValidCarTypes;
-    carTypeUnLoading: ValidUnloadingTypes;
-    carHeightLimit?: number;
-    carUsage: {
-      count?: number;
-      carPeriod: "Каждый_день" | "Общее";
-    };
-  };
-  additionalInfo?: string;
-  manager: IUserDto;
 };

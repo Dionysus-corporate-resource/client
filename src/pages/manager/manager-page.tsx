@@ -7,11 +7,11 @@ import { bookingQueryOptions } from "../home/api/query-options";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/app/providers/auth-provider";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { IUserDto } from "@/shared/model/types/user";
+import { CorporateLogisticianDto } from "@/shared/model/types/user";
 import BookingItem from "../home/ui/components/booking-item";
 import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
 import { useAtom } from "jotai";
-import { bookingManagerAtom } from "@/shared/model/booking-atom";
+import { bookingManagerAtom } from "@/shared/model/atoms/booking-atom";
 
 const selectOptions: ISelectOptions[] = [
   {
@@ -30,12 +30,15 @@ const selectOptions: ISelectOptions[] = [
 
 function cortBookingByManager(
   bookings: IBookingDto[] | undefined,
-  manager: IUserDto | undefined | null,
+  manager: CorporateLogisticianDto | undefined | null,
 ) {
-  if (!manager?.roles?.includes("manager")) return [];
+  if (manager?.corporateRoles?.includes("dispatcher")) return [];
 
   if (bookings)
-    return bookings.filter((booking) => booking.manager._id === manager._id);
+    return bookings.filter(
+      (booking) =>
+        booking.corporateBookingData.manager._id === manager?.userData?._id,
+    );
 }
 
 export default function ManagerPage() {
@@ -104,7 +107,10 @@ export default function ManagerPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
           {sortItems?.map((booking: IBookingDto) => (
-            <BookingItem key={booking._id} booking={booking} />
+            <BookingItem
+              key={booking._id}
+              booking={booking.corporateBookingData}
+            />
           ))}
         </div>
       </div>

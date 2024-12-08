@@ -12,16 +12,18 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
 import { useAtom } from "jotai";
-import { bookingAtom, sortBookingAtom } from "@/shared/model/booking-atom";
+import {
+  bookingAtom,
+  sortBookingAtom,
+} from "@/shared/model/atoms/booking-atom";
 
 import { IBookingDto } from "@/shared/model/types/booking";
 import { useAuth } from "../providers/auth-provider";
-import { IUserDto } from "@/shared/model/types/user";
 import { NavActions } from "@/components/nav-actions";
-import { Button } from "@/components/ui/button";
+import { CorporateLogisticianDto } from "@/shared/model/types/user";
 
 const selectOptions: ISelectOptions[] = [
   {
@@ -42,19 +44,22 @@ const selectOptions: ISelectOptions[] = [
   },
 ];
 
-function copyAllBookingTemplate(sortBooking: IBookingDto[], user: IUserDto) {
+function copyAllBookingTemplate(
+  sortBooking: IBookingDto[],
+  user: CorporateLogisticianDto,
+) {
   return sortBooking
     .map((booking) => {
       return `
-    ${booking.generalInformation.icon} ${booking.generalInformation.cargoName} ${booking.generalInformation.cargoAmount}т ${booking.generalInformation.icon}
-    ‼️${booking.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.location.loadingLocationDate}‼️
-    🏳️ ${booking.location.loadingLocation}
-    🏁 ${booking.location.unloadingLocation}
-    🛣 Дистанция: ${booking.location.distance} км
-    🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
-    💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
-    ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
-    ${user.phone && `Контакты: ${user.phone}`}
+    ${booking.corporateBookingData.generalInformation.icon} ${booking.corporateBookingData.generalInformation.cargoName} ${booking.corporateBookingData.generalInformation.cargoAmount}т ${booking.corporateBookingData.generalInformation.icon}
+    ‼️${booking.corporateBookingData.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.corporateBookingData.location.loadingLocationDate}‼️
+    🏳️ ${booking.corporateBookingData.location.loadingLocation}
+    🏁 ${booking.corporateBookingData.location.unloadingLocation}
+    🛣 Дистанция: ${booking.corporateBookingData.location.distance} км
+    🚚 Выгрузка: ${booking.corporateBookingData.requiredTransport.carTypeUnLoading}
+    💰 ${booking.corporateBookingData.terms.price}₽/т ${booking.corporateBookingData.terms.paymentMethod === "NDS" ? "С НДС" : booking.corporateBookingData.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
+    ${booking.corporateBookingData.terms.advancePercentage && `💵 Аванс:  ${booking.corporateBookingData.terms.advancePercentage}% на погрузке`}
+    ${user?.userData?.phone && `Контакты: ${user?.userData?.phone}`}
       `;
     })
     .join("\n --- \n");
@@ -66,7 +71,7 @@ export function AppLayout() {
   const location = useLocation();
   const [bookingData] = useAtom(bookingAtom); // Не отсортированные bookings
   const [sortBooking, setSortBooking] = useAtom(sortBookingAtom); // отсортированные bookings
-  console.log("bookingData", bookingData);
+  // console.log("bookingData", bookingData);
   let copyAllBookingTemplateArray = null;
 
   if (sortBooking && context?.user) {
@@ -111,17 +116,6 @@ export function AppLayout() {
               </Breadcrumb>
             </div>
             <div className="flex items-center gap-2 px-3">
-              {/* <Separator orientation="vertical" className=" h-4" /> */}
-              {!context?.token && (
-                <>
-                  <NavLink to="/login">
-                    <Button variant="link">Войти</Button>
-                  </NavLink>
-                  <NavLink to="/register">
-                    <Button variant="link">Зарегистрироваться</Button>
-                  </NavLink>
-                </>
-              )}
               <NavActions setCopyBookingTemplate={handleCopy} />
             </div>
           </header>

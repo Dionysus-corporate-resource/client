@@ -1,4 +1,9 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import CreateBookingForm from "./create-booking-form";
 
@@ -11,7 +16,11 @@ export default function CreateBookingItemDialog({ isOpen, setIsOpen }: Props) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>
-        <DialogTitle>Title</DialogTitle>
+        <DialogTitle>Создание заявки</DialogTitle>
+        <DialogDescription>
+          Заполните форму для создания карточки груза
+        </DialogDescription>
+
         <CreateBookingForm />
       </DialogContent>
     </Dialog>

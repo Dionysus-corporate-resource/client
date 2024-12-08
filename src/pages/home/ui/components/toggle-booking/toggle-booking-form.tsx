@@ -22,7 +22,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   DollarSign,
   ArrowDownWideNarrow,
-  Clock,
   CreditCard,
   Hash,
   Loader,
@@ -55,10 +54,7 @@ const mapFormDataToBid = (data: IBookingFormData): IBooking => {
     terms: {
       price: data.price,
       paymentMethod: data.paymentMethod,
-      advance: {
-        percentage: data.percentage,
-        period: data.period,
-      },
+      advancePercentage: data.advancePercentage,
       loadingType: data.loadingType,
     },
     requiredTransport: {
@@ -100,8 +96,7 @@ export default function ToogleBookingForm({
     price: 0,
     paymentMethod: "NDS",
     loadingLocationDate: "",
-    percentage: 0,
-    period: "loading",
+    advancePercentage: 0,
     loadingType: "normal",
     carType: "Любые_машины",
     carTypeUnLoading: "Любая",
@@ -114,26 +109,39 @@ export default function ToogleBookingForm({
   useEffect(() => {
     if (data) {
       setFormData({
-        icon: data?.generalInformation?.icon || "🌾",
-        relevance: data?.generalInformation?.relevance || true,
-        cargoName: data?.generalInformation?.cargoName || "",
-        cargoAmount: data?.generalInformation?.cargoAmount || 0,
-        loadingLocation: data?.location?.loadingLocation || "",
-        unloadingLocation: data?.location?.unloadingLocation || "",
-        loadingLocationDate: data?.location?.loadingLocationDate || "",
-        distance: data?.location?.distance || 0,
-        price: data?.terms?.price || 0,
-        paymentMethod: data?.terms?.paymentMethod || "NDS",
-        percentage: data?.terms?.advance?.percentage || 0,
-        period: data?.terms?.advance?.period || "loading",
-        loadingType: data?.terms?.loadingType || "normal",
-        carType: data?.requiredTransport?.carType || "Любые_машины",
-        carTypeUnLoading: data?.requiredTransport?.carTypeUnLoading || "Любая",
-        carHeightLimit: data?.requiredTransport?.carHeightLimit || 0,
-        count: data?.requiredTransport?.carUsage?.count || 0,
+        icon: data.corporateBookingData?.generalInformation?.icon || "🌾",
+        relevance:
+          data.corporateBookingData?.generalInformation?.relevance || true,
+        cargoName:
+          data.corporateBookingData?.generalInformation?.cargoName || "",
+        cargoAmount:
+          data.corporateBookingData?.generalInformation?.cargoAmount || 0,
+        loadingLocation:
+          data.corporateBookingData?.location?.loadingLocation || "",
+        unloadingLocation:
+          data?.corporateBookingData.location?.unloadingLocation || "",
+        loadingLocationDate:
+          data.corporateBookingData?.location?.loadingLocationDate || "",
+        distance: data.corporateBookingData?.location?.distance || 0,
+        price: data.corporateBookingData?.terms?.price || 0,
+        paymentMethod: data?.corporateBookingData.terms?.paymentMethod || "NDS",
+        advancePercentage:
+          data.corporateBookingData?.terms?.advancePercentage || 0,
+        loadingType: data.corporateBookingData?.terms?.loadingType || "normal",
+        carType:
+          data.corporateBookingData?.requiredTransport?.carType ||
+          "Любые_машины",
+        carTypeUnLoading:
+          data.corporateBookingData?.requiredTransport?.carTypeUnLoading ||
+          "Любая",
+        carHeightLimit:
+          data.corporateBookingData?.requiredTransport?.carHeightLimit || 0,
+        count:
+          data.corporateBookingData?.requiredTransport?.carUsage?.count || 0,
         carPeriod:
-          data?.requiredTransport?.carUsage?.carPeriod || "Каждый_день",
-        additionalInfo: data?.additionalInfo || "",
+          data.corporateBookingData?.requiredTransport?.carUsage?.carPeriod ||
+          "Каждый_день",
+        additionalInfo: data.corporateBookingData?.additionalInfo || "",
       });
     }
   }, [data]);
@@ -419,7 +427,7 @@ export default function ToogleBookingForm({
                 <div className="flex gap-2 w-full">
                   <div className="space-y-2 w-full">
                     <Label
-                      htmlFor="advance"
+                      htmlFor="advancePercentage"
                       className="text-muted-foreground flex items-center gap-2"
                     >
                       <Percent className="h-4 w-4" />
@@ -427,29 +435,13 @@ export default function ToogleBookingForm({
                     </Label>
                     <TextInput
                       // label="Аванс"
-                      id="percentage"
-                      name="percentage"
+                      id="advancePercentage"
+                      name="advancePercentage"
                       placeholder="30%"
                       type="number"
-                      value={formData.percentage}
+                      value={formData.advancePercentage}
                       onChange={handleChange}
                       // size="l"
-                    />
-                  </div>
-
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="advanceTime"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Clock className="h-4 w-4" />
-                      Время получения аванса
-                    </Label>
-                    <SelectShared
-                      options={options.period}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.period}
-                      name="period"
                     />
                   </div>
                 </div>

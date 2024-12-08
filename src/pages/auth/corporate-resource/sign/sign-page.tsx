@@ -7,13 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import {
-  CompassIcon,
-  LockIcon,
-  MailIcon,
-  PhoneIcon,
-  UserIcon,
-} from "lucide-react";
+import { CompassIcon, LockIcon, MailIcon, Phone, User } from "lucide-react";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -30,6 +24,9 @@ export default function SignPage() {
     nameCompany: "",
   });
   const [formDataRegisterCompany, setFormDataRegisterCompany] = useState({
+    nameCompany: "",
+    userName: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -83,23 +80,24 @@ export default function SignPage() {
 
   const handleSubmitRegisterCompany = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // context
-    //   ?.logIn(formDataRegisterCompany)
-    //   .then(() => {
-    //     return toast({
-    //       title: "Вы авторизованы",
-    //       description: "Поздравляю, авторизация прошла цспешно!",
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.error("Caught!! error:", err); // Для отладки
+    context
+      ?.logUpCompany(formDataRegisterCompany)
+      .then(() => {
+        return toast({
+          title: "Вы создали компанию",
+          description:
+            "Поздравляю, авторизация прошла цспешно! Теперь вы можете перейти  на вкладку Войти",
+        });
+      })
+      .catch((err) => {
+        console.error("Caught!! error:", err); // Для отладки
 
-    //     return toast({
-    //       title: `${err.response.data.message}`,
-    //       description: "Не удалось войти(",
-    //       variant: "destructive",
-    //     });
-    //   });
+        return toast({
+          title: `${err.response.data.message}`,
+          description: "Не удалось создать компанию(",
+          variant: "destructive",
+        });
+      });
   };
   return (
     <div className="flex flex-col h-screen w-screen">
@@ -224,129 +222,110 @@ export default function SignPage() {
                 <div className="w-full max-w-lg flex-1">
                   <form onSubmit={handleSubmitRegisterCompany}>
                     <CardContent className="grid gap-4">
-                      <div className="grid grid-cols-1 gap-4">
-                        <div className="grid grid-cols-1 col-span-2 gap-4">
-                          <div className="space-y-2">
-                            <Label
-                              htmlFor="email"
-                              className="flex items-center"
-                            >
-                              <CompassIcon className="mr-2 h-4 w-4" />
-                              Название компании
-                            </Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              name="email"
-                              onChange={handleChange}
-                              placeholder="лтк Дионис"
-                              required
-                            />
-                            <div className="text-[0.8rem] text-muted-foreground">
-                              Введите имя компании
-                            </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2 col-span-2">
+                          <Label
+                            htmlFor="nameCompany"
+                            className="flex items-center"
+                          >
+                            <CompassIcon className="mr-2 h-4 w-4" />
+                            Название компании
+                          </Label>
+                          <Input
+                            id="nameCompany"
+                            type="text"
+                            name="nameCompany"
+                            onChange={handleChangeRegisterInCompany}
+                            placeholder="лтк Дионис"
+                            required
+                          />
+                          <div className="text-[0.8rem] text-muted-foreground">
+                            Введите имя компании
                           </div>
                         </div>
-                        <div className="grid grid-cols-1 gap-4">
-                          <div className="space-y-2">
-                            <Label
-                              htmlFor="userName"
-                              className="flex items-center"
-                            >
-                              <UserIcon className="mr-2 h-4 w-4" />
-                              Имя
-                            </Label>
-                            <Input
-                              id="userName"
-                              name="userName"
-                              onChange={handleChange}
-                              placeholder="Анатолий Палыч"
-                              required
-                            />
-                            {/* <div className="text-[0.8rem] text-muted-foreground">
-                              Имя Ген Директора
-                            </div> */}
-                          </div>
-                          <div className="space-y-2">
-                            <Label
-                              htmlFor="email"
-                              className="flex items-center"
-                            >
-                              <MailIcon className="mr-2 h-4 w-4" />
-                              Почта
-                            </Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              name="email"
-                              onChange={handleChange}
-                              placeholder="m@example.com"
-                              required
-                            />
-                            {/* <div className="text-[0.8rem] text-muted-foreground">
-                              Почта Ген Директора
-                            </div> */}
-                          </div>
+                        <div className="space-y-2 ">
+                          <Label
+                            htmlFor="userName"
+                            className="flex items-center"
+                          >
+                            <User className="mr-2 h-4 w-4" />
+                            Имя
+                          </Label>
+                          <Input
+                            id="userName"
+                            type="userName"
+                            name="userName"
+                            onChange={handleChangeRegisterInCompany}
+                            placeholder="Иван Петрович"
+                            required
+                          />
                         </div>
-                        <div className="grid grid-cols-1 gap-4">
-                          <div className="space-y-2">
-                            <Label
-                              htmlFor="password"
-                              className="flex items-center"
-                            >
-                              <LockIcon className="mr-2 h-4 w-4" />
-                              Пароль
-                            </Label>
-                            <Input
-                              id="password"
-                              type="password"
-                              name="password"
-                              onChange={handleChange}
-                              placeholder="*********"
-                              required
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label
-                              htmlFor="phone"
-                              className="flex items-center"
-                            >
-                              <PhoneIcon className="mr-2 h-4 w-4" />
-                              Телефон
-                            </Label>
-                            <Input
-                              id="phone"
-                              type="tel"
-                              name="phone"
-                              required
-                              onChange={handleChange}
-                              placeholder="+8 (918) 555-5555"
-                            />
-                          </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone" className="flex items-center">
+                            <Phone className="mr-2 h-4 w-4" />
+                            Телефон
+                          </Label>
+                          <Input
+                            id="phone"
+                            type="phone"
+                            name="phone"
+                            onChange={handleChangeRegisterInCompany}
+                            placeholder="+7 918 523 54 32"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email" className="flex items-center">
+                            <MailIcon className="mr-2 h-4 w-4" />
+                            Почта
+                          </Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            name="email"
+                            onChange={handleChangeRegisterInCompany}
+                            placeholder="m@example.com"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label
+                            htmlFor="password"
+                            className="flex items-center"
+                          >
+                            <LockIcon className="mr-2 h-4 w-4" />
+                            Пароль
+                          </Label>
+                          <Input
+                            id="password"
+                            type="password"
+                            name="password"
+                            onChange={handleChangeRegisterInCompany}
+                            placeholder="*********"
+                            required
+                          />
                         </div>
                       </div>
-
                       <Button type="submit" className="w-full">
-                        Зарегистрировать
+                        Зарегистрировать компанию
                       </Button>
                     </CardContent>
-                    <CardFooter className="flex flex-col items-center gap-4">
-                      <div className="relative w-full">
-                        <div className="absolute inset-0 flex items-center">
-                          <span className="w-full border-t" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                          <span className="bg-background px-2 text-muted-foreground">
-                            лтк Дионис
-                          </span>
-                        </div>
-                      </div>
-                    </CardFooter>
                   </form>
-
+                  <CardFooter className="flex flex-col items-center gap-4">
+                    <div className="relative w-full">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                          лтк Дионис
+                        </span>
+                      </div>
+                    </div>
+                  </CardFooter>
                   <CardFooter className="flex gap-2 justify-center">
-                    Already have an account?
-                    <NavLink to="/login">Sign in</NavLink>
+                    Don`t have an account?
+                    <NavLink to="/register">Sign Up</NavLink>
                   </CardFooter>
                 </div>
               </TabsContent>

@@ -142,14 +142,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.all} />
 
-        {authContext?.user?.roles.some(
+        {authContext?.user?.corporateRoles.some(
           (role) =>
             role === PERMISSIONS.CAN_VIEW_MANAGER ||
-            role === PERMISSIONS.CAN_VIEW_DISPATCHER,
+            role === PERMISSIONS.CAN_VIEW_DISPATCHER ||
+            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
         ) && <NavMain items={data.allTeams} />}
 
-        {authContext?.user?.roles.some(
-          (role) => role === PERMISSIONS.CAN_VIEW_MANAGER,
+        {authContext?.user?.corporateRoles.some(
+          (role) =>
+            role === PERMISSIONS.CAN_VIEW_MANAGER ||
+            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
         ) && <NavMain items={data.manager} />}
       </SidebarContent>
       <SidebarFooter>{authContext?.token && <NavUser />}</SidebarFooter>

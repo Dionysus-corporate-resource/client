@@ -12,6 +12,7 @@ export default function BookingToogleItemDialog({
   setIsOpen,
   bookingId,
 }: Props) {
+  console.log("BookingToogleItemDialog bookingId", bookingId);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>

@@ -1,22 +1,28 @@
 import { useLocalStorage } from "@/hooks/use-localStorage";
 import instance from "@/shared/api/axios-instance";
-import { IRolesCorporate, IUserDto } from "@/shared/model/types/user";
-import { userStorageAtom } from "@/shared/model/user-atom";
+import { companyStorageAtom } from "@/shared/model/atoms/company-atom";
+import { corporateLogisticianStorageAtom } from "@/shared/model/atoms/user-atom";
+import { ICompanyDto } from "@/shared/model/types/company";
+import {
+  CorporateLogisticianDto,
+  IRolesCorporate,
+} from "@/shared/model/types/user";
 import { useAtom } from "jotai";
 import { createContext, ReactNode, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// то что приходит в функцию логирования
 type LoginData = {
   email: string;
   password: string;
   nameCompany: string;
 };
-
-type CorporateUserDto = {
+// приходит в ответ на вызов функции login
+type CompanyDto = {
   token: string;
   existingEmmailLogisticianInCompany: {
     additionalInfo: string;
-    userData: IUserDto;
+    userData: CorporateLogisticianDto;
     corporatePasswordHash: string;
     corporateRoles: IRolesCorporate;
     _id: string;
@@ -24,7 +30,8 @@ type CorporateUserDto = {
 };
 
 type RegisterDto = {
-  phone?: string;
+  nameCompany: string;
+  phone: string;
   userName: string;
   email: string;
   password: string;
@@ -32,10 +39,11 @@ type RegisterDto = {
 
 interface AuthContextProps {
   token: string | null;
-  logIn: (data: LoginData) => Promise<CorporateUserDto>;
+  logIn: (data: LoginData) => Promise<CompanyDto>;
   logOut: () => void;
-  logUp: (data: RegisterDto) => Promise<RegisterDto>;
-  user: IUserDto | null;
+  logUpCompany: (data: RegisterDto) => Promise<CompanyDto>;
+  user: CorporateLogisticianDto | null;
+  company: ICompanyDto | null;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -47,7 +55,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const redirectPath = location.state?.path || "/product";
 
   const [token, setToken] = useLocalStorage<string | null>("token", null);
-  const [user, setUser] = useAtom(userStorageAtom);
+  const [user, setUser] = useAtom(corporateLogisticianStorageAtom);
+  const [company, setCompany] = useAtom(companyStorageAtom);
 
   const logIn = async (data: LoginData) => {
     try {
@@ -55,7 +64,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       console.log("loginRequest", response.data);
 
       setToken(response.data.token);
-      setUser(response.data.existingEmmailLogisticianInCompany?.userData);
+      setUser(response.data.LogisticianDto);
+      setCompany(response.data.companyDto);
 
       navigate(redirectPath, { replace: true });
       return response.data;
@@ -65,12 +75,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logUp = async (data: RegisterDto) => {
+  const logUpCompany = async (data: RegisterDto) => {
     try {
-      const response = await registerRequest("/auth/register", data);
+      console.log("registerCompanyRequest data", data);
+      const response = await instance.post("/company/register", data);
       setToken(response.data.token);
-      console.log("registerRequest", data);
-      navigate("/login", { replace: true });
 
       return response.data;
     } catch (error) {
@@ -78,14 +87,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       throw error;
     }
   };
+
   const logOut = () => {
     console.log("logOut");
     setToken(null);
     setUser(null);
+    setCompany(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, logIn, logUp, logOut, user }}>
+    <AuthContext.Provider
+      value={{ token, user, company, logIn, logUpCompany, logOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -98,14 +111,3 @@ export const useAuth = () => {
 // function loginRequest(url: string, data: LoginDto) {
 //   return instance.post(`${url}`, data);
 // }
-
-// TODO: тут нужно в сервере добавить phone как опционально свйство
-function registerRequest(url: string, data: RegisterDto) {
-  const requstData = {
-    email: data.email,
-    password: data.password,
-    userName: data.userName,
-    phone: data.phone,
-  };
-  return instance.post(`${url}`, requstData);
-}

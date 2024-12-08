@@ -20,7 +20,7 @@ export default function RemoveBookingDialogSure({
   booking,
 }: {
   children: ReactNode;
-  booking: IBookingDto;
+  booking: IBookingDto["corporateBookingData"];
 }) {
   const removeMutation = useMutation({
     mutationFn: () => bookingApi.remove(booking._id),

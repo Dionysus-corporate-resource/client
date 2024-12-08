@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { useAuth } from "./auth-provider";
+import { IRolesCorporate } from "@/shared/model/types/user";
 
 type IProps = {
   permissions: string[];
@@ -9,12 +10,12 @@ type IProps = {
 export default function Authorization({ permissions, children }: IProps) {
   const context = useAuth();
 
-  console.log("contextUser", context?.user?.userName);
+  console.log("contextUser", context?.user?.userData?.userName);
 
   if (context?.user) {
-    const userPermission = context.user.roles;
+    const userPermission = context.user?.corporateRoles;
     const isAllowed = permissions.some((allowed) =>
-      userPermission.includes(allowed),
+      userPermission.includes(allowed as IRolesCorporate),
     );
 
     console.log("isAllowed", isAllowed);

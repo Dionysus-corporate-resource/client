@@ -12,17 +12,21 @@ export default function ProfilePage() {
         <Avatar className="h-12 w-12 rounded-sm">
           <AvatarImage
             src="/avatars/shadcn.jpg"
-            alt={authContext?.user?.userName}
+            alt={authContext?.user?.userData?.userName}
           />
           <AvatarFallback className="rounded-lg">CN</AvatarFallback>
         </Avatar>
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="truncate font-semibold">
-            {authContext?.user?.userName}
+            {authContext?.user?.userData?.userName}
           </span>
-          <span className="truncate text-xs">{authContext?.user?.email}</span>
+          <span className="truncate text-xs">
+            {authContext?.user?.userData?.email}
+          </span>
         </div>
-        <Badge variant="secondary">{authContext?.user?.roles[0]}</Badge>
+        <Badge variant="secondary">
+          {authContext?.user?.corporateRoles[0]}
+        </Badge>
       </div>
       <div className="grid grid-cols-2 gap-2 ">
         <div className="bg-muted  h-12 w-full rounded-xl"></div>

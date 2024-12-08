@@ -9,7 +9,7 @@ export default function Authentication({ children }: { children: ReactNode }) {
   // console.log("authContext?.token", authContext?.token);
 
   if (!authContext?.token) {
-    return <Navigate to="/login" state={{ path: location.pathname }} />;
+    return <Navigate to="/company-login" state={{ path: location.pathname }} />;
   }
   return children;
 }

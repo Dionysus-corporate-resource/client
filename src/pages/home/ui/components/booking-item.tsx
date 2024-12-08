@@ -3,7 +3,6 @@ import {
   Trash,
   PencilRuler,
   MapPin,
-  Truck,
   Calendar,
   Copy,
   ArrowRight,
@@ -19,14 +18,14 @@ import RemoveBookingDialogSure from "./remove-booking/remove-booking-dialog";
 import BookingToogleItemDialog from "./toggle-booking/toggle-booking-dialog";
 import { useState } from "react";
 import { useAtom } from "jotai";
-import { userStorageAtom } from "@/shared/model/user-atom";
-import { IUserDto } from "@/shared/model/types/user";
+import { corporateLogisticianStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAuth } from "@/app/providers/auth-provider";
+import { CorporateLogisticianDto } from "@/shared/model/types/user";
 
 function PaymentMethodComponent({
   paymentMethod,
 }: {
-  paymentMethod: IBookingDto["terms"]["paymentMethod"];
+  paymentMethod: IBookingDto["corporateBookingData"]["terms"]["paymentMethod"];
 }) {
   switch (paymentMethod) {
     case "NDS":
@@ -44,7 +43,7 @@ function PaymentMethodComponent({
 const BadgeLoadType = ({
   variant,
 }: {
-  variant: IBookingDto["terms"]["loadingType"];
+  variant: IBookingDto["corporateBookingData"]["terms"]["loadingType"];
 }) => {
   switch (variant) {
     case "normal":
@@ -58,16 +57,15 @@ const BadgeLoadType = ({
 };
 
 type ICheckManagerProps = {
-  booking: IBookingDto;
+  booking: IBookingDto["corporateBookingData"];
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  user: IUserDto;
+  user: CorporateLogisticianDto;
 };
 
 function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
   const context = useAuth();
 
   const sentence = `
-
   ${booking.generalInformation.icon} ${booking.generalInformation.cargoName} ${booking.generalInformation.cargoAmount}т ${booking.generalInformation.icon}
   ‼️${booking.terms.loadingType === "normal" ? "ПО НОРМЕ" : "ПО ПОЛНОЙ"} на ${booking.location.loadingLocationDate}‼️
   🏳️ ${booking.location.loadingLocation}
@@ -75,8 +73,8 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
   🛣 Дистанция: ${booking.location.distance} км
   🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
   💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
-  ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
-  ${context?.user?.phone && `Контакты: ${context?.user?.phone}`}
+  ${booking.terms.advancePercentage && `💵 Аванс:  ${booking.terms.advancePercentage}% на погрузке`}
+  ${context?.user?.userData?.phone && `Контакты: ${context?.user?.userData?.phone}`}
     `;
 
   const handleCopy = async () => {
@@ -87,7 +85,7 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
     }
   };
 
-  if (user._id !== booking?.manager?._id) {
+  if (user?.userData?._id !== booking?.manager?._id) {
     return (
       <div
         className="flex justify-end gap-2 w-full px-2  from-primary/5 to-primary/5"
@@ -148,8 +146,13 @@ function CheckManager({ booking, user, setIsOpen }: ICheckManagerProps) {
   );
 }
 
-export default function BookingItem({ booking }: { booking: IBookingDto }) {
-  const [user] = useAtom(userStorageAtom);
+export default function BookingItem({
+  booking,
+}: {
+  booking: IBookingDto["corporateBookingData"];
+}) {
+  console.log("booking", booking);
+  const [user] = useAtom(corporateLogisticianStorageAtom);
   const [isOpen, setIsOpen] = useState(false);
 
   const context = useAuth();
@@ -163,8 +166,8 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
   🛣 Дистанция: ${booking.location.distance} км
   🚚 Выгрузка: ${booking.requiredTransport.carTypeUnLoading}
   💰 ${booking.terms.price}₽/т ${booking.terms.paymentMethod === "NDS" ? "С НДС" : booking.terms.paymentMethod === "without_NDS" ? "Без НДС" : "Наличные"}
-  ${booking.terms.advance && `💵 Аванс:  ${booking.terms.advance.percentage}% на погрузке`}
-  ${context?.user?.phone && `Контакты: ${context?.user?.phone}`}
+  ${booking.terms.advancePercentage && `💵 Аванс:  ${booking.terms.advancePercentage}% на погрузке`}
+  ${context?.user?.userData?.phone && `Контакты: ${context?.user?.userData?.phone}`}
     `;
 
   const handleCopy = async () => {
@@ -178,10 +181,14 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
   return (
     <Card className="mx-auto rounded-xl flex-col justify-between  h-full mb-2 overflow-y-auto overflow-hidden transition-all hover:shadow-lg w-full">
       {/* Header Card */}
-      {user?.roles.includes("manager") ? (
+
+      {user?.corporateRoles.includes("general_director") && (
+        <CheckManager booking={booking} user={user} setIsOpen={setIsOpen} />
+      )}
+      {user?.corporateRoles.includes("manager") ? (
         <CheckManager booking={booking} user={user} setIsOpen={setIsOpen} />
       ) : (
-        user?.roles.includes("dispatcher") && (
+        user?.corporateRoles.includes("dispatcher") && (
           <div
             className="flex justify-end gap-2 w-full px-4 from-primary/5 to-primary/5"
             style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
@@ -227,7 +234,12 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
               {/* <Package className="mr-1 h-3 w-3" /> */}
               {booking?.generalInformation?.cargoName}
             </Badge>
-            <span className="text-sm text-muted-foreground">ID: 12345</span>
+            <span className="text-sm text-muted-foreground">
+              {/* {booking?.location?.distance} км */}
+              <Badge variant="secondary" className="ml-2">
+                {booking?.location?.distance} км
+              </Badge>
+            </span>
           </div>
           <CardTitle className="flex items-center justify-between">
             <span className="text-xl font-semibold">
@@ -258,9 +270,9 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
               <span className="font-medium">
                 {booking?.location?.unloadingLocation}
               </span>
-              <Badge variant="secondary" className="ml-2">
+              {/* <Badge variant="secondary" className="ml-2">
                 {booking?.location?.distance} км
-              </Badge>
+              </Badge> */}
             </div>
           </div>
 
@@ -294,22 +306,22 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
                 <BadgeLoadType variant={booking?.terms?.loadingType} />
               </p>
             </div>
-            {booking?.terms?.advance?.percentage !== 0 && (
+            {booking?.terms?.advancePercentage !== 0 && (
               <div className="space-y-1">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Wallet className="mr-2 h-4 w-4" />
                   Аванс
                 </div>
                 <p className="font-medium">
-                  {booking?.terms?.advance?.percentage}%
+                  {booking?.terms?.advancePercentage}%
                 </p>
               </div>
             )}
           </div>
 
-          <Separator />
+          {/* <Separator /> */}
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <div className="flex items-center text-sm text-muted-foreground">
               <Truck className="mr-2 h-4 w-4" />
               Требования к транспорту
@@ -327,14 +339,16 @@ export default function BookingItem({ booking }: { booking: IBookingDto }) {
                   {booking?.requiredTransport?.carTypeUnLoading}
                 </span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span>Ограничение высоты:</span>
-                <span className="font-medium">
-                  {booking?.requiredTransport?.carHeightLimit}м
-                </span>
-              </div>
+              {booking?.requiredTransport?.carHeightLimit && (
+                <div className="flex justify-between text-sm">
+                  <span>Ограничение высоты:</span>
+                  <span className="font-medium">
+                    {booking?.requiredTransport?.carHeightLimit}м
+                  </span>
+                </div>
+              )}
             </div>
-          </div>
+          </div> */}
 
           {booking?.additionalInfo && (
             <>

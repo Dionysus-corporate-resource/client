@@ -22,7 +22,7 @@ export default function LandingPage() {
             <Button variant="link">Зарегистрироваться</Button>
           </NavLink>
           <NavLink
-            to="/login-company"
+            to="/company-login"
             className="text-sm hover:underline underline-offset-4"
           >
             <Button variant="link">Войти в компанию</Button>

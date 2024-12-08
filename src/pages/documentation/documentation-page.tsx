@@ -54,7 +54,9 @@ export default function ChangelogDialog({
                   <div>
                     <h3 className="font-semibold text-lg">Новые функции</h3>
                     <ul className="list-disc pl-5 mt-2 space-y-1">
-                      {documentation?.newFuatures.map((str) => <li>{str}</li>)}
+                      {documentation?.newFuatures.map((str) => (
+                        <li key={str}>{str}</li>
+                      ))}
                     </ul>
                   </div>
                 </>
@@ -67,7 +69,9 @@ export default function ChangelogDialog({
                   <div>
                     <h3 className="font-semibold text-lg">Улучшения</h3>
                     <ul className="list-disc pl-5 mt-2 space-y-1">
-                      {documentation?.newUpdate.map((str) => <li>{str}</li>)}
+                      {documentation?.newUpdate.map((str) => (
+                        <li key={str}>{str}</li>
+                      ))}
                     </ul>
                   </div>
                 </>
@@ -82,7 +86,9 @@ export default function ChangelogDialog({
                       Исправленые ошибоки
                     </h3>
                     <ul className="list-disc pl-5 mt-2 space-y-1">
-                      {documentation?.newBugFixes.map((str) => <li>{str}</li>)}
+                      {documentation?.newBugFixes.map((str) => (
+                        <li key={str}>{str}</li>
+                      ))}
                     </ul>
                   </div>
                 </>

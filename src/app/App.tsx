@@ -17,7 +17,14 @@ export default function App() {
   return (
     <Routes>
       <Route path="/product" element={<AppLayout />}>
-        <Route index element={<HomePage />} />
+        <Route
+          index
+          element={
+            <Authentication>
+              <HomePage />
+            </Authentication>
+          }
+        />
         <Route
           path="/product/profile"
           element={
@@ -33,6 +40,7 @@ export default function App() {
               permissions={[
                 PERMISSIONS.CAN_VIEW_MANAGER,
                 PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
               ]}
             >
               <ManagerPage />
@@ -47,6 +55,7 @@ export default function App() {
                 PERMISSIONS.CAN_VIEW_MANAGER,
                 PERMISSIONS.CAN_VIEW_DISPATCHER,
                 PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
               ]}
             >
               <ProposalsDevelopmentPage />

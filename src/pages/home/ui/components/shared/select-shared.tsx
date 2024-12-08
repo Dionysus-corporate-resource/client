@@ -55,7 +55,9 @@ export function SelectShared({
         <SelectGroup>
           <SelectLabel>{options.label}</SelectLabel>
           {options?.array?.map((obj) => (
-            <SelectItem value={obj.value}>{obj.option}</SelectItem>
+            <SelectItem key={obj.option} value={obj.value}>
+              {obj.option}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

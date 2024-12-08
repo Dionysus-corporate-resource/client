@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { IBooking, IBookingFormData } from "@/shared/model/types/booking";
@@ -22,7 +16,6 @@ import { SelectShared } from "../shared/select-shared";
 import {
   ArrowDownWideNarrow,
   Calendar,
-  Clock,
   CreditCard,
   DollarSign,
   FileText,
@@ -56,10 +49,7 @@ const mapFormDataToBid = (data: IBookingFormData): IBooking => {
     terms: {
       price: data.price,
       paymentMethod: data.paymentMethod,
-      advance: {
-        percentage: data.percentage,
-        period: data.period,
-      },
+      advancePercentage: data?.advancePercentage,
       loadingType: data.loadingType,
     },
     requiredTransport: {
@@ -257,8 +247,7 @@ export default function CreateBookingForm() {
     price: 0,
     paymentMethod: "NDS",
     loadingLocationDate: "",
-    percentage: 0,
-    period: "loading",
+    advancePercentage: 0,
     loadingType: "normal",
     carType: "Любые_машины",
     carTypeUnLoading: "Любая",
@@ -293,8 +282,8 @@ export default function CreateBookingForm() {
           price: 0,
           paymentMethod: "NDS",
           loadingLocationDate: "",
-          percentage: 0,
-          period: "loading",
+          advancePercentage: 0,
+
           loadingType: "normal",
           carType: "Любые_машины",
           carTypeUnLoading: "Боковая",
@@ -311,13 +300,13 @@ export default function CreateBookingForm() {
   };
 
   return (
-    <div className="mx-auto rounded-xl flex-col justify-between h-fit ">
-      <CardHeader className="space-y-1">
+    <div className="mx-auto rounded-xl flex-col justify-between h-fit mt-6">
+      {/* <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Создание заявки</CardTitle>
         <CardDescription>
           Заполните форму для создания карточки груза
         </CardDescription>
-      </CardHeader>
+      </CardHeader> */}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 max-w-screen-2xl"
@@ -558,7 +547,7 @@ export default function CreateBookingForm() {
                 <div className="flex gap-2 w-full">
                   <div className="space-y-2 w-full">
                     <Label
-                      htmlFor="advance"
+                      htmlFor="advancePercentage"
                       className="text-muted-foreground flex items-center gap-2"
                     >
                       <Percent className="h-4 w-4" />
@@ -566,29 +555,13 @@ export default function CreateBookingForm() {
                     </Label>
                     <TextInput
                       // label="Аванс"
-                      id="percentage"
-                      name="percentage"
+                      id="advancePercentage"
+                      name="advancePercentage"
                       placeholder="30%"
                       type="number"
-                      value={formData.percentage}
+                      value={formData.advancePercentage}
                       onChange={handleChange}
                       // size="l"
-                    />
-                  </div>
-
-                  <div className="space-y-2 w-full">
-                    <Label
-                      htmlFor="advanceTime"
-                      className="text-muted-foreground flex items-center gap-2"
-                    >
-                      <Clock className="h-4 w-4" />
-                      Время получения аванса
-                    </Label>
-                    <SelectShared
-                      options={options.period}
-                      handleSelectChange={handleSelectChange}
-                      formDataValue={formData.period}
-                      name="period"
                     />
                   </div>
                 </div>

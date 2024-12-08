@@ -48,7 +48,11 @@ export default function SortBooking({
       const typeKey = sortData.selectValue.type;
       const valueKey = sortData.selectValue.value;
 
-      const typeField = booking[typeKey as keyof IBookingDto];
+      const typeField =
+        booking.corporateBookingData[
+          typeKey as keyof IBookingDto["corporateBookingData"]
+        ];
+      // TODO: как это нахуй работает?
 
       if (typeField && typeof typeField === "object" && valueKey in typeField) {
         const field = (typeField as Record<string, unknown>)[valueKey];
@@ -123,7 +127,9 @@ export default function SortBooking({
           <SelectGroup>
             <SelectLabel>Критерии поиска</SelectLabel>
             {selectOptions.map((option) => (
-              <SelectItem value={option.value}>{option.label}</SelectItem>
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
             ))}
             {/* <SelectItem value={"cargoName"}>Название груза</SelectItem>
             <SelectItem value={"loadingLocation"}>Адрес погрузки</SelectItem>
