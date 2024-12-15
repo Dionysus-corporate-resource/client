@@ -1,3 +1,4 @@
+import { IBookingDto } from "./booking";
 import { CorporateLogisticianDto } from "./user";
 
 export type ICompanyDto = {
@@ -5,10 +6,7 @@ export type ICompanyDto = {
   nameCompany: string;
   employees: CorporateLogisticianDto[];
   // corporateBooking: IBookingDto[];
-  corporateBooking: {
-    corporateBookingData: string;
-    _id: string;
-  }[];
+  corporateBooking: IBookingDto[];
   createdAt: string;
   updatedAt: string;
   __v: number;

@@ -7,6 +7,8 @@ export type ValidCarTypes =
   | "Сцепка"
   | "Любые_машины";
 
+export type IStatusCorporateBooking = "active" | "inProgress" | "inactive";
+
 export type ValidCarTypesCheckbox = {
   id: ValidCarTypes;
   label: ValidCarTypes;
@@ -43,6 +45,7 @@ export type IBookingFormData = {
 
 // Определяем интерфейс для схемы
 export type IBooking = {
+  status: IStatusCorporateBooking;
   generalInformation: {
     icon: string;
     relevance: boolean;
@@ -72,6 +75,13 @@ export type IBooking = {
     };
   };
   additionalInfo?: string;
+};
+
+export type ICar = {
+  numberCar: string;
+  numberTrailer: string;
+  driverFullName: string;
+  phone: string;
 };
 
 export type IBookingDto = {
@@ -111,5 +121,13 @@ export type IBookingDto = {
     additionalInfo?: string;
     manager: LogisticianDto;
   };
+  flight: {
+    organization: string;
+    dispatcher: string;
+    cars: ICar[];
+    createdAt: string;
+    updatedAt: string;
+    _id: string;
+  }[];
   _id: string;
 };

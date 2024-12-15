@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  // baseURL: "http://localhost:3000",
-  baseURL: "https://server.nathani.ru",
+  baseURL: "http://localhost:3000",
+  // baseURL: "https://server.nathani.ru",
 });
 
 instance.interceptors.request.use((config) => {
@@ -10,7 +10,7 @@ instance.interceptors.request.use((config) => {
   if (token && token.startsWith('"') && token.endsWith('"')) {
     token = token.slice(1, -1);
   }
-  console.log("token", token);
+  // console.log("token", token);
   config.headers.Authorization = token;
   return config;
 });

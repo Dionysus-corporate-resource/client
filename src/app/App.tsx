@@ -12,6 +12,7 @@ import ManagerPage from "@/pages/manager/manager-page";
 import ProposalsDevelopmentPage from "@/pages/proposals-development/ui/proposals-development-page";
 import ProfilePage from "@/pages/auth/profile/profile-page";
 import { SignPage } from "@/pages/auth/corporate-resource";
+import { FlightDispatcherPage } from "../pages/flight";
 
 export default function App() {
   return (
@@ -59,6 +60,20 @@ export default function App() {
               ]}
             >
               <ProposalsDevelopmentPage />
+            </Authorization>
+          }
+        />
+        <Route
+          path="/product/flight-dispatcher"
+          element={
+            <Authorization
+              permissions={[
+                PERMISSIONS.CAN_VIEW_DISPATCHER,
+                PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+              ]}
+            >
+              <FlightDispatcherPage />
             </Authorization>
           }
         />

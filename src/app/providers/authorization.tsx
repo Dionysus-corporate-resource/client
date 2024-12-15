@@ -10,7 +10,7 @@ type IProps = {
 export default function Authorization({ permissions, children }: IProps) {
   const context = useAuth();
 
-  console.log("contextUser", context?.user?.userData?.userName);
+  // console.log("contextUser", context?.user?.userData?.userName);
 
   if (context?.user) {
     const userPermission = context.user?.corporateRoles;
@@ -18,7 +18,7 @@ export default function Authorization({ permissions, children }: IProps) {
       userPermission.includes(allowed as IRolesCorporate),
     );
 
-    console.log("isAllowed", isAllowed);
+    // console.log("isAllowed", isAllowed);
 
     return isAllowed ? children : <div>У вас не прав для этой страницы(</div>;
   }

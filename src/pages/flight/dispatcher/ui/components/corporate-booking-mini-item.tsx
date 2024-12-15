@@ -11,31 +11,31 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { IBookingDto } from "@/shared/model/types/booking";
-import RemoveBookingDialogSure from "./remove-booking/remove-booking-dialog";
-import BookingToogleItemDialog from "./toggle-booking/toggle-booking-dialog";
+import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
+import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import { useState } from "react";
 import { AddFlightDialog, DropDownMenu } from "@/entities";
 
-export default function BookingItem({
-  booking,
+export default function CorporateBookingMiniItem({
+  corporateBooking,
 }: {
-  booking: IBookingDto["corporateBookingData"];
+  corporateBooking: IBookingDto;
 }) {
   const [isOpenToggle, setIsOpenToggle] = useState(false);
   const [isOpenRemoveSure, setIsOpenRemoveSure] = useState(false);
   const [isOpenAddFlight, setIsOpenAddFlight] = useState(false);
 
   return (
-    <Card className="mx-auto rounded-xl flex-col justify-between  h-full mb-2 overflow-y-auto overflow-hidden transition-all hover:shadow-lg w-full">
+    <div className="rounded-xl border flex-col justify-between h-full mb-2  overflow-hidden transition-all hover:shadow-lg">
       <div
         className="flex items-center justify-between gap-2 w-full px-2  from-primary/5 to-primary/5"
         style={{ backgroundColor: "hsl(0, 0%, 98%)" }}
       >
         <Badge variant="outline" className="bg-white">
-          {booking?.manager?.userName}
+          {corporateBooking?.corporateBookingData?.manager?.userName}
         </Badge>
         <DropDownMenu
-          corporateBooking={booking}
+          corporateBooking={corporateBooking?.corporateBookingData}
           setIsOpenToogle={setIsOpenToggle}
           setIsOpenRemoveSure={setIsOpenRemoveSure}
           setIsOpenAddFlight={setIsOpenAddFlight}
@@ -56,29 +56,44 @@ export default function BookingItem({
                 className="mr-1 h-3 w-3"
                 style={{ position: "absolute", left: "6px", top: "2px" }}
               >
-                {booking?.generalInformation?.icon}
+                {
+                  corporateBooking?.corporateBookingData?.generalInformation
+                    ?.icon
+                }
               </div>
               {/* <Package className="mr-1 h-3 w-3" /> */}
-              {booking?.generalInformation?.cargoName}
+              {
+                corporateBooking?.corporateBookingData?.generalInformation
+                  ?.cargoName
+              }
             </Badge>
             <span className="text-sm text-muted-foreground">
               {/* {booking?.location?.distance} км */}
               <Badge variant="secondary" className="ml-2">
-                {booking?.location?.distance} км
+                {corporateBooking?.corporateBookingData?.location?.distance} км
               </Badge>
             </span>
           </div>
           <CardTitle className="flex items-center justify-between">
             <span className="text-xl font-semibold">
-              {booking?.generalInformation?.cargoAmount ? (
-                <>{booking?.generalInformation?.cargoAmount}т</>
+              {corporateBooking?.corporateBookingData?.generalInformation
+                ?.cargoAmount ? (
+                <>
+                  {
+                    corporateBooking?.corporateBookingData?.generalInformation
+                      ?.cargoAmount
+                  }
+                  т
+                </>
               ) : (
                 "Уточнить"
               )}
             </span>
             <Badge variant="outline" className="ml-2">
               <PaymentMethodComponent
-                paymentMethod={booking?.terms?.paymentMethod}
+                paymentMethod={
+                  corporateBooking?.corporateBookingData?.terms?.paymentMethod
+                }
               />
             </Badge>
           </CardTitle>
@@ -91,11 +106,17 @@ export default function BookingItem({
             </div>
             <div className="flex items-center gap-2">
               <span className="font-medium">
-                {booking?.location?.loadingLocation}
+                {
+                  corporateBooking?.corporateBookingData?.location
+                    ?.loadingLocation
+                }
               </span>
               <ArrowRight className="h-4 w-4 text-muted-foreground" />
               <span className="font-medium">
-                {booking?.location?.unloadingLocation}
+                {
+                  corporateBooking?.corporateBookingData?.location
+                    ?.unloadingLocation
+                }
               </span>
               {/* <Badge variant="secondary" className="ml-2">
                 {booking?.location?.distance} км
@@ -103,7 +124,7 @@ export default function BookingItem({
             </div>
           </div>
 
-          {booking?.additionalInfo && (
+          {/* {corporateBooking?.corporateBookingData?.additionalInfo && (
             <>
               <Separator />
               <div className="space-y-2">
@@ -111,22 +132,28 @@ export default function BookingItem({
                   <Info className="mr-2 h-4 w-4" />
                   Дополнительная информация
                 </div>
-                <span>{booking?.additionalInfo}</span>
+                <span>
+                  {corporateBooking?.corporateBookingData?.additionalInfo}
+                </span>
               </div>
             </>
-          )}
+          )} */}
 
-          <Separator />
+          {/* <Separator /> */}
 
-          <div className="grid grid-cols-2 gap-4">
-            {booking?.location?.loadingLocationDate && (
+          {/* <div className="grid grid-cols-2 gap-4">
+            {corporateBooking?.corporateBookingData?.location
+              ?.loadingLocationDate && (
               <div className="space-y-1">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Calendar className="mr-2 h-4 w-4" />
                   Дата погрузки
                 </div>
                 <p className="font-medium">
-                  {booking?.location?.loadingLocationDate}
+                  {
+                    corporateBooking?.corporateBookingData?.location
+                      ?.loadingLocationDate
+                  }
                 </p>
               </div>
             )}
@@ -136,7 +163,9 @@ export default function BookingItem({
                 <Wallet className="mr-2 h-4 w-4" />
                 Ставка
               </div>
-              <p className="font-medium">{booking?.terms?.price} ₽/т</p>
+              <p className="font-medium">
+                {corporateBooking?.corporateBookingData?.terms?.price} ₽/т
+              </p>
             </div>
 
             <div className="space-y-1">
@@ -145,73 +174,51 @@ export default function BookingItem({
                 Тип загрузки
               </div>
               <p className="font-medium">
-                <BadgeLoadType variant={booking?.terms?.loadingType} />
+                <BadgeLoadType
+                  variant={
+                    corporateBooking?.corporateBookingData?.terms?.loadingType
+                  }
+                />
               </p>
             </div>
-            {booking?.terms?.advancePercentage !== 0 && (
+            {corporateBooking?.corporateBookingData?.terms
+              ?.advancePercentage !== 0 && (
               <div className="space-y-1">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Wallet className="mr-2 h-4 w-4" />
                   Аванс
                 </div>
                 <p className="font-medium">
-                  {booking?.terms?.advancePercentage}%
+                  {
+                    corporateBooking?.corporateBookingData?.terms
+                      ?.advancePercentage
+                  }
+                  %
                 </p>
               </div>
             )}
-          </div>
-
-          <Separator />
-
-          <div className="space-y-2">
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Truck className="mr-2 h-4 w-4" />
-              Требования к транспорту
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span>Тип:</span>
-                <span className="font-medium">
-                  {booking?.requiredTransport?.carType}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Выгрузка:</span>
-                <span className="font-medium">
-                  {booking?.requiredTransport?.carTypeUnLoading}
-                </span>
-              </div>
-              {booking?.requiredTransport?.carHeightLimit !== 0 && (
-                <div className="flex justify-between text-sm">
-                  <span>Ограничение высоты:</span>
-                  <span className="font-medium">
-                    {booking?.requiredTransport?.carHeightLimit}м
-                  </span>
-                </div>
-              )}{" "}
-            </div>
-          </div>
+          </div> */}
         </CardContent>
       </div>
       {/* Диалог на редактирование заявки */}
       <BookingToogleItemDialog
         isOpen={isOpenToggle}
         setIsOpen={setIsOpenToggle}
-        bookingId={booking._id}
+        bookingId={corporateBooking?.corporateBookingData?._id}
       />
       {/* Диалог на удаление заявки */}
       <RemoveBookingDialogSure
-        corporateBooking={booking}
+        corporateBooking={corporateBooking?.corporateBookingData}
         isOpen={isOpenRemoveSure}
         setIsOpen={setIsOpenRemoveSure}
       />
       {/* Диалог на добавление рейса */}
       <AddFlightDialog
-        corporateBooking={booking}
+        corporateBooking={corporateBooking?.corporateBookingData}
         isOpen={isOpenAddFlight}
         setIsOpen={setIsOpenAddFlight}
       />
-    </Card>
+    </div>
   );
 }
 

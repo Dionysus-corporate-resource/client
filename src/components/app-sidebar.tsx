@@ -6,6 +6,7 @@ import {
   Command,
   GalleryVerticalEnd,
   GitBranchPlus,
+  KeySquare,
   PackagePlus,
   SquareChartGantt,
 } from "lucide-react";
@@ -72,6 +73,17 @@ const data = {
   //     },
   //   ],
   // },
+  developer: {
+    nameLabel: "Сотрудникам",
+    routes: [
+      {
+        title: "Предложения",
+        url: "/product/proposals-development",
+        icon: GitBranchPlus,
+        isActive: true,
+      },
+    ],
+  },
   manager: {
     nameLabel: "Для менеджеров",
     routes: [
@@ -83,18 +95,19 @@ const data = {
       },
     ],
   },
-  allTeams: {
-    nameLabel: "Сотрудникам",
+  dispatcher: {
+    nameLabel: "Рабочая зона",
     routes: [
       {
-        title: "Предложения",
-        url: "/product/proposals-development",
-        icon: GitBranchPlus,
+        title: "Мои рейсы",
+        url: "/product/flight-dispatcher",
+        icon: KeySquare,
         isActive: true,
       },
     ],
   },
 };
+
 // const CURRENT_VERSION = process.env.REACT_APP_VERSION || "1.0.0";
 
 const CURRENT_VERSION = "0.2.0 beta";
@@ -142,18 +155,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.all} />
 
+        {/* Страница для разработчика */}
         {authContext?.user?.corporateRoles.some(
-          (role) =>
-            role === PERMISSIONS.CAN_VIEW_MANAGER ||
-            role === PERMISSIONS.CAN_VIEW_DISPATCHER ||
-            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
-        ) && <NavMain items={data.allTeams} />}
+          (role) => role === PERMISSIONS.CAN_VIEW_SUPERADMIN,
+        ) && <NavMain items={data.developer} />}
 
+        {/* Страница для менеджеров */}
         {authContext?.user?.corporateRoles.some(
           (role) =>
             role === PERMISSIONS.CAN_VIEW_MANAGER ||
             role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
         ) && <NavMain items={data.manager} />}
+
+        {/* Страница для диспетчера */}
+        {authContext?.user?.corporateRoles.some(
+          (role) =>
+            role === PERMISSIONS.CAN_VIEW_DISPATCHER ||
+            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+          // TODO: убрать роль генДиректора
+        ) && <NavMain items={data.dispatcher} />}
       </SidebarContent>
       <SidebarFooter>{authContext?.token && <NavUser />}</SidebarFooter>
       <SidebarRail />

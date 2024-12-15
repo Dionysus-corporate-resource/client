@@ -1,5 +1,9 @@
 import instance from "@/shared/api/axios-instance";
-import { IBooking, IBookingDto } from "@/shared/model/types/booking";
+import {
+  IBooking,
+  IBookingDto,
+  IStatusCorporateBooking,
+} from "@/shared/model/types/booking";
 
 export const bookingApi = {
   getAll: async (): Promise<IBookingDto[]> => {
@@ -33,5 +37,27 @@ export const bookingApi = {
       .put(`/company/booking/${bookingId}`, formDataMutate)
       .then((data) => console.log("Remove data", data))
       .catch((err) => console.error(err));
+  },
+  toggleStatus: async ({
+    corporateBookingId,
+    status,
+  }: {
+    corporateBookingId: string;
+    status: IStatusCorporateBooking;
+  }) => {
+    try {
+      const body = {
+        status,
+      };
+      const response = await instance.put(
+        `/company/booking-status/${corporateBookingId}`,
+        body,
+      );
+      console.log("toggleStatus", response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   },
 };

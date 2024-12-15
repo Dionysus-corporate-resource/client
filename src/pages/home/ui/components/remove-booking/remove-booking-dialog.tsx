@@ -7,23 +7,23 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { bookingApi } from "@/pages/home/api/booking-api";
 import { queryClient } from "@/shared/api/query-client";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { useMutation } from "@tanstack/react-query";
-import { ReactNode } from "react";
 
 export default function RemoveBookingDialogSure({
-  children,
-  booking,
+  corporateBooking,
+  isOpen,
+  setIsOpen,
 }: {
-  children: ReactNode;
-  booking: IBookingDto["corporateBookingData"];
+  corporateBooking: IBookingDto["corporateBookingData"];
+  isOpen: boolean;
+  setIsOpen: (value: boolean | ((prevState: boolean) => boolean)) => void;
 }) {
   const removeMutation = useMutation({
-    mutationFn: () => bookingApi.remove(booking._id),
+    mutationFn: () => bookingApi.remove(corporateBooking._id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["booking"] });
     },
@@ -33,14 +33,13 @@ export default function RemoveBookingDialogSure({
     removeMutation.mutate();
   };
   return (
-    <AlertDialog>
-      <AlertDialogTrigger>{children}</AlertDialogTrigger>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Точно удаляем?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            При удалении, заявку невозможно будет востановить, в будущем мы
+            планируем вместо удаления перетаскивать не актуальные заявки в архив
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
