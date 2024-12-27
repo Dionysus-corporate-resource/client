@@ -63,7 +63,23 @@ function copyAllBookingTemplate(
       `;
     })
     .join("\n --- \n");
+  // return sortBooking
+  //   .map((booking) => {
+  //     return `
+  //   🔖 ${booking.corporateBookingData.location.loadingLocation} - ${booking.corporateBookingData.location.unloadingLocation}
+  //   ${booking.corporateBookingData.generalInformation.icon} ${booking.corporateBookingData.generalInformation.cargoName} ${booking.corporateBookingData.generalInformation.cargoAmount !== 0 ? booking.corporateBookingData.generalInformation.cargoAmount : ""}
+  //   🎫 ${booking.corporateBookingData.terms.price}₽/тн - ${booking.corporateBookingData.location.distance}км
+  //   💱 Коэффициент ${booking.corporateBookingData.terms.price / booking.corporateBookingData.location.distance}
+  //   ${user?.userData?.phone && `Контакты: ${user?.userData?.phone}`}
+  //     `;
+  //   })
+  //   .join("\n --- \n");
 }
+
+// 🔖 Горшечное (Курская область) - Красное (Белгородская область)
+// 📦 Мякушка семечки — 500т
+// 🎫 6300р/тн — 2330км
+// 💱 Коэффициент: 2.7
 
 export function AppLayout() {
   const context = useAuth();

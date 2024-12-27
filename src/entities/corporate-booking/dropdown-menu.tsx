@@ -48,7 +48,7 @@ export default function DropDownMenu({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Изменить роль</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            <DropdownMenuSubContent>
+            {/* <DropdownMenuSubContent>
               <DropdownMenuItem
                 onClick={() =>
                   onChangeRolesForLagistician(logisticianId, ["manager"])
@@ -65,7 +65,7 @@ export default function DropDownMenu({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Дальше, больше...</DropdownMenuItem>
-            </DropdownMenuSubContent>
+            </DropdownMenuSubContent> */}
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
