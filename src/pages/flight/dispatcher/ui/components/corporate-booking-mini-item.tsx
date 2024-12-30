@@ -34,6 +34,9 @@ export default function CorporateBookingMiniItem({
         <Badge variant="outline" className="bg-white">
           {corporateBooking?.corporateBookingData?.manager?.userName}
         </Badge>
+        <Badge variant="outline" className="bg-white">
+          {corporateBooking?.corporateBookingData?.status}
+        </Badge>
         <DropDownMenu
           corporateBooking={corporateBooking?.corporateBookingData}
           setIsOpenToogle={setIsOpenToggle}

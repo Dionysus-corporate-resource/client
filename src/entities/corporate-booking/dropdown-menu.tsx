@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import CopyCorporateBookingText from "@/feature/corporate-booking/copy-corporate-booking-text";
+import useChangeStatusCorporateBooking from "@/feature/corporate-booking/toggle-status/toggle-status";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { CarFront, Copy, Settings, SquarePen, Eraser } from "lucide-react";
 
@@ -28,6 +29,7 @@ export default function DropDownMenu({
   setIsOpenRemoveSure,
   setIsOpenAddFlight,
 }: IProps) {
+  const toggleStatusMutate = useChangeStatusCorporateBooking();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -46,26 +48,42 @@ export default function DropDownMenu({
         </DropdownMenuItem>
 
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Изменить роль</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Изменить статус</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
-            {/* <DropdownMenuSubContent>
+            <DropdownMenuSubContent>
               <DropdownMenuItem
                 onClick={() =>
-                  onChangeRolesForLagistician(logisticianId, ["manager"])
+                  toggleStatusMutate.mutate({
+                    corporateBookingId: corporateBooking._id,
+                    status: "active",
+                  })
                 }
               >
-                Менеджер
+                Активна
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() =>
-                  onChangeRolesForLagistician(logisticianId, ["dispatcher"])
+                  toggleStatusMutate.mutate({
+                    corporateBookingId: corporateBooking._id,
+                    status: "inProgress",
+                  })
                 }
               >
-                Диспетчер
+                В работе
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() =>
+                  toggleStatusMutate.mutate({
+                    corporateBookingId: corporateBooking._id,
+                    status: "inactive",
+                  })
+                }
+              >
+                Не активна
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Дальше, больше...</DropdownMenuItem>
-            </DropdownMenuSubContent> */}
+            </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSeparator />

@@ -34,6 +34,9 @@ export default function BookingItem({
         <Badge variant="outline" className="bg-white">
           {booking?.manager?.userName}
         </Badge>
+        <Badge variant="outline" className="bg-white">
+          {booking?.status}
+        </Badge>
         <DropDownMenu
           corporateBooking={booking}
           setIsOpenToogle={setIsOpenToggle}

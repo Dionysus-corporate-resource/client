@@ -90,6 +90,7 @@ export type IBookingDto = {
     createdAt: string;
     updatedAt: string;
     __v: number;
+    status: "active" | "inProgress" | "inactive";
     generalInformation: {
       relevance: boolean;
       cargoName: string;

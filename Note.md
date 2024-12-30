@@ -3,7 +3,7 @@
 2. bg-[hsl(var(--sidebar-background))]
 Это для фона в темной теме
 
-
+// еслия я правильно понял, она найдет все рейсы из каждой заявки, конкретного диспетчера
  const sortFlight = bookingData?.flatMap((corporateBooking) => {
     return corporateBooking.flight.filter(
       (flight) => flight.dispatcher === context?.user?.userData?._id,

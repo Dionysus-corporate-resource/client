@@ -11,25 +11,33 @@ import {
 import CarFlightItem from "@/entities/corporate-booking/flight/components/car-flight-item";
 import { useAuth } from "@/app/providers/auth-provider";
 import { useState } from "react";
+import { ChartFakeComponent } from "./components/chart-flight";
 
 export default function FlightDispatcherPage() {
   const context = useAuth();
   const { data: bookingData } = useQuery(bookingQueryOptions.getAll());
   const [sortBookingId, setSortBookingId] = useState<string | null>(null);
 
+  const sortBooking = bookingData?.filter((booking) => {
+    return !!booking.flight.find(
+      (flight) => flight.dispatcher === context?.user?.userData?._id,
+    );
+  });
+
   const sortFlight = bookingData
     ?.find((booking) => booking._id === sortBookingId)
     ?.flight.filter(
       (flight) => flight.dispatcher === context?.user?.userData?._id,
     );
-  console.log("sortFlight", sortFlight);
+
+  console.log("sortBooking", sortBooking, sortFlight);
 
   return (
     <div className="grid justify-center px-12 max-w-full">
       <span>sortBookingId - {sortBookingId}</span>
       <Carousel className="w-full max-w-screen-xl">
         <CarouselContent className="-ml-1">
-          {bookingData?.map((corporateBooking) => (
+          {sortBooking?.map((corporateBooking) => (
             <CarouselItem
               key={corporateBooking._id}
               className="pl-1 md:basis-1/2 lg:basis-1/3"
@@ -44,18 +52,27 @@ export default function FlightDispatcherPage() {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+
       <div className="grid grid-cols-3 mt-4 gap-4 px-1">
         <div className="space-y-2 col-span-2">
-          {sortFlight?.map((flight) => (
-            <div className="space-y-2">
-              LogisticianId - {flight.dispatcher}
-              {flight.cars.map((car) => (
-                <CarFlightItem car={car} />
+          {sortFlight ? (
+            <>
+              {sortFlight?.map((flight) => (
+                <div className="space-y-2">
+                  {/* LogisticianId - {flight.dispatcher} */}
+                  {flight.cars.map((car) => (
+                    <CarFlightItem car={car} />
+                  ))}
+                </div>
               ))}
-            </div>
-          ))}
+            </>
+          ) : (
+            <>Нажмите на заявку, чтобы посмотреть свои рейсы</>
+          )}
         </div>
-        <div className="border rounded-lg h-[350px]"></div>
+        <div className="">
+          <ChartFakeComponent />
+        </div>
       </div>
     </div>
   );
