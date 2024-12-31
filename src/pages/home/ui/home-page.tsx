@@ -24,9 +24,16 @@ export default function HomePage() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 px-6">
-      {bookingSort?.map((booking: IBookingDto) => (
-        <BookingItem key={booking._id} booking={booking.corporateBookingData} />
-      ))}
+      {bookingSort
+        ?.filter(
+          (booking) => booking.corporateBookingData.status !== "inactive",
+        )
+        .map((booking: IBookingDto) => (
+          <BookingItem
+            key={booking._id}
+            booking={booking.corporateBookingData}
+          />
+        ))}
     </div>
   );
 }

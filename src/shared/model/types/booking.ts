@@ -124,7 +124,7 @@ export type IBookingDto = {
   };
   flight: {
     organization: string;
-    dispatcher: string;
+    dispatcher: LogisticianDto;
     cars: ICar[];
     createdAt: string;
     updatedAt: string;

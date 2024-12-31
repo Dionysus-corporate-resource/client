@@ -1,20 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  MapPin,
-  Calendar,
-  ArrowRight,
-  Wallet,
-  Scale,
-  Info,
-  Truck,
-} from "lucide-react";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapPin, ArrowRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { IBookingDto } from "@/shared/model/types/booking";
 import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
 import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import { useState } from "react";
-import { AddFlightDialog, DropDownMenu } from "@/entities";
+import { AddFlightDialog } from "@/entities";
+import { DropDownMenuSettingBooking } from "@/entities/corporate-booking";
 
 export default function CorporateBookingMiniItem({
   corporateBooking,
@@ -37,7 +30,7 @@ export default function CorporateBookingMiniItem({
         <Badge variant="outline" className="bg-white">
           {corporateBooking?.corporateBookingData?.status}
         </Badge>
-        <DropDownMenu
+        <DropDownMenuSettingBooking
           corporateBooking={corporateBooking?.corporateBookingData}
           setIsOpenToogle={setIsOpenToggle}
           setIsOpenRemoveSure={setIsOpenRemoveSure}

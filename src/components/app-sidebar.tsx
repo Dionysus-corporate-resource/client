@@ -93,6 +93,12 @@ const data = {
         icon: PackagePlus,
         isActive: true,
       },
+      {
+        title: "Рейсы",
+        url: "/product/flight-manager",
+        icon: KeySquare,
+        isActive: true,
+      },
     ],
   },
   dispatcher: {

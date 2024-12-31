@@ -14,7 +14,8 @@ import { IBookingDto } from "@/shared/model/types/booking";
 import RemoveBookingDialogSure from "./remove-booking/remove-booking-dialog";
 import BookingToogleItemDialog from "./toggle-booking/toggle-booking-dialog";
 import { useState } from "react";
-import { AddFlightDialog, DropDownMenu } from "@/entities";
+import { AddFlightDialog } from "@/entities";
+import { DropDownMenuSettingBooking } from "@/entities/corporate-booking";
 
 export default function BookingItem({
   booking,
@@ -37,7 +38,7 @@ export default function BookingItem({
         <Badge variant="outline" className="bg-white">
           {booking?.status}
         </Badge>
-        <DropDownMenu
+        <DropDownMenuSettingBooking
           corporateBooking={booking}
           setIsOpenToogle={setIsOpenToggle}
           setIsOpenRemoveSure={setIsOpenRemoveSure}
