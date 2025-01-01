@@ -1,5 +1,8 @@
 import { useAuth } from "@/app/providers/auth-provider";
-import { ChartFakeComponent } from "@/entities/flight/dispatcher";
+import {
+  ChartFakeComponent,
+  FlightCarItem,
+} from "@/entities/flight/dispatcher";
 import { bookingQueryOptions } from "@/pages/home/api/query-options";
 import { CarouselBooking, FlightList } from "@/widgets/flight/dispatcher";
 import { useQuery } from "@tanstack/react-query";
@@ -20,10 +23,10 @@ export default function FlightManagerPage() {
     });
 
   const sortFlight = sortBooking?.find(
-    (booking) => booking._id === sortBookingId,
+    (booking) => booking.corporateBookingData._id === sortBookingId,
   )?.flight;
 
-  console.log("sortBooking", sortBooking, sortFlight);
+  // console.log("sortBooking", sortBooking, sortFlight);
 
   return (
     <div className="px-12 max-w-screen-2xl flex flex-col m-auto">
@@ -33,7 +36,22 @@ export default function FlightManagerPage() {
       />
 
       <div className="grid grid-cols-4 mt-4 gap-4 w-full">
-        <FlightList sortFlight={sortFlight} />
+        <FlightList
+          sortFlight={sortFlight}
+          sortFlightMapSlot={sortFlight?.map((flight) => (
+            <div className="space-y-2 mb-4">
+              <div className="flex items-center justify-between px-2">
+                <span>{flight.organization} </span>
+                <div className="flex gap-2 items-center">
+                  <span>{flight.dispatcher.userName}</span>
+                </div>
+              </div>
+              {flight.cars.map((car) => (
+                <FlightCarItem car={car} />
+              ))}
+            </div>
+          ))}
+        />
         <ChartFakeComponent />
       </div>
     </div>

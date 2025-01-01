@@ -1,3 +1,15 @@
+import { Input } from "@/components/ui/input";
+import { IBookingDto, ICar, ICarDto } from "@/shared/model/types/booking";
+import AddFlightPlug from "@/entities/corporate-booking/flight/components/add-flight-plug";
+import { Button } from "@/components/ui/button";
+import { Phone, Save, Tag, User } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import AddFlightBtn from "@/entities/corporate-booking/flight/components/add-flight-btn";
+import { useRef, useState } from "react";
+import CarFlightItem from "@/entities/corporate-booking/flight/components/car-flight-item";
+import { useMutation } from "@tanstack/react-query";
+import { flightApi } from "@/entities/corporate-booking/flight/api/flight-api";
+import { toast } from "@/hooks/use-toast";
 import {
   Sheet,
   SheetContent,
@@ -5,94 +17,57 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-
-import { ICar } from "@/shared/model/types/booking";
-import { Phone, Save, Tag, User } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
-import { IFormData } from "@/entities/flight/dispatcher/ui/sheet-add-flight";
-import { Input } from "@/components/ui/input";
-import CarFlightItem from "@/entities/corporate-booking/flight/components/car-flight-item";
-import { Label } from "@/components/ui/label";
-import AddFlightPlug from "@/entities/corporate-booking/flight/components/add-flight-plug";
-import AddFlightBtn from "@/entities/corporate-booking/flight/components/add-flight-btn";
 import { Separator } from "@/components/ui/separator";
-import { flightApi } from "@/entities/corporate-booking/flight/api/flight-api";
-import { Button } from "@/components/ui/button";
 import { queryClient } from "@/shared/api/query-client";
 
-export function SheetEditFlight({
+export type IFormData = {
+  organization: string;
+  cars: ICar[];
+};
+
+type Props = {
+  corporateBooking: IBookingDto["corporateBookingData"];
+  isOpen: boolean;
+  setIsOpen: (value: boolean | ((prevState: boolean) => boolean)) => void;
+};
+
+export default function SheetAddFlight({
   isOpen,
   setIsOpen,
-  editFlightIds,
-}: {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  editFlightIds: { flightEditId: string | null; sortBookingId: string | null };
-}) {
+  corporateBooking,
+}: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const triggerFormSubmit = () => {
-    formRef?.current?.requestSubmit();
+    formRef.current?.requestSubmit();
   };
 
-  const { data } = useQuery({
-    queryFn: () => {
-      if (!editFlightIds?.sortBookingId || !editFlightIds?.flightEditId) {
-        throw new Error("Invalid IDs");
-      }
-      return flightApi.get({
-        bookingId: editFlightIds.sortBookingId,
-        flightId: editFlightIds.flightEditId,
-      });
-    },
-    queryKey: ["flight", editFlightIds.flightEditId],
-  });
-  const toggleFlightMutatuon = useMutation({
+  //
+  const corporateBookingId = corporateBooking._id;
+  const createFlightMutatuon = useMutation({
     mutationFn: ({
-      bookingId,
-      flightId,
+      corporateBookingId,
       formData,
     }: {
-      bookingId: string;
-      flightId: string;
+      corporateBookingId: IBookingDto["corporateBookingData"]["_id"];
       formData: IFormData;
-    }) => flightApi.toggle({ bookingId, flightId, body: formData }),
+    }) => flightApi.create({ corporateBookingId, body: formData }),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["flight"] });
       queryClient.invalidateQueries({ queryKey: ["booking"] });
+      queryClient.invalidateQueries({ queryKey: ["flight"] });
+      // Добавь другие запросы, если нужно
     },
   });
 
-  // Данные полученные с сервера по рейсу
-  const [formData, setFormData] = useState<IFormData>({
-    organization: "",
-    cars: [],
-  });
-  // Данные формы
   const [carData, setCarData] = useState<ICar>({
     numberCar: "",
     numberTrailer: "",
     driverFullName: "",
     phone: "",
   });
-  // Удаление машины
-  const removeCarFromFlight = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      cars: prev.cars.filter((_, i) => i !== index),
-    }));
-  };
-
-  useEffect(() => {
-    if (data) {
-      setFormData({
-        organization: data?.requiredFlight?.organization || "",
-        cars: data?.requiredFlight?.cars || [],
-      });
-    }
-  }, [data]);
-
+  const [formData, setFormData] = useState<IFormData>({
+    organization: "",
+    cars: [],
+  });
   const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFormData((prev) => ({ ...prev, organization: value }));
@@ -115,12 +90,8 @@ export function SheetEditFlight({
   const handleSubmitFormData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("formData", formData);
-    toggleFlightMutatuon.mutate(
-      {
-        bookingId: editFlightIds.sortBookingId as string,
-        flightId: editFlightIds.flightEditId as string,
-        formData,
-      },
+    createFlightMutatuon.mutate(
+      { corporateBookingId, formData },
       {
         onSuccess: (data: { message: string }) => {
           console.log(data);
@@ -131,10 +102,10 @@ export function SheetEditFlight({
         },
       },
     );
-    // setFormData({
-    //   organization: "",
-    //   cars: [],
-    // });
+    setFormData({
+      organization: "",
+      cars: [],
+    });
     setCarData({
       numberCar: "",
       numberTrailer: "",
@@ -142,12 +113,11 @@ export function SheetEditFlight({
       phone: "",
     });
   };
-
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="min-w-[1200px]">
         <SheetHeader>
-          <SheetTitle>Изменить данных рейса</SheetTitle>
+          <SheetTitle>Поставить машины на рейс</SheetTitle>
           <SheetDescription>
             Вы можете изменить любые данные, удалить машину или добавить новую
           </SheetDescription>
@@ -174,6 +144,10 @@ export function SheetEditFlight({
                   Введите Название организации или ИП
                 </div>
               </div>
+              {/* <Button size="sm" variant="outline" type="submit">
+                Сохранить
+                <Save />
+              </Button> */}
             </form>
             <Separator />
             <form
@@ -244,12 +218,12 @@ export function SheetEditFlight({
                   </div> */}
                 </div>
               </div>
-              <span className="text-muted-foreground">
+              <span className="text-muted-foreground pb-2">
                 Обращайте внимания на данные, которые вводите в поля формы, ведь
                 в дальнейшем они будут важны для составления реестров и
                 отчетности
               </span>
-              <div className="flex gap-2">
+              <div className="flex  gap-2 w-full">
                 <AddFlightBtn />
                 <Button
                   size="sm"
@@ -274,15 +248,6 @@ export function SheetEditFlight({
                   <CarFlightItem
                     key={`${index}-${car.numberCar}-${car.numberTrailer}`}
                     car={car}
-                    removeActionSlot={
-                      <Button
-                        size="sm"
-                        variant="link"
-                        onClick={() => removeCarFromFlight(index)}
-                      >
-                        Удалить
-                      </Button>
-                    }
                   />
                 ))}
               </div>

@@ -1,36 +1,26 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function EmptyDriverCard() {
   return (
-    <div className="w-full p-4 rounded-md border border-dashed text-sm cursor-pointer">
-      <div className="flex flex-col items-end space-y-2">
-        <div className="flex w-full items-center justify-between">
-          <div className="space-x-2">
-            <Badge variant="secondary" className="mt-1">
-              Номер авто
-            </Badge>
-            <Badge variant="secondary" className="mt-1">
-              Номер прицепа
-            </Badge>
-          </div>
-          <div className="flex items-center space-x-4">
-            <p className="mt-1 text-lg font-medium text-muted-foreground">
-              ФИО водителя
-            </p>
-          </div>
+    <Card className="w-full transition-all duration-200 hover:shadow-sm">
+      <CardContent className="p-8 flex flex-col items-center text-center">
+        <div className="relative w-64 h-64 mb-6">
+          <img
+            src="https://i.pinimg.com/736x/3b/b2/a6/3bb2a6b536138f60b797cc5e08523880.jpg"
+            alt="Иллюстрация пустого состояния"
+            className="object-contain"
+          />
         </div>
-        <div className="w-full flex justify-between">
-          <Button
-            size="sm"
-            variant="link"
-            className="text-muted-foreground cursor-default"
-          >
-            Нет данных
-          </Button>
-          <span className="text-sm text-muted-foreground">Телефон</span>
-        </div>
-      </div>
-    </div>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          Кликните по любой из карточек, чтобы рейсы отобразились на этом месте
+        </h3>
+        <p className="text-sm text-gray-500 max-w-md">
+          Вы так-же можете поставить машины на рейс, для этого читайте наше
+          руководство по использованию
+        </p>
+      </CardContent>
+    </Card>
   );
 }

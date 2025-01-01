@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ICar } from "@/shared/model/types/booking";
+import { ReactNode } from "react";
 
 // type ISteps = {
 //   label: "Оформлен" | "Погрузка" | "В дороге" | "На выгрузке" | "Оплачено";
@@ -9,7 +11,13 @@ import { Button } from "@/components/ui/button";
 //   icon?: ReactNode;
 // };
 
-export default function CarFlightItem({ car }: { car: ICar }) {
+export default function CarFlightItem({
+  car,
+  removeActionSlot,
+}: {
+  car: ICar;
+  removeActionSlot: ReactNode;
+}) {
   // const [steps, setSteps] = useState<ISteps[]>([
   //   {
   //     label: "Оформлен",
@@ -81,9 +89,7 @@ export default function CarFlightItem({ car }: { car: ICar }) {
           </div>
         </div>
         <div className="w-full flex justify-between">
-          <Button size="sm" variant="link">
-            Удалить
-          </Button>
+          {removeActionSlot}
           <span className="text-sm text-muted-foreground">{car.phone}</span>
         </div>
 

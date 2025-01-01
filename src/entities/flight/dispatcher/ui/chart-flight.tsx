@@ -59,7 +59,7 @@ export function ChartFakeComponent() {
 
   return (
     <>
-      <div className="flex flex-col border rounded-md">
+      <div className="flex flex-col border rounded-md h-fit">
         <CardHeader className="items-center pb-0">
           <CardTitle>Pie Chart - Donut with Text</CardTitle>
           <CardDescription>January - June 2024</CardDescription>

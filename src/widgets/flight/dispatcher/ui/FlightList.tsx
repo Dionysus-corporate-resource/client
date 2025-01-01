@@ -1,40 +1,26 @@
-import {
-  DropDownMenuFlightItem,
-  EmptyDriverCard,
-  FlightCarItem,
-} from "@/entities/flight/dispatcher";
+import { EmptyDriverCard } from "@/entities/flight/dispatcher";
+import { PlaceholderCard } from "@/shared";
 import { IBookingDto } from "@/shared/model/types/booking";
+import { ReactNode } from "react";
 
 export default function FlightList({
   sortFlight,
-  setIsOpenSheet,
+  sortFlightMapSlot,
 }: {
   sortFlight: IBookingDto["flight"] | undefined;
-  setIsOpenSheet: React.Dispatch<React.SetStateAction<boolean>>;
+  sortFlightMapSlot: ReactNode;
 }) {
   return (
-    <div className="space-y-2 col-span-3">
+    <div className="space-y-4 col-span-3">
       {sortFlight ? (
-        <>
-          {sortFlight?.map((flight) => (
-            <div className="space-y-2 mb-4">
-              {/* LogisticianId - {flight.dispatcher} */}
-              <div className="flex items-center justify-between px-2">
-                <span>{flight.organization} </span>
-                <div className="flex gap-2 items-center">
-                  <span>{flight.dispatcher.userName}</span>
-
-                  <DropDownMenuFlightItem setIsOpenSheet={setIsOpenSheet} />
-                </div>
-              </div>
-              {flight.cars.map((car) => (
-                <FlightCarItem car={car} />
-              ))}
-            </div>
-          ))}
-        </>
+        <>{sortFlightMapSlot}</>
       ) : (
-        <EmptyDriverCard />
+        <PlaceholderCard
+          url="https://i.pinimg.com/736x/3b/b2/a6/3bb2a6b536138f60b797cc5e08523880.jpg"
+          title="Кликните по любой из карточек, чтобы рейсы отобразились на этом месте"
+          description="Вы так-же можете поставить машины на рейс, для этого читайте наше
+          руководство по использованию"
+        />
       )}
     </div>
   );

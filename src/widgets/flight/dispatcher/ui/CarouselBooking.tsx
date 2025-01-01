@@ -5,7 +5,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { PlaceholderBookingCard } from "@/entities/corporate-booking";
+import {
+  NewMiniBookingItem,
+  PlaceholderBookingCard,
+} from "@/entities/corporate-booking";
 import { CorporateBookingMiniItem } from "@/entities/flight/dispatcher";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { Dispatch } from "react";
@@ -32,14 +35,17 @@ export default function CarouselBooking({
             {sortBooking?.map((corporateBooking) => (
               <CarouselItem
                 key={corporateBooking._id}
-                className=" md:basis-1/2 lg:basis-1/3"
+                className="md:basis-1/2 lg:basis-1/3"
                 // pl-1
-                onClick={() => setSortBookingId(corporateBooking._id)}
+                onClick={() =>
+                  setSortBookingId(corporateBooking.corporateBookingData._id)
+                }
               >
-                <div className="p-1 h-full">
-                  <CorporateBookingMiniItem
+                <div className="p-1 h-full w-full">
+                  {/* <CorporateBookingMiniItem
                     corporateBooking={corporateBooking}
-                  />
+                  /> */}
+                  <NewMiniBookingItem corporateBooking={corporateBooking} />
                 </div>
               </CarouselItem>
             ))}

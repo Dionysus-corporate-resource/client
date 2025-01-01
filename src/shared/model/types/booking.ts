@@ -77,11 +77,28 @@ export type IBooking = {
   additionalInfo?: string;
 };
 
+export type ICarDto = {
+  numberCar: string;
+  numberTrailer: string;
+  driverFullName: string;
+  phone: string;
+  _id: string;
+};
+
 export type ICar = {
   numberCar: string;
   numberTrailer: string;
   driverFullName: string;
   phone: string;
+};
+
+export type IFlight = {
+  organization: string;
+  dispatcher: LogisticianDto;
+  cars: ICarDto[];
+  createdAt: string;
+  updatedAt: string;
+  _id: string;
 };
 
 export type IBookingDto = {

@@ -41,8 +41,8 @@ export default function DropDownMenuSettingBooking({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button style={{ borderRadius: "30px" }} variant="ghost" size="icon">
-          <Settings />
+        <Button variant="ghost" size="icon" className="h-7 w-7">
+          <Settings className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

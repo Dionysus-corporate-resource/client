@@ -14,8 +14,8 @@ import { IBookingDto } from "@/shared/model/types/booking";
 import RemoveBookingDialogSure from "./remove-booking/remove-booking-dialog";
 import BookingToogleItemDialog from "./toggle-booking/toggle-booking-dialog";
 import { useState } from "react";
-import { AddFlightDialog } from "@/entities";
 import { DropDownMenuSettingBooking } from "@/entities/corporate-booking";
+import { SheetAddFlight } from "@/entities/flight/dispatcher";
 
 export default function BookingItem({
   booking,
@@ -210,7 +210,7 @@ export default function BookingItem({
         setIsOpen={setIsOpenRemoveSure}
       />
       {/* Диалог на добавление рейса */}
-      <AddFlightDialog
+      <SheetAddFlight
         corporateBooking={booking}
         isOpen={isOpenAddFlight}
         setIsOpen={setIsOpenAddFlight}
