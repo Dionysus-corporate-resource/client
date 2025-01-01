@@ -119,13 +119,13 @@ export function AppLayout() {
                 <BreadcrumbList>
                   <BreadcrumbItem>
                     <BreadcrumbPage className=" line-clamp-1">
-                      {location.pathname === "/product" && bookingData && (
+                      {/* {location.pathname === "/product" && bookingData && (
                         <SortBooking
                           bookings={bookingData}
                           setSortItems={setSortBooking}
                           selectOptions={selectOptions}
                         />
-                      )}
+                      )} */}
                       {/* LogisticianId - {context?.user?.userData?._id} */}
                     </BreadcrumbPage>
                   </BreadcrumbItem>

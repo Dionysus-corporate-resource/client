@@ -14,7 +14,7 @@ export default function PlaceholderCard({ url, title, description }: Props) {
       shadow-sm rounded-md border border-dashed
       "
     >
-      <div className="flex gap-8 items-center justify-center p-2">
+      <div className="flex gap-8 items-center justify-center">
         <div className="relative w-64 h-64">
           <img
             src={url}

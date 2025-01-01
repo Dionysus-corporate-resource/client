@@ -13,6 +13,7 @@ import {
 import { SheetEditFlight } from "@/widgets/flight/dispatcher/ui/sheet-edit-flight";
 import { useRemoveFlightMutate } from "@/feature/flight";
 import { Building2, User2 } from "lucide-react";
+import { ChartFakeOne } from "@/entities/flight";
 
 export default function FlightDispatcherPage() {
   const removeFlightMutate = useRemoveFlightMutate();
@@ -107,7 +108,7 @@ export default function FlightDispatcherPage() {
             </div>
           ))}
         />
-        <ChartFakeComponent />
+        <ChartFakeOne />
       </div>
       <SheetEditFlight
         isOpen={isOpenSheet}

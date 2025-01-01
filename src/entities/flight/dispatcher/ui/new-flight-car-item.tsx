@@ -11,7 +11,7 @@ interface TransportCardProps {
 
 export default function NewFlightCarItem({ car }: { car: ICar }) {
   return (
-    <Card className="w-full transition-all duration-200 hover:shadow-md border rounded-md shadow-sm">
+    <div className="w-full transition-all duration-200 hover:shadow-md border rounded-md shadow-sm">
       <CardContent className="p-3">
         <div className="grid grid-cols-4">
           {/* Vehicle and Trailer Numbers Row */}
@@ -77,6 +77,6 @@ export default function NewFlightCarItem({ car }: { car: ICar }) {
         </div>
         {/* </div> */}
       </CardContent>
-    </Card>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import {
+  NewMiniBookingCard,
   NewMiniBookingItem,
   PlaceholderBookingCard,
 } from "@/entities/corporate-booking";
@@ -23,7 +24,7 @@ export default function CarouselBooking({
   console.log("sortBooking", sortBooking);
   return (
     <Carousel className="w-full max-w-screen-2xl">
-      <CarouselContent>
+      <CarouselContent className="pb-2">
         {sortBooking?.length === 0 ? (
           <CarouselItem>
             <div className="h-[258px] w-full">
@@ -45,10 +46,15 @@ export default function CarouselBooking({
                   {/* <CorporateBookingMiniItem
                     corporateBooking={corporateBooking}
                   /> */}
-                  <NewMiniBookingItem corporateBooking={corporateBooking} />
+                  <NewMiniBookingCard
+                    booking={corporateBooking.corporateBookingData}
+                  />
                 </div>
               </CarouselItem>
             ))}
+            <CarouselItem className="md:basis-1/1 lg:basis-1/1">
+              <div className="p-1 h-full w-full border bg-red-300">Card</div>
+            </CarouselItem>
           </>
         ) : (
           <CarouselItem key={1}>

@@ -44,7 +44,7 @@ export default function SortBooking({
   useEffect(() => {
     if (!bookings) return;
 
-    const sortedItems = bookings.filter((booking) => {
+    const sortedItems = bookings?.filter((booking) => {
       const typeKey = sortData.selectValue.type;
       const valueKey = sortData.selectValue.value;
 
@@ -106,7 +106,7 @@ export default function SortBooking({
   };
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <Select
         value={sortData.selectValue.value}
         onValueChange={(value: IsortDataTypes["selectValue"]["value"]) =>

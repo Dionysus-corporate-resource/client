@@ -93,7 +93,7 @@ export default function NewBookingCard({
   };
 
   return (
-    <Card className="w-full transition-all duration-200 hover:shadow-sm">
+    <div className="w-full transition-all duration-200 shadow-sm border rounded-md">
       <CardContent className="p-4">
         <div className="space-y-4">
           {/* Header Section */}
@@ -127,10 +127,10 @@ export default function NewBookingCard({
             <div className="flex items-center gap-2">
               <Badge
                 variant="secondary"
-                className={getPaymentColor(booking?.terms?.paymentMethod)}
+                // className={getPaymentColor(booking?.terms?.paymentMethod)}
               >
-                <Wallet className="w-3 h-3 mr-1" />
-                {getPayment(booking?.terms?.paymentMethod)}
+                <User className="w-3 h-3 mr-1" />
+                {booking?.manager?.userName}
               </Badge>
 
               <DropDownMenuSettingBooking
@@ -161,10 +161,10 @@ export default function NewBookingCard({
 
             {/* <div className="border-b col-span-3" /> */}
 
-            <div className="flex items-center gap-2">
-              <User className="w-4 h-4 text-gray-400 " />
+            {/* <div className="flex items-center gap-2">
+              <Wallet className="w-4 h-4 text-gray-400" />
               <span className="text-gray-600">
-                {booking?.manager?.userName}
+                {getPayment(booking?.terms?.paymentMethod)}
               </span>
             </div>
 
@@ -215,16 +215,16 @@ export default function NewBookingCard({
               <span className="text-gray-600">
                 {booking?.requiredTransport?.carHeightLimit}
               </span>
-            </div>
+            </div> */}
           </div>
 
           {/* Additional Info */}
-          {booking?.additionalInfo && (
+          {/* {booking?.additionalInfo && (
             <div className="flex items-start gap-2 text-sm bg-gray-50 rounded-md p-2">
               <MessageSquare className="w-4 h-4 text-gray-400 mt-0.5" />
               <p className="text-gray-600">{booking?.additionalInfo}</p>
             </div>
-          )}
+          )} */}
         </div>
       </CardContent>
       {/* Диалог на редактирование заявки */}
@@ -245,6 +245,6 @@ export default function NewBookingCard({
         isOpen={isOpenAddFlight}
         setIsOpen={setIsOpenAddFlight}
       />
-    </Card>
+    </div>
   );
 }
