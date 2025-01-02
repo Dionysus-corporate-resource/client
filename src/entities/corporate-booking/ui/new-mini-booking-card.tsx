@@ -27,6 +27,7 @@ import DropDownMenuSettingBooking from "./dropdown-menu";
 import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
 import { SheetAddFlight } from "@/entities/flight/dispatcher";
+import { SheetToggleBooking } from "@/widgets";
 
 export default function NewMiniBookingCard({
   booking,
@@ -226,7 +227,7 @@ export default function NewMiniBookingCard({
         </div>
       </CardContent>
       {/* Диалог на редактирование заявки */}
-      <BookingToogleItemDialog
+      <SheetToggleBooking
         isOpen={isOpenToggle}
         setIsOpen={setIsOpenToggle}
         bookingId={booking._id}

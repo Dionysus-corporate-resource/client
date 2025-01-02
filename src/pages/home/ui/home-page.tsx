@@ -1,5 +1,5 @@
 import BookingItem from "./components/booking-item";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { IBooking, IBookingDto } from "@/shared/model/types/booking";
 
 import { useAtom } from "jotai";
 import {
@@ -8,10 +8,26 @@ import {
 } from "@/shared/model/atoms/booking-atom";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOptions } from "../api/query-options";
-import { useEffect } from "react";
-import { NewBookingCard, SortSearchPanel } from "@/entities/corporate-booking";
+import { useEffect, useState } from "react";
+import {
+  DetailInfoBookingDialog,
+  NewBookingCard,
+  SortSearchPanel,
+} from "@/entities/corporate-booking";
 
 export default function HomePage() {
+  // управление модальным окном, детальной информации заявки
+  const [isOpenDetailBookind, setIsOpenDetailBookind] = useState(false);
+  const [detailBooking, setDetailBooking] = useState<
+    IBookingDto["corporateBookingData"] | null
+  >(null);
+  const changeIsOpenStateAndGetDetailBooking = (
+    booking: IBookingDto["corporateBookingData"],
+  ) => {
+    setIsOpenDetailBookind(true);
+    setDetailBooking(booking);
+  };
+  // получение всех заявок
   const { data: bookingData } = useQuery(bookingQueryOptions.getAll());
 
   const [bookingSort] = useAtom(sortBookingAtom);
@@ -27,7 +43,7 @@ export default function HomePage() {
     <div className="px-6 space-y-6">
       <SortSearchPanel />
 
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-4">
+      <div className="grid 2xl:grid-cols-3 gap-4">
         {bookingSort
           ?.filter(
             (booking) =>
@@ -35,16 +51,20 @@ export default function HomePage() {
               booking.corporateBookingData.status !== "inProgress",
           )
           .map((booking: IBookingDto) => (
-            // <BookingItem
-            //   key={booking._id}
-            //   booking={booking.corporateBookingData}
-            // />
             <NewBookingCard
               key={booking._id}
               booking={booking.corporateBookingData}
+              changeIsOpenStateAndGetDetailBooking={
+                changeIsOpenStateAndGetDetailBooking
+              }
             />
           ))}
       </div>
+      <DetailInfoBookingDialog
+        isOpen={isOpenDetailBookind}
+        setIsOpen={setIsOpenDetailBookind}
+        detailBooking={detailBooking as IBookingDto["corporateBookingData"]}
+      />
     </div>
   );
 }

@@ -17,6 +17,8 @@ import {
   CircleDot,
   PackageCheck,
   PackageX,
+  Blocks,
+  CircleHelp,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,80 +29,36 @@ import DropDownMenuSettingBooking from "./dropdown-menu";
 import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
 import { SheetAddFlight } from "@/entities/flight/dispatcher";
+import DetailInfoBookingDialog from "./detail-info-booking-dialog";
+import {
+  getStatusColorForBookingCard,
+  getStatusForBookingCard,
+} from "../hooks/useGetResultForBookingCard";
+import { SheetToggleBooking } from "@/widgets";
 
 export default function NewBookingCard({
   booking,
+  changeIsOpenStateAndGetDetailBooking,
 }: {
   booking: IBookingDto["corporateBookingData"];
+  changeIsOpenStateAndGetDetailBooking: (
+    booking: IBookingDto["corporateBookingData"],
+  ) => void;
 }) {
   const [isOpenToggle, setIsOpenToggle] = useState(false);
   const [isOpenRemoveSure, setIsOpenRemoveSure] = useState(false);
   const [isOpenAddFlight, setIsOpenAddFlight] = useState(false);
 
-  const getStatusColor = (
-    status: IBookingDto["corporateBookingData"]["status"],
-  ) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800";
-      case "inProgress":
-        return "bg-blue-100 text-blue-800";
-      case "inactive":
-        return "bg-gray-100 text-gray-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-  const getStatus = (status: IBookingDto["corporateBookingData"]["status"]) => {
-    switch (status) {
-      case "active":
-        return "Активна";
-      case "inProgress":
-        return "В работе";
-      case "inactive":
-        return "Закрыта";
-      default:
-        return "Уточнить";
-    }
-  };
-  const getPaymentColor = (
-    type: IBookingDto["corporateBookingData"]["terms"]["paymentMethod"],
-  ) => {
-    switch (type) {
-      case "NDS":
-        return "bg-emerald-100 text-emerald-800";
-      case "without_NDS":
-        return "bg-yellow-100 text-yellow-800";
-      case "cash":
-        return "bg-blue-100 text-blue-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-  const getPayment = (
-    type: IBookingDto["corporateBookingData"]["terms"]["paymentMethod"],
-  ) => {
-    switch (type) {
-      case "NDS":
-        return "НДС";
-      case "without_NDS":
-        return "Без НДС";
-      case "cash":
-        return "Наличные";
-      default:
-        return "Уточнить";
-    }
-  };
-
   return (
-    <div className="w-full transition-all duration-200 shadow-sm border rounded-md">
+    <div className="w-full h-full transition-all duration-200 shadow-sm border rounded-md">
       <CardContent className="p-4">
         <div className="space-y-4">
           {/* Header Section */}
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
               <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex-shrink-0">
-                <Wheat className="w-4 h-4" />
+                {/* <Wheat className="w-4 h-4" /> */}
+                <span>{booking?.generalInformation?.icon}</span>
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -109,10 +67,10 @@ export default function NewBookingCard({
                   </h3>
                   <Badge
                     variant="secondary"
-                    className={getStatusColor(booking?.status)}
+                    className={getStatusColorForBookingCard(booking?.status)}
                   >
                     <CircleDot className="w-3 h-3 mr-1" />
-                    {getStatus(booking?.status)}
+                    {getStatusForBookingCard(booking?.status)}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
@@ -139,9 +97,17 @@ export default function NewBookingCard({
                 setIsOpenRemoveSure={setIsOpenRemoveSure}
                 setIsOpenAddFlight={setIsOpenAddFlight}
               />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 -ml-2"
+                onClick={() => changeIsOpenStateAndGetDetailBooking(booking)}
+              >
+                <Blocks className="h-4 w-4" />
+                {/* <CircleHelp className="h-4 w-4" /> */}
+              </Button>
             </div>
           </div>
-
           {/* Main Info Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
             <div className="flex items-center gap-2 col-span-3">
@@ -150,10 +116,8 @@ export default function NewBookingCard({
                 <span className="text-gray-600 line-clamp-2 max-w-[50%] leading-tight">
                   {booking?.location?.loadingLocation}
                 </span>
-                <span className="text-gray-400 line-clamp-2 max-w-[50%] flex-shrink-0">
-                  →
-                </span>
-                <span className="text-gray-600">
+                <span className="text-gray-400  flex-shrink-0">→</span>
+                <span className="text-gray-600 line-clamp-2  max-w-[50%] leading-tight">
                   {booking?.location?.unloadingLocation}
                 </span>
               </div>
@@ -217,7 +181,6 @@ export default function NewBookingCard({
               </span>
             </div> */}
           </div>
-
           {/* Additional Info */}
           {/* {booking?.additionalInfo && (
             <div className="flex items-start gap-2 text-sm bg-gray-50 rounded-md p-2">
@@ -228,7 +191,7 @@ export default function NewBookingCard({
         </div>
       </CardContent>
       {/* Диалог на редактирование заявки */}
-      <BookingToogleItemDialog
+      <SheetToggleBooking
         isOpen={isOpenToggle}
         setIsOpen={setIsOpenToggle}
         bookingId={booking._id}

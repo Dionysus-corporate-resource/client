@@ -35,10 +35,12 @@ import {
   Weight,
   Smile,
   FileText,
+  BadgeCheck,
 } from "lucide-react";
 
 const mapFormDataToBid = (data: IBookingFormData): IBooking => {
   return {
+    status: "active",
     generalInformation: {
       relevance: data.relevance,
       cargoName: data.cargoName,
@@ -182,10 +184,10 @@ export default function ToogleBookingForm({
   return (
     <div className="mx-auto rounded-xl flex-col justify-between h-fit">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Создание заявки</CardTitle>
+        {/* <CardTitle className="text-2xl">Создание заявки</CardTitle>
         <CardDescription>
           Заполните форму для создания карточки груза
-        </CardDescription>
+        </CardDescription> */}
       </CardHeader>
       <form
         onSubmit={handleSubmit}
@@ -235,7 +237,7 @@ export default function ToogleBookingForm({
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                       <Label
                         htmlFor="weight"
                         className="text-muted-foreground flex items-center gap-2"
@@ -323,7 +325,7 @@ export default function ToogleBookingForm({
                   </div>
                 </div>
                 <div className="flex gap-2 w-full">
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <Label
                       htmlFor="distance"
                       className="text-muted-foreground flex items-center gap-2"
@@ -390,7 +392,6 @@ export default function ToogleBookingForm({
                     // size="l"
                   />
                 </div>
-
                 <div className="space-y-2 w-full">
                   <Label
                     htmlFor="paymentType"
@@ -406,7 +407,6 @@ export default function ToogleBookingForm({
                     name="paymentMethod"
                   />
                 </div>
-
                 <div className="space-y-2 w-full">
                   <Label
                     htmlFor="loadType"
@@ -437,6 +437,24 @@ export default function ToogleBookingForm({
                     placeholder="30%"
                     type="number"
                     value={formData.advancePercentage}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+                </div>
+                <div className="space-y-2 col-span-2">
+                  <Label
+                    htmlFor="heightLimit"
+                    className="text-muted-foreground flex items-center gap-2"
+                  >
+                    <Ruler className="h-4 w-4" />
+                    Высота ограничения
+                  </Label>
+                  <TextInput
+                    id="carHeightLimit"
+                    name="carHeightLimit"
+                    type="number"
+                    placeholder="до 3.2м"
+                    value={formData.carHeightLimit}
                     onChange={handleChange}
                     // size="l"
                   />
@@ -521,33 +539,22 @@ export default function ToogleBookingForm({
                   />
                 </div>
 
-                <div className="space-y-2 col-span-2">
+                <div className="space-y-2 w-full  col-span-2">
                   <Label
-                    htmlFor="heightLimit"
-                    className="text-muted-foreground flex items-center gap-2"
+                    htmlFor="advancePercentage"
+                    className="text-muted-foreground flex items-center gap-2 col-span-2"
                   >
-                    <Ruler className="h-4 w-4" />
-                    Высота ограничения
+                    <BadgeCheck className="h-4 w-4" />
+                    Проверьте данные формы перед ее отправкой
                   </Label>
-                  <TextInput
-                    id="carHeightLimit"
-                    name="carHeightLimit"
-                    type="number"
-                    placeholder="до 3.2м"
-                    value={formData.carHeightLimit}
-                    onChange={handleChange}
-                    // size="l"
-                  />
+                  <Button size="sm" type="submit" className="w-full">
+                    Изменить
+                  </Button>
                 </div>
               </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex">
-          <Button type="submit" className="w-full h-fit">
-            Изменить
-          </Button>
-        </CardFooter>
       </form>
     </div>
   );

@@ -73,17 +73,17 @@ export default function FlightDispatcherPage() {
                     </div>
 
                     {/* Dispatcher Info */}
-                    <div className="flex items-center gap-2">
-                      {/* <div className="flex items-center justify-center w-8 h-8 rounded-md bg-green-50 text-green-600">
+                    {/* <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-green-50 text-green-600">
                         <User2 className="w-4 h-4" />
-                      </div> */}
+                      </div>
                       <div>
                         <p className="text-xs text-gray-500">Диспетчер</p>
                         <p className="text-base font-medium text-gray-900">
                           {flight?.dispatcher?.userName}
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Edit Button */}
