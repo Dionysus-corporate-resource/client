@@ -12,7 +12,11 @@ import ManagerPage from "@/pages/manager/manager-page";
 import ProposalsDevelopmentPage from "@/pages/proposals-development/ui/proposals-development-page";
 import ProfilePage from "@/pages/auth/profile/profile-page";
 import { SignPage } from "@/pages/auth/corporate-resource";
-import { FlightDispatcherPage, FlightManagerPage } from "../pages/flight";
+import {
+  FlightDispatcherPage,
+  FlightGeneralDirectorPage,
+  FlightManagerPage,
+} from "../pages/flight";
 
 export default function App() {
   return (
@@ -37,58 +41,81 @@ export default function App() {
         <Route
           path="/product/manager"
           element={
-            <Authorization
-              permissions={[
-                PERMISSIONS.CAN_VIEW_MANAGER,
-                PERMISSIONS.CAN_VIEW_SUPERADMIN,
-                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
-              ]}
-            >
-              <ManagerPage />
-            </Authorization>
+            <Authentication>
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_MANAGER,
+                  PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                  PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+                ]}
+              >
+                <ManagerPage />
+              </Authorization>
+            </Authentication>
           }
         />
         <Route
           path="/product/proposals-development"
           element={
-            <Authorization
-              permissions={[
-                PERMISSIONS.CAN_VIEW_MANAGER,
-                PERMISSIONS.CAN_VIEW_DISPATCHER,
-                PERMISSIONS.CAN_VIEW_SUPERADMIN,
-                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
-              ]}
-            >
-              <ProposalsDevelopmentPage />
-            </Authorization>
+            <Authentication>
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_MANAGER,
+                  PERMISSIONS.CAN_VIEW_DISPATCHER,
+                  PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                  PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+                ]}
+              >
+                <ProposalsDevelopmentPage />
+              </Authorization>
+            </Authentication>
           }
         />
         <Route
           path="/product/flight-dispatcher"
           element={
-            <Authorization
-              permissions={[
-                PERMISSIONS.CAN_VIEW_DISPATCHER,
-                PERMISSIONS.CAN_VIEW_SUPERADMIN,
-                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
-              ]}
-            >
-              <FlightDispatcherPage />
-            </Authorization>
+            <Authentication>
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_DISPATCHER,
+                  PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                ]}
+              >
+                <FlightDispatcherPage />
+              </Authorization>
+            </Authentication>
           }
         />
         <Route
           path="/product/flight-manager"
           element={
-            <Authorization
-              permissions={[
-                PERMISSIONS.CAN_VIEW_MANAGER,
-                PERMISSIONS.CAN_VIEW_SUPERADMIN,
-                PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
-              ]}
-            >
-              <FlightManagerPage />
-            </Authorization>
+            <Authentication>
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_MANAGER,
+                  PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                  PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+                ]}
+              >
+                <FlightManagerPage />
+              </Authorization>
+            </Authentication>
+          }
+        />
+
+        <Route
+          path="/product/flight-general-director"
+          element={
+            <Authentication>
+              <Authorization
+                permissions={[
+                  PERMISSIONS.CAN_VIEW_SUPERADMIN,
+                  PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+                ]}
+              >
+                <FlightGeneralDirectorPage />
+              </Authorization>
+            </Authentication>
           }
         />
       </Route>

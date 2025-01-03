@@ -14,6 +14,8 @@ import {
   NewBookingCard,
   SortSearchPanel,
 } from "@/entities/corporate-booking";
+import { motion } from "framer-motion";
+import { SkeletonBlock } from "@/shared";
 
 export default function HomePage() {
   // управление модальным окном, детальной информации заявки
@@ -39,27 +41,50 @@ export default function HomePage() {
     // console.log("bookingSort", bookingSort);
   }, [bookingData, bookingSort]);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Интервал между появлениями карточек
+      },
+    },
+  };
+
   return (
     <div className="px-6 space-y-6">
       <SortSearchPanel />
+      {bookingSort && bookingSort.length !== 0 ? (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid 2xl:grid-cols-3 gap-4"
+        >
+          {bookingSort
+            ?.filter(
+              (booking) =>
+                booking.corporateBookingData.status !== "inactive" &&
+                booking.corporateBookingData.status !== "inProgress",
+            )
+            .map((booking: IBookingDto) => (
+              <NewBookingCard
+                key={booking._id}
+                booking={booking.corporateBookingData}
+                changeIsOpenStateAndGetDetailBooking={
+                  changeIsOpenStateAndGetDetailBooking
+                }
+              />
+            ))}
+        </motion.div>
+      ) : (
+        <SkeletonBlock
+          stylesMainGrid="grid-cols-3 gap-4 h-fit "
+          stylesSkeletonItem="h-[130px]"
+          countSkeletonItem={8}
+        />
+      )}
 
-      <div className="grid 2xl:grid-cols-3 gap-4">
-        {bookingSort
-          ?.filter(
-            (booking) =>
-              booking.corporateBookingData.status !== "inactive" &&
-              booking.corporateBookingData.status !== "inProgress",
-          )
-          .map((booking: IBookingDto) => (
-            <NewBookingCard
-              key={booking._id}
-              booking={booking.corporateBookingData}
-              changeIsOpenStateAndGetDetailBooking={
-                changeIsOpenStateAndGetDetailBooking
-              }
-            />
-          ))}
-      </div>
       <DetailInfoBookingDialog
         isOpen={isOpenDetailBookind}
         setIsOpen={setIsOpenDetailBookind}

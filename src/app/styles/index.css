@@ -71,6 +71,50 @@
         background-color: #f9f9f9;
     }
 } */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes dropIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.drop-in {
+    animation: dropIn 1s ease-out forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 1s ease-out forwards;
+}
 
 @layer base {
     :root {
@@ -144,15 +188,23 @@
         --sidebar-ring: 217.2 91.2% 59.8%;
     }
 }
+@layer base {
+    :root {
+        --chart-1: 221.2 83.2% 53.3%;
+        --chart-2: 212 95% 68%;
+        --chart-3: 216 92% 60%;
+        --chart-4: 210 98% 78%;
+        --chart-5: 212 97% 87%;
+    }
 
-/* @layer base {
-    * {
-        @apply border-border;
+    .dark {
+        --chart-1: 221.2 83.2% 53.3%;
+        --chart-2: 212 95% 68%;
+        --chart-3: 216 92% 60%;
+        --chart-4: 210 98% 78%;
+        --chart-5: 212 97% 87%;
     }
-    body {
-        @apply bg-background text-foreground;
-    }
-} */
+}
 
 /* Применение цветов фона и текста */
 body {

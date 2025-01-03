@@ -36,7 +36,9 @@ import {
   Smile,
   FileText,
   BadgeCheck,
+  LogOut,
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 const mapFormDataToBid = (data: IBookingFormData): IBooking => {
   return {
@@ -74,8 +76,10 @@ const mapFormDataToBid = (data: IBookingFormData): IBooking => {
 
 export default function ToogleBookingForm({
   bookingId,
+  setIsOpen,
 }: {
   bookingId: string;
+  setIsOpen: React.Dicpatch<React.SetStateAction<boolean>>;
 }) {
   const { data } = useQuery(bookingQueryOptions.getOne(bookingId));
 
@@ -182,13 +186,13 @@ export default function ToogleBookingForm({
   };
 
   return (
-    <div className="mx-auto rounded-xl flex-col justify-between h-fit">
-      <CardHeader className="space-y-1">
-        {/* <CardTitle className="text-2xl">Создание заявки</CardTitle>
+    <div className="mx-auto rounded-xl flex-col justify-between h-fit mt-8">
+      {/* <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl">Создание заявки</CardTitle>
         <CardDescription>
           Заполните форму для создания карточки груза
-        </CardDescription> */}
-      </CardHeader>
+        </CardDescription>
+      </CardHeader> */}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-2 max-w-screen-2xl"
@@ -441,24 +445,6 @@ export default function ToogleBookingForm({
                     // size="l"
                   />
                 </div>
-                <div className="space-y-2 col-span-2">
-                  <Label
-                    htmlFor="heightLimit"
-                    className="text-muted-foreground flex items-center gap-2"
-                  >
-                    <Ruler className="h-4 w-4" />
-                    Высота ограничения
-                  </Label>
-                  <TextInput
-                    id="carHeightLimit"
-                    name="carHeightLimit"
-                    type="number"
-                    placeholder="до 3.2м"
-                    value={formData.carHeightLimit}
-                    onChange={handleChange}
-                    // size="l"
-                  />
-                </div>
               </div>
             </div>
 
@@ -502,7 +488,8 @@ export default function ToogleBookingForm({
                     className="w-full"
                   />
                 </div>
-                <div className="space-y-2">
+
+                {/* <div className="space-y-2">
                   <Label
                     htmlFor="vehicleCount"
                     className="text-muted-foreground flex items-center gap-2"
@@ -511,15 +498,13 @@ export default function ToogleBookingForm({
                     Кол-во тс
                   </Label>
                   <TextInput
-                    // label="Возможность погрузки транспорта"
                     id="count"
                     name="count"
                     type="number"
                     placeholder="5 машин"
                     value={formData.count}
                     onChange={handleChange}
-                    // rightContent={<Label size="s">Важно</Label>}
-                    // size="l"
+
                   />
                 </div>
 
@@ -537,19 +522,54 @@ export default function ToogleBookingForm({
                     formDataValue={formData.carPeriod}
                     name="carPeriod"
                   />
-                </div>
-
-                <div className="space-y-2 w-full  col-span-2">
+                </div> */}
+                <div className="space-y-2 col-span-2">
                   <Label
-                    htmlFor="advancePercentage"
-                    className="text-muted-foreground flex items-center gap-2 col-span-2"
+                    htmlFor="heightLimit"
+                    className="text-muted-foreground flex items-center gap-2"
                   >
-                    <BadgeCheck className="h-4 w-4" />
-                    Проверьте данные формы перед ее отправкой
+                    <Ruler className="h-4 w-4" />
+                    Высота ограничения
                   </Label>
-                  <Button size="sm" type="submit" className="w-full">
-                    Изменить
-                  </Button>
+                  <TextInput
+                    id="carHeightLimit"
+                    name="carHeightLimit"
+                    type="number"
+                    placeholder="до 3.2м"
+                    value={formData.carHeightLimit}
+                    onChange={handleChange}
+                    // size="l"
+                  />
+                </div>
+              </div>
+            </div>
+            {/* <div className="border-1 border-b col-span-2" /> */}
+            <div className="grid grid-cols-2 gap-8 w-full col-span-2">
+              <div className="flex flex-col justify-start items-end">
+                <CardTitle className="text-lg">
+                  Проверьте данные формы перед ее отправкой
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Изменения буду внесены в базу заявок
+                </CardDescription>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  onClick={() => {
+                    setTimeout(() => setIsOpen(false), 1000);
+                  }}
+                >
+                  <BadgeCheck className="h-4 w-4" />
+                  Изменить заявку
+                </Button>
+                <div
+                  onClick={() => setIsOpen(false)}
+                  className="flex gap-2 p-2 rounded-md items-center justify-center w-full border cursor-pointer shadow-sm hover:bg-muted-foreground/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Отменить изменения
                 </div>
               </div>
             </div>

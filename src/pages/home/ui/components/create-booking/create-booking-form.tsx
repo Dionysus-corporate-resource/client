@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { CardContent, CardFooter } from "@/components/ui/card";
+import {
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { IBooking, IBookingFormData } from "@/shared/model/types/booking";
@@ -15,6 +21,7 @@ import { Label } from "@/components/ui/label";
 import { SelectShared } from "../shared/select-shared";
 import {
   ArrowDownWideNarrow,
+  BadgeCheck,
   Calendar,
   CreditCard,
   DollarSign,
@@ -22,6 +29,7 @@ import {
   Hash,
   // Info,
   Loader,
+  LogOut,
   MapPin,
   Navigation,
   Percent,
@@ -87,7 +95,7 @@ export const options = {
         option: "🌿 - лен",
       },
       {
-        value: "🌿",
+        value: "🌿2",
         option: "🌿 - жмых",
       },
       {
@@ -220,7 +228,11 @@ export const options = {
   },
 };
 
-export default function CreateBookingForm() {
+export default function CreateBookingForm({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const createBidMutation = useMutation({
     mutationFn: (formDataMutate: IBooking) => bookingApi.create(formDataMutate),
     onSuccess: () => {
@@ -305,7 +317,7 @@ export default function CreateBookingForm() {
   };
 
   return (
-    <div className="mx-auto rounded-xl flex-col justify-between h-fit mt-6">
+    <div className="mx-auto rounded-xl flex-col justify-between h-fit mt-8">
       {/* <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Создание заявки</CardTitle>
         <CardDescription>
@@ -331,7 +343,7 @@ export default function CreateBookingForm() {
                       className="text-muted-foreground flex items-center gap-2"
                     >
                       <FileText className="h-4 w-4" />
-                      Название груза
+                      Название заявки
                     </Label>
                     <Input
                       id="cargoName"
@@ -339,7 +351,6 @@ export default function CreateBookingForm() {
                       placeholder="Например: Жмых"
                       value={formData.cargoName}
                       onChange={handleChange}
-                      required
                     />
                   </div>
 
@@ -357,11 +368,11 @@ export default function CreateBookingForm() {
                         handleSelectChange={handleSelectChange}
                         formDataValue={formData.icon}
                         name="icon"
-                        required
+                        // className="w-[150px]"
                       />
                     </div>
 
-                    <div className="space-y-2">
+                    <div className="space-y-2 w-full">
                       <Label
                         htmlFor="weight"
                         className="text-muted-foreground flex items-center gap-2"
@@ -370,22 +381,32 @@ export default function CreateBookingForm() {
                         Вес груза (тонн)
                       </Label>
                       <TextInput
+                        // label="Вес"
                         id="cargoAmount"
                         name="cargoAmount"
                         type="number"
                         placeholder="Например: 500"
                         value={formData.cargoAmount}
                         onChange={handleChange}
-                        required
+                        // size="l"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
+                    {/* <Label
+                      htmlFor="additionalInfo"
+                      className="text-muted-foreground flex items-center gap-2"
+                    >
+                      <Info className="h-4 w-4" />
+                      Дополнительная информация
+                    </Label> */}
                     <Textarea
+                      placeholder="Дополнительная информация"
                       id="additionalInfo"
                       name="additionalInfo"
                       value={formData.additionalInfo}
                       onChange={handleChange}
+                      // size="l"
                     />
                   </div>
                 </div>
@@ -409,12 +430,13 @@ export default function CreateBookingForm() {
                       Адрес погрузки
                     </Label>
                     <TextInput
+                      // label="Погрузка"
                       id="loadingLocation"
                       name="loadingLocation"
                       placeholder="Ростов-на-Дону"
                       value={formData.loadingLocation}
                       onChange={handleChange}
-                      required
+                      // size="l"
                     />
                   </div>
 
@@ -427,17 +449,18 @@ export default function CreateBookingForm() {
                       Адрес разгрузки
                     </Label>
                     <TextInput
+                      // label="Выгрузка"
                       id="unloadingLocation"
                       name="unloadingLocation"
                       placeholder="Тальяти"
                       value={formData.unloadingLocation}
                       onChange={handleChange}
-                      required
+                      // size="l"
                     />
                   </div>
                 </div>
                 <div className="flex gap-2 w-full">
-                  <div className="space-y-2">
+                  <div className="space-y-2 w-full">
                     <Label
                       htmlFor="distance"
                       className="text-muted-foreground flex items-center gap-2"
@@ -446,12 +469,13 @@ export default function CreateBookingForm() {
                       Дистанция (км)
                     </Label>
                     <TextInput
+                      // label="Дистанция"
                       id="distance"
                       name="distance"
                       placeholder="300 km"
                       value={formData.distance}
                       onChange={handleChange}
-                      required
+                      // size="l"
                     />
                   </div>
 
@@ -464,11 +488,13 @@ export default function CreateBookingForm() {
                       Дата погрузки
                     </Label>
                     <TextInput
+                      // label="Дата погрузки"
                       id="loadingLocationDate"
                       name="loadingLocationDate"
                       placeholder="20 марта 2024"
                       value={formData.loadingLocationDate}
                       onChange={handleChange}
+                      // size="l"
                     />
                   </div>
                 </div>
@@ -492,15 +518,15 @@ export default function CreateBookingForm() {
                     Ставка (р/т)
                   </Label>
                   <TextInput
+                    // label="Ставка"
                     id="price"
                     name="price"
                     type="number"
                     value={formData.price}
                     onChange={handleChange}
-                    required
+                    // size="l"
                   />
                 </div>
-
                 <div className="space-y-2 w-full">
                   <Label
                     htmlFor="paymentType"
@@ -516,7 +542,6 @@ export default function CreateBookingForm() {
                     name="paymentMethod"
                   />
                 </div>
-
                 <div className="space-y-2 w-full">
                   <Label
                     htmlFor="loadType"
@@ -594,7 +619,8 @@ export default function CreateBookingForm() {
                     className="w-full"
                   />
                 </div>
-                <div className="space-y-2">
+
+                {/* <div className="space-y-2">
                   <Label
                     htmlFor="vehicleCount"
                     className="text-muted-foreground flex items-center gap-2"
@@ -609,6 +635,7 @@ export default function CreateBookingForm() {
                     placeholder="5 машин"
                     value={formData.count}
                     onChange={handleChange}
+
                   />
                 </div>
 
@@ -626,9 +653,8 @@ export default function CreateBookingForm() {
                     formDataValue={formData.carPeriod}
                     name="carPeriod"
                   />
-                </div>
-
-                <div className="space-y-2 w-full col-span-2">
+                </div> */}
+                <div className="space-y-2 col-span-2">
                   <Label
                     htmlFor="heightLimit"
                     className="text-muted-foreground flex items-center gap-2"
@@ -643,35 +669,44 @@ export default function CreateBookingForm() {
                     placeholder="до 3.2м"
                     value={formData.carHeightLimit}
                     onChange={handleChange}
+                    // size="l"
                   />
+                </div>
+              </div>
+            </div>
+            {/* <div className="border-1 border-b col-span-2" /> */}
+            <div className="grid grid-cols-2 gap-8 w-full col-span-2">
+              <div className="flex flex-col justify-start items-end">
+                <CardTitle className="text-lg">
+                  Проверьте данные формы перед ее отправкой
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  Изменения буду внесены в базу заявок
+                </CardDescription>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  onClick={() => {
+                    setTimeout(() => setIsOpen(false), 1000);
+                  }}
+                >
+                  <BadgeCheck className="h-4 w-4" />
+                  Создать заявку
+                </Button>
+                <div
+                  onClick={() => setIsOpen(false)}
+                  className="flex gap-2 p-2 rounded-md items-center justify-center w-full border cursor-pointer shadow-sm hover:bg-muted-foreground/10"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Отменить создание
                 </div>
               </div>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex">
-          <Button type="submit" className="w-full h-fit">
-            {/* {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isSubmitting ? "Отправка..." : "Отправить"} */}
-            {/* disabled={isSubmitting} */}
-            Создать
-          </Button>
-        </CardFooter>
       </form>
     </div>
   );
 }
-
-// function taxtCulc({ tax }: { tax: ITax }) {
-//   switch (tax) {
-//     case "NDS":
-//       return <p>НДС</p>;
-//     case "without NDS":
-//       return <p>Без НДС</p>;
-//     case "cash":
-//       return <p>Наличкой</p>;
-//     // case "NDS": return <p>НДС</p>
-//     default:
-//       return "Не известно";
-//   }
-// }

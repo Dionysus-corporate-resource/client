@@ -6,6 +6,7 @@ import { CarouselBooking, FlightList } from "@/widgets/flight/dispatcher";
 import {
   ChartFakeComponent,
   DropDownMenuFlightItem,
+  EmptyFlightCar,
   FlightCarItem,
   NewFlightCarItem,
   RemoveFlightDialog,
@@ -61,9 +62,9 @@ export default function FlightDispatcherPage() {
                   <div className="flex gap-6">
                     {/* Company Info */}
                     <div className="flex items-center gap-2">
-                      {/* <div className="flex items-center justify-center w-8 h-8 rounded-md bg-blue-50 text-blue-600">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-blue-50 text-blue-600">
                         <Building2 className="w-4 h-4" />
-                      </div> */}
+                      </div>
                       <div>
                         <p className="text-xs text-gray-500">Организация</p>
                         <h1 className="text-base font-medium text-gray-900">
@@ -99,10 +100,14 @@ export default function FlightDispatcherPage() {
 
                 {/* Transport Cards List */}
                 <div className="space-y-2">
-                  {flight.cars.map((car) => (
-                    // <FlightCarItem car={car} />
-                    <NewFlightCarItem car={car} />
-                  ))}
+                  {flight.cars.length !== 0 ? (
+                    flight.cars.map((car) => (
+                      // <FlightCarItem car={car} />
+                      <NewFlightCarItem car={car} />
+                    ))
+                  ) : (
+                    <EmptyFlightCar />
+                  )}
                 </div>
               </div>
             </div>

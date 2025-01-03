@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   AudioWaveform,
+  Building2,
   Command,
   GalleryVerticalEnd,
   GitBranchPlus,
@@ -112,6 +113,29 @@ const data = {
       },
     ],
   },
+  generalDirector: {
+    nameLabel: "Руководителю",
+    routes: [
+      {
+        title: "Рейсы компании",
+        url: "/product/flight-general-director",
+        icon: Building2,
+        isActive: true,
+      },
+      {
+        title: "Ваши рейсы",
+        url: "/product/flight-manager",
+        icon: KeySquare,
+        isActive: true,
+      },
+      {
+        title: "Студия",
+        url: "/product/manager",
+        icon: PackagePlus,
+        isActive: true,
+      },
+    ],
+  },
 };
 
 // const CURRENT_VERSION = process.env.REACT_APP_VERSION || "1.0.0";
@@ -168,18 +192,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         {/* Страница для менеджеров */}
         {authContext?.user?.corporateRoles.some(
-          (role) =>
-            role === PERMISSIONS.CAN_VIEW_MANAGER ||
-            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+          (role) => role === PERMISSIONS.CAN_VIEW_MANAGER,
         ) && <NavMain items={data.manager} />}
 
         {/* Страница для диспетчера */}
         {authContext?.user?.corporateRoles.some(
-          (role) =>
-            role === PERMISSIONS.CAN_VIEW_DISPATCHER ||
-            role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+          (role) => role === PERMISSIONS.CAN_VIEW_DISPATCHER,
+
           // TODO: убрать роль генДиректора
         ) && <NavMain items={data.dispatcher} />}
+
+        {authContext?.user?.corporateRoles.some(
+          (role) => role === PERMISSIONS.CAN_VIEW_GENERAL_DIRECTOR,
+          // TODO: убрать роль генДиректора
+        ) && <NavMain items={data.generalDirector} />}
       </SidebarContent>
       <SidebarFooter>{authContext?.token && <NavUser />}</SidebarFooter>
       <SidebarRail />

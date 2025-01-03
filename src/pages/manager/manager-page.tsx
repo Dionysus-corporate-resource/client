@@ -19,6 +19,7 @@ import {
 import { ChartFakeOne, ChartFakeTwo } from "@/entities/flight";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SheetCreateBooking } from "@/widgets";
+import { SkeletonBlock } from "@/shared";
 
 const selectOptions: ISelectOptions[] = [
   {
@@ -175,53 +176,62 @@ export default function ManagerPage() {
       </div>
       <div>
         <div className="grid grid-cols-3 gap-4">
-          <div className="grid grid-cols-2 col-span-2 gap-4 h-fit">
-            {activeChecked &&
-              sortItems
-                ?.filter(
-                  (booking) =>
-                    booking?.corporateBookingData?.status === "inProgress",
-                )
-                ?.map((booking: IBookingDto) => (
-                  <NewBookingCard
-                    key={booking._id}
-                    booking={booking.corporateBookingData}
-                    changeIsOpenStateAndGetDetailBooking={
-                      changeIsOpenStateAndGetDetailBooking
-                    }
-                  />
-                ))}
-            {inProgressChecked &&
-              sortItems
-                ?.filter(
-                  (booking) =>
-                    booking?.corporateBookingData?.status === "active",
-                )
-                ?.map((booking: IBookingDto) => (
-                  <NewBookingCard
-                    key={booking._id}
-                    booking={booking.corporateBookingData}
-                    changeIsOpenStateAndGetDetailBooking={
-                      changeIsOpenStateAndGetDetailBooking
-                    }
-                  />
-                ))}
-            {closedChecked &&
-              sortItems
-                ?.filter(
-                  (booking) =>
-                    booking?.corporateBookingData?.status === "inactive",
-                )
-                ?.map((booking: IBookingDto) => (
-                  <NewBookingCard
-                    key={booking._id}
-                    booking={booking.corporateBookingData}
-                    changeIsOpenStateAndGetDetailBooking={
-                      changeIsOpenStateAndGetDetailBooking
-                    }
-                  />
-                ))}
-          </div>
+          {sortItems && sortItems.length !== 0 ? (
+            <div className="grid grid-cols-2 col-span-2 gap-4 h-fit">
+              {activeChecked &&
+                sortItems
+                  ?.filter(
+                    (booking) =>
+                      booking?.corporateBookingData?.status === "active",
+                  )
+                  ?.map((booking: IBookingDto) => (
+                    <NewBookingCard
+                      key={booking._id}
+                      booking={booking.corporateBookingData}
+                      changeIsOpenStateAndGetDetailBooking={
+                        changeIsOpenStateAndGetDetailBooking
+                      }
+                    />
+                  ))}
+              {inProgressChecked &&
+                sortItems
+                  ?.filter(
+                    (booking) =>
+                      booking?.corporateBookingData?.status === "inProgress",
+                  )
+                  ?.map((booking: IBookingDto) => (
+                    <NewBookingCard
+                      key={booking._id}
+                      booking={booking.corporateBookingData}
+                      changeIsOpenStateAndGetDetailBooking={
+                        changeIsOpenStateAndGetDetailBooking
+                      }
+                    />
+                  ))}
+              {closedChecked &&
+                sortItems
+                  ?.filter(
+                    (booking) =>
+                      booking?.corporateBookingData?.status === "inactive",
+                  )
+                  ?.map((booking: IBookingDto) => (
+                    <NewBookingCard
+                      key={booking._id}
+                      booking={booking.corporateBookingData}
+                      changeIsOpenStateAndGetDetailBooking={
+                        changeIsOpenStateAndGetDetailBooking
+                      }
+                    />
+                  ))}
+            </div>
+          ) : (
+            <SkeletonBlock
+              stylesMainGrid="grid-cols-2 col-span-2 gap-4 h-fit "
+              stylesSkeletonItem="h-[130px]"
+              countSkeletonItem={8}
+            />
+          )}
+
           <div className="space-y-4">
             <div className="flex gap-2">
               <ChartFakeOne />

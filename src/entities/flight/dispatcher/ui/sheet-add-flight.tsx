@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { IBookingDto, ICar, ICarDto } from "@/shared/model/types/booking";
 import AddFlightPlug from "@/entities/corporate-booking/flight/components/add-flight-plug";
 import { Button } from "@/components/ui/button";
-import { Phone, Save, Tag, User } from "lucide-react";
+import { LogOut, Phone, Save, Tag, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import AddFlightBtn from "@/entities/corporate-booking/flight/components/add-flight-btn";
 import { useRef, useState } from "react";
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { queryClient } from "@/shared/api/query-client";
+import FlightCarItemRemoveEdit from "./flight-car-item-remove-edit";
 
 export type IFormData = {
   organization: string;
@@ -37,9 +38,6 @@ export default function SheetAddFlight({
   corporateBooking,
 }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
-  const triggerFormSubmit = () => {
-    formRef.current?.requestSubmit();
-  };
 
   //
   const corporateBookingId = corporateBooking._id;
@@ -68,6 +66,22 @@ export default function SheetAddFlight({
     organization: "",
     cars: [],
   });
+  const triggerFormSubmit = () => {
+    if (formData?.organization === "") {
+      toast({
+        title: "Вы не заполнили поле Карточка предпринимателя",
+        variant: "destructive",
+        description: "Заполните и все ок будет",
+      });
+    }
+    formRef.current?.requestSubmit();
+  };
+  const removeCarFromFlight = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      cars: prev.cars.filter((_, i) => i !== index),
+    }));
+  };
   const handleChangeFormData = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFormData((prev) => ({ ...prev, organization: value }));
@@ -217,14 +231,30 @@ export default function SheetAddFlight({
                     Введите телефон водителя
                   </div> */}
                 </div>
+                <div className="space-y-2 col-span-2 mt-2">
+                  <AddFlightBtn />
+                  {/* <div className="text-[0.8rem] text-muted-foreground">
+                    Введите телефон водителя
+                  </div> */}
+                </div>
               </div>
               <span className="text-muted-foreground pb-2">
                 Обращайте внимания на данные, которые вводите в поля формы, ведь
                 в дальнейшем они будут важны для составления реестров и
                 отчетности
               </span>
-              <div className="flex  gap-2 w-full">
-                <AddFlightBtn />
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  type="submit"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <LogOut />
+                  Отменить
+                </Button>
+
                 <Button
                   size="sm"
                   variant="outline"
@@ -245,9 +275,10 @@ export default function SheetAddFlight({
             ) : (
               <div className="space-y-2 max-h-[750px] pr-2 overflow-y-auto">
                 {formData.cars.map((car, index) => (
-                  <CarFlightItem
+                  <FlightCarItemRemoveEdit
                     key={`${index}-${car.numberCar}-${car.numberTrailer}`}
                     car={car}
+                    removeActionSlot={() => removeCarFromFlight(index)}
                   />
                 ))}
               </div>

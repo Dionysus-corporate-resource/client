@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sheet";
 
 import { ICar } from "@/shared/model/types/booking";
-import { Phone, Save, Tag, User } from "lucide-react";
+import { LogOut, Phone, Save, Tag, User } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
@@ -21,6 +21,10 @@ import { Separator } from "@/components/ui/separator";
 import { flightApi } from "@/entities/corporate-booking/flight/api/flight-api";
 import { Button } from "@/components/ui/button";
 import { queryClient } from "@/shared/api/query-client";
+import {
+  FlightCarItemRemoveEdit,
+  NewFlightCarItem,
+} from "@/entities/flight/dispatcher";
 
 export function SheetEditFlight({
   isOpen,
@@ -243,6 +247,12 @@ export function SheetEditFlight({
                     Введите телефон водителя
                   </div> */}
                 </div>
+                <div className="space-y-2 col-span-2 mt-2">
+                  <AddFlightBtn />
+                  {/* <div className="text-[0.8rem] text-muted-foreground">
+                    Введите телефон водителя
+                  </div> */}
+                </div>
               </div>
               <span className="text-muted-foreground">
                 Обращайте внимания на данные, которые вводите в поля формы, ведь
@@ -250,7 +260,17 @@ export function SheetEditFlight({
                 отчетности
               </span>
               <div className="flex gap-2">
-                <AddFlightBtn />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  type="submit"
+                  className="w-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <LogOut />
+                  Отменить
+                </Button>
+
                 <Button
                   size="sm"
                   variant="outline"
@@ -271,18 +291,10 @@ export function SheetEditFlight({
             ) : (
               <div className="space-y-2 max-h-[750px] pr-2 overflow-y-auto">
                 {formData.cars.map((car, index) => (
-                  <CarFlightItem
+                  <FlightCarItemRemoveEdit
                     key={`${index}-${car.numberCar}-${car.numberTrailer}`}
                     car={car}
-                    removeActionSlot={
-                      <Button
-                        size="sm"
-                        variant="link"
-                        onClick={() => removeCarFromFlight(index)}
-                      >
-                        Удалить
-                      </Button>
-                    }
+                    removeActionSlot={() => removeCarFromFlight(index)}
                   />
                 ))}
               </div>

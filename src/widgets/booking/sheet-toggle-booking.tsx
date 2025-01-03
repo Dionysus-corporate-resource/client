@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
 import ToogleBookingForm from "@/pages/home/ui/components/toggle-booking/toggle-booking-form";
+import { SkeletonBlock } from "@/shared";
 import { useEffect, useState } from "react";
 
 export default function SheetToggleBooking({
@@ -40,9 +41,20 @@ export default function SheetToggleBooking({
           </SheetDescription>
         </SheetHeader>
         {showForm ? (
-          <ToogleBookingForm bookingId={bookingId} />
+          <ToogleBookingForm bookingId={bookingId} setIsOpen={setIsOpen} />
         ) : (
-          <Skeleton className="mt-8 w-full h-[50px]" />
+          <>
+            <SkeletonBlock
+              countSkeletonItem={8}
+              stylesSkeletonItem="h-[40px]"
+              stylesMainGrid="gap-2 grid-cols-4 mt-8"
+            />
+            <SkeletonBlock
+              countSkeletonItem={4}
+              stylesSkeletonItem="h-[80px]"
+              stylesMainGrid="gap-2 grid-cols-2 mt-6"
+            />
+          </>
         )}
       </SheetContent>
     </Sheet>

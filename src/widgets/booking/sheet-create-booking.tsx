@@ -18,12 +18,12 @@ export default function SheetCreateBooking({
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent className="min-w-[1200px]">
         <SheetHeader>
-          <SheetTitle>Изменить данных рейса</SheetTitle>
+          <SheetTitle>Создание новой заявки</SheetTitle>
           <SheetDescription>
-            Вы можете изменить любые данные, удалить машину или добавить новую
+            Вы можете создать новую заявку в этом месте
           </SheetDescription>
         </SheetHeader>
-        <CreateBookingForm />
+        <CreateBookingForm setIsOpen={setIsOpen} />
       </SheetContent>
     </Sheet>
   );
