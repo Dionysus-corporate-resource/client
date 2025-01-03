@@ -1,15 +1,10 @@
-"use client";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
 import {
   bookingAtom,
   sortBookingAtom,
 } from "@/shared/model/atoms/booking-atom";
-import { useAtom, useAtomValue } from "jotai";
-import { Package, MapPin, User } from "lucide-react";
-import { useState } from "react";
+import { useAtom } from "jotai";
+
 import { NavLink } from "react-router-dom";
 
 export default function SortSearchPanel() {

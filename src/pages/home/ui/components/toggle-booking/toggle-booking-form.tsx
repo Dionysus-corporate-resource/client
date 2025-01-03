@@ -1,12 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input, Input as TextInput } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -23,10 +17,8 @@ import {
   DollarSign,
   ArrowDownWideNarrow,
   CreditCard,
-  Hash,
   Loader,
   Percent,
-  Repeat,
   Ruler,
   TruckIcon,
   Calendar,
@@ -38,7 +30,6 @@ import {
   BadgeCheck,
   LogOut,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
 
 const mapFormDataToBid = (data: IBookingFormData): IBooking => {
   return {
@@ -79,7 +70,7 @@ export default function ToogleBookingForm({
   setIsOpen,
 }: {
   bookingId: string;
-  setIsOpen: React.Dicpatch<React.SetStateAction<boolean>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { data } = useQuery(bookingQueryOptions.getOne(bookingId));
 

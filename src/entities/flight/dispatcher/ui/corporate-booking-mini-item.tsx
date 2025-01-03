@@ -235,19 +235,3 @@ function PaymentMethodComponent({
       return <span>Уточнить у менеджера</span>;
   }
 }
-
-const BadgeLoadType = ({
-  variant,
-}: {
-  variant: IBookingDto["corporateBookingData"]["terms"]["loadingType"];
-}) => {
-  switch (variant) {
-    case "normal":
-      return "ПО НОРМЕ";
-    case "full":
-      return "ПО ПОЛНОЙ";
-
-    default:
-      return null;
-  }
-};

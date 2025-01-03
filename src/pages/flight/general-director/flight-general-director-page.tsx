@@ -1,14 +1,12 @@
-import { useAuth } from "@/app/providers/auth-provider";
-import { ChartFakeOne, ChartFakeThree, ChartFakeTwo } from "@/entities/flight";
+import { ChartFakeThree, ChartFakeTwo } from "@/entities/flight";
 import { NewFlightCarItem } from "@/entities/flight/dispatcher";
 import { bookingQueryOptions } from "@/pages/home/api/query-options";
 import { CarouselBooking, FlightList } from "@/widgets/flight/dispatcher";
 import { useQuery } from "@tanstack/react-query";
-import { Building2, User2 } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { useState } from "react";
 
 export default function FlightGeneralDirectorPage() {
-  const context = useAuth();
   const { data: bookingData } = useQuery(bookingQueryOptions.getAll());
   const [sortBookingId, setSortBookingId] = useState<string | null>(null);
 

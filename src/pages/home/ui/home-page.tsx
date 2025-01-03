@@ -1,5 +1,4 @@
-import BookingItem from "./components/booking-item";
-import { IBooking, IBookingDto } from "@/shared/model/types/booking";
+import { IBookingDto } from "@/shared/model/types/booking";
 
 import { useAtom } from "jotai";
 import {

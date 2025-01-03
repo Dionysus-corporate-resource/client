@@ -1,7 +1,6 @@
 import { Truck, Phone, User, Container, Trash2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { ICar } from "@/shared/model/types/booking";
-import { ReactNode } from "react";
 
 export default function FlightCarItemRemoveEdit({
   car,

@@ -1,15 +1,12 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Wheat,
   Weight,
   Route,
   Wallet,
-  MapPin,
   User,
-  Settings,
   Calendar,
   Percent,
   DollarSign,

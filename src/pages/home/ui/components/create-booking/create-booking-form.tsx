@@ -1,11 +1,5 @@
 import { useState } from "react";
-import {
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { IBooking, IBookingFormData } from "@/shared/model/types/booking";
@@ -26,14 +20,12 @@ import {
   CreditCard,
   DollarSign,
   FileText,
-  Hash,
   // Info,
   Loader,
   LogOut,
   MapPin,
   Navigation,
   Percent,
-  Repeat,
   Ruler,
   Smile,
   TruckIcon,
@@ -43,6 +35,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const mapFormDataToBid = (data: IBookingFormData): IBooking => {
   return {
+    status: "active",
     generalInformation: {
       relevance: data.relevance,
       cargoName: data.cargoName,

@@ -1,30 +1,9 @@
-import {
-  Wheat,
-  Weight,
-  Route,
-  Wallet,
-  MapPin,
-  User,
-  Settings,
-  Calendar,
-  Percent,
-  DollarSign,
-  Truck,
-  ArrowDown,
-  ArrowUp,
-  Ruler,
-  MessageSquare,
-  CircleDot,
-  PackageCheck,
-  PackageX,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Wheat, Weight, Route, MapPin, User, CircleDot } from "lucide-react";
+import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { useState } from "react";
 import DropDownMenuSettingBooking from "./dropdown-menu";
-import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
 import { SheetAddFlight } from "@/entities/flight/dispatcher";
 import { SheetToggleBooking } from "@/widgets";
@@ -60,34 +39,6 @@ export default function NewMiniBookingCard({
         return "В работе";
       case "inactive":
         return "Закрыта";
-      default:
-        return "Уточнить";
-    }
-  };
-  const getPaymentColor = (
-    type: IBookingDto["corporateBookingData"]["terms"]["paymentMethod"],
-  ) => {
-    switch (type) {
-      case "NDS":
-        return "bg-emerald-100 text-emerald-800";
-      case "without_NDS":
-        return "bg-yellow-100 text-yellow-800";
-      case "cash":
-        return "bg-blue-100 text-blue-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-  const getPayment = (
-    type: IBookingDto["corporateBookingData"]["terms"]["paymentMethod"],
-  ) => {
-    switch (type) {
-      case "NDS":
-        return "НДС";
-      case "without_NDS":
-        return "Без НДС";
-      case "cash":
-        return "Наличные";
       default:
         return "Уточнить";
     }

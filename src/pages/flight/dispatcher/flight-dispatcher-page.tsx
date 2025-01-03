@@ -4,16 +4,14 @@ import { useAuth } from "@/app/providers/auth-provider";
 import { useState } from "react";
 import { CarouselBooking, FlightList } from "@/widgets/flight/dispatcher";
 import {
-  ChartFakeComponent,
   DropDownMenuFlightItem,
   EmptyFlightCar,
-  FlightCarItem,
   NewFlightCarItem,
   RemoveFlightDialog,
 } from "@/entities/flight/dispatcher";
 import { SheetEditFlight } from "@/widgets/flight/dispatcher/ui/sheet-edit-flight";
 import { useRemoveFlightMutate } from "@/feature/flight";
-import { Building2, User2 } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { ChartFakeOne } from "@/entities/flight";
 
 export default function FlightDispatcherPage() {

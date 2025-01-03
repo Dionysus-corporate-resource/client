@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ICar } from "@/shared/model/types/booking";
 import { ReactNode } from "react";
 

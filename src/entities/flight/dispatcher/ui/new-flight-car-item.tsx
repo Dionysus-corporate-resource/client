@@ -1,5 +1,5 @@
 import { Truck, Phone, User, Container } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { ICar } from "@/shared/model/types/booking";
 
 export default function NewFlightCarItem({ car }: { car: ICar }) {

@@ -6,12 +6,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  NewMiniBookingCard,
-  NewMiniBookingItem,
-  PlaceholderBookingCard,
-} from "@/entities/corporate-booking";
-import { PlaceholderBookingCardInCarousel } from "@/entities/flight";
+import { NewMiniBookingCard } from "@/entities/corporate-booking";
 import { PlaceholderCard } from "@/shared";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { Dispatch } from "react";

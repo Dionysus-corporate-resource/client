@@ -1,9 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { BookUp } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
-
 export default function PlaceholderBookingCard() {
-  const navigate = useNavigate();
   return (
     <div className="flex h-full w-full items-center justify-center rounded-md border  cursor-pointer">
       <div className="flex items-center">

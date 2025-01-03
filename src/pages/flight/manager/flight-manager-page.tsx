@@ -4,7 +4,7 @@ import { NewFlightCarItem } from "@/entities/flight/dispatcher";
 import { bookingQueryOptions } from "@/pages/home/api/query-options";
 import { CarouselBooking, FlightList } from "@/widgets/flight/dispatcher";
 import { useQuery } from "@tanstack/react-query";
-import { Building2, User2 } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { useState } from "react";
 
 export default function FlightManagerPage() {

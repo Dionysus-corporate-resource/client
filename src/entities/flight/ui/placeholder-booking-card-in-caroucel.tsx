@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { IdCard } from "lucide-react";
-
 type Props = {
   url: string;
   title: string;

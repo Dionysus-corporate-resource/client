@@ -5,7 +5,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Skeleton } from "@/components/ui/skeleton";
 import ToogleBookingForm from "@/pages/home/ui/components/toggle-booking/toggle-booking-form";
 import { SkeletonBlock } from "@/shared";
 import { useEffect, useState } from "react";

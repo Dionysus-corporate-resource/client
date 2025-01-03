@@ -1,12 +1,11 @@
 import { Input } from "@/components/ui/input";
-import { IBookingDto, ICar, ICarDto } from "@/shared/model/types/booking";
+import { IBookingDto, ICar } from "@/shared/model/types/booking";
 import AddFlightPlug from "@/entities/corporate-booking/flight/components/add-flight-plug";
 import { Button } from "@/components/ui/button";
 import { LogOut, Phone, Save, Tag, User } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import AddFlightBtn from "@/entities/corporate-booking/flight/components/add-flight-btn";
 import { useRef, useState } from "react";
-import CarFlightItem from "@/entities/corporate-booking/flight/components/car-flight-item";
 import { useMutation } from "@tanstack/react-query";
 import { flightApi } from "@/entities/corporate-booking/flight/api/flight-api";
 import { toast } from "@/hooks/use-toast";

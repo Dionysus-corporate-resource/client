@@ -1,8 +1,7 @@
 import { useAuth } from "@/app/providers/auth-provider";
-import { EmptyDriverCard } from "@/entities/flight/dispatcher";
 import { PlaceholderCard } from "@/shared";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { BookmarkX, BrickWall, SquareMousePointer } from "lucide-react";
+import { BookmarkX, SquareMousePointer } from "lucide-react";
 import { ReactNode } from "react";
 
 export default function FlightList({

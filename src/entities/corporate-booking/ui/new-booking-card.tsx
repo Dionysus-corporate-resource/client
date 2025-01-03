@@ -1,35 +1,12 @@
-import {
-  Wheat,
-  Weight,
-  Route,
-  Wallet,
-  MapPin,
-  User,
-  Settings,
-  Calendar,
-  Percent,
-  DollarSign,
-  Truck,
-  ArrowDown,
-  ArrowUp,
-  Ruler,
-  MessageSquare,
-  CircleDot,
-  PackageCheck,
-  PackageX,
-  Blocks,
-  CircleHelp,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Weight, Route, MapPin, User, CircleDot, Blocks } from "lucide-react";
+import { CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { useState } from "react";
 import DropDownMenuSettingBooking from "./dropdown-menu";
-import BookingToogleItemDialog from "@/pages/home/ui/components/toggle-booking/toggle-booking-dialog";
 import RemoveBookingDialogSure from "@/pages/home/ui/components/remove-booking/remove-booking-dialog";
 import { SheetAddFlight } from "@/entities/flight/dispatcher";
-import DetailInfoBookingDialog from "./detail-info-booking-dialog";
 import {
   getStatusColorForBookingCard,
   getStatusForBookingCard,

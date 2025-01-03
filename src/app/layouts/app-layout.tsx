@@ -12,37 +12,33 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Outlet, useLocation } from "react-router-dom";
-import SortBooking, { ISelectOptions } from "@/shared/components/sort-booking";
+import { Outlet } from "react-router-dom";
 import { useAtom } from "jotai";
-import {
-  bookingAtom,
-  sortBookingAtom,
-} from "@/shared/model/atoms/booking-atom";
+import { sortBookingAtom } from "@/shared/model/atoms/booking-atom";
 
 import { IBookingDto } from "@/shared/model/types/booking";
 import { useAuth } from "../providers/auth-provider";
 import { NavActions } from "@/components/nav-actions";
 import { CorporateLogisticianDto } from "@/shared/model/types/user";
 
-const selectOptions: ISelectOptions[] = [
-  {
-    label: "Название груза",
-    value: "cargoName",
-  },
-  {
-    label: "Адрес погрузки",
-    value: "loadingLocation",
-  },
-  {
-    label: "Адрес выгрузки",
-    value: "unloadingLocation",
-  },
-  {
-    label: "Менеджер",
-    value: "userName",
-  },
-];
+// const selectOptions: ISelectOptions[] = [
+//   {
+//     label: "Название груза",
+//     value: "cargoName",
+//   },
+//   {
+//     label: "Адрес погрузки",
+//     value: "loadingLocation",
+//   },
+//   {
+//     label: "Адрес выгрузки",
+//     value: "unloadingLocation",
+//   },
+//   {
+//     label: "Менеджер",
+//     value: "userName",
+//   },
+// ];
 
 function copyAllBookingTemplate(
   sortBooking: IBookingDto[],
@@ -84,9 +80,7 @@ function copyAllBookingTemplate(
 export function AppLayout() {
   const context = useAuth();
 
-  const location = useLocation();
-  const [bookingData] = useAtom(bookingAtom); // Не отсортированные bookings
-  const [sortBooking, setSortBooking] = useAtom(sortBookingAtom); // отсортированные bookings
+  const [sortBooking] = useAtom(sortBookingAtom); // отсортированные bookings
   // console.log("bookingData", bookingData);
   let copyAllBookingTemplateArray = null;
 

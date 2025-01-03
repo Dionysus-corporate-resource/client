@@ -13,7 +13,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { IFormData } from "@/entities/flight/dispatcher/ui/sheet-add-flight";
 import { Input } from "@/components/ui/input";
-import CarFlightItem from "@/entities/corporate-booking/flight/components/car-flight-item";
 import { Label } from "@/components/ui/label";
 import AddFlightPlug from "@/entities/corporate-booking/flight/components/add-flight-plug";
 import AddFlightBtn from "@/entities/corporate-booking/flight/components/add-flight-btn";
@@ -21,10 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { flightApi } from "@/entities/corporate-booking/flight/api/flight-api";
 import { Button } from "@/components/ui/button";
 import { queryClient } from "@/shared/api/query-client";
-import {
-  FlightCarItemRemoveEdit,
-  NewFlightCarItem,
-} from "@/entities/flight/dispatcher";
+import { FlightCarItemRemoveEdit } from "@/entities/flight/dispatcher";
 
 export function SheetEditFlight({
   isOpen,
