@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { Construction, UserCog } from "lucide-react";
-import { HoverCardDemo } from "./hover-card";
-import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import { Construction } from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
 
 export type Props = {
   headerContent: {
@@ -18,7 +17,7 @@ export type Props = {
   };
 };
 
-export function MainNav({ headerContent }: Props) {
+export function MainNavLanding({ headerContent }: Props) {
   return (
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full ">
       <NavLink to="/landing" className="flex items-center space-x-2 ">
@@ -45,14 +44,16 @@ export function MainNav({ headerContent }: Props) {
           </NavLink>
         ))}
       </nav>
-      <div className="flex items-center gap-6">
-        <span className="">ООО Логистик</span>
-        <NavLink to="/profile">
-          <Avatar>
-            <AvatarFallback>
-              <UserCog className="w-4 h-4" />
-            </AvatarFallback>
-          </Avatar>
+      <div className="space-x-2">
+        <NavLink to="/register">
+          <Button size="sm" variant="link">
+            Зарегистрироваться
+          </Button>
+        </NavLink>
+        <NavLink to="/login">
+          <Button size="sm" variant="link">
+            Войти
+          </Button>
         </NavLink>
       </div>
     </div>

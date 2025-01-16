@@ -1,4 +1,4 @@
-import { Check, HelpCircle, X } from "lucide-react";
+import { BadgeCheck, HelpCircle, X } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -16,8 +16,9 @@ import {
 } from "@/shared/components/ui/accordion";
 import { PricingToggle } from "@/entities/subscribe";
 import { ComparisonTable } from "@/entities/subscribe";
+import { NavLink } from "react-router";
 
-export default function SubscriptionsPage() {
+export default function SubscriptionsPageShort() {
   const subscriptions = [
     {
       name: "Базовый",
@@ -27,13 +28,8 @@ export default function SubscriptionsPage() {
         "Идеально подходит для небольших компаний и индивидуальных перевозчиков",
       popular: false,
       features: {
-        "Основные функции": [
-          "До 10 активных заявок",
-          "Базовая статистика",
-          "Email поддержка",
-        ],
+        "Основные функции": ["До 10 активных заявок", "Email поддержка"],
         Интеграции: ["Базовый API доступ", "Экспорт в Excel"],
-        Пользователи: ["1 пользователь", "Базовые роли"],
       },
       highlight: "Начните работу прямо сейчас",
     },
@@ -50,16 +46,7 @@ export default function SubscriptionsPage() {
           "Приоритетная поддержка",
           "Уведомления в Telegram",
         ],
-        Интеграции: [
-          "Расширенный API доступ",
-          "Интеграция с 1С",
-          "Экспорт в любом формате",
-        ],
-        Пользователи: [
-          "До 5 пользователей",
-          "Настраиваемые роли",
-          "Командная работа",
-        ],
+        Интеграции: ["Расширенный API доступ", "Интеграция с 1С"],
       },
       highlight: "Самый популярный выбор",
     },
@@ -72,21 +59,10 @@ export default function SubscriptionsPage() {
       features: {
         "Основные функции": [
           "Неограниченное количество заявок",
-          "Полная аналитика",
-          "Персональный менеджер",
           "Поддержка 24/7",
           "White label решение",
         ],
-        Интеграции: [
-          "Полный API доступ",
-          "Интеграция с любыми системами",
-          "Индивидуальные доработки",
-        ],
-        Пользователи: [
-          "Неограниченное количество пользователей",
-          "Полное управление ролями",
-          "Корпоративная безопасность",
-        ],
+        Интеграции: ["Полный API доступ", "Индивидуальные доработки"],
       },
       highlight: "Максимум возможностей",
     },
@@ -116,19 +92,8 @@ export default function SubscriptionsPage() {
   ];
 
   return (
-    <div className="container mx-auto py-10 space-y-32 mt-44">
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-          Тарифные планы
-        </h1>
-        <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-          Выберите подходящий тариф для вашего бизнеса. Все тарифы включают
-          14-дневный пробный период
-        </p>
-        <PricingToggle />
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
+    <div className="container mx-auto flex justify-center items-center py-10 space-y-16">
+      <div className="grid gap-6 lg:grid-cols-3 lg:gap-8 mt-2">
         {subscriptions.map((subscription) => (
           <Card
             key={subscription.name}
@@ -164,6 +129,7 @@ export default function SubscriptionsPage() {
                 {subscription.highlight}
               </Badge>
             </CardHeader>
+
             <CardContent className="flex-1">
               {Object.entries(subscription.features).map(
                 ([category, features]) => (
@@ -172,7 +138,7 @@ export default function SubscriptionsPage() {
                     <ul className="space-y-2 text-sm">
                       {features.map((feature) => (
                         <li key={feature} className="flex items-center gap-2">
-                          <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                          <BadgeCheck className="h-4 w-4 text-primary flex-shrink-0" />
                           <span>{feature}</span>
                         </li>
                       ))}
@@ -181,54 +147,24 @@ export default function SubscriptionsPage() {
                 ),
               )}
             </CardContent>
+
             <CardFooter className="flex flex-col gap-4">
-              <Button
-                className="w-full transition-transform duration-200 hover:scale-105"
-                variant={subscription.popular ? "default" : "outline"}
-                size="lg"
-              >
-                Выбрать тариф
-              </Button>
+              <NavLink to="/landing/subscribe" className="w-full">
+                <Button
+                  className="w-full transition-transform duration-200 hover:scale-105"
+                  variant={subscription.popular ? "default" : "outline"}
+                  size="lg"
+                >
+                  Выбрать тариф
+                </Button>
+              </NavLink>
+
               <p className="text-xs text-center text-muted-foreground">
                 14 дней бесплатно, отмена в любое время
               </p>
             </CardFooter>
           </Card>
         ))}
-      </div>
-
-      <ComparisonTable subscriptions={subscriptions} />
-
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-2xl font-bold text-center mb-6">
-          Часто задаваемые вопросы
-        </h2>
-        <Accordion type="single" collapsible className="w-full">
-          {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left">
-                <div className="flex items-center gap-2">
-                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                  {faq.question}
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-
-      <div className="text-center space-y-4 bg-muted/50 rounded-lg p-8">
-        <h2 className="text-2xl font-semibold">Нужна помощь с выбором?</h2>
-        <p className="text-muted-foreground max-w-[600px] mx-auto">
-          Наша команда поможет подобрать оптимальный тариф под ваши задачи и
-          ответит на все вопросы
-        </p>
-        <Button size="lg" className="mt-4">
-          Связаться с поддержкой
-        </Button>
       </div>
     </div>
   );
