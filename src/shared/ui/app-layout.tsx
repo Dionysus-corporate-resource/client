@@ -1,8 +1,8 @@
 import { Outlet } from "react-router";
 import { MainNav, Props } from "./main-nav";
 import {
-  BadgeRussianRuble,
-  ChartSpline,
+  // BadgeRussianRuble,
+  // ChartSpline,
   BriefcaseBusiness,
 } from "lucide-react";
 

@@ -3,6 +3,7 @@ import { LatLngExpression } from "leaflet"; // Добавьте этот имп�
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
+import ProductCard from "@/entities/booking-card/booking-card";
 
 export default function MapPage() {
   const centerPosition: LatLngExpression = [47.2357, 39.7015];
@@ -47,7 +48,10 @@ export default function MapPage() {
             position={marker.position}
             icon={createCustomIcon(marker.text, marker.color)}
           >
-            <Popup>{marker.text}</Popup>
+            <Popup className="border border-pink-500 w-[600px]">
+              <ProductCard />
+              {/* {marker.text} */}
+            </Popup>
           </Marker>
         ))}
       </MapContainer>

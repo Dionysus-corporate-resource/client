@@ -3,7 +3,7 @@ import {
   ChevronsUpDown,
   PackageSearch,
   PackageX,
-  Search,
+  // Search,
 } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
@@ -22,7 +22,7 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { Input } from "@/shared/components/ui/input";
-import { Badge } from "@/shared/components/ui/badge";
+// import { Badge } from "@/shared/components/ui/badge";
 import { useState } from "react";
 
 const cultures = [
@@ -53,7 +53,6 @@ export default function FilterPanel() {
   const filteredCultures = cultures.filter((culture) =>
     culture.label.toLowerCase().includes(search.toLowerCase()),
   );
-  console.log("search", search, filteredCultures);
   return (
     <div className="grid grid-cols-4 mb-4 md:grid-cols-4 items-start justify-start w-full gap-2">
       <div>

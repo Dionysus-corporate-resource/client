@@ -72,7 +72,7 @@ const tableData: TableData[] = [
   },
 ];
 
-export default function BookingList() {
+export default function BookingListTable() {
   return (
     <div className="w-full">
       <Table>
