@@ -1,7 +1,8 @@
 import { MapPin, Info } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/shared/components/ui/card";
-import { Button } from "@/shared/components/ui/button";
+// import { Button } from "@/shared/components/ui/button";
 import { Badge } from "@/shared/components/ui/badge";
+import { ReactNode } from "react";
 
 interface ProductCardProps {
   location: string;
@@ -12,6 +13,7 @@ interface ProductCardProps {
   seller: string;
   price: number;
   hasRatings?: boolean;
+  bookingDetailSlot: ReactNode;
 }
 
 export default function ProductCard({
@@ -22,6 +24,7 @@ export default function ProductCard({
   destination = "Астрахань г",
   seller = "ИП Нерсесян",
   price = 3.4,
+  bookingDetailSlot,
   // hasRatings = false,
 }: ProductCardProps) {
   return (
@@ -74,7 +77,7 @@ export default function ProductCard({
           <p className="text-sm text-muted-foreground">Цена:</p>
           <p className="text-lg font-semibold text-primary">{price} ₽/кг</p>
         </div>
-        <Button variant="outline">Подробнее</Button>
+        {bookingDetailSlot}
       </CardFooter>
     </Card>
   );

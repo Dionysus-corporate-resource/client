@@ -3,13 +3,19 @@ import { LatLngExpression } from "leaflet"; // Добавьте этот имп�
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
-import ProductCard from "@/entities/booking-card/booking-card";
+
+import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 
 export default function MapPage() {
   const centerPosition: LatLngExpression = [47.2357, 39.7015];
   const markers = [
     {
       position: [47.2313, 39.7233] as LatLngExpression,
+      text: "2.8 ₽/кг",
+      color: "rgb(108,145,201)",
+    },
+    {
+      position: [47.242, 39.7233] as LatLngExpression,
       text: "2.8 ₽/кг",
       color: "rgb(108,145,201)",
     },
@@ -48,9 +54,9 @@ export default function MapPage() {
             position={marker.position}
             icon={createCustomIcon(marker.text, marker.color)}
           >
-            <Popup className="border border-pink-500 w-[600px]">
-              <ProductCard />
-              {/* {marker.text} */}
+            <Popup>
+              <p>Dop info</p>
+              <BookingDetailSheet />
             </Popup>
           </Marker>
         ))}

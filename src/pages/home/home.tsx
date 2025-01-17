@@ -6,7 +6,7 @@ import {
 } from "@/shared/components/ui/tabs";
 import { BookingListTable, BookingListCard } from "@/widgets/booking-list";
 import { MapPinned, List, ReceiptText } from "lucide-react";
-import MapPage from "./map/map-page";
+import MapPage from "../map/map-page";
 import FilterPanel from "@/entities/filter-panel/filter-panel";
 
 export default function HomePage() {

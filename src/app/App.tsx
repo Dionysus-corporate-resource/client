@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router";
-import HomePage from "../pages/home";
+import HomePage from "../pages/home/home";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
 import SubscriptionsPage from "@/pages/subscribe/subscribe-page";

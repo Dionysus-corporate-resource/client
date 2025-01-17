@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import { Props } from "./main-nav";
-import { BadgeRussianRuble, BriefcaseBusiness } from "lucide-react";
+import { BriefcaseBusiness } from "lucide-react";
 import { MainNavLanding } from "@/entities/landing/ui/main-nav-landing";
 
 export default function LandingLayout() {
