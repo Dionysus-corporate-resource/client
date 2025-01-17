@@ -1,4 +1,4 @@
-import { Construction, PhoneCall } from "lucide-react";
+import { Construction } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";

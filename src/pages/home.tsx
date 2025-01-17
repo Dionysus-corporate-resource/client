@@ -7,15 +7,14 @@ import {
 import BookingList from "@/widgets/booking-list/booking-list";
 import { MapPinned, List } from "lucide-react";
 import MapPage from "./map/map-page";
+import FilterPanel from "@/entities/filter-panel/filter-panel";
 
 export default function HomePage() {
   return (
     <div className="container mx-auto flex flex-1 md:grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px] gap-6 p-4 md:p-6">
       <div className="h-full">
-        <Tabs
-          defaultValue="booking-list"
-          className="h-full overflow-hidden space-y-4"
-        >
+        <FilterPanel />
+        <Tabs defaultValue="booking-list" className="overflow-hidden space-y-4">
           <TabsList>
             <TabsTrigger value="booking-list" className="space-x-2">
               <List className="w-4 h-4" />
@@ -29,7 +28,7 @@ export default function HomePage() {
           <TabsContent value="booking-list" className="h-full">
             <BookingList />
           </TabsContent>
-          <TabsContent value="map" className="h-full overflow-hidden">
+          <TabsContent value="map">
             <MapPage />
           </TabsContent>
         </Tabs>

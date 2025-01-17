@@ -29,11 +29,16 @@ export default function MapPage() {
   };
 
   return (
-    <div className="h-full">
+    <div className="md:h-[400px] lg:h-[600px]">
       <MapContainer
         center={centerPosition}
         zoom={13}
-        style={{ height: "90%", width: "100%", borderRadius: "8px" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          borderRadius: "8px",
+          zIndex: "0",
+        }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {markers.map((marker, index) => (

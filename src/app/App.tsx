@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import HomePage from "../pages/home";
-import AuthLayout from "../pages/auth-layout";
+import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
 import SubscriptionsPage from "@/pages/subscribe/subscribe-page";
 import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";

@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import { Construction, UserCog } from "lucide-react";
-import { HoverCardDemo } from "./hover-card";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
 
 export type Props = {
