@@ -41,7 +41,9 @@ export default function HomePage() {
           </TabsContent>
         </Tabs>
       </div>
-      <div className="border">filter</div>
+      {/* <div className="border">filter</div> */}
     </div>
   );
 }
+
+// <div className="container mx-auto flex flex-1 md:grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px] gap-6 p-4 md:p-6">

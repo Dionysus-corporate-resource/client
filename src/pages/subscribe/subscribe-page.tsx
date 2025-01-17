@@ -1,4 +1,4 @@
-import { Check, HelpCircle, X } from "lucide-react";
+import { Check, HelpCircle } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,

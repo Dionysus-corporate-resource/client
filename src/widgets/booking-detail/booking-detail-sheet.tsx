@@ -3,9 +3,6 @@ import { Button } from "@/shared/components/ui/button";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/shared/components/ui/sheet";
 
