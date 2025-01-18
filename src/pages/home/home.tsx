@@ -8,6 +8,7 @@ import { BookingListTable, BookingListCard } from "@/widgets/booking-list";
 import { MapPinned, List, ReceiptText } from "lucide-react";
 import MapPage from "../map/map-page";
 import FilterPanel from "@/entities/filter-panel/filter-panel";
+import AdvertisingCard from "@/entities/advertising-card/advertising-card";
 
 export default function HomePage() {
   return (
@@ -41,7 +42,9 @@ export default function HomePage() {
           </TabsContent>
         </Tabs>
       </div>
-      {/* <div className="border">filter</div> */}
+      <div className="">
+        <AdvertisingCard />
+      </div>
     </div>
   );
 }
