@@ -53,7 +53,9 @@ export default function AppLayout() {
               <NavLink to="/">
                 <TabsTrigger
                   value="booking"
-                  className="pb-4 pt-2 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
+                  className="
+
+                  pb-4 pt-2 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
                 >
                   <Package className="w-4 h-4" />
                   <span>Заявки</span>
