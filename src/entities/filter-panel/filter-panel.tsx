@@ -54,7 +54,7 @@ export default function FilterPanel() {
     culture.label.toLowerCase().includes(search.toLowerCase()),
   );
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 ">
       <div className="grid grid-cols-3 md:grid-cols-3 items-start justify-start gap-2 ">
         <div>
           {/* <label htmlFor="location" className="text-sm font-medium">
@@ -134,14 +134,14 @@ export default function FilterPanel() {
         </div>
       </div>
       <div className="flex items-end gap-2">
-        <Button variant="outline" type="submit">
+        <Button variant="secondary" type="submit">
           <PackageSearch className="h-4 w-4" />
-          Найти заявки
+          {/* Найти заявки */}
         </Button>
-        <Button variant="ghost" type="submit">
+        {/* <Button variant="ghost" type="submit">
           <PackageX className="h-4 w-4" />
           Сбросить
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

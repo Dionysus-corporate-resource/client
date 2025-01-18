@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import {
+  BriefcaseBusiness,
   Construction,
   // Package,
   // PackageOpen,
@@ -26,7 +27,34 @@ export type Props = {
   };
 };
 
-export function MainNav({ headerContent }: Props) {
+export function MainNav() {
+  const headerContent: Props["headerContent"] = {
+    logoTitle: "DionysCompany",
+    linksMain: [
+      {
+        // icon: BriefcaseBusiness,
+        linkLabel: "Заявки",
+        navigate: "/",
+      },
+      {
+        // icon: BadgeRussianRuble,
+        linkLabel: "Подписки",
+        navigate: "/subscribe",
+      },
+      {
+        // icon: ChartSpline,
+        linkLabel: "Аналитика",
+        navigate: "/analytics",
+      },
+    ],
+    linksFooter: [
+      {
+        icon: BriefcaseBusiness,
+        linkLabel: "Заявки",
+      },
+    ],
+  };
+
   return (
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full ">
       <div className="flex items-center gap-12 ">
