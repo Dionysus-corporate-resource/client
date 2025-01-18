@@ -11,7 +11,7 @@ import { Badge } from "@/shared/components/ui/badge";
 
 export default function AdvertisingCard() {
   return (
-    <Card className="w-[300px] overflow-hidden">
+    <Card className="fixed w-[300px] overflow-hidden">
       <CardHeader className="p-0">
         <div className="relative h-[160px] w-full overflow-hidden aspect-[16/9]">
           <img
@@ -36,7 +36,7 @@ export default function AdvertisingCard() {
         </p>
       </CardContent>
       <CardFooter className="px-4 pb-4 pt-0">
-        <Button className="w-full" asChild>
+        <Button size="sm" className="w-full" asChild>
           <a
             href="https://example.com"
             target="_blank"

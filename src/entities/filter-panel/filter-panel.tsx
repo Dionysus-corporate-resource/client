@@ -54,85 +54,86 @@ export default function FilterPanel() {
     culture.label.toLowerCase().includes(search.toLowerCase()),
   );
   return (
-    <div className="grid grid-cols-4 mb-4 md:grid-cols-4 items-start justify-start w-full gap-2">
-      <div>
-        {/* <label htmlFor="location" className="text-sm font-medium">
-              Место выгрузки
-            </label> */}
-        <Input
-          id="location"
-          placeholder="Введите место выгрузки"
-          className="w-full"
-        />
-      </div>
+    <div className="flex gap-2">
+      <div className="grid grid-cols-3 md:grid-cols-3 items-start justify-start gap-2 ">
+        <div>
+          {/* <label htmlFor="location" className="text-sm font-medium">
+                Место выгрузки
+              </label> */}
+          <Input
+            id="location"
+            placeholder="Введите место выгрузки"
+            className="w-full"
+          />
+        </div>
 
-      <div>
-        {/* <label className="text-sm font-medium">Культура</label> */}
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-full justify-between"
-            >
-              {selectedCultures.length > 0
-                ? `Выбрано: ${selectedCultures.length}`
-                : "Выберите культуры"}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-full p-0" align="start">
-            <Command className="z-[9999]">
-              <CommandInput
-                placeholder="Type a command or search..."
-                className="z-[9999]"
-                onValueChange={setSearch}
-              />
-              <CommandList className="z-[9999]">
-                <CommandEmpty>No results found.</CommandEmpty>
-                <CommandGroup heading="Все культуры">
-                  {filteredCultures?.map((culture, index) => (
-                    <CommandItem
-                      key={index}
-                      onSelect={() => handleSelect(culture.value)}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          selectedCultures.includes(culture.value)
-                            ? "opacity-100"
-                            : "opacity-0",
-                        )}
-                      />
-                      {culture.label}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-                {/* <CommandSeparator />
-                    <CommandGroup heading="Пшено">
-                      <CommandItem>Пшеница-1</CommandItem>
-                      <CommandItem>Пшеница-2</CommandItem>
-                      <CommandItem>Пшеница-3</CommandItem>
-                    </CommandGroup> */}
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
-      </div>
+        <div>
+          {/* <label className="text-sm font-medium">Культура</label> */}
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-full justify-between"
+              >
+                {selectedCultures.length > 0
+                  ? `Выбрано: ${selectedCultures.length}`
+                  : "Выберите культуры"}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command className="z-[9999]">
+                <CommandInput
+                  placeholder="Type a command or search..."
+                  className="z-[9999]"
+                  onValueChange={setSearch}
+                />
+                <CommandList className="z-[9999]">
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup heading="Все культуры">
+                    {filteredCultures?.map((culture, index) => (
+                      <CommandItem
+                        key={index}
+                        onSelect={() => handleSelect(culture.value)}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            selectedCultures.includes(culture.value)
+                              ? "opacity-100"
+                              : "opacity-0",
+                          )}
+                        />
+                        {culture.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                  {/* <CommandSeparator />
+                      <CommandGroup heading="Пшено">
+                        <CommandItem>Пшеница-1</CommandItem>
+                        <CommandItem>Пшеница-2</CommandItem>
+                        <CommandItem>Пшеница-3</CommandItem>
+                      </CommandGroup> */}
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
 
-      <div>
-        {/* <label htmlFor="customer" className="text-sm font-medium">
-              Заказчик
-            </label> */}
-        <Input
-          id="customer"
-          placeholder="Введите заказчика"
-          className="w-full"
-        />
+        <div>
+          {/* <label htmlFor="customer" className="text-sm font-medium">
+                Заказчик
+              </label> */}
+          <Input
+            id="customer"
+            placeholder="Введите заказчика"
+            className="w-full"
+          />
+        </div>
       </div>
-
-      <div className="flex items-end w-full gap-2">
+      <div className="flex items-end gap-2">
         <Button variant="outline" type="submit">
           <PackageSearch className="h-4 w-4" />
           Найти заявки
