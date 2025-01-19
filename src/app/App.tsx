@@ -11,6 +11,7 @@ import RegisterPage from "@/pages/auth/sign-up/register-page";
 import ProfilePage from "@/pages/profile/profile";
 import NotFound from "@/pages/not-found/not-found";
 import MyBooking from "@/pages/my-booking/my-booking";
+import CreateBookingPage from "@/pages/create-booking/create-booking-page";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="subscribe" element={<SubscriptionsPageShort />} />
         <Route path="profile" element={<ProfilePage />} />
         <Route path="my-booking" element={<MyBooking />} />
+        <Route path="create-booking" element={<CreateBookingPage />} />
       </Route>
 
       <Route element={<AuthLayout />}>
