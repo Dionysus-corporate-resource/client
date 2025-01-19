@@ -1,4 +1,4 @@
-import { BookingDetailContent } from "@/entities/booking-detail";
+import BookingDetailContent from "@/entities/booking/ui/booking-detail-content";
 import { Button } from "@/shared/components/ui/button";
 import {
   Sheet,

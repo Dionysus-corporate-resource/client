@@ -16,7 +16,7 @@ interface ProductCardProps {
   bookingDetailSlot: ReactNode;
 }
 
-export default function ProductCard({
+export default function BookingCard({
   location = "Тоцкое",
   region = "Оренбургская область",
   distance = "1400 км",

@@ -10,6 +10,7 @@ import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import ProfilePage from "@/pages/profile/profile";
 import NotFound from "@/pages/not-found/not-found";
+import MyBooking from "@/pages/my-booking/my-booking";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="subscribe" element={<SubscriptionsPageShort />} />
         <Route path="profile" element={<ProfilePage />} />
+        <Route path="my-booking" element={<MyBooking />} />
       </Route>
 
       <Route element={<AuthLayout />}>

@@ -5,6 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import BookingCard from "@/entities/booking/ui/booking-card";
 
 export default function MapPage() {
   const centerPosition: LatLngExpression = [47.2357, 39.7015];
@@ -36,31 +37,39 @@ export default function MapPage() {
   };
 
   return (
-    <div className="md:h-[400px] lg:h-[600px]">
-      <MapContainer
-        center={centerPosition}
-        zoom={13}
-        style={{
-          height: "100%",
-          width: "100%",
-          borderRadius: "8px",
-          zIndex: "0",
-        }}
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            position={marker.position}
-            icon={createCustomIcon(marker.text, marker.color)}
-          >
-            <Popup>
-              <p>Dop info</p>
-              <BookingDetailSheet />
-            </Popup>
-          </Marker>
+    <div className="grid grid-cols-4 gap-4">
+      <div className="flex flex-col gap-4 pr-2 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
+        {Array.from({ length: 18 }, (_, index) => (
+          <BookingCard key={index} bookingDetailSlot={<BookingDetailSheet />} />
         ))}
-      </MapContainer>
+      </div>
+
+      <div className="col-span-3 md:h-[400px] lg:h-[675px]">
+        <MapContainer
+          center={centerPosition}
+          zoom={13}
+          style={{
+            height: "100%",
+            width: "100%",
+            borderRadius: "8px",
+            zIndex: "0",
+          }}
+        >
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              position={marker.position}
+              icon={createCustomIcon(marker.text, marker.color)}
+            >
+              <Popup>
+                <p>Dop info</p>
+                <BookingDetailSheet />
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 }

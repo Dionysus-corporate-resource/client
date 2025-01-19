@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
+import { MapPin } from "lucide-react";
 
 interface TableData {
   id: string;
@@ -92,11 +93,14 @@ export default function BookingListTable() {
             <TableRow key={row.id}>
               <TableCell>{row.customer}</TableCell>
               <TableCell>{row.culture}</TableCell>
-              <TableCell>{row.loadingPoint}</TableCell>
+              <TableCell className="flex gap-2">
+                <MapPin className="w-4 h-4" />
+                {row.loadingPoint}
+              </TableCell>
               <TableCell>{row.unloadingPoint}</TableCell>
               <TableCell>{row.volume}</TableCell>
               <TableCell>{row.distance}</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right font-semibold">
                 {row.rate.toLocaleString()} ₽
               </TableCell>
             </TableRow>
