@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
+    /* :root {
         --background: 0 0% 100%;
         --foreground: 222.2 47.4% 11.2%;
         --muted: 210 40% 96.1%;
@@ -15,18 +15,61 @@
         --card: 0 0% 100%;
         --card-foreground: 222.2 47.4% 11.2%;
         --primary: 222.2 47.4% 11.2%;
+
         --primary-foreground: 210 40% 98%;
         --secondary: 210 40% 96.1%;
         --secondary-foreground: 222.2 47.4% 11.2%;
         --accent: 210 40% 96.1%;
+
         --accent-foreground: 222.2 47.4% 11.2%;
         --destructive: 0 100% 50%;
         --destructive-foreground: 210 40% 98%;
         --ring: 215 20.2% 65.1%;
         --radius: 0.5rem;
+    } */
+    :root {
+        /* Основные цвета */
+        --background: 0 0% 100%;
+        --foreground: 197 55% 15%;
+
+        /* Основной акцентный цвет - более приглушенный */
+        --primary: 197 60% 55%; /* Менее яркий, более спокойный голубой */
+        --primary-foreground: 0 0% 100%;
+
+        /* Второстепенные цвета */
+        --secondary: 199 55% 95%;
+        --secondary-foreground: 197 55% 15%;
+
+        /* Приглушенные цвета */
+        --muted: 197 35% 96%;
+        --muted-foreground: 197 35% 40%;
+
+        /* Акцентные цвета */
+        --accent: 197 65% 85%;
+        --accent-foreground: 197 55% 15%;
+
+        /* Цвета компонентов интерфейса */
+        --card: 0 0% 100%;
+        --card-foreground: 197 55% 15%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 197 55% 15%;
+
+        /* Границы и инпуты */
+        --border: 197 25% 90%;
+        --input: 197 25% 90%;
+
+        /* Destructive для предупреждений/ошибок */
+        --destructive: 0 85% 60%;
+        --destructive-foreground: 0 0% 100%;
+
+        /* Кольцо фокуса */
+        --ring: 197 55% 55%;
+
+        --radius: 0.5rem;
     }
 
-    .dark {
+    /* .dark {
         --background: 224 71% 4%;
         --foreground: 213 31% 91%;
         --muted: 223 47% 11%;
@@ -46,6 +89,45 @@
         --destructive: 0 63% 31%;
         --destructive-foreground: 210 40% 98%;
         --ring: 216 34% 17%;
+    } */
+    .dark {
+        /* Основные цвета */
+        --background: 197 45% 8%; /* Темный фон с легким оттенком основного цвета */
+        --foreground: 197 15% 90%; /* Светлый текст */
+
+        /* Основной акцентный цвет */
+        --primary: 197 60% 55%; /* Тот же primary что и в светлой теме для консистентности */
+        --primary-foreground: 0 0% 100%;
+
+        /* Второстепенные цвета */
+        --secondary: 197 35% 15%; /* Темный второстепенный фон */
+        --secondary-foreground: 197 15% 90%;
+
+        /* Приглушенные цвета */
+        --muted: 197 35% 20%;
+        --muted-foreground: 197 25% 65%;
+
+        /* Акцентные цвета */
+        --accent: 197 40% 25%;
+        --accent-foreground: 197 15% 90%;
+
+        /* Цвета компонентов интерфейса */
+        --card: 197 45% 10%;
+        --card-foreground: 197 15% 90%;
+
+        --popover: 197 45% 8%;
+        --popover-foreground: 197 15% 90%;
+
+        /* Границы и инпуты */
+        --border: 197 35% 25%;
+        --input: 197 35% 25%;
+
+        /* Destructive для предупреждений/ошибок */
+        --destructive: 0 75% 50%;
+        --destructive-foreground: 0 0% 100%;
+
+        /* Кольцо фокуса */
+        --ring: 197 60% 55%;
     }
 }
 

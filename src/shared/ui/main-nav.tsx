@@ -29,7 +29,7 @@ export type Props = {
 
 export function MainNav() {
   const headerContent: Props["headerContent"] = {
-    logoTitle: "DionysCompany",
+    logoTitle: "Зерно-перевозки",
     linksMain: [
       {
         // icon: BriefcaseBusiness,

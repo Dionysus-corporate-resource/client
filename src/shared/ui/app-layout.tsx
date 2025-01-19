@@ -3,6 +3,7 @@ import { MainNav } from "./main-nav";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Package, PackageOpen, PackagePlus, Sparkle } from "lucide-react";
 import { Badge } from "../components/ui/badge";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 
 export default function AppLayout() {
   return (
@@ -83,7 +84,7 @@ export default function AppLayout() {
               </NavLink>
             </TabsList>
           </Tabs>
-          <Badge variant="secondary">Add content/feature</Badge>
+          <ThemeToggle />
         </div>
       </header>
       <div className="flex-1 flex">
