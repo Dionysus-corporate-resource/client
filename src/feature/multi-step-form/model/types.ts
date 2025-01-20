@@ -1,20 +1,40 @@
 import { z } from "zod";
 
 export const basicInfoSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
+  distance: z.number().min(2, "Error validation"),
+  loadingLocation: z.string().min(2, "Error validation"),
+  unLoadingLocation: z.string().min(2, "Error validation"),
+  tonnage: z.number().min(2, "Error validation"),
+  culture: z.string().min(2, "Error validation"),
 });
 
-export const detailsSchema = z.object({
-  phone: z.string().min(10, "Phone number must be at least 10 characters"),
-  address: z.string().min(5, "Address must be at least 5 characters"),
-  city: z.string().min(2, "City must be at least 2 characters"),
+export const conditionsTransportationSchema = z.object({
+  loadingMethod: z.string().min(2, "Error validation"),
+  scaleCapacity: z.number().min(2, "Error validation"),
+  loadingDate: z.string().min(2, "Error validation"),
+});
+
+export const detailTransportationSchema = z.object({
+  demurrage: z.string(),
+  allowedShortage: z.number(),
+  paymentType: z.enum(["cash", "nds", "without_nds"], {
+    errorMap: () => ({ message: "Выберите корректный способ оплаты" }),
+  }),
+  ratePerTon: z.number().positive("Ставка должна быть положительным числом"),
+  // .min(100, "Минимальная ставка - 100 руб/т"),
+  paymentDeadline: z.string(),
+});
+
+export const additionalConditionsSchema = z.object({
+  additionalInformation: z.string(),
+  contacts: z.array(z.string()).min(1).max(10),
 });
 
 export const formSchema = z.object({
   basicInfo: basicInfoSchema,
-  details: detailsSchema,
+  conditionsTransportation: conditionsTransportationSchema,
+  detailTransportation: detailTransportationSchema,
+  additionalConditions: additionalConditionsSchema,
 });
 
 export type FormData = z.infer<typeof formSchema>;

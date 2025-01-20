@@ -5,35 +5,47 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/shared/components/ui/card";
 import { FormData, Step } from "../model/types";
 import { BasicInfoStep } from "./steps/basic-info-step";
-import { DetailsStep } from "./steps/details-step";
 import { ReviewStep } from "./steps/review-step";
-import { ConfirmationStep } from "./steps/confirmation-step";
 import { Stepper } from "./stepper";
+import { ConditionsTransportation } from "./steps/conditions-transportation";
+import { ConfirmationStep } from "./steps/confirmation-step";
+import { DetailTransportation } from "./steps/detail-transportation";
+import { AdditionalTransportation } from "./steps/additional-conditions";
 
 const steps: Step[] = [
   {
     id: 1,
-    title: "Basic Info",
+    title: "Основная информация",
     description: "Personal information",
   },
   {
     id: 2,
-    title: "Details",
+    title: "Условия перевозки",
     description: "Contact details",
   },
   {
     id: 3,
-    title: "Review",
+    title: "Детали перевозки",
     description: "Review your info",
   },
   {
     id: 4,
-    title: "Confirmation",
-    description: "Form submitted",
+    title: "Дополнительные условия",
+    description: "Review your info",
+  },
+  {
+    id: 5,
+    title: "Проверка данных",
+    description: "Review your info",
+  },
+
+  {
+    id: 6,
+    title: "Подтверждение",
+    description: "Создание задание",
   },
 ];
 
@@ -41,14 +53,27 @@ export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     basicInfo: {
-      firstName: "",
-      lastName: "",
-      email: "",
+      distance: 0,
+      loadingLocation: "",
+      unLoadingLocation: "",
+      tonnage: 0,
+      culture: "",
     },
-    details: {
-      phone: "",
-      address: "",
-      city: "",
+    conditionsTransportation: {
+      loadingMethod: "",
+      scaleCapacity: 0,
+      loadingDate: "",
+    },
+    detailTransportation: {
+      demurrage: "",
+      allowedShortage: 0,
+      paymentType: "cash",
+      ratePerTon: 0,
+      paymentDeadline: "",
+    },
+    additionalConditions: {
+      additionalInformation: "",
+      contacts: [""],
     },
   });
 
@@ -86,10 +111,14 @@ export default function MultiStepForm() {
       case 1:
         return <BasicInfoStep {...props} />;
       case 2:
-        return <DetailsStep {...props} />;
+        return <ConditionsTransportation {...props} />;
       case 3:
-        return <ReviewStep {...props} />;
+        return <DetailTransportation {...props} />;
       case 4:
+        return <AdditionalTransportation {...props} />;
+      case 5:
+        return <ReviewStep {...props} />;
+      case 6:
         return <ConfirmationStep />;
       default:
         return null;
@@ -97,11 +126,11 @@ export default function MultiStepForm() {
   };
 
   return (
-    <Card className="w-full max-w-3xl">
+    <Card className="w-full border-none shadow-none">
       <CardHeader>
-        <CardTitle>Multi-step Form</CardTitle>
+        {/* <CardTitle>Форма создания заявки</CardTitle> */}
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-12">
         <Stepper steps={steps} currentStep={currentStep} />
         {renderStep()}
       </CardContent>
@@ -112,14 +141,16 @@ export default function MultiStepForm() {
             onClick={handleBack}
             disabled={currentStep === 1}
           >
-            Back
+            Предыдущий этап
           </Button>
           <Button
             onClick={
               currentStep === steps.length - 1 ? handleSubmit : handleNext
             }
           >
-            {currentStep === steps.length - 1 ? "Submit" : "Next"}
+            {currentStep === steps.length - 1
+              ? "Создать заявку"
+              : "Следующий этап"}
           </Button>
         </CardFooter>
       )}
