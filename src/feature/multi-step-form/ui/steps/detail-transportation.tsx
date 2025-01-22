@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
-import { BanknoteIcon, Clock, Percent, Route, Wallet } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -36,8 +35,8 @@ export function DetailTransportation({
       {/* Простой */}
       <div className="space-y-2">
         <Label htmlFor="demurrage" className="flex items-center gap-2">
-          <Clock className="w-4 h-4" />
-          <span>Простой</span>
+          {/* <Clock className="w-4 h-4" /> */}
+          <span>Простой *</span>
         </Label>
         <Input
           id="demurrage"
@@ -57,8 +56,8 @@ export function DetailTransportation({
       {/* Допустимая недостача */}
       <div className="space-y-2">
         <Label htmlFor="allowedShortage" className="flex items-center gap-2">
-          <Percent className="w-4 h-4" />
-          <span>Допустимая недостача</span>
+          {/* <Percent className="w-4 h-4" /> */}
+          <span>Допустимая недостача *</span>
         </Label>
         <Input
           id="allowedShortage"
@@ -81,8 +80,8 @@ export function DetailTransportation({
       {/* Вид оплаты */}
       <div className="space-y-2">
         <Label htmlFor="paymentType" className="flex items-center gap-2">
-          <Wallet className="w-4 h-4" />
-          <span>Вид оплаты</span>
+          {/* <Wallet className="w-4 h-4" /> */}
+          <span>Вид оплаты *</span>
         </Label>
         <Select
           value={formData.detailTransportation?.paymentType}
@@ -115,8 +114,8 @@ export function DetailTransportation({
       {/* Ставка */}
       <div className="space-y-2">
         <Label htmlFor="ratePerTon" className="flex items-center gap-2">
-          <BanknoteIcon className="w-4 h-4" />
-          <span>Ставка</span>
+          {/* <BanknoteIcon className="w-4 h-4" /> */}
+          <span>Ставка *</span>
         </Label>
         <Input
           id="ratePerTon"
@@ -137,8 +136,8 @@ export function DetailTransportation({
       {/* Сроки оплаты */}
       <div className="space-y-2">
         <Label htmlFor="paymentDeadline" className="flex items-center gap-2">
-          <Route className="w-4 h-4" />
-          <span>Сроки оплаты</span>
+          {/* <Route className="w-4 h-4" /> */}
+          <span>Сроки оплаты *</span>
         </Label>
         <Input
           id="paymentDeadline"

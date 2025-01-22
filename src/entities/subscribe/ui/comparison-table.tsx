@@ -8,8 +8,12 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 
+interface Subscription {
+  name: string;
+  features: Record<string, string[]>;
+}
 interface ComparisonTableProps {
-  subscriptions: unknown[];
+  subscriptions: Subscription[];
 }
 
 export function ComparisonTable({ subscriptions }: ComparisonTableProps) {
@@ -35,7 +39,7 @@ export function ComparisonTable({ subscriptions }: ComparisonTableProps) {
     ],
   };
 
-  const getFeatureValue = (subscription: unknown, feature: string) => {
+  const getFeatureValue = (subscription: Subscription, feature: string) => {
     switch (feature) {
       case "Активные заявки":
         return subscription.name === "Базовый"
@@ -61,16 +65,24 @@ export function ComparisonTable({ subscriptions }: ComparisonTableProps) {
           : subscription.name === "Профессиональный"
             ? "До 5"
             : "Без ограничений";
-      default:
-        return subscription.features[
-          Object.keys(subscription.features).find((category) =>
+      default: {
+        const categoryKey = Object.keys(subscription.features).find(
+          (category) =>
             subscription.features[category].some((f) => f.includes(feature)),
-          )
-        ]?.some((f) => f.includes(feature)) ? (
-          <Check className="h-4 w-4 text-primary mx-auto" />
-        ) : (
-          <X className="h-4 w-4 text-muted-foreground mx-auto" />
-        );
+        ) as keyof typeof subscription.features;
+
+        if (categoryKey !== undefined) {
+          return subscription.features[categoryKey]?.some((f) =>
+            f.includes(feature),
+          ) ? (
+            <Check className="h-4 w-4 text-primary mx-auto" />
+          ) : (
+            <X className="h-4 w-4 text-muted-foreground mx-auto" />
+          );
+        }
+
+        return <X className="h-4 w-4 text-muted-foreground mx-auto" />;
+      }
     }
   };
 
@@ -89,25 +101,27 @@ export function ComparisonTable({ subscriptions }: ComparisonTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Object.entries(features).map(([category, categoryFeatures]) => (
-            <>
-              <TableRow key={category}>
-                <TableCell className="font-medium bg-muted/50" colSpan={4}>
-                  {category}
-                </TableCell>
-              </TableRow>
-              {categoryFeatures.map((feature) => (
-                <TableRow key={feature}>
-                  <TableCell className="font-medium">{feature}</TableCell>
-                  {subscriptions.map((sub) => (
-                    <TableCell key={sub.name} className="text-center">
-                      {getFeatureValue(sub, feature)}
-                    </TableCell>
-                  ))}
+          {Object.entries(features).map(
+            ([category, categoryFeatures]: [string, string[]]) => (
+              <>
+                <TableRow key={category}>
+                  <TableCell className="font-medium bg-muted/50" colSpan={4}>
+                    {category}
+                  </TableCell>
                 </TableRow>
-              ))}
-            </>
-          ))}
+                {categoryFeatures.map((feature) => (
+                  <TableRow key={feature}>
+                    <TableCell className="font-medium">{feature}</TableCell>
+                    {subscriptions.map((sub) => (
+                      <TableCell key={sub.name} className="text-center">
+                        {getFeatureValue(sub, feature)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </>
+            ),
+          )}
         </TableBody>
       </Table>
     </div>

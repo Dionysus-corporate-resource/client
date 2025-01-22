@@ -50,11 +50,15 @@ const steps: Step[] = [
 ];
 
 export default function MultiStepForm() {
+  const [isViewMap, setIsViewMap] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     basicInfo: {
       distance: 0,
-      loadingLocation: "",
+      loadingLocation: {
+        name: "",
+        coordinates: null,
+      },
       unLoadingLocation: "",
       tonnage: 0,
       culture: "",
@@ -109,7 +113,13 @@ export default function MultiStepForm() {
 
     switch (currentStep) {
       case 1:
-        return <BasicInfoStep {...props} />;
+        return (
+          <BasicInfoStep
+            {...props}
+            isViewMap={isViewMap}
+            setIsViewMap={setIsViewMap}
+          />
+        );
       case 2:
         return <ConditionsTransportation {...props} />;
       case 3:

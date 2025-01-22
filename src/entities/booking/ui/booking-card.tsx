@@ -5,28 +5,35 @@ import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
 
 interface ProductCardProps {
-  location: string;
-  region: string;
-  distance: string;
-  product: string;
-  destination: string;
-  seller: string;
-  price: number;
+  location?: string;
+  region?: string;
+  distance?: string;
+  product?: string;
+  destination?: string;
+  seller?: string;
+  price?: number;
   hasRatings?: boolean;
   bookingDetailSlot: ReactNode;
 }
 
 export default function BookingCard({
-  location = "Тоцкое",
-  region = "Оренбургская область",
-  distance = "1400 км",
-  product = "Кукуруза",
-  destination = "Астрахань г",
-  seller = "ИП Нерсесян",
-  price = 3.4,
+//   location = "Тоцкое",
+//   region = "Оренбургская область",
+//   distance = "1400 км",
+//   product = "Кукуруза",
+//   destination = "Астрахань г",
+//   seller = "ИП Нерсесян",
+//   price = 3.4,
   bookingDetailSlot,
   // hasRatings = false,
 }: ProductCardProps) {
+    const location = "Тоцкое"
+    const region = "Оренбургская область"
+    const distance = "1400 км"
+    const product = "Кукуруза"
+    const destination = "Астрахань г"
+    const seller = "ИП Нерсесян"
+    const price = 3.4
   return (
     <Card className="w-full max-w-md relative">
       <CardContent className="pt-6">

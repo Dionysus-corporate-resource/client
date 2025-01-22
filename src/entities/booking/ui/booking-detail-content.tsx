@@ -16,37 +16,41 @@ import {
 import { useNavigate } from "react-router-dom";
 
 interface BookingDetailContentProps {
-  requestNumber: string;
-  date: string;
-  customer: string;
-  hasRating?: boolean;
-  price: number;
-  distance: number;
-  location: string;
-  unloadingLocation: string;
-  volume: number;
-  cargo: string;
-  loadingMethod: string;
-  weightCapacity: number;
-  loadingDate: string;
+//   requestNumber: string;
+//   date: string;
+//   customer: string;
+//   hasRating?: boolean;
+  // price: number;
+  // distance: number;
+  // location: string;
+  // unloadingLocation: string;
+  // volume: number;
+  // cargo: string;
+  // loadingMethod: string;
+  // weightCapacity: number;
+  // loadingDate: string;
 }
 
 export default function BookingDetailContent({
-  requestNumber = "647740",
-  date = "17 января 2025",
-  customer = "ООО КСВ-ШИППИНГ",
+//   requestNumber = "647740",
+//   date = "17 января 2025",
+//   customer = "ООО КСВ-ШИППИНГ",
   // hasRating = false,
-  price = 1.85,
-  distance = 540,
-  location = "Самойловский, Самойловка рп",
-  unloadingLocation = "Место выгрузки не указано, Касторное рп, Касторенский Район",
-  volume = 500,
-  cargo = "Подсолнечник",
-  loadingMethod = "Маниту",
-  weightCapacity = 60,
-  loadingDate = "21.01.2025",
+  // price = 1.85,
+  // distance = 540,
+  // location = "Самойловский, Самойловка рп",
+  // unloadingLocation = "Место выгрузки не указано, Касторное рп, Касторенский Район",
+  // volume = 500,
+  // cargo = "Подсолнечник",
+  // loadingMethod = "Маниту",
+  // weightCapacity = 60,
+  // loadingDate = "21.01.2025",
 }: BookingDetailContentProps) {
   const navigate = useNavigate();
+
+  const requestNumber = "647740"
+  const date = "17 января 2025"
+  const customer = "ООО КСВ-ШИППИНГ"
 
   return (
     <div className="max-w-3xl w-full">

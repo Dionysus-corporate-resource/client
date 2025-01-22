@@ -47,4 +47,6 @@ export default tseslint.config({
     ...react.configs['jsx-runtime'].rules,
   },
 })
+// "build": "tsc -b && vite build",
+
 ```

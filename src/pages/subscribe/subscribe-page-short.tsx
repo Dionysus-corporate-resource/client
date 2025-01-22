@@ -1,4 +1,4 @@
-import { BadgeCheck, HelpCircle, X } from "lucide-react";
+import { BadgeCheck } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -8,14 +8,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/components/ui/accordion";
-import { PricingToggle } from "@/entities/subscribe";
-import { ComparisonTable } from "@/entities/subscribe";
+
 import { NavLink } from "react-router";
 
 export default function SubscriptionsPageShort() {
@@ -68,28 +61,28 @@ export default function SubscriptionsPageShort() {
     },
   ];
 
-  const faqs = [
-    {
-      question: "Как происходит оплата?",
-      answer:
-        "Оплата производится банковской картой или по безналичному расчету. При оплате картой списание происходит автоматически в начале каждого периода.",
-    },
-    {
-      question: "Можно ли сменить тариф?",
-      answer:
-        "Да, вы можете изменить тариф в любое время. При переходе на более дорогой тариф доплата рассчитывается пропорционально оставшемуся времени.",
-    },
-    {
-      question: "Есть ли пробный период?",
-      answer:
-        "Да, мы предоставляем 14 дней бесплатного использования для всех тарифов. В течение этого времени вы можете протестировать все функции выбранного тарифа.",
-    },
-    {
-      question: "Какие способы оплаты доступны?",
-      answer:
-        "Мы принимаем оплату банковскими картами Visa, Mastercard, МИР, а также поддерживаем безналичный расчет для юридических лиц.",
-    },
-  ];
+  // const faqs = [
+  //   {
+  //     question: "Как происходит оплата?",
+  //     answer:
+  //       "Оплата производится банковской картой или по безналичному расчету. При оплате картой списание происходит автоматически в начале каждого периода.",
+  //   },
+  //   {
+  //     question: "Можно ли сменить тариф?",
+  //     answer:
+  //       "Да, вы можете изменить тариф в любое время. При переходе на более дорогой тариф доплата рассчитывается пропорционально оставшемуся времени.",
+  //   },
+  //   {
+  //     question: "Есть ли пробный период?",
+  //     answer:
+  //       "Да, мы предоставляем 14 дней бесплатного использования для всех тарифов. В течение этого времени вы можете протестировать все функции выбранного тарифа.",
+  //   },
+  //   {
+  //     question: "Какие способы оплаты доступны?",
+  //     answer:
+  //       "Мы принимаем оплату банковскими картами Visa, Mastercard, МИР, а также поддерживаем безналичный расчет для юридических лиц.",
+  //   },
+  // ];
 
   return (
     <div className="container mx-auto flex justify-center items-center py-10 space-y-16">

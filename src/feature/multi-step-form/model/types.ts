@@ -1,8 +1,22 @@
+import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 
 export const basicInfoSchema = z.object({
   distance: z.number().min(2, "Error validation"),
-  loadingLocation: z.string().min(2, "Error validation"),
+  loadingLocation: z
+    .object({
+      name: z
+        .string()
+        .min(2, "Название локации должно содержать минимум 2 символа"),
+      coordinates: z
+        .tuple([z.number(), z.number()])
+        .nullable() // разрешаем null
+        .optional(), // делаем поле опциональным
+    })
+    .nullish() // разрешаем null или undefined
+    .refine((data) => data !== null && data !== undefined, {
+      message: "Необходимо выбрать место погрузки",
+    }),
   unLoadingLocation: z.string().min(2, "Error validation"),
   tonnage: z.number().min(2, "Error validation"),
   culture: z.string().min(2, "Error validation"),
@@ -57,4 +71,6 @@ export type FormStepProps = {
   onNext: () => void;
   onBack: () => void;
   isLastStep: boolean;
+  isViewMap?: boolean;
+  setIsViewMap?: Dispatch<SetStateAction<boolean>>;
 };

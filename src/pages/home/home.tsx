@@ -5,9 +5,9 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
 import { BookingListTable, BookingListCard } from "@/widgets/booking-list";
-import MapPage from "../map/map-page";
-import FilterPanel from "@/entities/filter-panel/filter-panel";
+import FilterPanel from "@/feature/filter-panel/filter-panel";
 import AdvertisingCard from "@/entities/advertising-card/advertising-card";
+import MapPage from "../map/map-page";
 
 export default function HomePage() {
   return (
@@ -28,6 +28,7 @@ export default function HomePage() {
                 {/* <MapPinned className="w-4 h-4" /> */}
                 <span>Карта</span>
               </TabsTrigger>
+
               <TabsTrigger value="booking-list-card" className="space-x-2">
                 {/* <ReceiptText className="w-4 h-4" /> */}
                 <span>Карточки</span>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
-import { Clock, Route } from "lucide-react";
 
 import { Textarea } from "@/shared/components/ui/textarea";
 
@@ -32,8 +31,8 @@ export function AdditionalTransportation({
           htmlFor="additionalInformation"
           className="flex items-center gap-2"
         >
-          <Clock className="w-4 h-4" />
-          <span>Дополнительная информация</span>
+          {/* <Clock className="w-4 h-4" /> */}
+          <span>Дополнительная информация *</span>
         </Label>
         <Textarea
           id="additionalInformation"
@@ -49,8 +48,8 @@ export function AdditionalTransportation({
       {/* Сроки оплаты */}
       <div className="space-y-2">
         <Label htmlFor="paymentDeadline" className="flex items-center gap-2">
-          <Route className="w-4 h-4" />
-          <span>Сроки оплаты</span>
+          {/* <Route className="w-4 h-4" /> */}
+          <span>Сроки оплаты *</span>
         </Label>
         <Input
           id="paymentDeadline"

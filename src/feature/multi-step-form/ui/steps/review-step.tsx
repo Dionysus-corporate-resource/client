@@ -9,6 +9,7 @@ import {
 } from "@/shared/components/ui/table";
 
 export function ReviewStep({ formData }: FormStepProps) {
+  console.log("location", formData.basicInfo.loadingLocation.coordinates);
   return (
     <div className="grid grid-cols-2 gap-6">
       {/* Левая колонка */}
@@ -33,12 +34,21 @@ export function ReviewStep({ formData }: FormStepProps) {
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Место погрузки</TableCell>
-              <TableCell>{formData.basicInfo.loadingLocation}</TableCell>
+              <TableCell>{formData.basicInfo.loadingLocation.name}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">
+                Местопогрузки координаты
+              </TableCell>
+              <TableCell>
+                {formData.basicInfo.loadingLocation.coordinates}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">Место выгрузки</TableCell>
               <TableCell>{formData.basicInfo.unLoadingLocation}</TableCell>
             </TableRow>
+
             <TableRow>
               <TableCell className="font-medium">Тоннаж</TableCell>
               <TableCell>{formData.basicInfo.tonnage} т</TableCell>

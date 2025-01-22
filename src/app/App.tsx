@@ -27,6 +27,7 @@ function App() {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="my-booking" element={<MyBooking />} />
         <Route path="create-booking" element={<CreateBookingPage />} />
+
       </Route>
 
       <Route element={<AuthLayout />}>

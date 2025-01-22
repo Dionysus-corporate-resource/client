@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
-import { MapPin, Route, Weight } from "lucide-react";
 import { DatePickerDemo } from "@/shared/ui/data-picker";
 
 export function ConditionsTransportation({
@@ -17,8 +16,8 @@ export function ConditionsTransportation({
       {/* Способ погрузки */}
       <div className="space-y-2">
         <Label htmlFor="distance" className="flex items-center gap-2">
-          <Route className="w-4 h-4" />
-          <span>Способ погрузки</span>
+          {/* <Route className="w-4 h-4" /> */}
+          <span>Способ погрузки *</span>
         </Label>
         <Input
           id="loadingMethod"
@@ -45,8 +44,8 @@ export function ConditionsTransportation({
       {/* Грузо-подъемность весов */}
       <div className="space-y-2">
         <Label htmlFor="tonnage" className="flex items-center gap-2">
-          <Weight className="w-4 h-4" />
-          <span>Грузо-подъемность весов</span>
+          {/* <Weight className="w-4 h-4" /> */}
+          <span>Грузо-подъемность весов *</span>
         </Label>
         <Input
           id="scaleCapacity"
@@ -74,8 +73,8 @@ export function ConditionsTransportation({
       {/* Начало погрузки */}
       <div className="space-y-2 ">
         <Label htmlFor="loadingLocation" className="flex items-center gap-2">
-          <MapPin className="w-4 h-4" />
-          <span>Начало погрузки</span>
+          {/* <MapPin className="w-4 h-4" /> */}
+          <span>Начало погрузки *</span>
         </Label>
         <DatePickerDemo />
         {/* <Input

@@ -1,40 +1,160 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { LatLngExpression } from "leaflet"; // Добавьте этот импорт
-import L from "leaflet";
-
-import "leaflet/dist/leaflet.css";
-
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import BookingCard from "@/entities/booking/ui/booking-card";
+import { IRegionLocation, regionLocations } from "@/shared/lib/cityes";
+import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import { divIcon } from "leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
+import { MapPin } from "lucide-react";
+import { renderToString } from "react-dom/server";
+
+const CustomMarkerIcon = ({ count }: { count: number }) => {
+  const getStyle = (count: number) => {
+    if (count > 10) {
+      return {
+        backgroundColor: "#FF5252", // Красный для большого количества
+        size: "48px",
+        iconSize: 20,
+      };
+    }
+    if (count > 5) {
+      return {
+        backgroundColor: "#FFB74D", // Оранжевый для среднего
+        size: "44px",
+        iconSize: 18,
+      };
+    }
+    return {
+      backgroundColor: "#4A90E2", // Синий для малого
+      size: count > 1 ? "44px" : "34px",
+      iconSize: 18,
+    };
+  };
+
+  const style = getStyle(count);
+
+  if (count > 1) {
+    return (
+      <div
+        style={{
+          backgroundColor: style.backgroundColor,
+          width: style.size,
+          height: style.size,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          color: "white",
+          fontWeight: "600",
+          flexDirection: "row",
+          gap: "4px",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+          border: "2px solid rgba(255, 255, 255, 0.8)",
+          transition: "all 0.2s ease-in-out",
+          padding: "8px",
+          backdropFilter: "blur(4px)",
+        }}
+        className="hover:scale-110 marker-pulse"
+      >
+        <span
+          style={{
+            fontSize: `${parseInt(style.size) / 3}px`,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            letterSpacing: "0.5px",
+            textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {count}
+        </span>
+        <MapPin
+          size={style.iconSize}
+          color="white"
+          style={{
+            filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
+          }}
+        />
+      </div>
+    );
+  }
+
+  // Для одиночного маркера
+  return (
+    <div
+      style={{
+        backgroundColor: style.backgroundColor,
+        width: style.size,
+        height: style.size,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "50%",
+        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+        border: "2px solid rgba(255, 255, 255, 0.8)",
+        transition: "all 0.2s ease-in-out",
+        transform: "translateY(-2px)",
+      }}
+      className="hover:scale-110"
+    >
+      <MapPin
+        size={style.iconSize}
+        color="white"
+        style={{
+          filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
+        }}
+      />
+    </div>
+  );
+};
+
+const createCustomIcon = (count: number) => {
+  return divIcon({
+    html: renderToString(<CustomMarkerIcon count={count} />),
+    className: "custom-div-icon",
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+  });
+};
+
+type IAdress = {
+  id: number;
+  name: string;
+  coordinates: [number, number];
+};
 
 export default function MapPage() {
-  const centerPosition: LatLngExpression = [47.2357, 39.7015];
-  const markers = [
-    {
-      position: [47.2313, 39.7233] as LatLngExpression,
-      text: "2.8 ₽/кг",
-      color: "rgb(108,145,201)",
-    },
-    {
-      position: [47.242, 39.7233] as LatLngExpression,
-      text: "2.8 ₽/кг",
-      color: "rgb(108,145,201)",
-    },
-    {
-      position: [47.2229, 39.7187] as LatLngExpression,
-      text: "1.1 ₽/кг",
-      color: "var(--accent-color)",
-    },
-  ];
+  // const testCityes = [
+  //   {
+  //     id: 1,
+  //     name: "Гиагинский Район 1",
+  //     coordinates: [44.8667, 40.0667],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Гиагинский Район 2",
+  //     coordinates: [44.8667, 40.0667],
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Гиагинский Район 2",
+  //     coordinates: [48.8667, 38.0667],
+  //   },
+  // ];
 
-  const createCustomIcon = (text: string, color: string) => {
-    return L.divIcon({
-      className: "custom-div-icon",
-      html: `<div style="background-color: ${color}; width: max-content; padding: 4px 8px; border-radius: 8px; color: white; font-weight: bold;">${text}</div>`,
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-    });
-  };
+  // Группируем заявки по координатам
+  const groupedPlaces = regionLocations.reduce(
+    (acc, place) => {
+      const key = place.coordinates.join(",");
+      if (!acc[key]) {
+        acc[key] = {
+          coordinates: place.coordinates,
+          places: [] as IRegionLocation[], // Указываем, что places - это массив IAdress
+        };
+      }
+      acc[key].places.push(place);
+      return acc;
+    },
+    {} as Record<string, { coordinates: number[]; places: IAdress[] }>, // Изменяем тип places на IAdress[]
+  );
 
   return (
     <div className="grid grid-cols-4 gap-4">
@@ -46,36 +166,50 @@ export default function MapPage() {
 
       <div className="col-span-3 md:h-[400px] lg:h-[675px]">
         <MapContainer
-          center={centerPosition}
-          zoom={13}
+          center={[55.75, 37.57]}
+          zoom={4}
           style={{
-            height: "100%",
             width: "100%",
+            height: "100%",
             borderRadius: "8px",
-            zIndex: "0",
           }}
+          className="leaflet-container"
         >
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {markers.map((marker, index) => (
-            <Marker
-              key={index}
-              position={marker.position}
-              icon={createCustomIcon(marker.text, marker.color)}
-            >
-              <Popup>
-                <p>Dop info</p>
-                <BookingDetailSheet />
-              </Popup>
-            </Marker>
-          ))}
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+
+          <MarkerClusterGroup
+            chunkedLoading
+            maxClusterRadius={60}
+            spiderfyOnMaxZoom={true}
+            showCoverageOnHover={false}
+          >
+            {Object.values(groupedPlaces).map((group, index) => (
+              <Marker
+                key={index}
+                position={group.coordinates as [number, number]}
+                icon={createCustomIcon(group.places.length)}
+              >
+                <Popup>
+                  <div>
+                    <h3>Количество заявок: {group.places.length}</h3>
+                    {group.places.map((place) => (
+                      <div key={place.id} className="mt-2">
+                        <p>ID: {place.id}</p>
+                        <p>{place.name}</p>
+                        {place.id !==
+                          group.places[group.places.length - 1].id && <hr />}
+                      </div>
+                    ))}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
         </MapContainer>
       </div>
     </div>
   );
 }
-
-// Вы можете настроить масштаб карты (zoom), изменяя его значение:
-// - zoom={10} - для обзора большей территории
-// - zoom={13} - для обзора района
-// - zoom={15} - для детального просмотра улиц
-// - zoom={17} - для просмотра зданий
