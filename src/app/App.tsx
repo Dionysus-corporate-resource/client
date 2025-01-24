@@ -8,7 +8,7 @@ import LandingLayout from "@/shared/ui/landing-layout";
 import LandingPage from "@/pages/landing/landing-page";
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
-import ProfilePage from "@/pages/profile/profile";
+import ProfilePage from "@/pages/auth/profile/profile";
 import NotFound from "@/pages/not-found/not-found";
 import MyBooking from "@/pages/my-booking/my-booking";
 import CreateBookingPage from "@/pages/create-booking/create-booking-page";
@@ -27,7 +27,6 @@ function App() {
         <Route path="profile" element={<ProfilePage />} />
         <Route path="my-booking" element={<MyBooking />} />
         <Route path="create-booking" element={<CreateBookingPage />} />
-
       </Route>
 
       <Route element={<AuthLayout />}>
