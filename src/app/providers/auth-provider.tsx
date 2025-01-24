@@ -66,14 +66,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logUp = async (data: RegisterData): Promise<RegisterDataDto> => {
     try {
+      console.log("RegisterData", data);
       const response = await instance.post("/auth/register", data);
       console.log("registerCompanyRequest", response.data);
 
       setToken(response.data.token);
+      navigate("/login");
 
       return response.data;
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Register error", error);
+
       throw error;
     }
   };

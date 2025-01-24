@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Package, PackageOpen, PackagePlus, Sparkle } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
+import { Toaster } from "../components/ui/toaster";
 
 export default function AppLayout() {
   return (
@@ -89,6 +90,7 @@ export default function AppLayout() {
       </header>
       <div className="flex-1 flex">
         <Outlet />
+        <Toaster />
       </div>
     </div>
   );

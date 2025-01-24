@@ -2,7 +2,7 @@ import axios from "axios";
 
 const instance = axios.create({
   // baseURL: "http://localhost:3000",
-  baseURL: "https://dionysus-corporate-resource-server-e3f4.twc1.net/",
+  baseURL: "https://dionysus-corporate-resource-server-e3f4.twc1.net",
 });
 
 instance.interceptors.request.use((config) => {
