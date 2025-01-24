@@ -12,7 +12,6 @@ import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 type LoginData = {
   email: string;
   password: string;
-  phone: string;
 };
 type RegisterData = {
   email: string;

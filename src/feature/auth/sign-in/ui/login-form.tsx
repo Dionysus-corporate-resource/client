@@ -1,18 +1,70 @@
-import { Construction } from "lucide-react";
+import { Construction, Eye, EyeOff } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { NavLink } from "react-router";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useAuth } from "@/app/providers/auth-provider";
+import { toast } from "@/shared/hooks/use-toast";
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const authContext = useAuth();
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (formData.password.length < 6) {
+      return toast({
+        title: "Ошибка валидации",
+        description: "Пароль должен быть не менее 6 символов",
+        variant: "destructive",
+      });
+    }
+
+    // console.log("dataToSend", formData);
+    authContext
+      ?.logIn(formData)
+      .then(() =>
+        toast({
+          title: "Вы авторизованы",
+          description: "Поздравляю, авторизация прошла успешно!",
+        }),
+      )
+      .catch((err) =>
+        toast({
+          title: "Ошибка",
+          description: err?.response?.data?.message,
+          variant: "destructive",
+        }),
+      );
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
             <a
@@ -32,6 +84,7 @@ export function LoginForm({
               </NavLink>
             </div>
           </div>
+
           <div className="flex flex-col gap-4">
             <div className="grid gap-2">
               <div className="flex items-center gap-2">
@@ -41,18 +94,34 @@ export function LoginForm({
               <Input
                 id="email"
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="m@example.com"
                 required
               />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 relative">
               <Label htmlFor="email">Пароль</Label>
               <Input
                 id="password"
-                type="password"
+                type={!showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="**********"
                 required
               />
+              <span
+                onClick={togglePasswordVisibility}
+                className="absolute top-10 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+              >
+                {showPassword ? (
+                  <Eye className="w-4 h-4" />
+                ) : (
+                  <EyeOff className="w-4 h-4" />
+                )}
+              </span>
             </div>
             <Button type="submit" className="w-full mt-2">
               Войти

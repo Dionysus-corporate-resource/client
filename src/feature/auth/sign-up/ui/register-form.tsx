@@ -55,7 +55,7 @@ export function RegisterForm({
         : {}),
     };
 
-    console.log("dataToSend", dataToSend);
+    // console.log("dataToSend", dataToSend);
     authContext
       ?.logUp(dataToSend)
       .then(() =>
