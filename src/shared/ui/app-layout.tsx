@@ -5,8 +5,12 @@ import { Package, PackageOpen, PackagePlus, Sparkle } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 import { Toaster } from "../components/ui/toaster";
+import { useAtomValue } from "jotai";
+import { userStorageAtom } from "../model/atoms/user-atom";
 
 export default function AppLayout() {
+  const userData = useAtomValue(userStorageAtom);
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -36,38 +40,42 @@ export default function AppLayout() {
                 </TabsTrigger>
               </NavLink>
 
-              <NavLink
-                to="/my-booking"
-                className={({ isActive }) =>
-                  `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
-                }
-              >
-                <TabsTrigger
-                  value="my-booking"
-                  className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
-                >
-                  <PackageOpen className="w-4 h-4" />
-                  <span>Мои заявки</span>
-                  <Badge variant="secondary" className="ml-1 h-5">
-                    0
-                  </Badge>
-                </TabsTrigger>
-              </NavLink>
+              {userData?.roles === "customer" && (
+                <>
+                  <NavLink
+                    to="/my-booking"
+                    className={({ isActive }) =>
+                      `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
+                    }
+                  >
+                    <TabsTrigger
+                      value="my-booking"
+                      className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                    >
+                      <PackageOpen className="w-4 h-4" />
+                      <span>Мои заявки</span>
+                      <Badge variant="secondary" className="ml-1 h-5">
+                        0
+                      </Badge>
+                    </TabsTrigger>
+                  </NavLink>
 
-              <NavLink
-                to="/create-booking"
-                className={({ isActive }) =>
-                  `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
-                }
-              >
-                <TabsTrigger
-                  value="create-booking"
-                  className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
-                >
-                  <PackagePlus className="w-4 h-4" />
-                  <span>Создать заявку</span>
-                </TabsTrigger>
-              </NavLink>
+                  <NavLink
+                    to="/create-booking"
+                    className={({ isActive }) =>
+                      `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
+                    }
+                  >
+                    <TabsTrigger
+                      value="create-booking"
+                      className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                    >
+                      <PackagePlus className="w-4 h-4" />
+                      <span>Создать заявку</span>
+                    </TabsTrigger>
+                  </NavLink>
+                </>
+              )}
 
               <NavLink
                 to="/subscribe"

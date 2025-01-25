@@ -9,6 +9,7 @@ export const userApi = {
   updateDataProfile: async (data: IUpdateProfile) => {
     try {
       const response = await instance.patch("/users/profile", data);
+
       return response.data;
     } catch (err) {
       console.error(err);

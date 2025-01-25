@@ -8,8 +8,10 @@ import { queryClient } from "@/shared/model/api/query-client";
 import { IUser, IUserRoles } from "@/shared/model/types/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Save } from "lucide-react";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IUpdateProfile, userApi } from "../api/user-api";
+import { useSetAtom } from "jotai";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 
 type IFormData = Omit<IUser, "companyPublicData"> & {
   nameCompany: string | undefined;
@@ -17,11 +19,19 @@ type IFormData = Omit<IUser, "companyPublicData"> & {
 
 export default function ProfileEditForm() {
   const [isChangeForm, setIsChangeForm] = useState(false);
+  const setUser = useSetAtom(userStorageAtom);
 
   const { data: userData } = useQuery({
     queryKey: ["user"],
     queryFn: () => userApi.getDataProfile(),
   });
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData, setUser]);
+
   const updateProfileMutation = useMutation({
     mutationFn: (data: IUpdateProfile) => userApi.updateDataProfile(data),
     onSettled: () => {
