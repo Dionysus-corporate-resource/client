@@ -21,16 +21,10 @@ export default function ProfileEditForm() {
   const [isChangeForm, setIsChangeForm] = useState(false);
   const setUser = useSetAtom(userStorageAtom);
 
-  const { data: userData } = useQuery({
+  const { data: userData, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: () => userApi.getDataProfile(),
   });
-
-  useEffect(() => {
-    if (userData) {
-      setUser(userData);
-    }
-  }, [userData, setUser]);
 
   const updateProfileMutation = useMutation({
     mutationFn: (data: IUpdateProfile) => userApi.updateDataProfile(data),
@@ -39,14 +33,26 @@ export default function ProfileEditForm() {
     },
   });
 
-  //
   const [formData, setFormData] = useState<IFormData>({
-    userName: userData?.userName || "",
-    email: userData?.email || "",
-    phone: userData?.phone || "",
-    roles: userData?.roles || "driver",
-    nameCompany: userData?.companyPublicData?.nameCompany || undefined,
+    userName: "",
+    email: "",
+    phone: "",
+    roles: "driver",
+    nameCompany: undefined,
   });
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData);
+      setFormData({
+        userName: userData.userName || "",
+        email: userData.email || "",
+        phone: userData.phone || "",
+        roles: userData.roles || "driver",
+        nameCompany: userData.companyPublicData?.nameCompany || undefined,
+      });
+    }
+  }, [userData, setUser]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsChangeForm(true);
@@ -84,6 +90,10 @@ export default function ProfileEditForm() {
       },
     });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Можно заменить на спиннер или любую заглушку
+  }
 
   return (
     <form onSubmit={handleSubmit}>
