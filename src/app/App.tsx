@@ -12,6 +12,7 @@ import ProfilePage from "@/pages/auth/profile/profile";
 import NotFound from "@/pages/not-found/not-found";
 import MyBooking from "@/pages/my-booking/my-booking";
 import CreateBookingPage from "@/pages/create-booking/create-booking-page";
+import Authentication from "./providers/authenication-provider";
 
 function App() {
   return (
@@ -24,7 +25,14 @@ function App() {
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="subscribe" element={<SubscriptionsPageShort />} />
-        <Route path="profile" element={<ProfilePage />} />
+        <Route
+          path="profile"
+          element={
+            <Authentication>
+              <ProfilePage />
+            </Authentication>
+          }
+        />
         <Route path="my-booking" element={<MyBooking />} />
         <Route path="create-booking" element={<CreateBookingPage />} />
       </Route>

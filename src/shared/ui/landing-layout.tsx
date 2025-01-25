@@ -5,7 +5,7 @@ import { MainNavLanding } from "@/entities/landing/ui/main-nav-landing";
 
 export default function LandingLayout() {
   const headerContent: Props["headerContent"] = {
-    logoTitle: "DionysCompany",
+    logoTitle: "Груз Рынок",
     linksMain: [
       {
         // icon: BriefcaseBusiness,

@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { Construction } from "lucide-react";
+import { Construction, UserCog } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import { useAtomValue } from "jotai";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
+import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 
 export type Props = {
   headerContent: {
@@ -18,6 +22,8 @@ export type Props = {
 };
 
 export function MainNavLanding({ headerContent }: Props) {
+  const userData = useAtomValue(userStorageAtom);
+
   return (
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full ">
       <NavLink to="/landing" className="flex items-center space-x-2 ">
@@ -44,18 +50,31 @@ export function MainNavLanding({ headerContent }: Props) {
           </NavLink>
         ))}
       </nav>
-      <div className="space-x-2">
-        <NavLink to="/register">
-          <Button size="sm" variant="link">
-            Зарегистрироваться
-          </Button>
-        </NavLink>
-        <NavLink to="/login">
-          <Button size="sm" variant="link">
-            Войти
-          </Button>
-        </NavLink>
-      </div>
+      {userData ? (
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <NavLink to="/profile">
+            <Avatar>
+              <AvatarFallback>
+                <UserCog className="w-4 h-4" />
+              </AvatarFallback>
+            </Avatar>
+          </NavLink>
+        </div>
+      ) : (
+        <div className="space-x-2">
+          <NavLink to="/register">
+            <Button size="sm" variant="link">
+              Зарегистрироваться
+            </Button>
+          </NavLink>
+          <NavLink to="/login">
+            <Button size="sm" variant="link">
+              Войти
+            </Button>
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 }

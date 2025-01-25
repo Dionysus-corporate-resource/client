@@ -92,7 +92,13 @@ export function RegisterForm({
               </div>
               <span className="sr-only">Acme Inc.</span>
             </a>
-            <h1 className="text-xl font-bold">Приветсвуем в Груз Рынок.</h1>
+            <h1 className="text-xl font-bold">
+              Приветсвуем в
+              <NavLink to="/" className="underline underline-offset-4">
+                {" "}
+                Груз Рынок
+              </NavLink>
+            </h1>
             <div className="text-center text-sm">
               Уже регистрировались на нашем сайте?{" "}
               <NavLink to="/login" className="underline underline-offset-4">

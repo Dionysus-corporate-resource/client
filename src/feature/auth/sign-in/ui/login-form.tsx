@@ -76,7 +76,9 @@ export function LoginForm({
               </div>
               <span className="sr-only">Acme Inc.</span>
             </a>
-            <h1 className="text-xl font-bold">Приветсвуем в Дионис.</h1>
+            <h1 className="text-xl font-bold">
+              Приветсвуем в<NavLink to="/"> Груз Рынок</NavLink>
+            </h1>
             <div className="text-center text-sm">
               Еще не были на нашем сайте?{" "}
               <NavLink to="/register" className="underline underline-offset-4">

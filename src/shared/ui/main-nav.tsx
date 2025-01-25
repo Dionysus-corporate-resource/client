@@ -9,6 +9,10 @@ import {
   UserCog,
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import { Button } from "../components/ui/button";
+import { userStorageAtom } from "../model/atoms/user-atom";
+import { useAtomValue } from "jotai";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 // import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 // import { Badge } from "../components/ui/badge";
 
@@ -28,8 +32,9 @@ export type Props = {
 };
 
 export function MainNav() {
+  const userData = useAtomValue(userStorageAtom);
   const headerContent: Props["headerContent"] = {
-    logoTitle: "Зерно-перевозки",
+    logoTitle: "Груз Рынок",
     linksMain: [
       {
         // icon: BriefcaseBusiness,
@@ -56,7 +61,7 @@ export function MainNav() {
   };
 
   return (
-    <div className="flex justify-between items-center gap-6 md:gap-10 w-full ">
+    <div className="flex justify-between items-center gap-6 md:gap-10 w-full relative">
       <div className="flex items-center gap-12 ">
         <NavLink to="/landing" className="flex items-center space-x-2 ">
           <Construction
@@ -121,16 +126,38 @@ export function MainNav() {
         </TabsList>
       </Tabs> */}
 
-      <div className="flex items-center gap-4">
-        <span className="text-sm font-medium">ООО Логистик</span>
-        <NavLink to="/profile">
-          <Avatar>
-            <AvatarFallback>
-              <UserCog className="w-4 h-4" />
-            </AvatarFallback>
-          </Avatar>
-        </NavLink>
-      </div>
+      {userData?.companyPublicData?.nameCompany && (
+        <span className="text-sm font-medium absolute left-1/2 -translate-x-1/2">
+          {/* ООО Логистик */}
+          {userData?.companyPublicData?.nameCompany}
+        </span>
+      )}
+
+      {userData ? (
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <NavLink to="/profile">
+            <Avatar>
+              <AvatarFallback>
+                <UserCog className="w-4 h-4" />
+              </AvatarFallback>
+            </Avatar>
+          </NavLink>
+        </div>
+      ) : (
+        <div className="space-x-2">
+          <NavLink to="/register">
+            <Button size="sm" variant="link">
+              Зарегистрироваться
+            </Button>
+          </NavLink>
+          <NavLink to="/login">
+            <Button size="sm" variant="link">
+              Войти
+            </Button>
+          </NavLink>
+        </div>
+      )}
     </div>
   );
 }

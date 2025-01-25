@@ -13,6 +13,9 @@ import {
 import { IUserDto } from "@/shared/model/types/user";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
+import { Button } from "@/shared/components/ui/button";
+import { LogOut } from "lucide-react";
+import { useAuth } from "@/app/providers/auth-provider";
 
 export default function PersonalInfo({
   userData,
@@ -21,6 +24,7 @@ export default function PersonalInfo({
   userData: IUserDto | undefined | null;
   formSlot: ReactNode;
 }) {
+  const authContext = useAuth();
   return (
     <Card className="h-min">
       <CardHeader className="flex flex-row items-center gap-4">
@@ -37,9 +41,15 @@ export default function PersonalInfo({
               Управляйте вашей личной информацией
             </CardDescription>
           </div>
-          <Badge variant="secondary" className="h-6">
-            {userData?.email}
-          </Badge>
+          <div className="space-x-2">
+            <Badge variant="secondary" className="h-8">
+              {userData?.email}
+            </Badge>
+            <Button size="sm" onClick={() => authContext?.logOut()}>
+              Выйти
+              <LogOut className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-6 grid grid-cols-1">
