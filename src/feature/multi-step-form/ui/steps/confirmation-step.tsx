@@ -8,7 +8,7 @@ export function ConfirmationStep() {
       </div>
       <h2 className="text-2xl font-semibold tracking-tight">Заявка создана</h2>
       <p className="text-muted-foreground">
-        Вы можете увидеть на шлавной странице и странице мои заявки
+        Вы можете найти ее на главной странице или на странице мои заявки
       </p>
     </div>
   );

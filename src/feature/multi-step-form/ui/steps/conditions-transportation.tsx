@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
-import { DatePickerDemo } from "@/shared/ui/data-picker";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+
+import { cn } from "@/shared/lib/utils";
+import { Button } from "@/shared/components/ui/button";
+import { Calendar } from "@/shared/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/components/ui/popover";
+// import { Badge } from "@/shared/components/ui/badge";
 
 export function ConditionsTransportation({
   formData,
@@ -11,17 +22,34 @@ export function ConditionsTransportation({
 }: FormStepProps) {
   const [errors] = useState<Record<string, string>>({});
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    const filteredValue = value.replace(/\D/g, "");
+    updateFormData({
+      conditionsTransportation: {
+        ...formData.conditionsTransportation,
+        [name]: filteredValue,
+      },
+    });
+  };
+
   return (
     <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
       {/* Способ погрузки */}
       <div className="space-y-2">
-        <Label htmlFor="distance" className="flex items-center gap-2">
-          {/* <Route className="w-4 h-4" /> */}
+        <Label
+          htmlFor="distance"
+          className="flex items-center justify-between gap-2"
+        >
           <span>Способ погрузки *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
         <Input
           id="loadingMethod"
-          placeholder="Укажите расстояние"
+          placeholder="Укажите способ погрузки"
           className="transition-all"
           value={formData.conditionsTransportation?.loadingMethod}
           onChange={(e) =>
@@ -43,24 +71,22 @@ export function ConditionsTransportation({
 
       {/* Грузо-подъемность весов */}
       <div className="space-y-2">
-        <Label htmlFor="tonnage" className="flex items-center gap-2">
-          {/* <Weight className="w-4 h-4" /> */}
-          <span>Грузо-подъемность весов *</span>
+        <Label
+          htmlFor="tonnage"
+          className="flex items-center justify-between gap-2"
+        >
+          <span>Грузо-подъемность весов (тонн) *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
         <Input
           id="scaleCapacity"
-          placeholder="Укажите тоннаж"
+          name="scaleCapacity"
+          placeholder="Укажите грузо-подъемность весов"
           className="transition-all"
           value={formData.conditionsTransportation?.scaleCapacity}
-          type="number"
-          onChange={(e) =>
-            updateFormData({
-              conditionsTransportation: {
-                ...formData.conditionsTransportation,
-                scaleCapacity: Number(e.target.value),
-              },
-            })
-          }
+          onChange={handleChange}
         />
         {errors.scaleCapacity && (
           <p className="text-sm text-destructive flex items-center gap-1">
@@ -72,25 +98,51 @@ export function ConditionsTransportation({
 
       {/* Начало погрузки */}
       <div className="space-y-2 ">
-        <Label htmlFor="loadingLocation" className="flex items-center gap-2">
-          {/* <MapPin className="w-4 h-4" /> */}
+        <Label
+          htmlFor="loadingLocation"
+          className="flex items-center justify-between gap-2"
+        >
           <span>Начало погрузки *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
-        <DatePickerDemo />
-        {/* <Input
-          id="loadingDate"
-          placeholder="Укажите место погрузки"
-          className="transition-all"
-          value={formData.conditionsTransportation?.loadingDate || ""}
-          onChange={(e) =>
-            updateFormData({
-              conditionsTransportation: {
-                ...formData.conditionsTransportation,
-                loadingDate: e.target.value,
-              },
-            })
-          }
-        /> */}
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !formData?.conditionsTransportation?.loadingDate &&
+                  "text-muted-foreground",
+              )}
+            >
+              <CalendarIcon />
+              {formData?.conditionsTransportation?.loadingDate ? (
+                format(formData?.conditionsTransportation?.loadingDate, "PPP")
+              ) : (
+                <span>Выберите дату погрузки</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={formData?.conditionsTransportation?.loadingDate}
+              onSelect={(value) => {
+                updateFormData({
+                  conditionsTransportation: {
+                    ...formData.conditionsTransportation,
+                    loadingDate: value ?? new Date(),
+                  },
+                });
+              }}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+
         {errors.loadingDate && (
           <p className="text-sm text-destructive flex items-center gap-1">
             <span className="inline-block w-1 h-1 rounded-full" />

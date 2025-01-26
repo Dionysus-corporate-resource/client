@@ -15,7 +15,7 @@ import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { useEffect } from "react";
 
 type Props = {
-  setCoordinates: (e: [number, number] | null) => void;
+  setCoordinates?: (e: [number, number] | null) => void;
   formData: FormData;
 };
 
@@ -70,14 +70,14 @@ export default function MapSelector({ setCoordinates, formData }: Props) {
       <MapContainer
         center={defaultPosition}
         zoom={4}
-        style={{ height: "415px", width: "100%", borderRadius: "4px" }}
+        style={{ height: "415px", width: "100%", borderRadius: "8px" }}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
+        {setCoordinates && <MapEvents setCoordinates={setCoordinates} />}
 
-        <MapEvents setCoordinates={setCoordinates} />
         {/* Добавляем компонент для обновления центра карты */}
         <MapUpdater
           coordinates={formData?.basicInfo?.loadingLocation?.coordinates}

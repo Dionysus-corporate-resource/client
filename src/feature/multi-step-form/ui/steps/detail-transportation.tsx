@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { Badge } from "@/shared/components/ui/badge";
 
 export function DetailTransportation({
   formData,
@@ -34,13 +35,18 @@ export function DetailTransportation({
     <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
       {/* Простой */}
       <div className="space-y-2">
-        <Label htmlFor="demurrage" className="flex items-center gap-2">
-          {/* <Clock className="w-4 h-4" /> */}
+        <Label
+          htmlFor="demurrage"
+          className="flex items-center justify-between gap-2"
+        >
           <span>Простой *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
         <Input
           id="demurrage"
-          placeholder="Укажите время простоя (часы)"
+          placeholder="Со вторых суток, по 2000 ₽/день"
           className={`transition-all ${errors.demurrage ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.demurrage}
           onChange={(e) => handleChange("demurrage", e.target.value)}
@@ -55,19 +61,22 @@ export function DetailTransportation({
 
       {/* Допустимая недостача */}
       <div className="space-y-2">
-        <Label htmlFor="allowedShortage" className="flex items-center gap-2">
+        <Label
+          htmlFor="allowedShortage"
+          className="flex items-center justify-between gap-2"
+        >
           {/* <Percent className="w-4 h-4" /> */}
           <span>Допустимая недостача *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
         <Input
           id="allowedShortage"
-          placeholder="Укажите процент недостачи"
-          type="number"
+          placeholder="Укажите допустимую недостачу"
           className={`transition-all ${errors.allowedShortage ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.allowedShortage}
-          onChange={(e) =>
-            handleChange("allowedShortage", Number(e.target.value))
-          }
+          onChange={(e) => handleChange("allowedShortage", e.target.value)}
         />
         {errors.allowedShortage && (
           <p className="text-sm text-destructive flex items-center gap-1">
@@ -79,9 +88,15 @@ export function DetailTransportation({
 
       {/* Вид оплаты */}
       <div className="space-y-2">
-        <Label htmlFor="paymentType" className="flex items-center gap-2">
+        <Label
+          htmlFor="paymentType"
+          className="flex items-end justify-between gap-2"
+        >
           {/* <Wallet className="w-4 h-4" /> */}
           <span>Вид оплаты *</span>
+          <Badge variant="secondary" className="ml-2 text-muted-foreground">
+            Обязательное поле
+          </Badge>
         </Label>
         <Select
           value={formData.detailTransportation?.paymentType}
@@ -113,17 +128,22 @@ export function DetailTransportation({
 
       {/* Ставка */}
       <div className="space-y-2">
-        <Label htmlFor="ratePerTon" className="flex items-center gap-2">
+        <Label
+          htmlFor="ratePerTon"
+          className="flex items-end justify-between gap-2"
+        >
           {/* <BanknoteIcon className="w-4 h-4" /> */}
-          <span>Ставка *</span>
+          <span>Ставка ₽/тонна *</span>
+          <Badge variant="secondary" className="ml-2 text-muted-foreground">
+            Обязательное поле
+          </Badge>
         </Label>
         <Input
           id="ratePerTon"
           placeholder="Укажите ставку за тонну"
-          type="number"
           className={`transition-all ${errors.ratePerTon ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.ratePerTon}
-          onChange={(e) => handleChange("ratePerTon", Number(e.target.value))}
+          onChange={(e) => handleChange("ratePerTon", e.target.value)}
         />
         {errors.ratePerTon && (
           <p className="text-sm text-destructive flex items-center gap-1">
@@ -135,13 +155,19 @@ export function DetailTransportation({
 
       {/* Сроки оплаты */}
       <div className="space-y-2">
-        <Label htmlFor="paymentDeadline" className="flex items-center gap-2">
+        <Label
+          htmlFor="paymentDeadline"
+          className="flex items-center justify-between gap-2"
+        >
           {/* <Route className="w-4 h-4" /> */}
           <span>Сроки оплаты *</span>
+          {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+            Желательное поле
+          </Badge> */}
         </Label>
         <Input
           id="paymentDeadline"
-          placeholder="Укажите срок в днях"
+          placeholder="В течении 3~5 банковских дней"
           className={`transition-all ${errors.paymentDeadline ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.paymentDeadline}
           onChange={(e) => handleChange("paymentDeadline", e.target.value)}

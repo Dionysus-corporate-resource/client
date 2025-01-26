@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
@@ -23,6 +23,7 @@ import { cn } from "@/shared/lib/utils";
 import { cityesLocations } from "@/shared/lib/cityes";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import MapSelector from "../map-selector";
+import { Badge } from "@/shared/components/ui/badge";
 
 type IAdressLocation = {
   name: string;
@@ -45,8 +46,9 @@ export function BasicInfoStep({
   console.log("selectedLocation", selectedLocation);
 
   const setCoordinatesHandle = (e: [number, number] | null) => {
-    console.log("setCoordinatesHandle", e);
+    // console.log("setCoordinatesHandle", e);
     setCoordinates(e);
+    if (setIsViewMap) setIsViewMap(true);
     updateFormData({
       basicInfo: {
         ...formData.basicInfo,
@@ -61,6 +63,7 @@ export function BasicInfoStep({
   const handleSelect = (value: IAdressLocation) => {
     setSelectedLocation(value);
     setOpen(false);
+
     updateFormData({
       basicInfo: {
         ...formData.basicInfo,
@@ -72,8 +75,19 @@ export function BasicInfoStep({
     });
   };
 
-  const [search, setSearch] = useState("");
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
 
+    const filteredValue = value.replace(/\D/g, "");
+    updateFormData({
+      basicInfo: {
+        ...formData.basicInfo,
+        [name]: filteredValue,
+      },
+    });
+  };
+
+  const [search, setSearch] = useState("");
   const filteredLocations = (addresses: IAdressLocation[]) => {
     if (!search) return addresses; // Если поиск пустой, возвращаем все адреса
     return addresses.filter((location) =>
@@ -82,16 +96,28 @@ export function BasicInfoStep({
   };
 
   return (
-    <div className="grid gap-4 p-4 rounded-lg grid-cols-2 ">
+    <div className="grid gap-6 p-4 rounded-lg grid-cols-3 ">
       {/* Левая колонка с формой */}
-      <div className="grid gap-4 grid-cols-1 h-fit ">
+      <div className="h-full col-span-2">
+        <MapSelector
+          formData={formData}
+          setCoordinates={setCoordinatesHandle}
+          // coordinates={coordinates}
+        />
+      </div>
+
+      {/* Правая колонка с картой */}
+      <div className="grid gap-4 grid-cols-1 h-full">
         {/* Место погрузки */}
         <div className="space-y-2">
           <Label
             htmlFor="loadingLocation"
-            className="flex items-center justify-between"
+            className="flex items-end justify-between"
           >
-            <span>Место погрузки *</span>
+            <div className="space-x-2">
+              <span>Место погрузки *</span>
+              {/* <Badge variant="secondary">Обязательное поле</Badge> */}
+            </div>
             <div className="flex items-center space-x-2 mr-2">
               <label
                 htmlFor="terms"
@@ -193,45 +219,49 @@ export function BasicInfoStep({
           )}
         </div>
 
-        {/* Другие поля формы */}
-        <div>
-          <Label htmlFor="distance">Расстояние *</Label>
+        {/* Расстояние */}
+        <div className="space-y-2">
+          <Label htmlFor="distance" className="flex items-end justify-between">
+            Расстояние (км) *
+            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+              Обязательное поле
+            </Badge>
+          </Label>
+
           <Input
             id="distance"
+            name="distance"
             placeholder="Укажите расстояние"
             value={formData.basicInfo?.distance}
-            type="number"
-            onChange={(e) =>
-              updateFormData({
-                basicInfo: {
-                  ...formData.basicInfo,
-                  distance: Number(e.target.value),
-                },
-              })
-            }
+            onChange={handleChange}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tonnage">Тоннаж *</Label>
+          <Label htmlFor="tonnage" className="flex items-end justify-between">
+            Тоннаж (тонн) *
+            {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
+              Желательное поле
+            </Badge> */}
+          </Label>
           <Input
             id="tonnage"
+            name="tonnage"
             placeholder="Укажите тоннаж"
             value={formData.basicInfo?.tonnage}
-            type="number"
-            onChange={(e) =>
-              updateFormData({
-                basicInfo: {
-                  ...formData.basicInfo,
-                  tonnage: Number(e.target.value),
-                },
-              })
-            }
+            onChange={handleChange}
           />
         </div>
-
         <div className="space-y-2">
-          <Label htmlFor="unLoadingLocation">Место выгрузки *</Label>
+          <Label
+            htmlFor="unLoadingLocation"
+            className="flex items-end justify-between"
+          >
+            Место выгрузки *{" "}
+            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+              Обязательное поле
+            </Badge>
+          </Label>
           <Input
             id="unLoadingLocation"
             placeholder="Укажите место выгрузки"
@@ -246,13 +276,17 @@ export function BasicInfoStep({
             }
           />
         </div>
-
         <div className="space-y-2">
-          <Label htmlFor="culture">Культура *</Label>
+          <Label htmlFor="culture" className="flex items-end justify-between">
+            Культура *{" "}
+            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+              Обязательное поле
+            </Badge>
+          </Label>
           <Input
             id="culture"
             placeholder="Укажите культуру"
-            value={formData.basicInfo?.culture || ""}
+            value={formData.basicInfo?.culture}
             onChange={(e) =>
               updateFormData({
                 basicInfo: { ...formData.basicInfo, culture: e.target.value },
@@ -260,16 +294,6 @@ export function BasicInfoStep({
             }
           />
         </div>
-      </div>
-
-      {/* Правая колонка с картой */}
-
-      <div className="h-full">
-        <MapSelector
-          formData={formData}
-          setCoordinates={setCoordinatesHandle}
-          // coordinates={coordinates}
-        />
       </div>
     </div>
   );

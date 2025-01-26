@@ -14,6 +14,9 @@ import { ConditionsTransportation } from "./steps/conditions-transportation";
 import { ConfirmationStep } from "./steps/confirmation-step";
 import { DetailTransportation } from "./steps/detail-transportation";
 import { AdditionalTransportation } from "./steps/additional-conditions";
+import { useAtomValue } from "jotai";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import { useNavigate } from "react-router";
 
 const steps: Step[] = [
   {
@@ -50,37 +53,45 @@ const steps: Step[] = [
 ];
 
 export default function MultiStepForm() {
+  const user = useAtomValue(userStorageAtom);
+  const navigate = useNavigate();
   const [isViewMap, setIsViewMap] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     basicInfo: {
-      distance: 0,
+      distance: "",
       loadingLocation: {
-        name: "",
-        coordinates: null,
+        name: "Москва",
+        coordinates: [55.75, 37.57],
       },
       unLoadingLocation: "",
-      tonnage: 0,
+      tonnage: "",
       culture: "",
     },
     conditionsTransportation: {
       loadingMethod: "",
-      scaleCapacity: 0,
-      loadingDate: "",
+      scaleCapacity: "",
+      loadingDate: new Date(),
     },
     detailTransportation: {
-      demurrage: "",
-      allowedShortage: 0,
+      demurrage: "Со вторых суток, по 2000 ₽/день",
+      allowedShortage: "",
       paymentType: "cash",
-      ratePerTon: 0,
-      paymentDeadline: "",
+      ratePerTon: "",
+      paymentDeadline: "3~5 банковских дней",
     },
     additionalConditions: {
       additionalInformation: "",
-      contacts: [""],
+      contacts: [
+        {
+          name: user?.userName ?? "Заказчик",
+          phone: user?.phone ?? "-",
+        },
+      ],
     },
   });
 
+  // TODO: крутой подход
   const updateFormData = (stepData: Partial<FormData>) => {
     setFormData((prev) => ({
       ...prev,
@@ -99,6 +110,9 @@ export default function MultiStepForm() {
   const handleSubmit = async () => {
     // Here you would typically submit the form data to your backend
     console.log("Form submitted:", formData);
+    setTimeout(() => {
+      navigate("/my-booking");
+    }, 1500);
     handleNext();
   };
 

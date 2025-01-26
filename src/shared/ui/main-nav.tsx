@@ -64,10 +64,8 @@ export function MainNav() {
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full relative">
       <div className="flex items-center gap-12 ">
         <NavLink to="/landing" className="flex items-center space-x-2 ">
-          <Construction
-            className="w-6 h-6"
-            // className="w-4 h-4"
-          />
+          <Construction className="w-6 h-6" />
+          {/* <img src="/truck-4.svg" className="w-6 h-6" /> */}
           <span className="inline-block font-semibold text-lg">
             {headerContent.logoTitle}
           </span>
