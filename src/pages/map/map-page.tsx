@@ -1,5 +1,4 @@
 import BookingCard from "@/entities/booking/ui/booking-card";
-import { IRegionLocation, regionLocations } from "@/shared/lib/cityes";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -7,6 +6,7 @@ import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { MapPin } from "lucide-react";
 import { renderToString } from "react-dom/server";
+import { IBookingDto } from "@/shared/model/types/booking";
 
 const CustomMarkerIcon = ({ count }: { count: number }) => {
   const getStyle = (count: number) => {
@@ -115,52 +115,53 @@ const createCustomIcon = (count: number) => {
   });
 };
 
-type IAdress = {
-  id: number;
-  name: string;
-  coordinates: [number, number];
-};
+export default function MapPage({
+  bookingData,
+}: {
+  bookingData: IBookingDto[] | undefined;
+}) {
+  const groupedPlaces =
+    bookingData?.reduce(
+      (acc, place) => {
+        // Получаем координаты
+        const coordinates = place?.basicInfo?.loadingLocation?.coordinates;
 
-export default function MapPage() {
-  // const testCityes = [
-  //   {
-  //     id: 1,
-  //     name: "Гиагинский Район 1",
-  //     coordinates: [44.8667, 40.0667],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Гиагинский Район 2",
-  //     coordinates: [44.8667, 40.0667],
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Гиагинский Район 2",
-  //     coordinates: [48.8667, 38.0667],
-  //   },
-  // ];
+        // Проверяем, что координаты существуют и имеют правильный формат
+        if (!coordinates || coordinates.length !== 2) {
+          return acc;
+        }
 
-  // Группируем заявки по координатам
-  const groupedPlaces = regionLocations.reduce(
-    (acc, place) => {
-      const key = place.coordinates.join(",");
-      if (!acc[key]) {
-        acc[key] = {
-          coordinates: place.coordinates,
-          places: [] as IRegionLocation[], // Указываем, что places - это массив IAdress
-        };
-      }
-      acc[key].places.push(place);
-      return acc;
-    },
-    {} as Record<string, { coordinates: number[]; places: IAdress[] }>, // Изменяем тип places на IAdress[]
-  );
+        // Создаем ключ из координат
+        const key = coordinates.join(",");
+
+        // Если ключа еще нет в acc, создаем его
+        if (!acc[key]) {
+          acc[key] = {
+            coordinates,
+            places: [], // Храним оригинальные объекты place
+          };
+        }
+
+        // Добавляем place в массив
+        acc[key].places.push(place);
+
+        return acc;
+      },
+      {} as Record<
+        string,
+        { coordinates: [number, number]; places: IBookingDto[] }
+      >,
+    ) || {}; // Если bookingData undefined, возвращаем пустой объект
 
   return (
     <div className="grid grid-cols-4 gap-4">
       <div className="flex flex-col gap-4 pr-2 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
-        {Array.from({ length: 18 }, (_, index) => (
-          <BookingCard key={index} bookingDetailSlot={<BookingDetailSheet />} />
+        {bookingData?.map((booking) => (
+          <BookingCard
+            key={booking._id}
+            booking={booking}
+            bookingDetailSlot={<BookingDetailSheet />}
+          />
         ))}
       </div>
 
@@ -196,11 +197,12 @@ export default function MapPage() {
                   <div>
                     <h3>Количество заявок: {group.places.length}</h3>
                     {group.places.map((place) => (
-                      <div key={place.id} className="mt-2">
-                        <p>ID: {place.id}</p>
-                        <p>{place.name}</p>
-                        {place.id !==
-                          group.places[group.places.length - 1].id && <hr />}
+                      <div key={place._id} className="mt-2">
+                        <p>ID: {place._id}</p>
+                        <p>Описание: {place?.basicInfo?.culture}</p>{" "}
+                        {/* Замените на нужное поле */}
+                        {place._id !==
+                          group.places[group.places.length - 1]._id && <hr />}
                       </div>
                     ))}
                   </div>

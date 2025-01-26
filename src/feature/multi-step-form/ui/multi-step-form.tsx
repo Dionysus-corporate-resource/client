@@ -17,6 +17,9 @@ import { AdditionalTransportation } from "./steps/additional-conditions";
 import { useAtomValue } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { bookingApi } from "@/pages/home/api/booking-api";
+import { queryClient } from "@/shared/model/api/query-client";
 
 const steps: Step[] = [
   {
@@ -53,6 +56,28 @@ const steps: Step[] = [
 ];
 
 export default function MultiStepForm() {
+  const createBookingMutation = useMutation({
+    mutationFn: (data: FormData) => bookingApi.create(data),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["booking"] });
+    },
+  });
+  //
+  // 1. Дигидротестостерон - 294 пг/мл
+  // 2. Витамин B12 - 315 пг/мл (в самом конце число 18 еще было не знаю к чему оно)
+  // 3. Эстрадиол (E2) - 39.8 пмоль/л
+  // 4. Тестостерон общий - 19.251 нмоль/л (в конце цифры 8.330-30.190)
+  // 5. Глобулин, связывающий половые гормоны (ГСПГ, SHBG) - 35.5 нмоль/л (в конце цифры 16.2-68.5)
+  // 6. Кортизол - 12.4 мкг/дл.
+  // 7. Тестостерон свободный - 10.43 пг/.мл
+  // 8. Лютенизирующий гормон (ЛГ) - 3.47 мМЕ/мл
+  // 9. Пролактин - 160.30 мМЕ/л (в конце цифры 72.66 - 407.40)
+  // 10. Тиреотропный гормон (ТТГ) - 2.7181 мкМЕ/мл
+  // 11. Тироксин свободный (Т4 свободный) - 13.30 пмоль/л
+  // 12. Трийодтиронин свободный (Т3 свободный) - 5.24 пмоль/л
+  // 13. Фолликулостимулирующмй гормон (ФСГ) - 6.20 мМЕ/мл
+  //
+
   const user = useAtomValue(userStorageAtom);
   const navigate = useNavigate();
   const [isViewMap, setIsViewMap] = useState(false);
@@ -110,9 +135,13 @@ export default function MultiStepForm() {
   const handleSubmit = async () => {
     // Here you would typically submit the form data to your backend
     console.log("Form submitted:", formData);
-    setTimeout(() => {
-      navigate("/my-booking");
-    }, 1500);
+    createBookingMutation.mutate(formData, {
+      onSuccess: () => {
+        alert("Окей, заявка создана");
+        navigate("/my-booking");
+      },
+    });
+
     handleNext();
   };
 
