@@ -1,3 +1,8 @@
+type IContact = {
+  name: string;
+  phone: string;
+};
+
 export type IBooking = {
   basicInfo: {
     distance: string;
@@ -6,30 +11,26 @@ export type IBooking = {
       coordinates: [number, number] | null;
     };
     unLoadingLocation: string;
-    tonnage: string;
+    tonnage: string | null;
     culture: string;
   };
   conditionsTransportation: {
-    loadingMethod: string;
-    scaleCapacity: string;
+    loadingMethod: string | null;
+    scaleCapacity: string | null;
     loadingDate: Date;
   };
   detailTransportation: {
-    demurrage: string;
-    allowedShortage: string;
+    demurrage: string | null;
+    allowedShortage: string | null;
     paymentType: "cash" | "nds" | "without_nds";
     ratePerTon: string;
-    paymentDeadline: string;
+    paymentDeadline: string | null;
   };
   additionalConditions: {
-    additionalInformation: string;
-    contacts: {
-      name: string;
-      phone: string;
-    }[];
+    additionalInformation: string | null;
+    contacts: IContact[] | [];
   };
 };
-
 export type IBookingDto = IBooking & {
   status: "active" | "inProgress" | "inactive";
   // или user - IUserDto

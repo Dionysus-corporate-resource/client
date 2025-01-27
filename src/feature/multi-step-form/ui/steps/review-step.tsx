@@ -37,28 +37,33 @@ export function ReviewStep({ formData }: FormStepProps) {
                   label: "Расстояние",
                   value: formData?.basicInfo?.distance,
                   addEnd: "км",
+                  required: true,
                 },
                 {
                   label: "Место погрузки",
                   value: formData?.basicInfo?.loadingLocation?.name,
                   addEnd: "",
+                  required: true,
                 },
                 {
                   label: "Место выгрузки",
                   value: formData?.basicInfo?.unLoadingLocation,
                   addEnd: "",
+                  required: true,
                 },
                 {
                   label: "Тоннаж",
                   value: formData?.basicInfo?.tonnage,
                   addEnd: "тонн",
+                  required: false,
                 },
                 {
                   label: "Культура",
                   value: formData?.basicInfo?.culture,
                   addEnd: "",
+                  required: true,
                 },
-              ].map(({ label, value, addEnd }, index) => (
+              ].map(({ label, value, addEnd, required }, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{label}</TableCell>
                   <TableCell>
@@ -66,14 +71,16 @@ export function ReviewStep({ formData }: FormStepProps) {
                       <>
                         {value} {addEnd}
                       </>
-                    ) : (
+                    ) : required ? (
                       <span
                         className="text-red-400 font-medium flex items-center gap-2
                         w-fit bg-red-100 px-2 py-1 rounded-md"
                       >
                         <X className="w-4 h-4" />
-                        <p className="text-sm"> Не указано</p>
+                        <p className="text-sm">Обязательное поле</p>
                       </span>
+                    ) : (
+                      <p className="text-sm"> Не указано</p>
                     )}
                   </TableCell>
                 </TableRow>
@@ -90,11 +97,13 @@ export function ReviewStep({ formData }: FormStepProps) {
                   label: "Способ погрузки",
                   value: formData?.conditionsTransportation?.loadingMethod,
                   addEnd: "",
+                  required: false,
                 },
                 {
                   label: "Грузоподъемность весов",
                   value: formData?.conditionsTransportation?.scaleCapacity,
                   addEnd: "тонн",
+                  required: false,
                 },
                 {
                   label: "Дата погрузки",
@@ -102,8 +111,9 @@ export function ReviewStep({ formData }: FormStepProps) {
                     ?.toISOString()
                     .split("T")[0],
                   addEnd: "",
+                  required: true,
                 },
-              ].map(({ label, value, addEnd }, index) => (
+              ].map(({ label, value, addEnd, required }, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{label}</TableCell>
                   <TableCell>
@@ -111,14 +121,16 @@ export function ReviewStep({ formData }: FormStepProps) {
                       <>
                         {value} {addEnd}
                       </>
-                    ) : (
+                    ) : required ? (
                       <span
                         className="text-red-400 font-medium flex items-center gap-2
                         w-fit bg-red-100 px-2 py-1 rounded-md"
                       >
                         <X className="w-4 h-4" />
-                        <p className="text-sm"> Не указано</p>
+                        <p className="text-sm">Обязательное поле</p>
                       </span>
+                    ) : (
+                      <p className="text-sm"> Не указано</p>
                     )}
                   </TableCell>
                 </TableRow>
@@ -148,11 +160,13 @@ export function ReviewStep({ formData }: FormStepProps) {
                   label: "Простой",
                   value: formData?.detailTransportation?.demurrage,
                   addEnd: "",
+                  required: false,
                 },
                 {
                   label: "Допустимая недостача",
                   value: formData?.detailTransportation?.allowedShortage,
                   addEnd: "",
+                  required: false,
                 },
                 {
                   label: "Тип оплаты",
@@ -163,18 +177,21 @@ export function ReviewStep({ formData }: FormStepProps) {
                         ? "С НДС"
                         : "Без НДС",
                   addEnd: "",
+                  required: true,
                 },
                 {
                   label: "Ставка",
                   value: formData?.detailTransportation?.ratePerTon,
                   addEnd: "₽/тонна",
+                  required: true,
                 },
                 {
                   label: "Срок оплаты",
                   value: formData?.detailTransportation?.paymentDeadline,
                   addEnd: "",
+                  required: false,
                 },
-              ].map(({ label, value, addEnd }, index) => (
+              ].map(({ label, value, addEnd, required }, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{label}</TableCell>
                   <TableCell>
@@ -182,14 +199,16 @@ export function ReviewStep({ formData }: FormStepProps) {
                       <>
                         {value} {addEnd}
                       </>
-                    ) : (
+                    ) : required ? (
                       <span
                         className="text-red-400 font-medium flex items-center gap-2
                         w-fit bg-red-100 px-2 py-1 rounded-md"
                       >
                         <X className="w-4 h-4" />
-                        <p className="text-sm"> Не указано</p>
+                        <p className="text-sm">Обязательное поле</p>
                       </span>
+                    ) : (
+                      <p className="text-sm"> Не указано</p>
                     )}
                   </TableCell>
                 </TableRow>
@@ -209,13 +228,7 @@ export function ReviewStep({ formData }: FormStepProps) {
                   {formData?.additionalConditions?.additionalInformation ? (
                     <>{formData?.additionalConditions?.additionalInformation}</>
                   ) : (
-                    <span
-                      className="text-red-400 font-medium flex items-center gap-2
-                      w-fit bg-red-100 px-2 py-1 rounded-md"
-                    >
-                      <X className="w-4 h-4" />
-                      <p className="text-sm"> Не указано</p>
-                    </span>
+                    <p className="text-sm"> Не указано</p>
                   )}
                 </TableCell>
               </TableRow>
@@ -238,7 +251,7 @@ export function ReviewStep({ formData }: FormStepProps) {
                       w-fit bg-red-100 px-2 py-1 rounded-md"
                     >
                       <X className="w-4 h-4" />
-                      <p className="text-sm"> Не указано</p>
+                      <p className="text-sm">Обязательное поле</p>
                     </span>
                   )}
                 </TableCell>

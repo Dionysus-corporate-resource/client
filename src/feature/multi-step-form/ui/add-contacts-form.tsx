@@ -64,7 +64,7 @@ export default function ContactsManager({
   };
 
   const handleEdit = (index: number) => {
-    const contactToEdit = formData.additionalConditions.contacts[index];
+    const contactToEdit = formData?.additionalConditions?.contacts[index];
     setIsAdding(true);
     setEditingContact({ index, contact: contactToEdit });
     setFormDataContact(contactToEdit);

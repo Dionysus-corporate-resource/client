@@ -1,4 +1,3 @@
-import { IBooking } from "@/shared/model/types/booking";
 import { Dispatch, SetStateAction } from "react";
 // import { z } from "zod";
 
@@ -53,7 +52,40 @@ import { Dispatch, SetStateAction } from "react";
 // });
 
 // export type FormData = z.infer<typeof formSchema>;
-export type FormData = IBooking;
+
+type IContact = {
+  name: string;
+  phone: string;
+};
+
+export type FormData = {
+  basicInfo: {
+    distance: string;
+    loadingLocation: {
+      name: string;
+      coordinates: [number, number] | null;
+    };
+    unLoadingLocation: string;
+    tonnage: string;
+    culture: string;
+  };
+  conditionsTransportation: {
+    loadingMethod: string;
+    scaleCapacity: string;
+    loadingDate: Date;
+  };
+  detailTransportation: {
+    demurrage: string;
+    allowedShortage: string;
+    paymentType: "cash" | "nds" | "without_nds";
+    ratePerTon: string;
+    paymentDeadline: string;
+  };
+  additionalConditions: {
+    additionalInformation: string;
+    contacts: IContact[];
+  };
+};
 
 export type Step = {
   id: number;
