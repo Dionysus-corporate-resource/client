@@ -82,7 +82,7 @@ export default function BookingListTable({
   isPending: boolean;
 }) {
   return (
-    <div className="w-full">
+    <div className="w-full px-6">
       {isPending ? (
         <Table>
           <TableHeader>

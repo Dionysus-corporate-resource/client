@@ -7,7 +7,6 @@ import {
 import { MyBookingListTable } from "@/widgets/booking-list";
 // import FilterPanel from "@/entities/filter-panel/filter-panel";
 import AdvertisingCard from "@/entities/advertising-card/advertising-card";
-import { TableData } from "@/entities/booking/model/types";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
 import { useAtomValue } from "jotai";
@@ -28,7 +27,7 @@ export default function MyBooking() {
 
   return (
     // container
-    <div className="mx-auto flex flex-1 md:grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px] gap-6 p-4 md:p-6">
+    <div className="mx-auto w-full grid grid-cols-1 p-6">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
           defaultValue="active"
@@ -48,16 +47,13 @@ export default function MyBooking() {
             {/* <FilterPanel /> */}
           </div>
           {/* Content */}
-          <TabsContent value="active" className="h-full">
+          <TabsContent value="active" className="h-full px-6">
             <MyBookingListTable tableData={tableDataActive} />
           </TabsContent>
           <TabsContent value="archive">
             <MyBookingListTable tableData={tableDataArchive} />
           </TabsContent>
         </Tabs>
-      </div>
-      <div className="">
-        <AdvertisingCard />
       </div>
     </div>
   );

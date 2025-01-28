@@ -13,6 +13,7 @@ import NotFound from "@/pages/not-found/not-found";
 import MyBooking from "@/pages/my-booking/my-booking";
 import CreateBookingPage from "@/pages/create-booking/create-booking-page";
 import Authentication from "./providers/authenication-provider";
+import EditBookingMultiStepForm from "@/feature/edit-booking-multi-step-form/ui/multi-step-form";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
           }
         />
         <Route path="my-booking" element={<MyBooking />} />
+        <Route
+          path="edit-booking/:bookingId"
+          element={<EditBookingMultiStepForm />}
+        />
         <Route path="create-booking" element={<CreateBookingPage />} />
       </Route>
 

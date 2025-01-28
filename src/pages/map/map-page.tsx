@@ -3,7 +3,12 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { PackagePlus } from "lucide-react";
+import {
+  ArrowBigDown,
+  ArrowBigDownDash,
+  Package,
+  PackagePlus,
+} from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
@@ -153,7 +158,7 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
             {count}
           </span>
         ) : null}
-        {/* // Box, Package */}
+        {/* // Box, PackagePlus, ArrowBigDownDash */}
         <PackagePlus
           size={style.iconSize}
           color="white"

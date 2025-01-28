@@ -38,4 +38,15 @@ export const bookingApi = {
       throw err;
     }
   },
+  update: async (data: FormData, bookingId: string): Promise<IBookingDto> => {
+    try {
+      const response = await instance.put(`/booking/${bookingId}`, data);
+      console.log("bookingApi update", response.data);
+
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
 };

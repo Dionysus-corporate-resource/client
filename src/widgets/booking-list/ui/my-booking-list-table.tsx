@@ -1,3 +1,4 @@
+import { Button } from "@/shared/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,12 +8,14 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { Eye, MapPin } from "lucide-react";
+import { Eye, FilePenLine, MapPin } from "lucide-react";
+import { useNavigate } from "react-router";
 
 type Props = {
   tableData: IBookingDto[] | undefined;
 };
 export default function MyBookingListTable({ tableData: bookingData }: Props) {
+  const navigate = useNavigate();
   return (
     <div className="w-full">
       <Table>
@@ -55,6 +58,16 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
               <TableCell>{booking?.basicInfo?.distance}</TableCell>
               <TableCell className="text-right font-semibold">
                 {booking?.detailTransportation?.ratePerTon} ₽/т
+              </TableCell>
+              <TableCell className="text-right flex justify-end">
+                <Button
+                  variant="secondary"
+                  className="border flex flex-row gap-4"
+                  onClick={() => navigate(`/edit-booking/${booking._id}`)}
+                >
+                  <FilePenLine className="w-4 h-4" />
+                  Редактировать
+                </Button>
               </TableCell>
             </TableRow>
           ))}
