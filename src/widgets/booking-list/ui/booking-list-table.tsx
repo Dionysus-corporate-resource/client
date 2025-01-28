@@ -1,3 +1,4 @@
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -6,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
+import { IBookingDto } from "@/shared/model/types/booking";
 import { MapPin } from "lucide-react";
 
 interface TableData {
@@ -72,40 +74,94 @@ const tableData: TableData[] = [
   },
 ];
 
-export default function BookingListTable() {
+export default function BookingListTable({
+  bookingData,
+  isPending,
+}: {
+  bookingData: IBookingDto[] | undefined;
+  isPending: boolean;
+}) {
   return (
     <div className="w-full">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Заказчик</TableHead>
-            <TableHead>Культура</TableHead>
-            <TableHead>Погрузки</TableHead>
-            <TableHead>Выгрузки</TableHead>
-            <TableHead>Объем</TableHead>
-            <TableHead>Расстояние</TableHead>
-            <TableHead className="text-right">Ставка</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {tableData.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.customer}</TableCell>
-              <TableCell>{row.culture}</TableCell>
-              <TableCell className="flex gap-2">
-                <MapPin className="w-4 h-4" />
-                {row.loadingPoint}
-              </TableCell>
-              <TableCell>{row.unloadingPoint}</TableCell>
-              <TableCell>{row.volume}</TableCell>
-              <TableCell>{row.distance}</TableCell>
-              <TableCell className="text-right font-semibold">
-                {row.rate.toLocaleString()} ₽
-              </TableCell>
+      {isPending ? (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Заказчик</TableHead>
+              <TableHead>Культура</TableHead>
+              <TableHead>Погрузки</TableHead>
+              <TableHead>Выгрузки</TableHead>
+              <TableHead>Объем</TableHead>
+              <TableHead>Расстояние</TableHead>
+              <TableHead className="text-right">Ставка</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+                <TableCell className="flex gap-2">
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="h-4 w-32 rounded-full" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Заказчик</TableHead>
+              <TableHead>Культура</TableHead>
+              <TableHead>Погрузки</TableHead>
+              <TableHead>Выгрузки</TableHead>
+              <TableHead>Объем</TableHead>
+              <TableHead>Расстояние</TableHead>
+              <TableHead className="text-right">Ставка</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {bookingData?.map((booking) => (
+              <TableRow key={booking._id}>
+                <TableCell>
+                  {booking?.user?.companyPublicData?.nameCompany}
+                </TableCell>
+                <TableCell>{booking?.basicInfo?.culture}</TableCell>
+                <TableCell className="flex gap-2">
+                  <MapPin className="w-4 h-4" />
+                  {booking?.basicInfo?.loadingLocation.name}
+                </TableCell>
+                <TableCell>{booking?.basicInfo?.unLoadingLocation}</TableCell>
+                <TableCell>
+                  {booking?.basicInfo?.tonnage ? (
+                    <>{booking?.basicInfo?.tonnage} т</>
+                  ) : (
+                    "-"
+                  )}
+                </TableCell>
+                <TableCell>{booking?.basicInfo?.distance}</TableCell>
+                <TableCell className="text-right font-semibold">
+                  {booking?.detailTransportation?.ratePerTon} ₽/тонна
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 }

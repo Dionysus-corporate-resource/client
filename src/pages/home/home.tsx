@@ -44,13 +44,13 @@ export default function HomePage() {
           </div>
           {/* Content */}
           <TabsContent value="booking-list-table" className="h-full">
-            <BookingListTable />
+            <BookingListTable bookingData={bookingData} isPending={isPending} />
           </TabsContent>
           <TabsContent value="map">
             <MapPage bookingData={bookingData} isPending={isPending} />
           </TabsContent>
           <TabsContent value="booking-list-card">
-            <BookingListCard />
+            <BookingListCard bookingData={bookingData} isPending={isPending} />
           </TabsContent>
         </Tabs>
       </div>

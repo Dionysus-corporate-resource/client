@@ -1,12 +1,28 @@
-// import BookingCard from "@/entities/booking/ui/booking-card";
-// import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
+import { IBookingDto } from "@/shared/model/types/booking";
+import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 
-export default function BookingListCard() {
+export default function BookingListCard({
+  bookingData,
+  isPending,
+}: {
+  bookingData: IBookingDto[] | undefined;
+  isPending: boolean;
+}) {
   return (
     <div className="grid grid-cols-4 gap-4">
-      {/* {Array.from({ length: 18 }, (_, index) => (
-        <BookingCard key={index} bookingDetailSlot={<BookingDetailSheet />} />
-      ))} */}
+      {isPending
+        ? Array.from({ length: 10 }).map((_, index) => (
+            <SkeletonBookingCard key={index} />
+          ))
+        : bookingData?.map((booking, index) => (
+            <BookingCard
+              key={booking._id}
+              orderNumber={index + 1}
+              booking={booking}
+              bookingDetailSlot={<BookingDetailSheet />}
+            />
+          ))}
     </div>
   );
 }

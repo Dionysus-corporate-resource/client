@@ -158,7 +158,7 @@ export default function MapPage({
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      <div className="flex flex-col gap-4 pr-2 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
+      <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
         {isPending
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />

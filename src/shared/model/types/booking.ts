@@ -1,3 +1,5 @@
+import { IUserDto } from "./user";
+
 type IContact = {
   name: string;
   phone: string;
@@ -34,7 +36,7 @@ export type IBooking = {
 export type IBookingDto = IBooking & {
   status: "active" | "inProgress" | "inactive";
   // или user - IUserDto
-  user: string;
+  user: IUserDto;
   _id: string;
   createdAt: string;
   updatedAt: string;
