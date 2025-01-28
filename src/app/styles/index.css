@@ -94,27 +94,96 @@
         --ring: 215 20.2% 65.1%;
         --radius: 0.5rem;
     }
+    /* :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 47.4% 11.2%;
 
+        --muted: 220 14% 95%;
+        --muted-foreground: 220 14% 35%;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 47.4% 11.2%;
+
+        --border: 220 14% 85%;
+        --input: 220 14% 90%;
+
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 47.4% 11.2%;
+
+        --primary: 211 73% 59%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 220 14% 95%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+
+        --accent: 220 14% 90%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 100%;
+
+        --ring: 211 73% 59%;
+        --radius: 0.5rem;
+    } */
     .dark {
-        --background: 224 71% 4%;
-        --foreground: 213 31% 91%;
-        --muted: 223 47% 11%;
-        --muted-foreground: 215.4 16.3% 56.9%;
-        --accent: 216 34% 17%;
-        --accent-foreground: 210 40% 98%;
-        --popover: 224 71% 4%;
-        --popover-foreground: 215 20.2% 65.1%;
-        --border: 216 34% 17%;
-        --input: 216 34% 17%;
-        --card: 224 71% 4%;
-        --card-foreground: 213 31% 91%;
-        --primary: 210 40% 98%;
-        --primary-foreground: 222.2 47.4% 1.2%;
-        --secondary: 222.2 47.4% 11.2%;
-        --secondary-foreground: 210 40% 98%;
-        --destructive: 0 63% 31%;
-        --destructive-foreground: 210 40% 98%;
-        --ring: 216 34% 17%;
+        --background: 220 14% 20%; /* Темно-серый с синим оттенком */
+        --foreground: 220 14% 85%; /* Светло-серый для текста */
+
+        --muted: 220 14% 30%; /* Средний серый */
+        --muted-foreground: 220 14% 65%; /* Приглушенный серый */
+
+        --accent: 215 16% 35%; /* Теплый серо-синий */
+        --accent-foreground: 220 14% 90%;
+
+        --popover: 220 14% 18%; /* Чуть темнее фона */
+        --popover-foreground: 220 14% 80%;
+
+        --border: 220 14% 35%; /* Границы с контрастом */
+        --input: 220 14% 25%; /* Поля ввода */
+
+        --card: 220 14% 22%; /* Карточки */
+        --card-foreground: 220 14% 85%;
+
+        --primary: 211 73% 59%; /* Сохранил ваш акцентный цвет */
+        --primary-foreground: 220 14% 98%;
+
+        --secondary: 220 14% 35%; /* Вторичные элементы */
+        --secondary-foreground: 220 14% 95%;
+
+        --destructive: 0 72% 51%; /* Более мягкий красный */
+        --destructive-foreground: 220 14% 95%;
+
+        --ring: 220 14% 40%; /* Кольцо фокуса */
+    }
+    .dark {
+        --background: 222.2 47.4% 11.2%; /* Темный сине-серый фон */
+        --foreground: 220 14% 95%; /* Светло-серый текст */
+
+        --muted: 220 14% 25%; /* Темный серо-синий */
+        --muted-foreground: 220 14% 65%; /* Серый текст средний */
+
+        --popover: 222.2 47.4% 15%; /* Темный фон попапов */
+        --popover-foreground: 220 14% 95%;
+
+        --border: 220 14% 25%; /* Темные границы */
+        --input: 220 14% 30%; /* Поля ввода темные */
+
+        --card: 222.2 47.4% 13%; /* Карточки чуть светлее фона */
+        --card-foreground: 220 14% 95%;
+
+        --primary: 211 73% 59%; /* Сохраняем сочный синий */
+        --primary-foreground: 0 0% 100%; /* Белый текст */
+
+        --secondary: 220 14% 25%; /* Темные вторичные элементы */
+        --secondary-foreground: 220 14% 95%;
+
+        --accent: 220 14% 30%; /* Акцентные элементы */
+        --accent-foreground: 220 14% 95%;
+
+        --destructive: 0 72% 45%; /* Темно-красный для деструктивных действий */
+        --destructive-foreground: 0 0% 100%;
+
+        --ring: 211 73% 59%; /* Сохраняем синее свечение */
+        --radius: 0.5rem;
     }
 }
 

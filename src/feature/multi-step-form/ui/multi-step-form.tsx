@@ -72,8 +72,8 @@ export default function MultiStepForm() {
     basicInfo: {
       distance: "",
       loadingLocation: {
-        name: "Москва",
-        coordinates: [55.75, 37.57],
+        name: "Майкопский Район",
+        coordinates: [44.6078, 40.1058],
       },
       unLoadingLocation: "",
       tonnage: "",

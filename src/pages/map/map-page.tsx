@@ -1,108 +1,167 @@
-// import BookingCard from "@/entities/booking/ui/old-booking-card";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { MapPin } from "lucide-react";
+import { PackagePlus } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 
+import L from "leaflet";
+import "leaflet.markercluster";
+
+const createClusterIcon = (cluster: unknown) => {
+  const count = (cluster as { getChildCount: () => number }).getChildCount();
+  let size = "50px";
+  let backgroundColor = "rgba(82, 139, 239, 0.8)"; // Синий цвет по умолчанию
+  let backgroundColorOut = "rgba(82, 139, 239, 0.3)";
+  const textColor = "white";
+  let sizeOut = "38px";
+
+  if (count > 10) {
+    size = "28px";
+    sizeOut = "38px";
+    backgroundColor = "rgba(255, 100, 100, 0.9)";
+    backgroundColorOut = "rgba(255, 100, 100, 0.3)";
+  } else if (count > 5) {
+    size = "28px";
+    sizeOut = "38px";
+    backgroundColor = "rgba(255, 170, 80, 0.9)";
+    backgroundColorOut = "rgba(255, 170, 80, 0.3)";
+  } else {
+    size = "28px";
+    sizeOut = "38px";
+    backgroundColor = "rgba(82, 139, 239, 0.9)";
+    backgroundColorOut = "rgba(82, 139, 239, 0.3)";
+  }
+
+  return L.divIcon({
+    html: `
+    <div style="
+      border-radius: 50%;
+      padding: 4px;
+      background: ${backgroundColorOut};
+      width: ${sizeOut};
+      height: ${sizeOut};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">
+    <div style="
+      width: ${size};
+      height: ${size};
+      background: ${backgroundColor};
+      color: ${textColor};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: bold;
+    ">
+      ${count}
+    </div>
+    </div>
+    `,
+    className: "custom-cluster-icon", // Убедитесь, что вы сбросили стандартные классы
+    iconSize: [parseInt(size), parseInt(size)], // Задаем размер иконки
+  });
+};
+
 const CustomMarkerIcon = ({ count }: { count: number }) => {
   const getStyle = (count: number) => {
-    if (count > 10) {
+    if (count > 8) {
       return {
-        backgroundColor: "#FF5252", // Красный для большого количества
-        size: "48px",
+        backgroundColor: "rgba(255, 100, 100, 0.9)",
+        backgroundColorOut: "rgba(255, 100, 100, 0.3)",
+        sizeX: count > 1 ? "48px" : "28px",
+        sizeY: count > 1 ? "30px" : "28px",
+        sizeOutX: count > 1 ? "58px" : "38px",
+        sizeOutY: count > 1 ? "40px" : "38px",
         iconSize: 20,
       };
     }
-    if (count > 5) {
+    if (count > 3) {
       return {
-        backgroundColor: "#FFB74D", // Оранжевый для среднего
-        size: "44px",
+        backgroundColor: "rgba(255, 170, 80, 0.9)",
+        backgroundColorOut: "rgba(255, 170, 80, 0.3)",
+        sizeX: count > 1 ? "48px" : "28px",
+        sizeY: count > 1 ? "30px" : "28px",
+        sizeOutX: count > 1 ? "58px" : "38px",
+        sizeOutY: count > 1 ? "40px" : "38px",
         iconSize: 18,
       };
     }
     return {
-      backgroundColor: "#4A90E2", // Синий для малого
-      size: count > 1 ? "44px" : "34px",
+      backgroundColor: "rgba(82, 139, 239, 0.9)",
+      backgroundColorOut: "rgba(82, 139, 239, 0.3)",
+      sizeX: count > 1 ? "48px" : "28px",
+      sizeY: count > 1 ? "30px" : "28px",
+      sizeOutX: count > 1 ? "58px" : "38px",
+      sizeOutY: count > 1 ? "40px" : "38px",
       iconSize: 18,
     };
   };
 
   const style = getStyle(count);
 
-  if (count > 1) {
-    return (
-      <div
-        style={{
-          backgroundColor: style.backgroundColor,
-          width: style.size,
-          height: style.size,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "50%",
-          color: "white",
-          fontWeight: "600",
-          flexDirection: "row",
-          gap: "4px",
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-          border: "2px solid rgba(255, 255, 255, 0.8)",
-          transition: "all 0.2s ease-in-out",
-          padding: "8px",
-          backdropFilter: "blur(4px)",
-        }}
-        className="hover:scale-110 marker-pulse"
-      >
-        <span
-          style={{
-            fontSize: `${parseInt(style.size) / 3}px`,
-            fontFamily: "system-ui, -apple-system, sans-serif",
-            letterSpacing: "0.5px",
-            textShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          {count}
-        </span>
-        <MapPin
-          size={style.iconSize}
-          color="white"
-          style={{
-            filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
-          }}
-        />
-      </div>
-    );
-  }
-
-  // Для одиночного маркера
   return (
     <div
       style={{
-        backgroundColor: style.backgroundColor,
-        width: style.size,
-        height: style.size,
+        backgroundColor: style.backgroundColorOut,
+        // padding: "6px",
+        width: style.sizeOutX,
+        height: style.sizeOutY,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: "50%",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-        border: "2px solid rgba(255, 255, 255, 0.8)",
-        transition: "all 0.2s ease-in-out",
-        transform: "translateY(-2px)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        transform: "scale(1)",
+        borderRadius: "6px",
       }}
-      className="hover:scale-110"
     >
-      <MapPin
-        size={style.iconSize}
-        color="white"
+      <div
         style={{
-          filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
+          backgroundColor: style.backgroundColor,
+          width: style.sizeX,
+          height: style.sizeY,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "6px",
+          color: "white",
+          fontWeight: "600",
+          backdropFilter: "blur(8px)", // Эффект стекла
+          border: "2px solid hsla(var(--muted-foreground), 0.5)", // Лёгкая окантовка
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: "scale(1)",
+          cursor: "pointer",
         }}
-      />
+        className="hover:scale-110 hover:shadow-lg"
+      >
+        {count > 1 ? (
+          <span
+            style={{
+              fontSize: `${parseInt(style.sizeY) / 3}px`,
+              fontFamily: "system-ui, -apple-system, sans-serif",
+              letterSpacing: "0.5px",
+              textShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
+              marginRight: "6px",
+            }}
+          >
+            {count}
+          </span>
+        ) : null}
+        {/* // Box, Package */}
+        <PackagePlus
+          size={style.iconSize}
+          color="white"
+          style={{
+            filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2))",
+          }}
+        />
+      </div>
     </div>
   );
 };
@@ -158,7 +217,7 @@ export default function MapPage({
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
+      <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth p-1">
         {isPending
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />
@@ -168,7 +227,9 @@ export default function MapPage({
                 key={booking._id}
                 orderNumber={index + 1}
                 booking={booking}
-                bookingDetailSlot={<BookingDetailSheet />}
+                bookingDetailSlot={
+                  <BookingDetailSheet bookingId={booking?._id} />
+                }
               />
             ))}
       </div>
@@ -194,6 +255,7 @@ export default function MapPage({
             maxClusterRadius={60}
             spiderfyOnMaxZoom={true}
             showCoverageOnHover={false}
+            iconCreateFunction={createClusterIcon}
           >
             {Object.values(groupedPlaces).map((group, index) => (
               <Marker

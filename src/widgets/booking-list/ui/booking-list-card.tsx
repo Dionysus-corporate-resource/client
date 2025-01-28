@@ -10,7 +10,7 @@ export default function BookingListCard({
   isPending: boolean;
 }) {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-4 gap-4 p-1">
       {isPending
         ? Array.from({ length: 10 }).map((_, index) => (
             <SkeletonBookingCard key={index} />
@@ -20,7 +20,9 @@ export default function BookingListCard({
               key={booking._id}
               orderNumber={index + 1}
               booking={booking}
-              bookingDetailSlot={<BookingDetailSheet />}
+              bookingDetailSlot={
+                <BookingDetailSheet bookingId={booking?._id} />
+              }
             />
           ))}
     </div>

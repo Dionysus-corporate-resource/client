@@ -15,6 +15,18 @@ export const bookingApi = {
       throw err;
     }
   },
+  getOne: async (bookingId: string): Promise<IBookingDto> => {
+    try {
+      const response = await instance.get(`/booking/${bookingId}`);
+      console.log("bookingApi getOne", response.data);
+
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      // throw  Error("Ошибка при получении заявок");
+      throw err;
+    }
+  },
   create: async (data: FormData): Promise<IBookingDto> => {
     try {
       const response = await instance.post("/booking", data);

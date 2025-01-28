@@ -142,7 +142,7 @@ export default function BookingListTable({
                 </TableCell>
                 <TableCell>{booking?.basicInfo?.culture}</TableCell>
                 <TableCell className="flex gap-2">
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-4 h-4 text-muted-foreground" />
                   {booking?.basicInfo?.loadingLocation.name}
                 </TableCell>
                 <TableCell>{booking?.basicInfo?.unLoadingLocation}</TableCell>

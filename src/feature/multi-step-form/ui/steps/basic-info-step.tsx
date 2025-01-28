@@ -49,11 +49,21 @@ export function BasicInfoStep({
     // console.log("setCoordinatesHandle", e);
     setCoordinates(e);
     if (setIsViewMap) setIsViewMap(true);
+    // updateFormData({
+    //   basicInfo: {
+    //     ...formData.basicInfo,
+    //     loadingLocation: {
+    //       name: formData.basicInfo.loadingLocation.name,
+    //       coordinates: e,
+    //     },
+    //   },
+    // });
+    // сбрасываем значение, если он решил вводить его сам
     updateFormData({
       basicInfo: {
         ...formData.basicInfo,
         loadingLocation: {
-          name: formData.basicInfo.loadingLocation.name,
+          name: "",
           coordinates: e,
         },
       },
@@ -128,6 +138,28 @@ export function BasicInfoStep({
               <Checkbox
                 checked={isViewMap}
                 onCheckedChange={(checked) => {
+                  // сбрасываем значение, если он решил вводить его сам
+                  if (checked) {
+                    updateFormData({
+                      basicInfo: {
+                        ...formData.basicInfo,
+                        loadingLocation: {
+                          name: "",
+                          coordinates: null,
+                        },
+                      },
+                    });
+                  } else {
+                    updateFormData({
+                      basicInfo: {
+                        ...formData.basicInfo,
+                        loadingLocation: {
+                          name: "Майкопский Район",
+                          coordinates: [44.6078, 40.1058],
+                        },
+                      },
+                    });
+                  }
                   if (setIsViewMap) {
                     // проверяем что setIsViewMap существует
                     setIsViewMap(Boolean(checked));
@@ -204,7 +236,8 @@ export function BasicInfoStep({
                       ...formData.basicInfo,
                       loadingLocation: {
                         name: e.target.value,
-                        coordinates: coordinates,
+                        coordinates:
+                          formData.basicInfo.loadingLocation?.coordinates,
                       },
                     },
                   })
@@ -213,6 +246,11 @@ export function BasicInfoStep({
               {!formData?.basicInfo?.loadingLocation?.coordinates && (
                 <p className="mt-1 text-sm text-red-500">
                   Пожалуйста, выберите точку на карте.
+                </p>
+              )}
+              {!formData?.basicInfo?.loadingLocation?.name && (
+                <p className="mt-1 text-sm text-red-500">
+                  Пожалуйста, введите место погрузки.
                 </p>
               )}
             </>

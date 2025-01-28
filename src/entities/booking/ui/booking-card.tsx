@@ -18,7 +18,7 @@ import { ReactNode } from "react";
 import { IBookingDto } from "@/shared/model/types/booking";
 
 export default function BookingCard({
-  // bookingDetailSlot,
+  bookingDetailSlot,
   orderNumber,
   booking,
 }: {
@@ -54,7 +54,11 @@ export default function BookingCard({
           </div>
           <div className="flex flex-col items-end gap-2">
             <Badge variant="secondary" className="h-6">
-              {booking?.basicInfo?.culture}
+              {booking?.basicInfo?.culture ? (
+                <>{booking?.basicInfo?.culture}</>
+              ) : (
+                "Уточнить"
+              )}
             </Badge>
             <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
@@ -101,7 +105,7 @@ export default function BookingCard({
         {/* Маршрут */}
         <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2">
           <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-green-500 bg-muted-foreground/30 top-[5px] left-0" />
+            <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" />
             <div className="pl-6">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.loadingLocation?.name
@@ -125,7 +129,7 @@ export default function BookingCard({
           </div>
 
           <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-red-500 bg-muted-foreground/30 top-[5px] left-0" />
+            <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" />
             <div className="pl-6">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.unLoadingLocation
@@ -187,34 +191,19 @@ export default function BookingCard({
 
         {/* Действия */}
 
-        {/* <div className="grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3">
           <div className="col-start-2 flex justify-end">
             {bookingDetailSlot}
           </div>
-        </div> */}
-        <Button
+        </div>
+        {/* <Button
           // variant="outline"
           className="bg-[hsl(var(--access-primary))] text-white "
         >
           Подробнее
           <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        </Button> */}
       </CardContent>
     </Card>
   );
-}
-
-function getPaymentMethodLabel(
-  paymentType: IBookingDto["detailTransportation"]["paymentType"],
-) {
-  switch (paymentType) {
-    case "cash":
-      return "Наличные";
-    case "nds":
-      return "НДС";
-    case "without_nds":
-      return "Без НДС";
-    default:
-      return "Уточнить";
-  }
 }

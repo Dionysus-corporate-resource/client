@@ -9,4 +9,10 @@ export const bookingQueryOption = {
       queryFn: (): Promise<IBookingDto[]> => bookingApi.getAll(),
     });
   },
+  getOne: (bookingId: string) => {
+    return queryOptions({
+      queryKey: ["booking", bookingId],
+      queryFn: (): Promise<IBookingDto> => bookingApi.getOne(bookingId),
+    });
+  },
 };

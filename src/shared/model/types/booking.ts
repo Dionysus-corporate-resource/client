@@ -36,6 +36,7 @@ export type IBooking = {
 export type IBookingDto = IBooking & {
   status: "active" | "inProgress" | "inactive";
   // или user - IUserDto
+  view: number;
   user: IUserDto;
   _id: string;
   createdAt: string;
