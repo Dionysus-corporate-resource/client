@@ -36,7 +36,7 @@ export type IBookingDto = IBooking & {
   // или user - IUserDto
   user: string;
   _id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   __v: 0;
 };

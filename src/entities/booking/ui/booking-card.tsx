@@ -1,75 +1,213 @@
-import { MapPin, Info } from "lucide-react";
-import { Card, CardContent, CardFooter } from "@/shared/components/ui/card";
-// import { Button } from "@/shared/components/ui/button";
+import { Package, ArrowRight, Clock, Calendar, Wallet } from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
-import { IBooking } from "@/shared/model/types/booking";
+import { IBookingDto } from "@/shared/model/types/booking";
 
 export default function BookingCard({
+  // bookingDetailSlot,
+  orderNumber,
   booking,
-  bookingDetailSlot,
 }: {
-  booking: IBooking;
-  bookingDetailSlot: ReactNode;
+  bookingDetailSlot?: ReactNode;
+  orderNumber: number;
+  booking: IBookingDto;
 }) {
   return (
-    <Card className="w-full max-w-md relative">
-      <CardContent className="pt-6">
-        <div className="space-y-4">
-          {/* Location */}
-          <div className="flex items-start gap-2">
-            <MapPin className="h-5 w-5 text-gray-500 shrink-0 mt-0.5" />
-            <div>
-              <h3 className="font-medium text-lg">
-                {booking?.basicInfo?.loadingLocation?.name}
-              </h3>
-              <p className="text-sm text-muted-foreground">region</p>
-            </div>
-          </div>
-
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 ml-6">
-            <Badge variant="secondary" className="rounded-full">
-              {booking?.basicInfo?.distance}
-            </Badge>
-            <Badge variant="secondary" className="rounded-full">
-              {booking?.basicInfo?.culture}
-            </Badge>
-          </div>
-
-          {/* Unloading Location */}
-          <div className="">
-            <div className="flex items-center gap-2">
-              <Info className="h-4 w-4" />
-              <h3 className="font-medium text-lg">Место выгрузки не указано</h3>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {booking?.basicInfo?.unLoadingLocation}
-            </p>
-            <div className="border-l h-16 border-dashed absolute top-14 left-8" />
-          </div>
-
-          {/* Destination & Seller */}
+    <Card className="w-full max-w-md border bg-card">
+      {/* Заголовок с номером заявки и статусом */}
+      <CardHeader className="pb-4">
+        <div className="flex items-start justify-between mb-4">
           <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <p className="font-medium">NameCompany</p>
-              <Badge variant="outline" className="text-muted-foreground">
-                Нет оценок
-              </Badge>
+            <CardTitle className="text-xl font-semibold">
+              Заявка №{orderNumber}
+            </CardTitle>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Clock className="w-4 h-4 mr-1" />
+                {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <Calendar className="w-4 h-4 mr-1" />
+                {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
+                  day: "2-digit",
+                  month: "long",
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-end gap-2">
+            <Badge variant="secondary" className="h-6">
+              Активная
+            </Badge>
+            <span className="text-xs text-muted-foreground">
+              ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
+            </span>
+          </div>
+        </div>
+
+        {/* Быстрая информация */}
+        <div className="grid grid-cols-3 gap-4 p-3 bg-muted/30 rounded-lg">
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground mb-1">Расстояние</p>
+            <p className="font-medium">
+              {booking?.basicInfo?.distance ? (
+                <>{booking?.basicInfo?.distance} км</>
+              ) : (
+                "-"
+              )}
+            </p>
+          </div>
+          <div className="text-center border-x border-border">
+            <p className="text-xs text-muted-foreground mb-1">Вес</p>
+            <p className="font-medium">
+              {booking?.basicInfo?.tonnage ? (
+                <>{booking?.basicInfo?.tonnage} тонн</>
+              ) : (
+                "-"
+              )}
+            </p>
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground mb-1">Ставка</p>
+            <p className="font-medium">
+              {booking?.detailTransportation?.ratePerTon ? (
+                <>{booking?.detailTransportation?.ratePerTon} ₽/т</>
+              ) : (
+                "-"
+              )}
+            </p>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="grid gap-6">
+        {/* Маршрут */}
+        <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2">
+          <div className="relative">
+            <div className="absolute w-3 h-3 rounded-full bg-green-500 top-[5px] left-0" />
+            <div className="pl-6">
+              <p className="text-sm font-medium">
+                {booking?.basicInfo?.loadingLocation?.name
+                  ? booking?.basicInfo?.loadingLocation?.name
+                  : "-"}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Место погрузки
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {booking?.conditionsTransportation?.loadingDate
+                  ? new Date(
+                      booking?.conditionsTransportation?.loadingDate,
+                    ).toLocaleDateString("ru-RU", {
+                      day: "2-digit",
+                      month: "long",
+                    })
+                  : "Уточнить"}
+              </p>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute w-3 h-3 rounded-full bg-red-500 top-[5px] left-0" />
+            <div className="pl-6">
+              <p className="text-sm font-medium">
+                {booking?.basicInfo?.unLoadingLocation
+                  ? booking?.basicInfo?.unLoadingLocation
+                  : "-"}
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Место выгрузки
+              </p>
+              {/* <p className="text-xs text-muted-foreground mt-1">!</p> */}
             </div>
           </div>
         </div>
-      </CardContent>
-      <div className="border-b" />
-      <CardFooter className="flex items-center justify-between pt-4">
-        <div>
-          <p className="text-sm text-muted-foreground">Цена:</p>
-          <p className="text-lg font-semibold text-primary">
-            {booking?.detailTransportation?.ratePerTon}
-          </p>
+
+        {/* Детали груза */}
+        <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
+                <Package className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Груз</p>
+                <p className="font-medium">
+                  {booking?.basicInfo?.culture
+                    ? booking?.basicInfo?.culture
+                    : "-"}
+                </p>
+              </div>
+            </div>
+
+            {/* <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
+                <Truck className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Тип ТС</p>
+                <p className="font-medium">Тент</p>
+              </div>
+            </div> */}
+
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
+                <Wallet className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Тип Оплаты</p>
+                <p className="font-medium">
+                  {booking?.detailTransportation?.paymentType
+                    ? getPaymentMethodLabel(
+                        booking?.detailTransportation?.paymentType,
+                      )
+                    : "-"}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
-        {bookingDetailSlot}
-      </CardFooter>
+
+        {/* Действия */}
+
+        {/* <div className="grid grid-cols-1 gap-3">
+          <div className="col-start-2 flex justify-end">
+            {bookingDetailSlot}
+          </div>
+        </div> */}
+        <Button
+          // variant="outline"
+          className="bg-[hsl(var(--access-primary))] text-white "
+        >
+          Подробнее
+          <ArrowRight className="w-4 h-4 ml-2" />
+        </Button>
+      </CardContent>
     </Card>
   );
+}
+
+function getPaymentMethodLabel(
+  paymentType: IBookingDto["detailTransportation"]["paymentType"],
+) {
+  switch (paymentType) {
+    case "cash":
+      return "Наличные";
+    case "nds":
+      return "НДС";
+    case "without_nds":
+      return "Без НДС";
+    default:
+      return "Уточнить";
+  }
 }

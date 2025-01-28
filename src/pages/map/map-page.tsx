@@ -1,4 +1,4 @@
-import BookingCard from "@/entities/booking/ui/booking-card";
+// import BookingCard from "@/entities/booking/ui/old-booking-card";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -7,6 +7,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { MapPin } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
+import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 
 const CustomMarkerIcon = ({ count }: { count: number }) => {
   const getStyle = (count: number) => {
@@ -117,8 +118,10 @@ const createCustomIcon = (count: number) => {
 
 export default function MapPage({
   bookingData,
+  isPending,
 }: {
   bookingData: IBookingDto[] | undefined;
+  isPending: boolean;
 }) {
   const groupedPlaces =
     bookingData?.reduce(
@@ -156,13 +159,18 @@ export default function MapPage({
   return (
     <div className="grid grid-cols-4 gap-4">
       <div className="flex flex-col gap-4 pr-2 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth">
-        {bookingData?.map((booking) => (
-          <BookingCard
-            key={booking._id}
-            booking={booking}
-            bookingDetailSlot={<BookingDetailSheet />}
-          />
-        ))}
+        {isPending
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <SkeletonBookingCard key={index} />
+            ))
+          : bookingData?.map((booking, index) => (
+              <BookingCard
+                key={booking._id}
+                orderNumber={index + 1}
+                booking={booking}
+                bookingDetailSlot={<BookingDetailSheet />}
+              />
+            ))}
       </div>
 
       <div className="col-span-3 md:h-[400px] lg:h-[675px]">
