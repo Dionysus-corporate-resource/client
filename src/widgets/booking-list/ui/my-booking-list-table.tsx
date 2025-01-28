@@ -1,4 +1,3 @@
-import { TableData } from "@/entities/booking/model/types";
 import {
   Table,
   TableBody,
@@ -7,12 +6,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { Eye, MapPin } from "lucide-react";
+import { IBookingDto } from "@/shared/model/types/booking";
+import { MapPin } from "lucide-react";
 
 type Props = {
-  tableData: TableData[];
+  tableData: IBookingDto[] | undefined;
 };
-export default function MyBookingListTable({ tableData }: Props) {
+export default function MyBookingListTable({ tableData: bookingData }: Props) {
   return (
     <div className="w-full">
       <Table>
@@ -22,7 +22,7 @@ export default function MyBookingListTable({ tableData }: Props) {
             <TableHead>Заказчик</TableHead>
             <TableHead>Культура</TableHead>
             <TableHead>Погрузки</TableHead>
-            <TableHead>Выгрузки</TableHead>
+            <TableHead>Выгрузка</TableHead>
             <TableHead>Объем</TableHead>
             <TableHead>Расстояние</TableHead>
 
@@ -30,24 +30,28 @@ export default function MyBookingListTable({ tableData }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tableData.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell className="flex items-center gap-2">
-                <Eye className="w-4 h-4" />
-                {row.view}
+          {bookingData?.map((booking) => (
+            <TableRow key={booking._id}>
+              <TableCell>{booking?.__v}</TableCell>
+              <TableCell>
+                {booking?.user?.companyPublicData?.nameCompany}
               </TableCell>
-              <TableCell>{row.customer}</TableCell>
-              <TableCell>{row.culture}</TableCell>
+              <TableCell>{booking?.basicInfo?.culture}</TableCell>
               <TableCell className="flex gap-2">
                 <MapPin className="w-4 h-4" />
-                {row.loadingPoint}
+                {booking?.basicInfo?.loadingLocation.name}
               </TableCell>
-              <TableCell>{row.unloadingPoint}</TableCell>
-              <TableCell>{row.volume}</TableCell>
-              <TableCell>{row.distance}</TableCell>
-
-              <TableCell className="text-right font-medium">
-                {row.rate.toLocaleString()} ₽/т
+              <TableCell>{booking?.basicInfo?.unLoadingLocation}</TableCell>
+              <TableCell>
+                {booking?.basicInfo?.tonnage ? (
+                  <>{booking?.basicInfo?.tonnage} т</>
+                ) : (
+                  "-"
+                )}
+              </TableCell>
+              <TableCell>{booking?.basicInfo?.distance}</TableCell>
+              <TableCell className="text-right font-semibold">
+                {booking?.detailTransportation?.ratePerTon} ₽/т
               </TableCell>
             </TableRow>
           ))}

@@ -6,9 +6,18 @@ import { Badge } from "../components/ui/badge";
 import { Toaster } from "../components/ui/toaster";
 import { useAtomValue } from "jotai";
 import { userStorageAtom } from "../model/atoms/user-atom";
+import { useQuery } from "@tanstack/react-query";
+import { bookingQueryOption } from "@/pages/home/api/query-option";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
+  const { data: bookingData, isPending } = useQuery(
+    bookingQueryOption.getAll(),
+  );
+
+  const tableDataActive = bookingData?.filter(
+    (booking) => booking?.user?._id === userData?._id,
+  );
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -54,7 +63,7 @@ export default function AppLayout() {
                       <PackageOpen className="w-4 h-4" />
                       <span>Мои заявки</span>
                       <Badge variant="secondary" className="ml-1 h-5">
-                        0
+                        {tableDataActive?.length}
                       </Badge>
                     </TabsTrigger>
                   </NavLink>

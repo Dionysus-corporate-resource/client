@@ -211,7 +211,7 @@ export default function SubscriptionsPageShort() {
     <div className="mx-auto flex flex-1 md:grid md:grid-cols-1 lg:grid-cols-1 gap-6 p-4 md:p-6">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
-          defaultValue={userData?.roles}
+          defaultValue={userData?.roles ?? "driver"}
           className="overflow-hidden space-y-4 overflow-y-auto no-scrollbar"
         >
           <div className="flex gap-6 justify-between">

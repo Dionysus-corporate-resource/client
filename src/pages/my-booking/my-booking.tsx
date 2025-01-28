@@ -8,45 +8,23 @@ import { MyBookingListTable } from "@/widgets/booking-list";
 // import FilterPanel from "@/entities/filter-panel/filter-panel";
 import AdvertisingCard from "@/entities/advertising-card/advertising-card";
 import { TableData } from "@/entities/booking/model/types";
+import { useQuery } from "@tanstack/react-query";
+import { bookingQueryOption } from "../home/api/query-option";
+import { useAtomValue } from "jotai";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 
 export default function MyBooking() {
-  const tableDataActive: TableData[] = [
-    {
-      id: "1",
-      customer: "ООО Агрохолдинг",
-      culture: "Пшеница",
-      loadingPoint: "Ростов-на-Дону",
-      unloadingPoint: "Новороссийск",
-      volume: "500 тонн",
-      view: 12,
-      distance: "300 км",
-      rate: 800,
-    },
-    {
-      id: "2",
-      customer: "ИП Иванов",
-      culture: "Кукуруза",
-      loadingPoint: "Краснодар",
-      unloadingPoint: "Туапсе",
-      volume: "300 тонн",
-      view: 34,
-      distance: "150 км",
-      rate: 1200,
-    },
-  ];
-  const tableDataArchive: TableData[] = [
-    {
-      id: "1",
-      customer: "ООО Агрохолдинг",
-      culture: "Пшеница",
-      loadingPoint: "Ростов-на-Дону",
-      unloadingPoint: "Новороссийск",
-      volume: "500 тонн",
-      view: 12,
-      distance: "300 км",
-      rate: 800,
-    },
-  ];
+  const user = useAtomValue(userStorageAtom);
+  const { data: bookingData, isPending } = useQuery(
+    bookingQueryOption.getAll(),
+  );
+
+  const tableDataActive = bookingData?.filter(
+    (booking) => booking?.user?._id === user?._id,
+  );
+  const tableDataArchive = bookingData
+    ?.filter((booking) => booking?.user?._id === user?._id)
+    .filter((booking) => booking?.status === "inactive");
 
   return (
     // container

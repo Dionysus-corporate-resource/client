@@ -1,4 +1,11 @@
-import { Package, ArrowRight, Clock, Calendar, Wallet } from "lucide-react";
+import {
+  Package,
+  ArrowRight,
+  Clock,
+  Calendar,
+  Wallet,
+  Truck,
+} from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,
@@ -47,7 +54,7 @@ export default function BookingCard({
           </div>
           <div className="flex flex-col items-end gap-2">
             <Badge variant="secondary" className="h-6">
-              Активная
+              {booking?.basicInfo?.culture}
             </Badge>
             <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
@@ -94,7 +101,7 @@ export default function BookingCard({
         {/* Маршрут */}
         <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2">
           <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-green-500 top-[5px] left-0" />
+            <div className="absolute w-3 h-3 rounded-full bg-green-500 bg-muted-foreground/30 top-[5px] left-0" />
             <div className="pl-6">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.loadingLocation?.name
@@ -118,7 +125,7 @@ export default function BookingCard({
           </div>
 
           <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-red-500 top-[5px] left-0" />
+            <div className="absolute w-3 h-3 rounded-full bg-red-500 bg-muted-foreground/30 top-[5px] left-0" />
             <div className="pl-6">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.unLoadingLocation
@@ -134,7 +141,7 @@ export default function BookingCard({
         </div>
 
         {/* Детали груза */}
-        <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
+        {/* <div className="space-y-4 p-4 bg-muted/50 rounded-lg">
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
@@ -150,7 +157,7 @@ export default function BookingCard({
               </div>
             </div>
 
-            {/* <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
                 <Truck className="w-4 h-4 text-primary" />
               </div>
@@ -158,7 +165,7 @@ export default function BookingCard({
                 <p className="text-sm text-muted-foreground">Тип ТС</p>
                 <p className="font-medium">Тент</p>
               </div>
-            </div> */}
+            </div>
 
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-md bg-background flex items-center justify-center border">
@@ -176,7 +183,7 @@ export default function BookingCard({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Действия */}
 
