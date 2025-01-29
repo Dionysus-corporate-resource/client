@@ -26,33 +26,33 @@ const steps: Step[] = [
   {
     id: 1,
     title: "Основная информация",
-    description: "Personal information",
+    description: "Необходимое для заявки",
   },
   {
     id: 2,
     title: "Условия перевозки",
-    description: "Contact details",
+    description: "Важно для перевозчика",
   },
   {
     id: 3,
     title: "Детали перевозки",
-    description: "Review your info",
+    description: "Уточнения по заявке",
   },
   {
     id: 4,
     title: "Дополнительные условия",
-    description: "Review your info",
+    description: "Контакты и то, что не смогли указать",
   },
   {
     id: 5,
     title: "Проверка данных",
-    description: "Review your info",
+    description: "Проверка заполнености обязательных полей",
   },
 
   {
     id: 6,
     title: "Подтверждение",
-    description: "Создание задание",
+    description: "Создание заявки",
   },
 ];
 

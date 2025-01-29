@@ -22,7 +22,6 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
         <TableHeader>
           <TableRow>
             <TableHead>Просмотры</TableHead>
-            <TableHead>Заказчик</TableHead>
             <TableHead>Культура</TableHead>
             <TableHead>Погрузки</TableHead>
             <TableHead>Выгрузка</TableHead>
@@ -39,9 +38,7 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
                 <Eye className="w-4 h-4 text-muted-foreground" />
                 {booking?.view}
               </TableCell>
-              <TableCell>
-                {booking?.user?.companyPublicData?.nameCompany}
-              </TableCell>
+
               <TableCell>{booking?.basicInfo?.culture}</TableCell>
               <TableCell className="flex gap-2">
                 <MapPin className="w-4 h-4 text-muted-foreground" />

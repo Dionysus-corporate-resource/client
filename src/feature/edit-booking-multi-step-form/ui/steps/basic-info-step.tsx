@@ -2,48 +2,49 @@ import { ChangeEvent, useState } from "react";
 import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
-import { Check, ChevronsUpDown } from "lucide-react";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  // CommandSeparator,
-} from "@/shared/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/shared/components/ui/popover";
-import { Button } from "@/shared/components/ui/button";
-import { cn } from "@/shared/lib/utils";
-import { cityesLocations } from "@/shared/lib/cityes";
-import { Checkbox } from "@/shared/components/ui/checkbox";
+// import { Check, ChevronsUpDown } from "lucide-react";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+//   CommandSeparator,
+//   // CommandSeparator,
+// } from "@/shared/components/ui/command";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/shared/components/ui/popover";
+// import { Button } from "@/shared/components/ui/button";
+// import { cn } from "@/shared/lib/utils";
+// import { cityesLocations } from "@/shared/lib/cityes";
+// import { Checkbox } from "@/shared/components/ui/checkbox";
 import MapSelector from "../map-selector";
 import { Badge } from "@/shared/components/ui/badge";
 
-type IAdressLocation = {
-  name: string;
-  coordinates: [number, number];
-};
+// type IAdressLocation = {
+//   name: string;
+//   coordinates: [number, number];
+// };
 
 export function BasicInfoStep({
   formData,
   updateFormData,
-  isViewMap,
+  // isViewMap,
   setIsViewMap,
   // onNext,
 }: FormStepProps) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
   // const [errors] = useState<Record<string, string>>({});
+  console.log(coordinates);
 
-  const [selectedLocation, setSelectedLocation] =
-    useState<IAdressLocation | null>(null);
-  console.log("selectedLocation", selectedLocation);
+  // const [selectedLocation, setSelectedLocation] =
+  //   useState<IAdressLocation | null>(null);
+  // console.log("selectedLocation", selectedLocation);
 
   const setCoordinatesHandle = (e: [number, number] | null) => {
     // console.log("setCoordinatesHandle", e);
@@ -70,20 +71,20 @@ export function BasicInfoStep({
     });
   };
 
-  const handleSelect = (value: IAdressLocation) => {
-    setSelectedLocation(value);
-    setOpen(false);
+  // const handleSelect = (value: IAdressLocation) => {
+  //   setSelectedLocation(value);
+  //   setOpen(false);
 
-    updateFormData({
-      basicInfo: {
-        ...formData.basicInfo,
-        loadingLocation: {
-          name: value?.name,
-          coordinates: value?.coordinates,
-        },
-      },
-    });
-  };
+  //   updateFormData({
+  //     basicInfo: {
+  //       ...formData.basicInfo,
+  //       loadingLocation: {
+  //         name: value?.name,
+  //         coordinates: value?.coordinates,
+  //       },
+  //     },
+  //   });
+  // };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -97,13 +98,13 @@ export function BasicInfoStep({
     });
   };
 
-  const [search, setSearch] = useState("");
-  const filteredLocations = (addresses: IAdressLocation[]) => {
-    if (!search) return addresses; // Если поиск пустой, возвращаем все адреса
-    return addresses.filter((location) =>
-      location.name.toLowerCase().includes(search.toLowerCase()),
-    );
-  };
+  // const [search, setSearch] = useState("");
+  // const filteredLocations = (addresses: IAdressLocation[]) => {
+  //   if (!search) return addresses; // Если поиск пустой, возвращаем все адреса
+  //   return addresses.filter((location) =>
+  //     location.name.toLowerCase().includes(search.toLowerCase()),
+  //   );
+  // };
 
   return (
     <div className="grid gap-6 p-4 rounded-lg grid-cols-3 ">
@@ -128,7 +129,7 @@ export function BasicInfoStep({
               <span>Место погрузки *</span>
               {/* <Badge variant="secondary">Обязательное поле</Badge> */}
             </div>
-            <div className="flex items-center space-x-2 mr-2">
+            {/* <div className="flex items-center space-x-2 mr-2">
               <label
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -166,10 +167,10 @@ export function BasicInfoStep({
                   }
                 }}
               />
-            </div>
+            </div> */}
           </Label>
 
-          {!isViewMap ? (
+          {/* {!isViewMap ? (
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -179,7 +180,6 @@ export function BasicInfoStep({
                   className="w-full justify-between"
                 >
                   Выбрано: {formData?.basicInfo?.loadingLocation?.name}
-                  {/* {selectedLocation?.name} */}
                   <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -228,6 +228,7 @@ export function BasicInfoStep({
           ) : (
             <>
               <Input
+                disabled
                 placeholder="Введите место погрузки"
                 value={formData?.basicInfo?.loadingLocation?.name}
                 onChange={(e) =>
@@ -254,7 +255,25 @@ export function BasicInfoStep({
                 </p>
               )}
             </>
-          )}
+          )} */}
+
+          <Input
+            disabled
+            placeholder="Введите место погрузки"
+            value={formData?.basicInfo?.loadingLocation?.name}
+            onChange={(e) =>
+              updateFormData({
+                basicInfo: {
+                  ...formData.basicInfo,
+                  loadingLocation: {
+                    name: e.target.value,
+                    coordinates:
+                      formData.basicInfo.loadingLocation?.coordinates,
+                  },
+                },
+              })
+            }
+          />
         </div>
 
         {/* Расстояние */}
@@ -302,6 +321,7 @@ export function BasicInfoStep({
           </Label>
           <Input
             id="unLoadingLocation"
+            disabled
             placeholder="Укажите место выгрузки"
             value={formData.basicInfo?.unLoadingLocation || ""}
             onChange={(e) =>
@@ -323,6 +343,7 @@ export function BasicInfoStep({
           </Label>
           <Input
             id="culture"
+            disabled
             placeholder="Укажите культуру"
             value={formData.basicInfo?.culture}
             onChange={(e) =>
