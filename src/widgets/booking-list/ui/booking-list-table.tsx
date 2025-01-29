@@ -1,3 +1,4 @@
+import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Table,
@@ -8,7 +9,22 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { MapPin } from "lucide-react";
+import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Building2,
+  CircleUser,
+  Contact,
+  CornerRightUp,
+  Dot,
+  Factory,
+  MapPin,
+  Pointer,
+  Ticket,
+  Tickets,
+} from "lucide-react";
 
 // interface TableData {
 //   id: string;
@@ -129,33 +145,59 @@ export default function BookingListTable({
               <TableHead>Культура</TableHead>
               <TableHead>Погрузки</TableHead>
               <TableHead>Выгрузки</TableHead>
-              <TableHead>Объем</TableHead>
+              <TableHead className="flex justify-center items-center">
+                Объем
+              </TableHead>
               <TableHead>Расстояние</TableHead>
               <TableHead className="text-right">Ставка</TableHead>
+              <TableHead className="w-[250px]"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {bookingData?.map((booking) => (
               <TableRow key={booking._id}>
                 <TableCell>
-                  {booking?.user?.companyPublicData?.nameCompany}
+                  <div className="flex gap-4">
+                    {/* <Factory className="w-4 h-4" /> */}
+                    {booking?.user?.companyPublicData?.nameCompany}
+                  </div>
                 </TableCell>
-                <TableCell>{booking?.basicInfo?.culture}</TableCell>
-                <TableCell className="flex gap-2">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
-                  {booking?.basicInfo?.loadingLocation.name}
+                <TableCell className="font-medium">
+                  {booking?.basicInfo?.culture}
                 </TableCell>
-                <TableCell>{booking?.basicInfo?.unLoadingLocation}</TableCell>
                 <TableCell>
+                  {/* <MapPin className="w-4 h-4 text-muted-foreground" /> */}
+                  <div className="flex gap-2">
+                    <ArrowDownRight className="w-4 h-4" />
+                    {booking?.basicInfo?.loadingLocation.name}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex gap-2">
+                    <CornerRightUp className="w-4 h-4 " />
+                    {booking?.basicInfo?.unLoadingLocation}
+                  </div>
+                </TableCell>
+                <TableCell className="flex justify-center">
                   {booking?.basicInfo?.tonnage ? (
                     <>{booking?.basicInfo?.tonnage} т</>
                   ) : (
-                    "-"
+                    <Dot className="w-4 h-4" />
                   )}
                 </TableCell>
-                <TableCell>{booking?.basicInfo?.distance}</TableCell>
-                <TableCell className="text-right font-semibold">
-                  {booking?.detailTransportation?.ratePerTon} ₽/тонна
+                <TableCell>{booking?.basicInfo?.distance} км</TableCell>
+                <TableCell className="text-right font-medium">
+                  {booking?.detailTransportation?.ratePerTon} ₽/т
+                </TableCell>
+                <TableCell className="flex justify-center">
+                  <BookingDetailSheet
+                    bookingId={booking?._id}
+                    actionSlot={
+                      <button className="hover:underline  underline-offset-4">
+                        Подробнее
+                      </button>
+                    }
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -165,3 +207,23 @@ export default function BookingListTable({
     </div>
   );
 }
+
+// <Button
+// variant="link"
+// className="bg-[hsl(var(--access-primary))] text-white "
+// className="border"
+// >
+{
+  /* <Ticket className="w-4 h-4 mr-2" /> */
+}
+{
+  /* <Pointer className="w-4 h-4 mr-2 rotate-45" /> */
+}
+{
+  /* <Tickets className="w-4 h-4 mr-2  text-muted-foreground" /> */
+}
+// Подробнее
+{
+  /* <ArrowUpRight className="w-4 h-4 ml-2" /> */
+}
+// </Button>

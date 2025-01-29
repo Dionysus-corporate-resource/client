@@ -1,4 +1,11 @@
-import { Clock, Calendar } from "lucide-react";
+import {
+  ArrowDownRight,
+  CornerRightUp,
+  Package,
+  PackagePlus,
+  Ticket,
+  Tickets,
+} from "lucide-react";
 import {
   Card,
   CardContent,
@@ -19,24 +26,27 @@ export default function BookingCard({
   booking: IBookingDto;
 }) {
   return (
-    <Card className="w-full max-w-md border bg-card">
+    <Card className="w-full max-w-md  bg-card flex flex-col gap-2 justify-between">
       {/* Заголовок с номером заявки и статусом */}
-      <CardHeader className="pb-4">
+      <CardHeader className="pb-4 ">
         <div className="flex items-start justify-between mb-4">
           <div className="space-y-1">
-            <CardTitle className="text-xl font-semibold">
+            <CardTitle className="text-xl font-semibold flex items-center">
+              {/* <Ticket className="w-6 h-6 mr-2 " /> */}
+              {/* <Package className="w-6 h-6 mr-2" /> */}
+              <Tickets className="w-6 h-6 mr-2" />
               Заявка №{orderNumber}
             </CardTitle>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <div className="flex items-center text-sm text-muted-foreground">
-                <Clock className="w-4 h-4 mr-1" />
+                {/* <Clock className="w-4 h-4 mr-1" /> */}
                 {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </div>
               <div className="flex items-center text-sm text-muted-foreground">
-                <Calendar className="w-4 h-4 mr-1" />
+                {/* <Calendar className="w-4 h-4 mr-1" /> */}
                 {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
                   day: "2-digit",
                   month: "long",
@@ -93,12 +103,17 @@ export default function BookingCard({
         </div>
       </CardHeader>
 
-      <CardContent className="grid gap-6">
+      <CardContent className="flex flex-col gap-2 justify-between">
         {/* Маршрут */}
-        <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2">
-          <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" />
-            <div className="pl-6">
+        <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2 ">
+          <div className="relative flex gap-2">
+            {/* <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" /> */}
+            <ArrowDownRight className="w-4 h-4 mt-[2px]" />
+
+            <div
+              className=""
+              // className="pl-6"
+            >
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.loadingLocation?.name
                   ? booking?.basicInfo?.loadingLocation?.name
@@ -120,9 +135,10 @@ export default function BookingCard({
             </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" />
-            <div className="pl-6">
+          <div className="relative flex gap-2">
+            {/* <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" /> */}
+            <CornerRightUp className="w-4 h-4 mt-[2px]" />
+            <div className="">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.unLoadingLocation
                   ? booking?.basicInfo?.unLoadingLocation
@@ -183,7 +199,7 @@ export default function BookingCard({
 
         {/* Действия */}
 
-        <div className="grid grid-cols-1 gap-3">
+        <div className="grid grid-cols-1 gap-3 ">
           <div className="col-start-2 flex justify-end">
             {bookingDetailSlot}
           </div>

@@ -3,13 +3,23 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { PackagePlus } from "lucide-react";
+import {
+  ArrowBigDownDash,
+  ArrowRight,
+  ArrowUpRight,
+  Box,
+  MapPin,
+  Package,
+  Package2,
+  PackagePlus,
+} from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 
 import L from "leaflet";
 import "leaflet.markercluster";
+import { Button } from "@/shared/components/ui/button";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -98,8 +108,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
       backgroundColorOut: "rgba(82, 139, 239, 0.3)",
       sizeX: count > 1 ? "48px" : "28px",
       sizeY: count > 1 ? "30px" : "28px",
-      sizeOutX: count > 1 ? "58px" : "38px",
-      sizeOutY: count > 1 ? "40px" : "38px",
+      sizeOutX: count > 1 ? "58px" : "36px",
+      sizeOutY: count > 1 ? "40px" : "36px",
       iconSize: 18,
     };
   };
@@ -107,20 +117,37 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
   const style = getStyle(count);
 
   return (
-    <div
-      style={{
-        backgroundColor: style.backgroundColorOut,
-        // padding: "6px",
-        width: style.sizeOutX,
-        height: style.sizeOutY,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        transition: "transform 0.3s ease, box-shadow 0.3s ease",
-        transform: "scale(1)",
-        borderRadius: "6px",
-      }}
-    >
+    <div className="relative">
+      <div
+        style={{
+          backgroundColor: style.backgroundColorOut,
+          // padding: "6px",
+          width: style.sizeX,
+          height: style.sizeY,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: "scale(1)",
+          borderRadius: "600px",
+        }}
+        className="absolute  animate-ping"
+      ></div>
+      <div
+        style={{
+          backgroundColor: style.backgroundColorOut,
+
+          width: style.sizeOutX,
+          height: style.sizeOutY,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          transform: "scale(1)",
+          borderRadius: "600px",
+        }}
+        className="absolute -bottom-[4px] -right-[2px]"
+      ></div>
       <div
         style={{
           backgroundColor: style.backgroundColor,
@@ -129,16 +156,16 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: "6px",
+          borderRadius: "6000px",
           color: "white",
           fontWeight: "600",
           backdropFilter: "blur(8px)", // Эффект стекла
           border: "2px solid hsla(var(--muted-foreground), 0.5)", // Лёгкая окантовка
-          transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          transform: "scale(1)",
+          // transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          // transform: "scale(1)",
           cursor: "pointer",
         }}
-        className="hover:scale-110 hover:shadow-lg"
+        className="relative hover:scale-95 hover:shadow-lg"
       >
         {count > 1 ? (
           <span
@@ -154,9 +181,10 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           </span>
         ) : null}
         {/* // Box, PackagePlus, ArrowBigDownDash */}
-        <PackagePlus
+        <Package
           size={style.iconSize}
           color="white"
+          className="animate-"
           style={{
             filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2))",
           }}
@@ -228,7 +256,19 @@ export default function MapPage({
                 orderNumber={index + 1}
                 booking={booking}
                 bookingDetailSlot={
-                  <BookingDetailSheet bookingId={booking?._id} />
+                  <BookingDetailSheet
+                    bookingId={booking?._id}
+                    actionSlot={
+                      <Button
+                        variant="secondary"
+                        // className="bg-[hsl(var(--access-primary))] text-white "
+                      >
+                        Подробнее
+                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
+                        <ArrowUpRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    }
+                  />
                 }
               />
             ))}

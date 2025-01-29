@@ -1,6 +1,8 @@
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
+import { Button } from "@/shared/components/ui/button";
 import { IBookingDto } from "@/shared/model/types/booking";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { ArrowUpRight } from "lucide-react";
 
 export default function BookingListCard({
   bookingData,
@@ -21,7 +23,18 @@ export default function BookingListCard({
               orderNumber={index + 1}
               booking={booking}
               bookingDetailSlot={
-                <BookingDetailSheet bookingId={booking?._id} />
+                <BookingDetailSheet
+                  bookingId={booking?._id}
+                  actionSlot={
+                    <Button
+                      variant="secondary"
+                      // className="bg-[hsl(var(--access-primary))] text-white "
+                    >
+                      Подробнее
+                      <ArrowUpRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  }
+                />
               }
             />
           ))}
