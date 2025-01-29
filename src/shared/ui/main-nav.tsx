@@ -124,12 +124,21 @@ export function MainNav() {
         </TabsList>
       </Tabs> */}
 
-      {userData?.companyPublicData?.nameCompany && (
-        <span className="text-sm font-medium absolute left-1/2 -translate-x-1/2">
-          {/* ООО Логистик */}
-          {userData?.companyPublicData?.nameCompany}
-        </span>
-      )}
+      {/* userData?.companyPublicData?.nameCompany && ( */}
+      <span className="text-sm font-medium absolute left-1/2 -translate-x-1/2 flex gap-12">
+        {/* ООО Логистик */}
+        {/* <p>{!userData?.companyPublicData?.nameCompany}</p> */}
+        <a
+          className="underline  underline-offset-4"
+          href="https://drive.google.com/file/d/1EXvXEia0yNKealPuUGmM9cptJ285bg-a/view?usp=sharing"
+          target="_blank"
+        >
+          Публичная оферта
+        </a>
+        <h1 className="text-red-500">
+          Сайт находиться в разработке и тестируется
+        </h1>
+      </span>
 
       {userData ? (
         <div className="flex items-center gap-4">
