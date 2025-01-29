@@ -233,6 +233,34 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <footer className="w-full bg-background border-t border-muted py-8">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                © 2025 Груз Рынок. Все права защищены.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Скороход Р. Д., ИНН: 740703949460
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Контакты:{" "}
+                <a
+                  href="mailto:skorohodroman921@gmail.com"
+                  className="hover:text-primary"
+                >
+                  skorohodroman921@gmail.com
+                </a>
+                ,{" "}
+                <a href="tel:+79185229665" className="hover:text-primary">
+                  +7 (918) 522-96-65
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -130,7 +130,7 @@ export function MainNav() {
         {/* <p>{!userData?.companyPublicData?.nameCompany}</p> */}
         <a
           className="underline  underline-offset-4"
-          href="/offer.html"
+          href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
           target="_blank"
         >
           Публичная оферта
