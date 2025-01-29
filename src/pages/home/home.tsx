@@ -44,13 +44,28 @@ export default function HomePage() {
           </div>
           {/* Content */}
           <TabsContent value="booking-list-table" className="h-full">
-            <BookingListTable bookingData={bookingData} isPending={isPending} />
+            <BookingListTable
+              bookingData={bookingData?.filter(
+                (booking) => booking?.status === "active",
+              )}
+              isPending={isPending}
+            />
           </TabsContent>
           <TabsContent value="map">
-            <MapPage bookingData={bookingData} isPending={isPending} />
+            <MapPage
+              bookingData={bookingData?.filter(
+                (booking) => booking?.status === "active",
+              )}
+              isPending={isPending}
+            />
           </TabsContent>
           <TabsContent value="booking-list-card">
-            <BookingListCard bookingData={bookingData} isPending={isPending} />
+            <BookingListCard
+              bookingData={bookingData?.filter(
+                (booking) => booking?.status === "active",
+              )}
+              isPending={isPending}
+            />
           </TabsContent>
         </Tabs>
       </div>

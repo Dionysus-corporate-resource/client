@@ -49,4 +49,31 @@ export const bookingApi = {
       throw err;
     }
   },
+  updateStatus: async (
+    data: IBookingDto["status"],
+    bookingId: string,
+  ): Promise<IBookingDto> => {
+    try {
+      const response = await instance.patch(`/booking/${bookingId}`, {
+        status: data,
+      });
+      console.log("bookingApi updateStatus", response.data);
+
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
+  remove: async (bookingId: string): Promise<IBookingDto> => {
+    try {
+      const response = await instance.delete(`/booking/${bookingId}`);
+      console.log("bookingApi remove", response.data);
+
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  },
 };

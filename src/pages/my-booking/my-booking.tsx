@@ -5,8 +5,6 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
 import { MyBookingListTable } from "@/widgets/booking-list";
-// import FilterPanel from "@/entities/filter-panel/filter-panel";
-import AdvertisingCard from "@/entities/advertising-card/advertising-card";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
 import { useAtomValue } from "jotai";
@@ -14,13 +12,11 @@ import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 
 export default function MyBooking() {
   const user = useAtomValue(userStorageAtom);
-  const { data: bookingData, isPending } = useQuery(
-    bookingQueryOption.getAll(),
-  );
+  const { data: bookingData } = useQuery(bookingQueryOption.getAll());
 
-  const tableDataActive = bookingData?.filter(
-    (booking) => booking?.user?._id === user?._id,
-  );
+  const tableDataActive = bookingData
+    ?.filter((booking) => booking?.user?._id === user?._id)
+    .filter((booking) => booking?.status === "active");
   const tableDataArchive = bookingData
     ?.filter((booking) => booking?.user?._id === user?._id)
     .filter((booking) => booking?.status === "inactive");
@@ -50,7 +46,7 @@ export default function MyBooking() {
           <TabsContent value="active" className="h-full px-6">
             <MyBookingListTable tableData={tableDataActive} />
           </TabsContent>
-          <TabsContent value="archive">
+          <TabsContent value="archive" className="h-full px-6">
             <MyBookingListTable tableData={tableDataArchive} />
           </TabsContent>
         </Tabs>
