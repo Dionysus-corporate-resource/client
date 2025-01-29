@@ -1,12 +1,4 @@
-import {
-  Package,
-  ArrowRight,
-  Clock,
-  Calendar,
-  Wallet,
-  Truck,
-} from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
+import { Clock, Calendar } from "lucide-react";
 import {
   Card,
   CardContent,

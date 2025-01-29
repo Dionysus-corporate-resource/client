@@ -1,4 +1,4 @@
-import { MapPin, Package, Route, Coins, ArrowRight, Clock } from "lucide-react";
+import { Package, Route, Coins, ArrowRight, Clock } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
   Card,

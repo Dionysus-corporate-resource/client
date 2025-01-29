@@ -3,12 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import {
-  ArrowBigDown,
-  ArrowBigDownDash,
-  Package,
-  PackagePlus,
-} from "lucide-react";
+import { PackagePlus } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";

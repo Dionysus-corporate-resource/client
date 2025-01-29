@@ -1,4 +1,3 @@
-import { bookingApi } from "@/pages/home/api/booking-api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,9 +9,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shared/components/ui/alert-dialog";
-import { toast } from "@/shared/hooks/use-toast";
-import { queryClient } from "@/shared/model/api/query-client";
-import { useMutation } from "@tanstack/react-query";
 
 export function BookingRemoveSure({ bookingId }: { bookingId: string }) {
   console.log("bookingId", bookingId);

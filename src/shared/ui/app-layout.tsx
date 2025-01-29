@@ -11,9 +11,7 @@ import { bookingQueryOption } from "@/pages/home/api/query-option";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
-  const { data: bookingData, isPending } = useQuery(
-    bookingQueryOption.getAll(),
-  );
+  const { data: bookingData } = useQuery(bookingQueryOption.getAll());
 
   const tableDataActive = bookingData?.filter(
     (booking) => booking?.user?._id === userData?._id,

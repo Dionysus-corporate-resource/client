@@ -39,6 +39,7 @@ export function BasicInfoStep({
 }: FormStepProps) {
   const [open, setOpen] = useState(false);
   const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
+  console.log("coordinates", coordinates);
   // const [errors] = useState<Record<string, string>>({});
 
   const [selectedLocation, setSelectedLocation] =
