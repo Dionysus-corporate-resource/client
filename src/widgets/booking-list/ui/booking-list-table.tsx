@@ -1,4 +1,3 @@
-import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Table,
@@ -10,21 +9,7 @@ import {
 } from "@/shared/components/ui/table";
 import { IBookingDto } from "@/shared/model/types/booking";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  BriefcaseBusiness,
-  Building2,
-  CircleUser,
-  Contact,
-  CornerRightUp,
-  Dot,
-  Factory,
-  MapPin,
-  Pointer,
-  Ticket,
-  Tickets,
-} from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Dot } from "lucide-react";
 
 // interface TableData {
 //   id: string;

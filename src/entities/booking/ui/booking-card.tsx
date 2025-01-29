@@ -1,24 +1,12 @@
-import {
-  ArrowDownRight,
-  CornerRightUp,
-  Package,
-  PackagePlus,
-  Ticket,
-  Tickets,
-} from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
+import { ArrowDownRight, CornerRightUp } from "lucide-react";
+import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
 import { IBookingDto } from "@/shared/model/types/booking";
 
 export default function BookingCard({
   bookingDetailSlot,
-  orderNumber,
+  // orderNumber,
   booking,
 }: {
   bookingDetailSlot?: ReactNode;
@@ -31,12 +19,6 @@ export default function BookingCard({
       <CardHeader className="pb-4 ">
         <div className="flex items-start justify-between mb-4">
           <div className="space-y-1">
-            <CardTitle className="text-xl font-semibold flex items-center">
-              {/* <Ticket className="w-6 h-6 mr-2 " /> */}
-              {/* <Package className="w-6 h-6 mr-2" /> */}
-              <Tickets className="w-6 h-6 mr-2" />
-              Заявка №{orderNumber}
-            </CardTitle>
             <div className="flex items-center gap-2">
               <div className="flex items-center text-sm text-muted-foreground">
                 {/* <Clock className="w-4 h-4 mr-1" /> */}
