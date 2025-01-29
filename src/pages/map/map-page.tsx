@@ -122,7 +122,7 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           transform: "scale(1)",
           borderRadius: "600px",
         }}
-        className="absolute  animate-ping"
+        className="absolute animate-ping"
       ></div>
       <div
         style={{

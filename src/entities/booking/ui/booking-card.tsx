@@ -18,6 +18,25 @@ export default function BookingCard({
       {/* Заголовок с номером заявки и статусом */}
       <CardHeader className="pb-4 ">
         <div className="flex items-start justify-between mb-4">
+          <div className="flex flex-col items-start gap-2">
+            {/* <Badge variant="default" className="bg-muted-foreground text-white">
+              {booking?.basicInfo?.culture ? (
+                <>{booking?.basicInfo?.culture}</>
+              ) : (
+                "Уточнить"
+              )}
+            </Badge> */}
+            <Badge variant="secondary">
+              {booking?.basicInfo?.culture ? (
+                <>{booking?.basicInfo?.culture}</>
+              ) : (
+                "Уточнить"
+              )}
+            </Badge>
+            {/* <span className="text-xs text-muted-foreground">
+              ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
+            </span> */}
+          </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <div className="flex items-center text-sm text-muted-foreground">
@@ -35,18 +54,9 @@ export default function BookingCard({
                 })}
               </div>
             </div>
-          </div>
-          <div className="flex flex-col items-end gap-2">
-            <Badge variant="secondary" className="h-6">
-              {booking?.basicInfo?.culture ? (
-                <>{booking?.basicInfo?.culture}</>
-              ) : (
-                "Уточнить"
-              )}
-            </Badge>
-            <span className="text-xs text-muted-foreground">
+            {/* <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
-            </span>
+            </span> */}
           </div>
         </div>
 
