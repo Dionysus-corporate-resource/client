@@ -384,7 +384,7 @@ export default function BookingDetailContent({
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <h3 className="text-lg font-medium">
-                    {bookingData?.user?.companyPublicData?.nameCompany}
+                    {bookingData?.companyPublicData?.nameCompany}
                   </h3>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">

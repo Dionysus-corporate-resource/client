@@ -1,20 +1,22 @@
-import { paymentApi } from "@/feature/payment/model/paymentApi";
-import Payment from "@/feature/payment/payment";
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/shared/components/ui/card";
 import { CustomTooltip } from "@/shared/ui/toltip";
-import { Check } from "lucide-react";
+import { Apple, Check, Ticket, Tickets, TicketsPlane } from "lucide-react";
 import { ReactNode } from "react";
+
+export type ITypeSubscription =
+  | "limited"
+  | "limitedPackage"
+  | "unLimited"
+  | "showContact";
 
 export type IPlan = {
   name: string;
+  type: ITypeSubscription;
   priceMonthly: string;
   priceMonthlyDopInfo: string;
   priceYearly?: string;
@@ -31,6 +33,19 @@ export type IPlan = {
   freeUse?: string;
 };
 
+function getIconsForSubscription(typeSubscription: IPlan["type"]) {
+  switch (typeSubscription) {
+    case "limited":
+      return <Ticket className="w-6 h-6" />;
+    case "limitedPackage":
+      return <Tickets className="w-6 h-6" />;
+    case "unLimited":
+      return <TicketsPlane className="w-6 h-6" />;
+    default:
+      return <Apple className="w-6 h-6" />;
+  }
+}
+
 export default function SubscripeCard({
   subscription,
   actionPaymentSlot,
@@ -42,40 +57,42 @@ export default function SubscripeCard({
     <Card
       key={subscription.name}
       className={`relative flex flex-col w-[450px] transition-all duration-200 hover:shadow-lg ${
-        subscription.popular ? "border-primary shadow-lg scale-105" : ""
+        subscription.popular ? "border-primary shadow-lg " : ""
       }`}
     >
-      {subscription.popular && (
-        <Badge
-          className="absolute -top-2 left-1/2 -translate-x-1/2"
-          variant="default"
-        >
-          Популярный выбор
-        </Badge>
-      )}
-      <CardHeader className="flex flex-col gap-4 text-center">
-        <CardTitle className="text-xl">{subscription.name}</CardTitle>
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-bold">
-              {subscription.priceMonthly}
-            </span>
-            <span className="text-muted-foreground">
-              {subscription.priceMonthlyDopInfo}
-            </span>
-          </div>
-          <span className="text-sm text-muted-foreground">
-            {subscription.priceYearly && <>или</>} {subscription.priceYearly}{" "}
-            {subscription?.priceYearlyDopInfo}
+      <CardHeader className="flex flex-col gap-4 text-start">
+        <div className="space-y-1">
+          <span className="text-xl font-medium flex justify-between">
+            {subscription.name}
           </span>
           <p className="text-sm text-muted-foreground">
             {subscription.description}
           </p>
         </div>
 
-        <Badge variant="secondary" className="w-fit mx-auto">
+        <div className="flex flex-col items-start gap-1">
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-bold">
+              {/* <ArrowUpRight className="w-6 h-6" /> */}
+
+              <div className="flex gap-4 items-center">
+                {getIconsForSubscription(subscription.type)}
+                {subscription.priceMonthly}
+              </div>
+            </span>
+            <span className="text-muted-foreground">
+              {subscription.priceMonthlyDopInfo}
+            </span>
+          </div>
+          <span className="text-sm text-muted-foreground">
+            - {subscription.priceYearly && <>или</>} {subscription.priceYearly}{" "}
+            {subscription?.priceYearlyDopInfo}
+          </span>
+        </div>
+
+        {/* <Badge variant="secondary" className="w-fit">
           {subscription.highlight}
-        </Badge>
+        </Badge> */}
       </CardHeader>
 
       <CardContent className="flex-1">

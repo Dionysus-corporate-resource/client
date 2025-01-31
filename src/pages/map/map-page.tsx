@@ -235,7 +235,7 @@ export default function MapPage({
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-4 gap-4 ">
       <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth p-1">
         {isPending
           ? Array.from({ length: 10 }).map((_, index) => (

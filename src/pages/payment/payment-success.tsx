@@ -1,59 +1,88 @@
-import { CheckCircle2, Home, ShoppingCart } from "lucide-react";
+import { BadgeRussianRuble, Calendar, Timer } from "lucide-react";
 
-import { Button } from "@/shared/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card";
-import { NavLink } from "react-router";
+import { useNavigate } from "react-router";
+import { Progress } from "@/shared/components/ui/progress";
+import { useEffect, useState } from "react";
 
 export default function SuccessPage() {
+  const [lineRedirect, setLineRedirect] = useState(100);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      setLineRedirect((prev) => prev - 1);
+    }, 100);
+
+    return () => clearInterval(timeInterval);
+  }, []);
+  useEffect(() => {
+    if (lineRedirect <= 0) {
+      navigate("/profile");
+    }
+  }, [lineRedirect, navigate]);
+
   return (
     <div className="container mx-auto flex justify-center">
       <div className="flex items-center justify-center bg-background p-4">
         <Card className="max-w-xl">
-          <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <CheckCircle2 className="h-16 w-16 text-green-500" />
+          <CardHeader className="">
+            {/* <div className="flex justify-center mb-4">
+              <BadgeCheck className="h-12 w-12" />
+            </div> */}
+
+            <div className="flex items-center gap-4">
+              <BadgeRussianRuble className="h-8 w-8" />
+              <div className="space-y-0">
+                <CardTitle className="text-2xl font-bold">
+                  Оплата прошла успешно!
+                </CardTitle>
+                <CardDescription>Средства зачислены</CardDescription>
+              </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-green-500">
-              Оплата прошла успешно!
-            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-center text-muted-foreground">
+            <div className="text-muted-foreground">
               <p>
                 Спасибо за ваш заказ. Мы отправили подтверждение на вашу
                 электронную почту.
               </p>
             </div>
-            <div className="border rounded-lg p-4 space-y-2">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Номер заказа:</span>
-                <span className="font-medium">#123456</span>
+            {/* Детали подписки */}
+            <div className="space-y-3 rounded-lg bg-muted/50 p-3">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Calendar className="h-4 w-4" />
+                  <span>Дата покупки</span>
+                </div>
+                {/* Точечки с псевдоэлементом */}
+                <div className="flex-grow relative mx-2">
+                  <div className="absolute -bottom-2 inset-0 border-b border-dotted border-muted-foreground/30" />
+                </div>
+                <span className="font-medium">31.01.25</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Сумма:</span>
-                <span className="font-medium">5000 ₽</span>
-              </div>
+
+              {/* <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Timer className="h-4 w-4" />
+                  <span>Дата окончания</span>
+                </div>
+                <div className="flex-grow relative mx-2">
+                  <div className="absolute -bottom-2 inset-0 border-b border-dotted border-muted-foreground/30" />
+                </div>
+                <span className="font-medium">29.02.25</span>
+              </div> */}
             </div>
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row gap-4">
-            <Button asChild className="w-full sm:w-auto">
-              <NavLink to="/">
-                <Home className="mr-2 h-4 w-4" />
-                На главную
-              </NavLink>
-            </Button>
-            <Button asChild variant="outline" className="w-full sm:w-auto">
-              <NavLink to="/">
-                <ShoppingCart className="mr-2 h-4 w-4" />
-                Продолжить покупки
-              </NavLink>
-            </Button>
+            <Progress value={lineRedirect} className="h-2" />
           </CardFooter>
         </Card>
       </div>

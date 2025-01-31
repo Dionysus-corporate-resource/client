@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/shared/components/ui/radio-group";
 import { toast } from "@/shared/hooks/use-toast";
 import { cn } from "@/shared/lib/utils";
 import { queryClient } from "@/shared/model/api/query-client";
-import { IUser, IUserRoles } from "@/shared/model/types/user";
+import { IUserRoles } from "@/shared/model/types/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Save } from "lucide-react";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -13,8 +13,12 @@ import { IUpdateProfile, userApi } from "../api/user-api";
 import { useSetAtom } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 
-type IFormData = Omit<IUser, "companyPublicData"> & {
-  nameCompany: string | undefined;
+type IFormData = {
+  userName: string;
+  email: string;
+  phone: string;
+  roles: IUserRoles;
+  nameCompany: string | null;
 };
 
 export default function ProfileEditForm() {
@@ -38,7 +42,7 @@ export default function ProfileEditForm() {
     email: "",
     phone: "",
     roles: "driver",
-    nameCompany: undefined,
+    nameCompany: null,
   });
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function ProfileEditForm() {
         email: userData.email || "",
         phone: userData.phone || "",
         roles: userData.roles || "driver",
-        nameCompany: userData.companyPublicData?.nameCompany || undefined,
+        nameCompany: userData.companyPublicData?.nameCompany || null,
       });
     }
   }, [userData, setUser]);

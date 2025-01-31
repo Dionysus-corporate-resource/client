@@ -1,4 +1,33 @@
-import { IUserDto } from "./user";
+import { ICompanyPublicDto } from "./company-public";
+import { IUserRoles } from "./user";
+
+export type IUserFromBooking = {
+  userName: string;
+  email: string;
+  phone: string;
+  companyPublicData?: string | null;
+  activeSubscriptions: {
+    purchasedBooking: {
+      allPurchasedBookings: number;
+      remainingBookings: number;
+    };
+    unLimitedBookingSubscription: {
+      isPurchased: boolean;
+      purchasedAt: Date | null;
+      expiresAt: Date | null;
+    };
+    showContactSubscription: {
+      isPurchased: boolean;
+      purchasedAt: Date | null;
+      expiresAt: Date | null;
+    };
+  };
+  roles: IUserRoles;
+  _id: string;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+};
 
 type IContact = {
   name: string;
@@ -37,7 +66,8 @@ export type IBookingDto = IBooking & {
   status: "active" | "inProgress" | "inactive";
   // или user - IUserDto
   view: number;
-  user: IUserDto;
+  user: IUserFromBooking;
+  companyPublicData: ICompanyPublicDto;
   _id: string;
   createdAt: string;
   updatedAt: string;

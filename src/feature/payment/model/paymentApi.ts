@@ -2,17 +2,16 @@ import instance from "@/shared/model/api/axios-instance";
 
 export const paymentApi = {
   handlePurchase: async ({
-    applicationId,
-    price,
+    priceOneBooking,
+    countBooking,
   }: {
-    applicationId: string;
-    price: number;
+    priceOneBooking: number;
+    countBooking: number;
   }) => {
     try {
-      const response = await instance.post("/api/create-payment", {
-        applicationId,
-        amount: price,
-        // userId: userId,
+      const response = await instance.post("api/create-payment/limit-booking", {
+        priceOneBooking,
+        countBooking,
       });
 
       window.location.href = response.data.confirmationUrl;

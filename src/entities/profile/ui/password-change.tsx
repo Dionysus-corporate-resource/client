@@ -13,7 +13,7 @@ import { KeyRound } from "lucide-react";
 
 export default function PasswordChange() {
   return (
-    <Card className="h-min">
+    <Card className="h-min row-start-2 ">
       <CardHeader>
         <CardTitle>Смена пароля</CardTitle>
         <CardDescription>

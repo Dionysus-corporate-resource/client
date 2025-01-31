@@ -18,7 +18,7 @@ export default function HomePage() {
 
   return (
     // container  md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px]
-    <div className="mx-auto flex flex-1 md:grid gap-6 p-4 md:p-6">
+    <div className="mx-auto flex flex-1 md:grid gap-6 px-6 mt-6">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
           defaultValue="map"
@@ -51,7 +51,7 @@ export default function HomePage() {
               isPending={isPending}
             />
           </TabsContent>
-          <TabsContent value="map">
+          <TabsContent value="map" className="">
             <MapPage
               bookingData={bookingData?.filter(
                 (booking) => booking?.status === "active",

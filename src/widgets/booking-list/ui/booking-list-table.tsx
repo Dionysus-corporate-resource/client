@@ -144,7 +144,7 @@ export default function BookingListTable({
                 <TableCell>
                   <div className="flex gap-4">
                     {/* <Factory className="w-4 h-4" /> */}
-                    {booking?.user?.companyPublicData?.nameCompany}
+                    {booking?.companyPublicData?.nameCompany}
                   </div>
                 </TableCell>
                 <TableCell className="font-medium">

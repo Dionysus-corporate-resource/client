@@ -14,6 +14,7 @@ export default function SubscriptionsPageShort() {
   const subscriptionsForCustomer: IPlan[] = [
     {
       name: "Поштучная заявка",
+      type: "limited",
       priceMonthly: "100 ",
       priceMonthlyDopInfo: "₽/(1 шт)",
       // priceYearly: "2400",
@@ -44,6 +45,7 @@ export default function SubscriptionsPageShort() {
     },
     {
       name: "Пакет заявок",
+      type: "limitedPackage",
       priceMonthly: "2400",
       priceMonthlyDopInfo: "₽/(30 шт)",
       // priceYearly: "2400",
@@ -80,6 +82,7 @@ export default function SubscriptionsPageShort() {
     },
     {
       name: "Безлимит заявок",
+      type: "unLimited",
       priceMonthly: "6000",
       priceMonthlyDopInfo: "₽/мес",
       // priceYearly: "2400",
@@ -97,10 +100,6 @@ export default function SubscriptionsPageShort() {
             mainFeature: "Доступ к контактам",
             descriptionFeature: "Можете выидеть контакты других заказчиков",
           },
-          // {
-          //   mainFeature: "Доступ к базе перевозчиков",
-          //   descriptionFeature: "Можете выидеть контакты других заказчиков",
-          // },
         ],
         "Основные функции": [
           {
@@ -118,43 +117,11 @@ export default function SubscriptionsPageShort() {
       highlight: "Не останавливайтесь",
       freeUse: "Получи 2 месяца безлимита, напиши в телеграмм - @frontMor",
     },
-    // {
-    //   name: "Профессиональный",
-    //   priceMonthly: "2490",
-    //   priceYearly: "24900",
-    //   description: "Оптимальный выбор для растущего бизнеса",
-    //   popular: true,
-    //   features: {
-    //     "Основные функции": [
-    //       "До 50 активных заявок",
-    //       "Расширенная статистика",
-    //       "Приоритетная поддержка",
-    //       "Уведомления в Telegram",
-    //     ],
-    //     Интеграции: ["Расширенный API доступ", "Интеграция с 1С"],
-    //   },
-    //   highlight: "Самый популярный выбор",
-    // },
-    // {
-    //   name: "Корпоративный",
-    //   priceMonthly: "4990",
-    //   priceYearly: "49900",
-    //   description: "Максимальные возможности для крупных компаний",
-    //   popular: false,
-    //   features: {
-    //     "Основные функции": [
-    //       "Неограниченное количество заявок",
-    //       "Поддержка 24/7",
-    //       "White label решение",
-    //     ],
-    //     Интеграции: ["Полный API доступ", "Индивидуальные доработки"],
-    //   },
-    //   highlight: "Максимум возможностей",
-    // },
   ];
   const subscriptionsForDriver: IPlan[] = [
     {
       name: "Просмотр контактов",
+      type: "showContact",
       priceMonthly: "100",
       priceMonthlyDopInfo: "₽/месяц",
       // priceYearly: "2400",
@@ -181,6 +148,7 @@ export default function SubscriptionsPageShort() {
     },
     {
       name: "Просмотр контактов",
+      type: "showContact",
       priceMonthly: "250",
       priceMonthlyDopInfo: "₽/ 3 месяца",
       // priceYearly: "2400",

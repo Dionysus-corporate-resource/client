@@ -18,7 +18,7 @@ export default function SubscripeList({
       {subscriptions.map((subscription) => (
         <SubscripeCard
           subscription={subscription}
-          actionPaymentSlot={<Payment popular={subscription.popular} />}
+          actionPaymentSlot={<Payment subscription={subscription} />}
         />
       ))}
     </div>

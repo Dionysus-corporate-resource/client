@@ -26,7 +26,7 @@ export default function PersonalInfo({
 }) {
   const authContext = useAuth();
   return (
-    <Card className="h-min">
+    <Card className="h-min ">
       <CardHeader className="flex flex-row items-center gap-4">
         <div className="w-min ">
           <Avatar className="h-12 w-12">
