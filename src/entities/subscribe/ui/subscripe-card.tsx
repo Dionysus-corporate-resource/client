@@ -1,3 +1,5 @@
+import { paymentApi } from "@/feature/payment/model/paymentApi";
+import Payment from "@/feature/payment/payment";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -9,7 +11,7 @@ import {
 } from "@/shared/components/ui/card";
 import { CustomTooltip } from "@/shared/ui/toltip";
 import { Check } from "lucide-react";
-import { NavLink } from "react-router";
+import { ReactNode } from "react";
 
 export type IPlan = {
   name: string;
@@ -31,8 +33,10 @@ export type IPlan = {
 
 export default function SubscripeCard({
   subscription,
+  actionPaymentSlot,
 }: {
   subscription: IPlan;
+  actionPaymentSlot: ReactNode;
 }) {
   return (
     <Card
@@ -104,7 +108,7 @@ export default function SubscripeCard({
       </CardContent>
 
       <CardFooter className="flex flex-col gap-4">
-        <NavLink to="/landing/subscribe" className="w-full">
+        {/* <NavLink to="/landing/subscribe" className="w-full">
           <Button
             className="w-full transition-transform duration-200 hover:scale-105"
             variant={subscription.popular ? "default" : "outline"}
@@ -112,7 +116,8 @@ export default function SubscripeCard({
           >
             Выбрать тариф
           </Button>
-        </NavLink>
+        </NavLink> */}
+        {actionPaymentSlot}
 
         <p className="text-xs text-center text-muted-foreground">
           {subscription.freeUse}
