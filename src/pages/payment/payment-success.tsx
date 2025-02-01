@@ -1,4 +1,4 @@
-import { BadgeRussianRuble, Calendar, Timer } from "lucide-react";
+import { BadgeRussianRuble } from "lucide-react";
 
 import {
   Card,
@@ -42,32 +42,34 @@ export default function SuccessPage() {
               <BadgeRussianRuble className="h-8 w-8" />
               <div className="space-y-0">
                 <CardTitle className="text-2xl font-bold">
-                  Оплата прошла успешно!
+                  Вы вернулись
                 </CardTitle>
-                <CardDescription>Средства зачислены</CardDescription>
+                <CardDescription>
+                  Вас перенаправят на страницу профиля
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-muted-foreground">
-              <p>
-                Спасибо за ваш заказ. Мы отправили подтверждение на вашу
-                электронную почту.
-              </p>
-            </div>
             {/* Детали подписки */}
             <div className="space-y-3 rounded-lg bg-muted/50 p-3">
-              <div className="flex items-center justify-between text-sm">
+              <div className="text-muted-foreground">
+                <p>
+                  Если вы оплатили подписку, она появиться в вашем профиле.
+                  Обычно это происходит сразу, но может занять и несколько
+                  минут. Если вдруг подписка не появилась, напишите в поддержку
+                </p>
+              </div>
+              {/* <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>Дата покупки</span>
                 </div>
-                {/* Точечки с псевдоэлементом */}
                 <div className="flex-grow relative mx-2">
                   <div className="absolute -bottom-2 inset-0 border-b border-dotted border-muted-foreground/30" />
                 </div>
                 <span className="font-medium">31.01.25</span>
-              </div>
+              </div> */}
 
               {/* <div className="flex items-center justify-between text-sm">
                 <div className="flex items-center gap-2 text-muted-foreground">

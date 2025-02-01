@@ -12,7 +12,7 @@ export default function CreateBookingPage() {
   });
 
   return (
-    <div className="relative mx-auto flex flex-1 md:grid gap-6 p-4 md:p-6">
+    <div className="relative mx-auto flex flex-1 md:grid gap-6 p-6 ">
       <div className="h-full overflow-y-auto no-scrollbar">
         {isLoading ? <PageLoader /> : <MultiStepForm />}
       </div>

@@ -10,8 +10,8 @@ export default function ProfilePage() {
   const authContext = useAuth();
 
   return (
-    <div className="container mx-auto mt-6">
-      <div className="grid grid-cols-2 gap-4">
+    <div className="w-full pt-6 bg-primary/5">
+      <div className="container mx-auto w-full grid grid-cols-2 gap-4">
         <div className="space-y-4">
           <PersonalInfo
             userData={authContext?.user}

@@ -62,7 +62,7 @@ export default function FilterPanel() {
           <Input
             id="location"
             placeholder="Введите место выгрузки"
-            className="w-full"
+            className="w-full bg-background"
           />
         </div>
 
@@ -128,7 +128,7 @@ export default function FilterPanel() {
           <Input
             id="customer"
             placeholder="Введите заказчика"
-            className="w-full"
+            className="w-full bg-background"
           />
         </div>
       </div>

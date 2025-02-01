@@ -83,7 +83,8 @@ export default function SubscriptionsPageShort() {
     {
       name: "Безлимит заявок",
       type: "unLimited",
-      priceMonthly: "6000",
+      timeMonth: 1,
+      priceMonthly: "3500",
       priceMonthlyDopInfo: "₽/мес",
       // priceYearly: "2400",
       priceYearlyDopInfo: "экономия от 40%",
@@ -121,8 +122,11 @@ export default function SubscriptionsPageShort() {
   const subscriptionsForDriver: IPlan[] = [
     {
       name: "Просмотр контактов",
+      description: "Необходимо, чтобы созвониться с заказчиком",
+
       type: "showContact",
       priceMonthly: "100",
+      timeMonth: 1,
       priceMonthlyDopInfo: "₽/месяц",
       // priceYearly: "2400",
       // priceYearlyDopInfo: "экономия 0%",
@@ -148,8 +152,11 @@ export default function SubscriptionsPageShort() {
     },
     {
       name: "Просмотр контактов",
+      description: "Необходимо, чтобы созвониться с заказчиком",
+
       type: "showContact",
       priceMonthly: "250",
+      timeMonth: 3,
       priceMonthlyDopInfo: "₽/ 3 месяца",
       // priceYearly: "2400",
       priceYearlyDopInfo: "экономия 15%",
@@ -176,7 +183,7 @@ export default function SubscriptionsPageShort() {
   ];
 
   return (
-    <div className="mx-auto flex flex-1 md:grid md:grid-cols-1 lg:grid-cols-1 gap-6 p-4 md:p-6">
+    <div className="mx-auto flex flex-1 md:grid md:grid-cols-1 lg:grid-cols-1 gap-6 p-6 ">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
           defaultValue={userData?.roles ?? "driver"}

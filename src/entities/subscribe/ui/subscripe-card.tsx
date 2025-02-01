@@ -1,11 +1,23 @@
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/shared/components/ui/card";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import CircleAnimationGroup from "@/shared/ui/circle-animation-group";
+import PageLoader from "@/shared/ui/page-loader";
 import { CustomTooltip } from "@/shared/ui/toltip";
-import { Apple, Check, Ticket, Tickets, TicketsPlane } from "lucide-react";
+import { useAtomValue } from "jotai";
+import {
+  BadgeCheck,
+  Check,
+  Ticket,
+  Tickets,
+  TicketsPlane,
+  UserSearch,
+} from "lucide-react";
 import { ReactNode } from "react";
 
 export type ITypeSubscription =
@@ -16,6 +28,7 @@ export type ITypeSubscription =
 
 export type IPlan = {
   name: string;
+  timeMonth?: number;
   type: ITypeSubscription;
   priceMonthly: string;
   priceMonthlyDopInfo: string;
@@ -42,7 +55,62 @@ function getIconsForSubscription(typeSubscription: IPlan["type"]) {
     case "unLimited":
       return <TicketsPlane className="w-6 h-6" />;
     default:
-      return <Apple className="w-6 h-6" />;
+      return <UserSearch className="w-6 h-6" />;
+  }
+}
+
+function useGetBadgeExistSubscription(
+  subscriptionType: IPlan["type"],
+): ReactNode {
+  const user = useAtomValue(userStorageAtom);
+
+  switch (subscriptionType) {
+    case "showContact": {
+      if (user?.activeSubscriptions?.showContactSubscription?.isPurchased) {
+        return (
+          <Badge className="space-x-2 w-fit h-6" variant="outline">
+            <BadgeCheck className="w-4 h-4" />
+            <span>Куплена</span>
+          </Badge>
+        );
+      }
+      return null;
+    }
+    case "unLimited": {
+      if (
+        user?.activeSubscriptions?.unLimitedBookingSubscription?.isPurchased
+      ) {
+        return (
+          <Badge className="space-x-2 w-fit h-6" variant="outline">
+            <BadgeCheck className="w-4 h-4" />
+            <span>Куплена</span>
+          </Badge>
+        );
+      }
+      return null;
+    }
+    case "limited": {
+      return (
+        <Badge className="space-x-2 w-fit h-6" variant="outline">
+          <Ticket className="w-4 h-4" />
+          <span>
+            {user?.activeSubscriptions?.purchasedBooking?.remainingBookings}
+          </span>
+        </Badge>
+      );
+    }
+    case "limitedPackage": {
+      return (
+        <Badge className="space-x-2 w-fit h-6" variant="outline">
+          <Ticket className="w-4 h-4" />
+          <span>
+            {user?.activeSubscriptions?.purchasedBooking?.remainingBookings}
+          </span>
+        </Badge>
+      );
+    }
+    default:
+      return null;
   }
 }
 
@@ -56,18 +124,22 @@ export default function SubscripeCard({
   return (
     <Card
       key={subscription.name}
-      className={`relative flex flex-col w-[450px] transition-all duration-200 hover:shadow-lg ${
-        subscription.popular ? "border-primary shadow-lg " : ""
+      className={`relative overflow-hidden flex flex-col w-[450px] transition-all duration-200 hover:shadow-lg ${
+        subscription.popular ? "scale-105 shadow-lg " : ""
       }`}
     >
       <CardHeader className="flex flex-col gap-4 text-start">
-        <div className="space-y-1">
-          <span className="text-xl font-medium flex justify-between">
-            {subscription.name}
-          </span>
-          <p className="text-sm text-muted-foreground">
-            {subscription.description}
-          </p>
+        <div className="flex justify-between">
+          <div className="space-y-1">
+            <span className="text-xl font-medium flex justify-between">
+              {subscription.name}
+            </span>
+            <p className="text-sm text-muted-foreground">
+              {subscription.description}
+            </p>
+          </div>
+
+          {useGetBadgeExistSubscription(subscription.type)}
         </div>
 
         <div className="flex flex-col items-start gap-1">
@@ -85,7 +157,7 @@ export default function SubscripeCard({
             </span>
           </div>
           <span className="text-sm text-muted-foreground">
-            - {subscription.priceYearly && <>или</>} {subscription.priceYearly}{" "}
+            {subscription.priceYearly && <>или</>} {subscription.priceYearly}{" "}
             {subscription?.priceYearlyDopInfo}
           </span>
         </div>
@@ -142,6 +214,9 @@ export default function SubscripeCard({
           Акция действует до 12.02.2025
         </p>
       </CardFooter>
+      <div className="absolute -right-12 top-32">
+        <CircleAnimationGroup />
+      </div>
     </Card>
   );
 }

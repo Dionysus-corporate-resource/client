@@ -8,6 +8,7 @@ import { useAtomValue } from "jotai";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
@@ -19,11 +20,11 @@ export default function AppLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="px-6 mx-auto flex h-14 items-center">
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
+        <div className="px-6 mx-auto flex h-12 items-center bg-primary/0">
           <MainNav />
         </div>
-        <div className="px-6 mx-auto flex items-center justify-between gap-16">
+        <div className="px-6 pt-2 mx-auto flex items-center justify-between gap-16">
           <Tabs defaultValue="info" className="">
             <TabsList
               className="justify-start h-auto p-0 bg-transparent
@@ -99,6 +100,7 @@ export default function AppLayout() {
               </NavLink>
             </TabsList>
           </Tabs>
+          <ThemeToggle />
         </div>
       </header>
       <div className="flex-1 flex">

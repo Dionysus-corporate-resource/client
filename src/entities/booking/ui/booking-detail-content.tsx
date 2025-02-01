@@ -1,6 +1,5 @@
-import { Building2, FileText, Phone, Sparkles, Star } from "lucide-react";
+import { Building2, Phone, Sparkles } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
-import { Badge } from "@/shared/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -55,7 +54,6 @@ export default function BookingDetailContent({
   const { data: bookingData } = useQuery(bookingQueryOption.getOne(bookingId));
   const user = useAtomValue(userStorageAtom);
   const isMyBooking = bookingData?.user?._id === user?._id;
-  console.log(user?._id, bookingData?.user?._id);
   const navigate = useNavigate();
 
   return (
@@ -97,7 +95,7 @@ export default function BookingDetailContent({
           <div>
             <MapContainer
               center={bookingData?.basicInfo?.loadingLocation?.coordinates}
-              zoom={4}
+              zoom={6}
               style={{ height: "200px", width: "100%", borderRadius: "8px" }}
             >
               <TileLayer
@@ -119,7 +117,9 @@ export default function BookingDetailContent({
         <div>
           <div>
             <div className="space-y-2 ">
-              {isMyBooking ? (
+              {isMyBooking ||
+              user?.activeSubscriptions?.showContactSubscription
+                ?.isPurchased ? (
                 bookingData?.additionalConditions?.contacts.map(
                   (contact, index) => (
                     <div
@@ -387,18 +387,18 @@ export default function BookingDetailContent({
                     {bookingData?.companyPublicData?.nameCompany}
                   </h3>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                {/* <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <FileText className="h-4 w-4" />
                   <span>{32} заявок</span>
-                </div>
+                </div> */}
               </div>
-              <Badge
+              {/* <Badge
                 variant="secondary"
                 className="flex items-center gap-2 py-1 px-2"
               >
                 <Star className="h-3.5 w-3.5 fill-primary" />
                 {3.5}
-              </Badge>
+              </Badge> */}
             </div>
           </TabsContent>
 

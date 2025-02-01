@@ -1,77 +1,88 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-import { BookingListTable, BookingListCard } from "@/widgets/booking-list";
+import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import FilterPanel from "@/feature/filter-panel/filter-panel";
-import MapPage from "../map/map-page";
-import { useQuery } from "@tanstack/react-query";
-import { bookingQueryOption } from "./api/query-option";
+import { Outlet, useLocation, useNavigate } from "react-router";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 
 export default function HomePage() {
-  const { data: bookingData, isPending } = useQuery(
-    bookingQueryOption.getAll(),
-  );
-  console.log("home booking", bookingData);
-
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
-    // container  md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px]
-    <div className="mx-auto flex flex-1 md:grid gap-6 px-6 mt-6">
-      <div className="h-full overflow-y-auto no-scrollbar">
-        <Tabs
-          defaultValue="map"
-          className="overflow-hidden space-y-4 overflow-y-auto no-scrollbar"
-        >
-          <div className="flex gap-6 justify-between">
+    <div className="mx-auto flex flex-col flex-1 px-6 gap-2 pt-4 ">
+      <Tabs defaultValue={location.pathname}>
+        <div className="flex gap-6 justify-between">
+          <div className="flex gap-6">
             <TabsList>
-              <TabsTrigger value="booking-list-table" className="space-x-2">
-                {/* <List className="w-4 h-4" /> */}
+              <TabsTrigger
+                value="/table-view"
+                className="space-x-2"
+                onClick={() => navigate("/table-view")}
+              >
                 <span>Список</span>
               </TabsTrigger>
-              <TabsTrigger value="map" className="space-x-2">
-                {/* <MapPinned className="w-4 h-4" /> */}
+              <TabsTrigger
+                value="/"
+                className="space-x-2"
+                onClick={() => navigate("")}
+              >
                 <span>Карта</span>
               </TabsTrigger>
 
-              <TabsTrigger value="booking-list-card" className="space-x-2">
-                {/* <ReceiptText className="w-4 h-4" /> */}
+              <TabsTrigger
+                value="/card-view"
+                className="space-x-2"
+                onClick={() => navigate("/card-view")}
+              >
                 <span>Карточки</span>
               </TabsTrigger>
             </TabsList>
-            <FilterPanel />
+            <div className="flex items-center space-x-2 mr-2">
+              <Checkbox
+              // checked={} onCheckedChange={}
+              />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Включить расширенный поиск
+              </label>
+            </div>
           </div>
-          {/* Content */}
-          <TabsContent value="booking-list-table" className="h-full">
-            <BookingListTable
-              bookingData={bookingData?.filter(
-                (booking) => booking?.status === "active",
-              )}
-              isPending={isPending}
-            />
-          </TabsContent>
-          <TabsContent value="map" className="">
-            <MapPage
-              bookingData={bookingData?.filter(
-                (booking) => booking?.status === "active",
-              )}
-              isPending={isPending}
-            />
-          </TabsContent>
-          <TabsContent value="booking-list-card">
-            <BookingListCard
-              bookingData={bookingData?.filter(
-                (booking) => booking?.status === "active",
-              )}
-              isPending={isPending}
-            />
-          </TabsContent>
-        </Tabs>
+          {/* Панель сортировки (или лучше инфу о подписках) */}
+          <FilterPanel />
+        </div>
+      </Tabs>
+      {/* // Страниы */}
+      <div className="space-y-4 borde border-pink-600 h-full ">
+        <div className="flex justify-between">
+          <FilterPanel />
+          <div className="flex gap-4">
+            <div className="flex items-center space-x-2 mr-2">
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Посик по актульному
+              </label>
+              <Checkbox
+              // checked={} onCheckedChange={}
+              />
+            </div>
+            <div className="flex items-center space-x-2 mr-2">
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Дер.мовозам
+              </label>
+              <Checkbox
+              // checked={} onCheckedChange={}
+              />
+            </div>
+          </div>
+        </div>
+
+        <Outlet />
       </div>
-      {/* <div className="">
-        <AdvertisingCard />
-      </div> */}
     </div>
   );
 }

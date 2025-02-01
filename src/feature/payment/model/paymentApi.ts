@@ -20,4 +20,24 @@ export const paymentApi = {
       console.error(error);
     }
   },
+  handleUnlimitSubscription: async ({
+    typeSubscriprion,
+    countMonthSubscribe,
+  }: {
+    typeSubscriprion: string;
+    countMonthSubscribe: number;
+  }) => {
+    try {
+      const response = await instance.post(
+        "api/create-payment/un-limit-booking",
+        {
+          typeSubscriprion,
+          countMonthSubscribe,
+        },
+      );
+      window.location.href = response.data.confirmationUrl;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

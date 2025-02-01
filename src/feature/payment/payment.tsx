@@ -22,8 +22,27 @@ function getParamsPriceForBookingSubscription(typeSubscription: IPlan["type"]) {
       return { priceOneBooking: 100, countBooking: 1 };
     case "limitedPackage":
       return { priceOneBooking: 80, countBooking: 30 };
+
     default:
       return { priceOneBooking: 100, countBooking: 1 };
+  }
+}
+
+function getParamsPriceForBookingSubscription2(typeSubscription: IPlan) {
+  switch (typeSubscription.type) {
+    case "showContact":
+      // тут нужно передать нобязательный параметр, время подписки
+      return {
+        typeSubscriprion: "showContact",
+        countMonthSubscribe: typeSubscription?.timeMonth ?? 1,
+      };
+    case "unLimited":
+      return {
+        typeSubscriprion: "unLimited",
+        countMonthSubscribe: typeSubscription?.timeMonth ?? 1,
+      };
+    default:
+      return { typeSubscriprion: "unLimited", countMonthSubscribe: 1 };
   }
 }
 
@@ -33,11 +52,23 @@ const Payment = ({ subscription }: { subscription: IPlan }) => {
       <Button
         className="w-full gap-4"
         variant={subscription.popular ? "default" : "secondary"}
-        onClick={() =>
-          paymentApi.handlePurchase(
-            getParamsPriceForBookingSubscription(subscription.type),
-          )
-        }
+        onClick={() => {
+          if (
+            subscription.type === "limited" ||
+            subscription.type === "limitedPackage"
+          ) {
+            return paymentApi.handlePurchase(
+              getParamsPriceForBookingSubscription(subscription.type),
+            );
+          } else if (
+            subscription.type === "showContact" ||
+            subscription.type === "unLimited"
+          ) {
+            return paymentApi.handleUnlimitSubscription(
+              getParamsPriceForBookingSubscription2(subscription),
+            );
+          }
+        }}
         size="lg"
       >
         Оформить тариф

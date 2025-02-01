@@ -23,7 +23,7 @@ export default function MyBooking() {
 
   return (
     // container
-    <div className="mx-auto w-full grid grid-cols-1 p-6">
+    <div className="mx-auto w-full grid grid-cols-1 p-6 bg-primary/0">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
           defaultValue="active"

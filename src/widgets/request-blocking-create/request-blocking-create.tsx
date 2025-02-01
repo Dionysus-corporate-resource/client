@@ -1,8 +1,6 @@
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { IUserDto } from "@/shared/model/types/user";
-import { useAtomValue } from "jotai";
 import { Coins } from "lucide-react";
 import { NavLink, useNavigate } from "react-router";
 
@@ -13,8 +11,11 @@ export default function RequsetBlockingCreate({
 }) {
   const navigate = useNavigate();
   const purchasedBooking = user?.activeSubscriptions?.purchasedBooking;
+  const unLimitBooking =
+    user?.activeSubscriptions?.unLimitedBookingSubscription?.isPurchased;
 
-  if ((purchasedBooking?.remainingBookings ?? 0) >= 1) return null;
+  if ((purchasedBooking?.remainingBookings ?? 0) >= 1 || unLimitBooking)
+    return null;
 
   if ((purchasedBooking?.remainingBookings ?? 0) <= 0) {
     return (

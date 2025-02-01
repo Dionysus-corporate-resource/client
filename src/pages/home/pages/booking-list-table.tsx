@@ -7,9 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import { IBookingDto } from "@/shared/model/types/booking";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowDownRight, CornerRightUp, Dot } from "lucide-react";
+import { bookingQueryOption } from "../api/query-option";
 
 // interface TableData {
 //   id: string;
@@ -75,15 +76,11 @@ import { ArrowDownRight, CornerRightUp, Dot } from "lucide-react";
 //   },
 // ];
 
-export default function BookingListTable({
-  bookingData,
-  isPending,
-}: {
-  bookingData: IBookingDto[] | undefined;
-  isPending: boolean;
-}) {
+export default function BookingListTable() {
+  const { data, isPending } = useQuery(bookingQueryOption.getAll());
+  const filterBooking = data?.filter((booking) => booking?.status === "active");
   return (
-    <div className="w-full px-6">
+    <div className="w-full px-6 rounded-md">
       {isPending ? (
         <Table>
           <TableHeader>
@@ -123,7 +120,7 @@ export default function BookingListTable({
           </TableBody>
         </Table>
       ) : (
-        <Table>
+        <Table className="">
           <TableHeader>
             <TableRow>
               <TableHead>Заказчик</TableHead>
@@ -138,8 +135,8 @@ export default function BookingListTable({
               <TableHead className="w-[250px]"></TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {bookingData?.map((booking) => (
+          <TableBody className="bg-background">
+            {filterBooking?.map((booking) => (
               <TableRow key={booking._id}>
                 <TableCell>
                   <div className="flex gap-4">

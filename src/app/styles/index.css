@@ -82,7 +82,10 @@
         --input: 214.3 31.8% 91.4%;
         --card: 0 0% 100%;
         --card-foreground: 222.2 47.4% 11.2%;
+        /* // черный */
         --primary: 222.2 47.4% 11.2%;
+        /* // синий */
+        /* --primary: 215 45% 61%; */
         --access-primary: 211, 73%, 59%;
         --primary-foreground: 210 40% 98%;
         --secondary: 210 40% 96.1%;
@@ -183,4 +186,9 @@
     ::-webkit-scrollbar-thumb:hover {
         background: hsl(var(--muted-foreground) / 0.5);
     }
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
 }

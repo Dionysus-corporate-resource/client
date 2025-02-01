@@ -6,11 +6,17 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { ArrowUpRight, Package } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
+import {
+  BookingCard,
+  MarkerBookingDetailShort,
+  SkeletonBookingCard,
+} from "@/entities/booking";
 
 import L from "leaflet";
 import "leaflet.markercluster";
 import { Button } from "@/shared/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { bookingQueryOption } from "../api/query-option";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -80,6 +86,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
         sizeY: count > 1 ? "30px" : "28px",
         sizeOutX: count > 1 ? "58px" : "38px",
         sizeOutY: count > 1 ? "40px" : "38px",
+        rightX: count > 1 ? "-23px" : "-2px",
+        bottomX: count > 1 ? "-5px" : "-4px",
         iconSize: 20,
       };
     }
@@ -91,6 +99,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
         sizeY: count > 1 ? "30px" : "28px",
         sizeOutX: count > 1 ? "58px" : "38px",
         sizeOutY: count > 1 ? "40px" : "38px",
+        rightX: count > 1 ? "-23px" : "-2px",
+        bottomX: count > 1 ? "-5px" : "-4px",
         iconSize: 18,
       };
     }
@@ -101,6 +111,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
       sizeY: count > 1 ? "30px" : "28px",
       sizeOutX: count > 1 ? "58px" : "36px",
       sizeOutY: count > 1 ? "40px" : "36px",
+      rightX: count > 1 ? "-23px" : "-2px",
+      bottomX: count > 1 ? "-5px" : "-4px",
       iconSize: 18,
     };
   };
@@ -135,9 +147,11 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           justifyContent: "center",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
           transform: "scale(1)",
+          right: style.rightX,
+          bottom: style.bottomX,
           borderRadius: "600px",
         }}
-        className="absolute -bottom-[4px] -right-[2px]"
+        className="absolute "
       ></div>
       <div
         style={{
@@ -194,15 +208,12 @@ const createCustomIcon = (count: number) => {
   });
 };
 
-export default function MapPage({
-  bookingData,
-  isPending,
-}: {
-  bookingData: IBookingDto[] | undefined;
-  isPending: boolean;
-}) {
+export default function MapPage() {
+  const { data, isPending } = useQuery(bookingQueryOption.getAll());
+  const filterBooking = data?.filter((booking) => booking?.status === "active");
+
   const groupedPlaces =
-    bookingData?.reduce(
+    filterBooking?.reduce(
       (acc, place) => {
         // Получаем координаты
         const coordinates = place?.basicInfo?.loadingLocation?.coordinates;
@@ -235,37 +246,8 @@ export default function MapPage({
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
 
   return (
-    <div className="grid grid-cols-4 gap-4 ">
-      <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth p-1">
-        {isPending
-          ? Array.from({ length: 10 }).map((_, index) => (
-              <SkeletonBookingCard key={index} />
-            ))
-          : bookingData?.map((booking, index) => (
-              <BookingCard
-                key={booking._id}
-                orderNumber={index + 1}
-                booking={booking}
-                bookingDetailSlot={
-                  <BookingDetailSheet
-                    bookingId={booking?._id}
-                    actionSlot={
-                      <Button
-                        variant="secondary"
-                        // className="bg-[hsl(var(--access-primary))] text-white "
-                      >
-                        Подробнее
-                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                        <ArrowUpRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    }
-                  />
-                }
-              />
-            ))}
-      </div>
-
-      <div className="col-span-3 md:h-[400px] lg:h-[675px]">
+    <div className="grid grid-cols-8 gap-2 max-h-[calc(100vh-0px)] ">
+      <div className="col-span-6 max-h-[calc(100vh-240px)] border rounded-lg">
         <MapContainer
           center={[55.75, 37.57]}
           zoom={4}
@@ -295,23 +277,43 @@ export default function MapPage({
                 icon={createCustomIcon(group.places.length)}
               >
                 <Popup>
-                  <div>
-                    <h3>Количество заявок: {group.places.length}</h3>
-                    {group.places.map((place) => (
-                      <div key={place._id} className="mt-2">
-                        <p>ID: {place._id}</p>
-                        <p>Описание: {place?.basicInfo?.culture}</p>{" "}
-                        {/* Замените на нужное поле */}
-                        {place._id !==
-                          group.places[group.places.length - 1]._id && <hr />}
-                      </div>
-                    ))}
-                  </div>
+                  <MarkerBookingDetailShort group={group} />
                 </Popup>
               </Marker>
             ))}
           </MarkerClusterGroup>
         </MapContainer>
+      </div>
+      <div className="col-span-2 flex flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]">
+        <span className="font-normal text-sm text-muted-foreground">
+          Всего заявок: {filterBooking?.length} шт.
+        </span>
+        {isPending
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <SkeletonBookingCard key={index} />
+            ))
+          : filterBooking?.map((booking, index) => (
+              <BookingCard
+                key={booking._id}
+                orderNumber={index + 1}
+                booking={booking}
+                bookingDetailSlot={
+                  <BookingDetailSheet
+                    bookingId={booking?._id}
+                    actionSlot={
+                      <Button
+                        variant="secondary"
+                        // className="bg-[hsl(var(--access-primary))] text-white "
+                      >
+                        Подробнее
+                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
+                        <ArrowUpRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    }
+                  />
+                }
+              />
+            ))}
       </div>
     </div>
   );
