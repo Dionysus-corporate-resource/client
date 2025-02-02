@@ -1,22 +1,17 @@
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import FilterPanel from "@/feature/filter-panel/filter-panel";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import SortBookingPanel from "@/feature/filter-panel/sort-booking-panel";
 import { bookingQueryOption } from "./api/query-option";
 import { useQuery } from "@tanstack/react-query";
+import FilterBookingPanel from "@/feature/filter-panel/filter-booking-panel";
+import { useAtom } from "jotai";
+import { isMapViewFullAtom } from "./model/sort-atom";
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
   const filterBooking = data?.filter((booking) => booking?.status === "active");
-
-  // const [sortedBookings, setSortedBookings] = useState<IBookingDto[] | null>();
-  // когда у нас отработает setSortedBookings, это сигнал, что sortedBookings изменился
-  // const [sortBooking, setSortBooking] = useAtom(bookingAtom);
-
-  // useEffect(() => {
-  //   setSortBooking(sortedBookings)
-  // }, [])
+  const [isMapViewFull, setIsMapViewFull] = useAtom(isMapViewFullAtom);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,39 +49,38 @@ export default function HomePage() {
             </TabsList>
             <div className="flex items-center space-x-2 mr-2">
               <Checkbox
-              // checked={} onCheckedChange={}
+                checked={isMapViewFull}
+                onCheckedChange={(checked) => {
+                  setIsMapViewFull(Boolean(checked));
+                }}
               />
               <label
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Включить расширенный поиск
+                Растянут карту на всю ширину
               </label>
             </div>
           </div>
-          {/* Панель сортировки (или лучше инфу о подписках) */}
-          {/* <FilterPanel /> */}
+          {/* Панель сортировки */}
           <SortBookingPanel
-            filterBooking={filterBooking}
-            // setSortedBookings={setSortedBookings}
+          // filterBooking={filterBooking}
           />
         </div>
       </Tabs>
       {/* // Страниы */}
       <div className="space-y-4 borde border-pink-600 h-full ">
         <div className="flex justify-between">
-          <FilterPanel />
+          <FilterBookingPanel filterBooking={filterBooking} />
           <div className="flex gap-4">
             <div className="flex items-center space-x-2 mr-2">
               <label
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Посик по актульному
+                Cooll
               </label>
-              <Checkbox
-              // checked={} onCheckedChange={}
-              />
+              <Checkbox />
             </div>
             <div className="flex items-center space-x-2 mr-2">
               <label

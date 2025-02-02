@@ -1,4 +1,7 @@
-import { bookingAtom } from "@/pages/home/model/sort-atom";
+import {
+  filterbookingAtom,
+  sortbookingAtom,
+} from "@/pages/home/model/sort-atom";
 
 import {
   Select,
@@ -9,8 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { IBookingDto } from "@/shared/model/types/booking";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import {
   ArrowDownWideNarrow,
   ArrowUpWideNarrow,
@@ -24,17 +26,14 @@ import { useEffect, useState } from "react";
 
 type ISortField = "distance" | "tonnage" | "ratePerTon";
 
-export default function SortBookingPanel({
-  filterBooking,
-}: {
-  filterBooking: IBookingDto[] | undefined;
-}) {
+export default function SortBookingPanel() {
   const [sortField, setSortField] = useState<ISortField | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   // const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   // мы передали сверху чистый массив заявок, передали в панель сортировки
   // и когда зде будут меняться параметры, будем сортировать это изначально чистый массив
-  const setSortBooking = useSetAtom(bookingAtom);
+  const filterBooking = useAtomValue(filterbookingAtom);
+  const setSortBooking = useSetAtom(sortbookingAtom);
 
   // Обработчик выбора поля сортировки
   const handleSortFieldChange = (field: ISortField) => {

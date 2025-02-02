@@ -1,18 +1,21 @@
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import { Button } from "@/shared/components/ui/button";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { useAtomValue } from "jotai";
 import { ArrowUpRight } from "lucide-react";
-import { bookingQueryOption } from "../api/query-option";
-import { useQuery } from "@tanstack/react-query";
+import { sortbookingAtom } from "../model/sort-atom";
 
 export default function BookingListCard() {
-  const { data, isPending } = useQuery(bookingQueryOption.getAll());
-  const filterBooking = data?.filter((booking) => booking?.status === "active");
+  const sortBooking = useAtomValue(sortbookingAtom);
 
-  console.log("home booking", data);
+  // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО
+  const filterBooking = sortBooking?.filter(
+    (booking) => booking?.status === "active",
+  );
+
   return (
     <div className="grid grid-cols-4 gap-4 p-1">
-      {isPending
+      {!filterBooking
         ? Array.from({ length: 10 }).map((_, index) => (
             <SkeletonBookingCard key={index} />
           ))

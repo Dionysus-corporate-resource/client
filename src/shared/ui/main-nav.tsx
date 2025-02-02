@@ -78,19 +78,13 @@ export function MainNav() {
       </div>
 
       {/* userData?.companyPublicData?.nameCompany && ( */}
-      <span className="text-sm font-medium absolute left-1/2 -translate-x-1/2 flex gap-12">
+      <span className="text-sm font-normal absolute left-1/2 -translate-x-1/2 flex gap-12">
         {/* ООО Логистик */}
         {/* <p>{!userData?.companyPublicData?.nameCompany}</p> */}
-        {/* <a
-          className="underline  underline-offset-4"
-          href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
-          target="_blank"
-        >
-          Публичная оферта
-        </a>
-        <h1 className="text-red-500">
+
+        <h1 className="text-red-300 font-mono">
           Сайт находиться в разработке и тестируется
-        </h1> */}
+        </h1>
       </span>
 
       {userData ? (

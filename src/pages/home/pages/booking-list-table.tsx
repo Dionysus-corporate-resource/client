@@ -8,9 +8,9 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowDownRight, CornerRightUp, Dot, Package } from "lucide-react";
-import { bookingQueryOption } from "../api/query-option";
+import { sortbookingAtom } from "../model/sort-atom";
+import { useAtomValue } from "jotai";
 
 // interface TableData {
 //   id: string;
@@ -77,11 +77,15 @@ import { bookingQueryOption } from "../api/query-option";
 // ];
 
 export default function BookingListTable() {
-  const { data, isPending } = useQuery(bookingQueryOption.getAll());
-  const filterBooking = data?.filter((booking) => booking?.status === "active");
+  const sortBooking = useAtomValue(sortbookingAtom);
+
+  // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО
+  const filterBooking = sortBooking?.filter(
+    (booking) => booking?.status === "active",
+  );
   return (
     <div className="w-full px-6 rounded-md">
-      {isPending ? (
+      {!filterBooking ? (
         <Table>
           <TableHeader>
             <TableRow>

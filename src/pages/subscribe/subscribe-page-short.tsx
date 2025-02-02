@@ -183,8 +183,8 @@ export default function SubscriptionsPageShort() {
   ];
 
   return (
-    <div className="mx-auto flex flex-1 md:grid md:grid-cols-1 lg:grid-cols-1 gap-6 p-6 ">
-      <div className="h-full overflow-y-auto no-scrollbar">
+    <div className="w-full flex flex-col justify-between gap-6">
+      <div className="h-full overflow-y-auto no-scrollbar p-6">
         <Tabs
           defaultValue={userData?.roles ?? "driver"}
           className="overflow-hidden space-y-4 overflow-y-auto no-scrollbar"
@@ -214,6 +214,40 @@ export default function SubscriptionsPageShort() {
           </TabsContent>
         </Tabs>
       </div>
+      <footer className="h-24 w-full flex items-center border-t border-muted bg-muted/50 ">
+        <div className="container mx-auto px-4 md:px-6 flex items-center justify-center">
+          <div className="flex items-center justify-center gap-4 text-center">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                © 2025 Груз Рынок. Все права защищены.
+              </p>
+              {/* <p className="text-sm text-muted-foreground">
+                Скороход Р. Д., ИНН: 740703949460
+              </p> */}
+              {/* <p className="text-sm text-muted-foreground">
+                Контакты:{" "}
+                <a
+                  href="mailto:skorohodroman921@gmail.com"
+                  className="hover:text-primary"
+                >
+                  skorohodroman921@gmail.com
+                </a>
+                ,{" "}
+                <a href="tel:+79185229665" className="hover:text-primary">
+                  +7 (918) 522-96-65
+                </a>
+              </p> */}
+            </div>
+            <a
+              className="underline underline-offset-4 text-sm text-muted-foreground"
+              href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
+              target="_blank"
+            >
+              Публичная оферта
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

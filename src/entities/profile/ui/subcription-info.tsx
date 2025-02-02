@@ -14,10 +14,10 @@ import { useAtomValue } from "jotai";
 import {
   BadgeInfo,
   Calendar,
-  Sparkles,
   Ticket,
+  TicketsPlane,
   Timer,
-  Users,
+  UserSearch,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -210,7 +210,7 @@ export default function SubscriptionInfo() {
             <div className="space-y-1">
               <div className="flex items-center gap-4">
                 <div className="rounded-md bg-secondary p-4">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <TicketsPlane className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="text-lg font-medium">Безлимит заявок</h3>
@@ -320,7 +320,7 @@ export default function SubscriptionInfo() {
           <div className="space-y-1">
             <div className="flex items-center gap-4">
               <div className="rounded-md bg-secondary p-4">
-                <Users className="h-5 w-5 text-primary" />
+                <UserSearch className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <h3 className="text-lg font-medium">Просмотр контактов</h3>

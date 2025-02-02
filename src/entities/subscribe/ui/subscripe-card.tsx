@@ -6,7 +6,6 @@ import {
   CardHeader,
 } from "@/shared/components/ui/card";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
-import CircleAnimationGroup from "@/shared/ui/circle-animation-group";
 import { CustomTooltip } from "@/shared/ui/toltip";
 import { useAtomValue } from "jotai";
 import {
