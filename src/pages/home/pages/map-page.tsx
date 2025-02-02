@@ -5,7 +5,7 @@ import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { ArrowUpRight, Package } from "lucide-react";
 import { renderToString } from "react-dom/server";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { IBooking, IBookingDto } from "@/shared/model/types/booking";
 import {
   BookingCard,
   MarkerBookingDetailShort,
@@ -17,6 +17,10 @@ import "leaflet.markercluster";
 import { Button } from "@/shared/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../api/query-option";
+import { useState } from "react";
+import { Calendar } from "@/shared/components/ui/calendar";
+import { useAtomValue } from "jotai";
+import { bookingAtom } from "../model/sort-atom";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -210,6 +214,10 @@ const createCustomIcon = (count: number) => {
 
 export default function MapPage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
+  const sortBooking = useAtomValue(bookingAtom);
+  console.log("sortBooking Atom", sortBooking);
+
+  // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО
   const filterBooking = data?.filter((booking) => booking?.status === "active");
 
   const groupedPlaces =
@@ -244,7 +252,7 @@ export default function MapPage() {
         { coordinates: [number, number]; places: IBookingDto[] }
       >,
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
-
+  if (isPending) return <div>Загрузка...</div>;
   return (
     <div className="grid grid-cols-8 gap-2 max-h-[calc(100vh-0px)] ">
       <div className="col-span-6 h-[calc(100vh-240px)] border rounded-lg">
@@ -292,7 +300,7 @@ export default function MapPage() {
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />
             ))
-          : filterBooking?.map((booking, index) => (
+          : sortBooking?.map((booking, index) => (
               <BookingCard
                 key={booking._id}
                 orderNumber={index + 1}

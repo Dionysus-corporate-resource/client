@@ -2,10 +2,27 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import FilterPanel from "@/feature/filter-panel/filter-panel";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { Checkbox } from "@/shared/components/ui/checkbox";
+import SortBookingPanel from "@/feature/filter-panel/sort-booking-panel";
+import { bookingQueryOption } from "./api/query-option";
+import { useQuery } from "@tanstack/react-query";
 
 export default function HomePage() {
+  const { data, isPending } = useQuery(bookingQueryOption.getAll());
+  const filterBooking = data?.filter((booking) => booking?.status === "active");
+
+  // const [sortedBookings, setSortedBookings] = useState<IBookingDto[] | null>();
+  // когда у нас отработает setSortedBookings, это сигнал, что sortedBookings изменился
+  // const [sortBooking, setSortBooking] = useAtom(bookingAtom);
+
+  // useEffect(() => {
+  //   setSortBooking(sortedBookings)
+  // }, [])
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  if (isPending) return <div>Загрузка...</div>;
+
   return (
     <div className="mx-auto flex flex-col flex-1 px-6 gap-2 pt-4 ">
       <Tabs defaultValue={location.pathname}>
@@ -48,7 +65,11 @@ export default function HomePage() {
             </div>
           </div>
           {/* Панель сортировки (или лучше инфу о подписках) */}
-          <FilterPanel />
+          {/* <FilterPanel /> */}
+          <SortBookingPanel
+            filterBooking={filterBooking}
+            // setSortedBookings={setSortedBookings}
+          />
         </div>
       </Tabs>
       {/* // Страниы */}
