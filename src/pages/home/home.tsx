@@ -75,29 +75,16 @@ export default function HomePage() {
       </Tabs>
       {/* // Страниы */}
       <div className="space-y-4 borde border-pink-600 h-full ">
-        <div className="flex justify-between">
+        <div className="flex justify-between gap-4">
           <FilterBookingPanel filterBooking={filterBooking} />
           <div className="flex gap-4">
-            <div className="flex items-center space-x-2 mr-2">
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Cooll
-              </label>
+            <label
+              htmlFor="terms"
+              className="flex items-center gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              <span className="w-[160px]">За последние 5 дней</span>
               <Checkbox />
-            </div>
-            <div className="flex items-center space-x-2 mr-2">
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Дер.мовозам
-              </label>
-              <Checkbox
-              // checked={} onCheckedChange={}
-              />
-            </div>
+            </label>
           </div>
         </div>
 

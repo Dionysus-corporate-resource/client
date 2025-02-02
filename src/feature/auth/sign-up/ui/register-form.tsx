@@ -194,7 +194,7 @@ export function RegisterForm({
                     name="nameCompany"
                     value={formData.nameCompany}
                     onChange={handleChange}
-                    placeholder="ООО Дионис или ИП Михайлов"
+                    placeholder="ООО Мироторг или ИП Иванов"
                     required
                   />
                 </div>

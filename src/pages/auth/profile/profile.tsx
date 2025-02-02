@@ -1,6 +1,6 @@
 import { useAuth } from "@/app/providers/auth-provider";
 import {
-  PasswordChange,
+  // PasswordChange,
   PersonalInfo,
   SubscriptionInfo,
 } from "@/entities/profile";
@@ -30,7 +30,7 @@ export default function ProfilePage() {
             formSlot={<ProfileEditForm />}
           />
 
-          <PasswordChange />
+          {/* <PasswordChange /> */}
           {/* Notification Preferences */}
           {/* <Card>
             <CardHeader>

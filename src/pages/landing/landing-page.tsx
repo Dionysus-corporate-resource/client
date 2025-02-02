@@ -112,16 +112,16 @@ export default function LandingPage() {
             <TabsContent value="map" className="mt-4">
               <div className="aspect-video bg-card rounded-lg shadow-lg overflow-hidden">
                 <img
-                  src="/screen-map1.png"
+                  src="/map-view1.png"
                   alt="Карта с грузами"
-                  className="w-full "
+                  className="w-full"
                 />
               </div>
             </TabsContent>
             <TabsContent value="cards" className="mt-4">
               <div className="aspect-video bg-card rounded-lg shadow-lg overflow-hidden">
                 <img
-                  src="/screen-card1.png"
+                  src="/card-view1.png"
                   alt="Список карточек"
                   className="w-full"
                 />
@@ -130,7 +130,7 @@ export default function LandingPage() {
             <TabsContent value="table" className="mt-4">
               <div className="aspect-video bg-card rounded-lg shadow-lg overflow-hidden">
                 <img
-                  src="/screen-table1.png"
+                  src="/table-view1.png"
                   alt="Таблица с грузами"
                   className="w-full"
                 />

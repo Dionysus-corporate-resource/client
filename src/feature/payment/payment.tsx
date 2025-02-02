@@ -2,8 +2,8 @@ import { Button } from "@/shared/components/ui/button";
 import { paymentApi } from "./model/paymentApi";
 import { Rocket, TrendingUp, TrendingUpDown } from "lucide-react";
 import { IPlan } from "@/entities/subscribe/ui/subscripe-card";
-import { useAtomValue } from "jotai";
-import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+// import { useAtomValue } from "jotai";
+// import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAuth } from "@/app/providers/auth-provider";
 import { useNavigate } from "react-router";
 
@@ -23,12 +23,12 @@ function getIconsForSubscription(typeSubscription: IPlan["type"]) {
 function getParamsPriceForBookingSubscription(typeSubscription: IPlan["type"]) {
   switch (typeSubscription) {
     case "limited":
-      return { priceOneBooking: 1, countBooking: 1 };
+      return { priceOneBooking: 100, countBooking: 1 };
     case "limitedPackage":
-      return { priceOneBooking: 1, countBooking: 30 };
+      return { priceOneBooking: 80, countBooking: 30 };
 
     default:
-      return { priceOneBooking: 1, countBooking: 1 };
+      return { priceOneBooking: 100, countBooking: 1 };
   }
 }
 

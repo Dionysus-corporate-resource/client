@@ -3,8 +3,33 @@ import { useSetAtom } from "jotai";
 import { filterbookingAtom } from "@/pages/home/model/sort-atom";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { Input } from "@/shared/components/ui/input";
-import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
+import {
+  ArrowDownRight,
+  CalendarIcon,
+  Check,
+  ChevronsUpDown,
+  CornerRightUp,
+  Package,
+} from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/shared/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/shared/components/ui/command";
+import { cn } from "@/shared/lib/utils";
+import { format, endOfDay, startOfDay } from "date-fns";
+import { DateRange } from "react-day-picker";
+import { Calendar } from "@/shared/components/ui/calendar";
+import { ru } from "date-fns/locale"; // Импортируем русскую локализацию
 
 export default function FilterBookingPanel({
   filterBooking,
@@ -15,8 +40,11 @@ export default function FilterBookingPanel({
     useState<string>("");
   const [unLoadingLocationFilter, setUnLoadingLocationFilter] =
     useState<string>("");
+  const [companyNameFilter, setCompanyNameFilter] =
+    useState<string>("Все заказчики");
   const [cultureFilter, setCultureFilter] = useState<string>("");
   const setFilteredBookings = useSetAtom(filterbookingAtom);
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
 
   // Эффект для фильтрации и обновления атома
   useEffect(() => {
@@ -35,8 +63,25 @@ export default function FilterBookingPanel({
         .toLowerCase()
         .includes(cultureFilter.toLowerCase());
 
+      const loadingDate = startOfDay(
+        new Date(booking?.conditionsTransportation?.loadingDate),
+      ); // Обнуляем время
+      const matchesDate = date
+        ? loadingDate >= startOfDay(date.from || new Date(0)) &&
+          loadingDate <= endOfDay(date.to || new Date(8640000000000000))
+        : true;
+
+      const matchesCompany =
+        companyNameFilter === "Все заказчики"
+          ? true
+          : booking?.companyPublicData?.nameCompany === companyNameFilter;
+
       return (
-        matchesLoadingLocation && matchesUnLoadingLocation && matchesCulture
+        matchesLoadingLocation &&
+        matchesUnLoadingLocation &&
+        matchesCulture &&
+        matchesDate &&
+        matchesCompany
       );
     });
 
@@ -46,106 +91,171 @@ export default function FilterBookingPanel({
     loadingLocationFilter,
     unLoadingLocationFilter,
     cultureFilter,
+    companyNameFilter,
+    date,
     setFilteredBookings,
   ]);
 
+  // Уникальный список заказчиков
+  const uniqueListCompany = [
+    ...new Set(
+      filterBooking?.map((booking) => booking?.companyPublicData?.nameCompany),
+    ),
+  ];
+
   return (
-    <div className="flex gap-2">
-      <div className="relative">
-        <Input
-          type="text"
-          value={loadingLocationFilter}
-          onChange={(e) => setLoadingLocationFilter(e.target.value)}
-          placeholder="Введите место загрузки"
-          className="pl-8"
-        />
-        <ArrowDownRight className="absolute top-2.5 left-2.5  w-4 h-4 text-muted-foreground" />
+    <div className="flex justify-between w-full">
+      <div className="flex gap-2">
+        {/* Поле для фильтрации по месту загрузки */}
+        <div className="relative">
+          <Input
+            type="text"
+            value={loadingLocationFilter}
+            onChange={(e) => setLoadingLocationFilter(e.target.value)}
+            placeholder="Введите место загрузки"
+            className="pl-8"
+          />
+          <ArrowDownRight className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        </div>
+
+        {/* Поле для фильтрации по месту разгрузки */}
+        <div className="relative">
+          <Input
+            type="text"
+            value={unLoadingLocationFilter}
+            onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
+            placeholder="Введите место разгрузки"
+            className="pl-8"
+          />
+          <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        </div>
+
+        {/* Поле для фильтрации по культуре */}
+        <div className="relative">
+          <Input
+            type="text"
+            value={cultureFilter}
+            onChange={(e) => setCultureFilter(e.target.value)}
+            placeholder="Введите груз"
+            className="pl-8"
+          />
+          <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        </div>
+
+        {/* Выбор даты */}
+        <div className={cn("grid gap-2")}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                id="date"
+                variant={"outline"}
+                className={cn(
+                  "w-fit justify-start text-left font-normal",
+                  !date && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon />
+                {date?.from ? (
+                  date.to ? (
+                    <>
+                      {format(date.from, "dd MMMM yyyy", { locale: ru })} -{" "}
+                      {format(date.to, "dd MMMM yyyy", { locale: ru })}
+                    </>
+                  ) : (
+                    format(date.from, "dd MMMM yyyy", { locale: ru })
+                  )
+                ) : (
+                  <span>Выберите дату</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={date?.from}
+                selected={date}
+                onSelect={setDate}
+                numberOfMonths={2}
+                locale={ru} // Устанавливаем русскую локализацию
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        {/* Кнопка сброса фильтров */}
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setLoadingLocationFilter("");
+            setUnLoadingLocationFilter("");
+            setCultureFilter("");
+            setCompanyNameFilter("Все заказчики");
+            setDate(undefined);
+          }}
+        >
+          Сбросить
+        </Button>
       </div>
 
-      {/* Поле для фильтрации по unLoadingLocation */}
-      <div className="relative">
-        <Input
-          type="text"
-          value={unLoadingLocationFilter}
-          onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
-          placeholder="Введите место разгрузки"
-          className="pl-8"
-        />
-        <CornerRightUp className="absolute top-2.5 left-2.5  w-4 h-4 text-muted-foreground" />
+      {/* Фидьтрация по дате и Названии компании */}
+      <div className="flex gap-2">
+        {/* Выбор заказчика */}
+        <div>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                className="w-full justify-between"
+              >
+                {companyNameFilter.length > 0
+                  ? `Выбрано: ${companyNameFilter}`
+                  : "Выберите Заказчика"}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command>
+                <CommandInput placeholder="Поиск заказчика..." />
+                <CommandList>
+                  <CommandEmpty>Ничего не найдено.</CommandEmpty>
+                  <CommandGroup heading="Заказчики">
+                    <CommandItem
+                      onSelect={() => setCompanyNameFilter("Все заказчики")}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          companyNameFilter === "Все заказчики"
+                            ? "opacity-100"
+                            : "opacity-0",
+                        )}
+                      />
+                      Все заказчики
+                    </CommandItem>
+                    {uniqueListCompany?.map((name, index) => (
+                      <CommandItem
+                        key={index}
+                        onSelect={() => setCompanyNameFilter(name)}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            companyNameFilter === name
+                              ? "opacity-100"
+                              : "opacity-0",
+                          )}
+                        />
+                        {name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
-
-      {/* Поле для фильтрации по culture */}
-      <div className="relative">
-        <Input
-          type="text"
-          value={cultureFilter}
-          onChange={(e) => setCultureFilter(e.target.value)}
-          placeholder="Введите груз"
-          className="pl-8"
-        />
-        <Package className="absolute top-2.5 left-2.5  w-4 h-4 text-muted-foreground" />
-      </div>
-      <Button
-        variant="secondary"
-        onClick={() => {
-          setLoadingLocationFilter("");
-          setUnLoadingLocationFilter("");
-          setCultureFilter("");
-        }}
-      >
-        Сбросисть
-      </Button>
     </div>
   );
 }
-// <Popover open={open} onOpenChange={setOpen}>
-//   <PopoverTrigger asChild>
-//     <Button
-//       variant="outline"
-//       role="combobox"
-//       aria-expanded={open}
-//       className="w-full justify-between"
-//     >
-//       {selectedCultures.length > 0
-//         ? `Выбрано: ${selectedCultures.length}`
-//         : "Выберите культуры"}
-//       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-//     </Button>
-//   </PopoverTrigger>
-//   <PopoverContent className="w-full p-0" align="start">
-//     <Command className="z-[9999]">
-//       <CommandInput
-//         placeholder="Type a command or search..."
-//         className="z-[9999]"
-//         onValueChange={setSearch}
-//       />
-//       <CommandList className="z-[9999]">
-//         <CommandEmpty>No results found.</CommandEmpty>
-//         <CommandGroup heading="Все культуры">
-//           {filteredCultures?.map((culture, index) => (
-//             <CommandItem
-//               key={index}
-//               onSelect={() => handleSelect(culture.value)}
-//             >
-//               <Check
-//                 className={cn(
-//                   "mr-2 h-4 w-4",
-//                   selectedCultures.includes(culture.value)
-//                     ? "opacity-100"
-//                     : "opacity-0",
-//                 )}
-//               />
-//               {culture.label}
-//             </CommandItem>
-//           ))}
-//         </CommandGroup>
-//         {/* <CommandSeparator />
-//             <CommandGroup heading="Пшено">
-//               <CommandItem>Пшеница-1</CommandItem>
-//               <CommandItem>Пшеница-2</CommandItem>
-//               <CommandItem>Пшеница-3</CommandItem>
-//             </CommandGroup> */}
-//       </CommandList>
-//     </Command>
-//   </PopoverContent>
-// </Popover>
