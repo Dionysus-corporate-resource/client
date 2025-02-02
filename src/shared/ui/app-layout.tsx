@@ -1,7 +1,6 @@
 import { NavLink, Outlet } from "react-router";
 import { MainNav } from "./main-nav";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { Package, PackageOpen, PackagePlus, Sparkle } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Toaster } from "../components/ui/toaster";
 import { useAtomValue } from "jotai";
@@ -20,64 +19,50 @@ export default function AppLayout() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
-        <div className="px-6 mx-auto flex h-12 items-center bg-primary/0">
+      <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="px-6 mx-auto flex py-2 items-center border-b">
           <MainNav />
         </div>
-        <div className="px-6 pt-2 mx-auto flex items-center justify-between gap-16">
-          <Tabs defaultValue="info" className="">
+        <div className="px-6 pt-0 mx-auto flex items-center justify-between gap-16 bg-muted border-background border-b ">
+          <Tabs defaultValue="info" className="bg-muted">
             <TabsList
-              className="justify-start h-auto p-0 bg-transparent
+              className="justify-start h-full p-0 bg-transparent
               rounded-none"
             >
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
-                }
-              >
+              <NavLink to="/">
                 <TabsTrigger
                   value="booking"
-                  className="
-
-                  pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                  className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none "
                 >
-                  <Package className="w-4 h-4" />
+                  {/* <Package className="w-4 h-4" /> */}
                   <span>Заявки</span>
                 </TabsTrigger>
               </NavLink>
 
               {userData?.roles === "customer" && (
                 <>
-                  <NavLink
-                    to="/my-booking"
-                    className={({ isActive }) =>
-                      `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
-                    }
-                  >
+                  <NavLink to="/my-booking">
                     <TabsTrigger
                       value="my-booking"
-                      className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
                     >
-                      <PackageOpen className="w-4 h-4" />
+                      {/* <PackageOpen className="w-4 h-4" /> */}
                       <span>Мои заявки</span>
-                      <Badge variant="secondary" className="ml-1 h-5">
+                      <Badge
+                        variant="outline"
+                        className="ml-1 h-5 bg-background"
+                      >
                         {tableDataActive?.length}
                       </Badge>
                     </TabsTrigger>
                   </NavLink>
 
-                  <NavLink
-                    to="/create-booking"
-                    className={({ isActive }) =>
-                      `${isActive ? "border-b-2 border-primary" : "border-b-2 border-transparent"}`
-                    }
-                  >
+                  <NavLink to="/create-booking">
                     <TabsTrigger
                       value="create-booking"
-                      className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
                     >
-                      <PackagePlus className="w-4 h-4" />
+                      {/* <PackagePlus className="w-4 h-4" /> */}
                       <span>Создать заявку</span>
                     </TabsTrigger>
                   </NavLink>
@@ -86,15 +71,15 @@ export default function AppLayout() {
 
               <NavLink
                 to="/subscribe"
-                className={({ isActive }) =>
-                  `${isActive ? "border-b-2 border-primary " : "border-b-2 border-transparent"}`
-                }
+                // className={({ isActive }) =>
+                //   `${isActive ? "" : "border-b-2 border-transparent"}`
+                // }
               >
                 <TabsTrigger
                   value="subscribe"
-                  className="pb-4 pt-2 space-x-2 rounded-none data-[state=active]:shadow-none"
+                  className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none !shadow-none"
                 >
-                  <Sparkle className="w-4 h-4" />
+                  {/* <BicepsFlexed className="w-4 h-4" /> */}
                   <span>Тарифы</span>
                 </TabsTrigger>
               </NavLink>

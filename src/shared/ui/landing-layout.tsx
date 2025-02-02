@@ -9,13 +9,8 @@ export default function LandingLayout() {
     linksMain: [
       {
         // icon: BriefcaseBusiness,
-        linkLabel: "Заявки",
+        linkLabel: "Смотреть заявки",
         navigate: "/",
-      },
-      {
-        // icon: BadgeRussianRuble,
-        linkLabel: "Подписки",
-        navigate: "/landing/subscribe",
       },
     ],
     linksFooter: [

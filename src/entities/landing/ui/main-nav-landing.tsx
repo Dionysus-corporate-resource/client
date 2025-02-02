@@ -1,10 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Construction, UserCog } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
-import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 
 export type Props = {
   headerContent: {
@@ -23,9 +21,10 @@ export type Props = {
 
 export function MainNavLanding({ headerContent }: Props) {
   const userData = useAtomValue(userStorageAtom);
+  const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center gap-6 md:gap-10 w-full ">
+    <div className="flex justify-between items-center gap-6 md:gap-10 w-full">
       <NavLink to="/landing" className="flex items-center space-x-2 ">
         <Construction
           className="w-6 h-6"
@@ -52,14 +51,16 @@ export function MainNavLanding({ headerContent }: Props) {
       </nav>
       {userData ? (
         <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <NavLink to="/profile">
-            <Avatar>
-              <AvatarFallback>
-                <UserCog className="w-4 h-4" />
-              </AvatarFallback>
-            </Avatar>
-          </NavLink>
+          {/* <ThemeToggle /> */}
+
+          <Button
+            variant="link"
+            className="text-"
+            onClick={() => navigate("/profile")}
+          >
+            <UserCog className="w-4 h-4" />
+            Профиль
+          </Button>
         </div>
       ) : (
         <div className="space-x-2">

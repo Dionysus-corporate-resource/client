@@ -4,7 +4,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
@@ -22,6 +22,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const authContext = useAuth();
+  const navigate = useNavigate();
   const [isCustomer, setIsCustomer] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
@@ -201,6 +202,14 @@ export function RegisterForm({
             )}
             <Button type="submit" className="w-full mt-2">
               Зарегистрировать
+            </Button>
+            <Button
+              type="submit"
+              variant="secondary"
+              className="w-full -mt-2"
+              onClick={() => navigate(-1)}
+            >
+              Вернуться назад
             </Button>
           </div>
           {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">

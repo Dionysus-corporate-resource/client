@@ -2,6 +2,10 @@ import { Button } from "@/shared/components/ui/button";
 import { paymentApi } from "./model/paymentApi";
 import { Rocket, TrendingUp, TrendingUpDown } from "lucide-react";
 import { IPlan } from "@/entities/subscribe/ui/subscripe-card";
+import { useAtomValue } from "jotai";
+import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import { useAuth } from "@/app/providers/auth-provider";
+import { useNavigate } from "react-router";
 
 function getIconsForSubscription(typeSubscription: IPlan["type"]) {
   switch (typeSubscription) {
@@ -47,12 +51,18 @@ function getParamsPriceForBookingSubscription2(typeSubscription: IPlan) {
 }
 
 const Payment = ({ subscription }: { subscription: IPlan }) => {
+  const context = useAuth();
+  const navigate = useNavigate();
   return (
     <div className="application-card w-full">
       <Button
         className="w-full gap-4"
         variant={subscription.popular ? "default" : "secondary"}
         onClick={() => {
+          if (!context?.token) {
+            return navigate("/login");
+          }
+
           if (
             subscription.type === "limited" ||
             subscription.type === "limitedPackage"

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import FilterBookingPanel from "@/feature/filter-panel/filter-booking-panel";
 import { useAtom } from "jotai";
 import { isMapViewFullAtom } from "./model/sort-atom";
+import { List, Map, PanelRightDashed } from "lucide-react";
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
@@ -29,6 +30,7 @@ export default function HomePage() {
                 className="space-x-2"
                 onClick={() => navigate("/table-view")}
               >
+                <List className="w-4 h-4" />
                 <span>Список</span>
               </TabsTrigger>
               <TabsTrigger
@@ -36,6 +38,7 @@ export default function HomePage() {
                 className="space-x-2"
                 onClick={() => navigate("")}
               >
+                <Map className="w-4 h-4" />
                 <span>Карта</span>
               </TabsTrigger>
 
@@ -44,6 +47,8 @@ export default function HomePage() {
                 className="space-x-2"
                 onClick={() => navigate("/card-view")}
               >
+                <PanelRightDashed className="w-4 h-4" />
+
                 <span>Карточки</span>
               </TabsTrigger>
             </TabsList>
@@ -56,9 +61,9 @@ export default function HomePage() {
               />
               <label
                 htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="text-sm  font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Растянут карту на всю ширину
+                Растянут карту по ширине
               </label>
             </div>
           </div>

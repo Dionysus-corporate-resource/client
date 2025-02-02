@@ -268,7 +268,7 @@ export default function MapPage() {
         {isMapViewFull && (
           <MapContainer
             center={[55.75, 37.57]}
-            zoom={isMapViewFull ? 6 : 4}
+            zoom={isMapViewFull ? 5 : 4}
             style={{
               width: "100%",
               height: "100%",

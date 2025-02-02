@@ -8,8 +8,8 @@ export default function ThemeToggle() {
   return (
     <Button
       size="sm"
-      variant="secondary"
-      className="[color:hsl(var(--muted-foreground))] mb-2"
+      variant="link"
+      className="[color:hsl(var(--muted-foreground))]"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "light" ? (

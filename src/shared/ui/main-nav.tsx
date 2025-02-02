@@ -1,5 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { BriefcaseBusiness, Construction, UserCog } from "lucide-react";
+import {
+  ALargeSmall,
+  BriefcaseBusiness,
+  Construction,
+  Headset,
+  UserCog,
+} from "lucide-react";
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
@@ -25,17 +31,12 @@ export function MainNav() {
     logoTitle: "Груз Рынок",
     linksMain: [
       {
-        // icon: BriefcaseBusiness,
-        linkLabel: "Заявки",
-        navigate: "/",
-      },
-      {
-        // icon: BadgeRussianRuble,
+        icon: ALargeSmall,
         linkLabel: "Обсуждения",
         navigate: "/card-view",
       },
       {
-        // icon: ChartSpline,
+        icon: Headset,
         linkLabel: "Поддержка",
         navigate: "/table-view",
       },
@@ -60,13 +61,13 @@ export function MainNav() {
             {headerContent.logoTitle}
           </span>
         </NavLink>
-        {/* <nav className="flex gap-6 -mb-1 text-">
+        <nav className="flex gap-6 -mb-1 text-">
           {headerContent.linksMain.map((link) => (
             <NavLink
               to={link.navigate}
               className={({ isActive }) =>
-                `flex gap-2 items-center text-sm font-medium transition-colors hover:text- ${
-                  isActive ? "font-medium" : "text-primary/60"
+                `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
+                  isActive ? "text-foreground" : "text-muted-foreground"
                 }`
               }
             >
@@ -74,18 +75,18 @@ export function MainNav() {
               {link.linkLabel}
             </NavLink>
           ))}
-        </nav> */}
+        </nav>
       </div>
 
-      {/* userData?.companyPublicData?.nameCompany && ( */}
-      <span className="text-sm font-normal absolute left-1/2 -translate-x-1/2 flex gap-12">
-        {/* ООО Логистик */}
-        {/* <p>{!userData?.companyPublicData?.nameCompany}</p> */}
+      {userData?.companyPublicData?.nameCompany && (
+        <span className="text-sm font-medium text-muted-foreground absolute left-1/2 -translate-x-1/2 flex gap-12">
+          <p>{userData?.companyPublicData?.nameCompany}</p>
 
-        <h1 className="text-red-300 font-mono">
-          Сайт находиться в разработке и тестируется
-        </h1>
-      </span>
+          {/* <h1 className="text-red-300 font-mono">
+            Сайт находиться в разработке и тестируется
+          </h1> */}
+        </span>
+      )}
 
       {userData ? (
         <div className="flex items-center gap-4">

@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router";
 import HomePage from "../pages/home/home";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
-import SubscriptionsPage from "@/pages/subscribe/subscribe-page";
 import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
 import LandingLayout from "@/shared/ui/landing-layout";
 import LandingPage from "@/pages/landing/landing-page";
@@ -23,7 +22,6 @@ function App() {
     <Routes>
       <Route path="landing" element={<LandingLayout />}>
         <Route index element={<LandingPage />} />
-        <Route path="subscribe" element={<SubscriptionsPage />} />
       </Route>
 
       <Route element={<AppLayout />}>
@@ -44,9 +42,20 @@ function App() {
         <Route path="my-booking" element={<MyBooking />} />
         <Route
           path="edit-booking/:bookingId"
-          element={<EditBookingMultiStepForm />}
+          element={
+            <Authentication>
+              <EditBookingMultiStepForm />
+            </Authentication>
+          }
         />
-        <Route path="create-booking" element={<CreateBookingPage />} />
+        <Route
+          path="create-booking"
+          element={
+            <Authentication>
+              <CreateBookingPage />
+            </Authentication>
+          }
+        />
         <Route path="/payment-success" element={<SuccessPage />} />
         <Route path="/payment-failed" element={<ErrorPage />} />
       </Route>
