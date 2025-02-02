@@ -1,5 +1,6 @@
 // FIX: не правильный путь, публичный апи не работает
 import SubscripeCard, { IPlan } from "@/entities/subscribe/ui/subscripe-card";
+import Payment from "@/feature/payment/payment";
 import { cn } from "@/shared/lib/utils";
 
 export default function SubscripeList({
@@ -15,7 +16,10 @@ export default function SubscripeList({
       )}
     >
       {subscriptions.map((subscription) => (
-        <SubscripeCard subscription={subscription} />
+        <SubscripeCard
+          subscription={subscription}
+          actionPaymentSlot={<Payment subscription={subscription} />}
+        />
       ))}
     </div>
   );

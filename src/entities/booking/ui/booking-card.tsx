@@ -1,4 +1,4 @@
-import { ArrowDownRight, CornerRightUp } from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
@@ -14,7 +14,11 @@ export default function BookingCard({
   booking: IBookingDto;
 }) {
   return (
-    <Card className="w-full max-w-md  bg-card flex flex-col gap-2 justify-between">
+    <Card
+      className="w-full max-w-md bg-card flex flex-col gap-2 justify-between
+      shadow-md hover:shadow-lg transition-shadow duration-200
+      "
+    >
       {/* Заголовок с номером заявки и статусом */}
       <CardHeader className="pb-4 ">
         <div className="flex items-start justify-between mb-4">
@@ -26,31 +30,34 @@ export default function BookingCard({
                 "Уточнить"
               )}
             </Badge> */}
-            <Badge variant="secondary">
-              {booking?.basicInfo?.culture ? (
-                <>{booking?.basicInfo?.culture}</>
-              ) : (
-                "Уточнить"
-              )}
+            <Badge variant="default" className="bg-primary/85 space-x-2">
+              <Package className="w-4 h-4" />
+              <p>
+                {booking?.basicInfo?.culture ? (
+                  <>{booking?.basicInfo?.culture}</>
+                ) : (
+                  "Уточнить"
+                )}
+              </p>
             </Badge>
-            {/* <span className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
-            </span> */}
+            </span>
           </div>
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <div className="flex items-center text-sm text-muted-foreground">
-                {/* <Clock className="w-4 h-4 mr-1" /> */}
-                {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </div>
               <div className="flex items-center text-sm text-muted-foreground">
                 {/* <Calendar className="w-4 h-4 mr-1" /> */}
                 {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
                   day: "2-digit",
                   month: "long",
+                })}
+              </div>
+              <div className="flex items-center text-sm text-muted-foreground">
+                {/* <Clock className="w-4 h-4 mr-1" /> */}
+                {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
+                  hour: "2-digit",
+                  minute: "2-digit",
                 })}
               </div>
             </div>

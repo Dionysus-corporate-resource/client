@@ -14,6 +14,9 @@ import MyBooking from "@/pages/my-booking/my-booking";
 import CreateBookingPage from "@/pages/create-booking/create-booking-page";
 import Authentication from "./providers/authenication-provider";
 import EditBookingMultiStepForm from "@/feature/edit-booking-multi-step-form/ui/multi-step-form";
+import SuccessPage from "@/pages/payment/payment-success";
+import ErrorPage from "@/pages/payment/payment-failed";
+import { BookingCardPage, BookingTablePage, MapPage } from "@/pages/home";
 
 function App() {
   return (
@@ -24,7 +27,11 @@ function App() {
       </Route>
 
       <Route element={<AppLayout />}>
-        <Route index element={<HomePage />} />
+        <Route path="" element={<HomePage />}>
+          <Route path="table-view" element={<BookingTablePage />} />
+          <Route index element={<MapPage />} />
+          <Route path="card-view" element={<BookingCardPage />} />
+        </Route>
         <Route path="subscribe" element={<SubscriptionsPageShort />} />
         <Route
           path="profile"
@@ -40,6 +47,8 @@ function App() {
           element={<EditBookingMultiStepForm />}
         />
         <Route path="create-booking" element={<CreateBookingPage />} />
+        <Route path="/payment-success" element={<SuccessPage />} />
+        <Route path="/payment-failed" element={<ErrorPage />} />
       </Route>
 
       <Route element={<AuthLayout />}>

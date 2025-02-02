@@ -234,7 +234,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="w-full bg-background border-t border-muted py-8">
+      <footer className="w-full border-t border-muted py-8 bg-muted/50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
@@ -258,6 +258,14 @@ export default function LandingPage() {
                 </a>
               </p>
             </div>
+
+            <a
+              className="underline underline-offset-4 text-sm text-muted-foreground"
+              href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
+              target="_blank"
+            >
+              Публичная оферта
+            </a>
           </div>
         </div>
       </footer>

@@ -6,11 +6,19 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { ArrowUpRight, Package } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
+import {
+  BookingCard,
+  MarkerBookingDetailShort,
+  SkeletonBookingCard,
+} from "@/entities/booking";
 
 import L from "leaflet";
 import "leaflet.markercluster";
 import { Button } from "@/shared/components/ui/button";
+
+import { useAtomValue } from "jotai";
+import { isMapViewFullAtom, sortbookingAtom } from "../model/sort-atom";
+import { cn } from "@/shared/lib/utils";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -80,6 +88,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
         sizeY: count > 1 ? "30px" : "28px",
         sizeOutX: count > 1 ? "58px" : "38px",
         sizeOutY: count > 1 ? "40px" : "38px",
+        rightX: count > 1 ? "-23px" : "-2px",
+        bottomX: count > 1 ? "-5px" : "-4px",
         iconSize: 20,
       };
     }
@@ -91,6 +101,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
         sizeY: count > 1 ? "30px" : "28px",
         sizeOutX: count > 1 ? "58px" : "38px",
         sizeOutY: count > 1 ? "40px" : "38px",
+        rightX: count > 1 ? "-23px" : "-2px",
+        bottomX: count > 1 ? "-5px" : "-4px",
         iconSize: 18,
       };
     }
@@ -101,6 +113,8 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
       sizeY: count > 1 ? "30px" : "28px",
       sizeOutX: count > 1 ? "58px" : "36px",
       sizeOutY: count > 1 ? "40px" : "36px",
+      rightX: count > 1 ? "-23px" : "-2px",
+      bottomX: count > 1 ? "-5px" : "-4px",
       iconSize: 18,
     };
   };
@@ -135,9 +149,11 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           justifyContent: "center",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
           transform: "scale(1)",
+          right: style.rightX,
+          bottom: style.bottomX,
           borderRadius: "600px",
         }}
-        className="absolute -bottom-[4px] -right-[2px]"
+        className="absolute "
       ></div>
       <div
         style={{
@@ -194,15 +210,17 @@ const createCustomIcon = (count: number) => {
   });
 };
 
-export default function MapPage({
-  bookingData,
-  isPending,
-}: {
-  bookingData: IBookingDto[] | undefined;
-  isPending: boolean;
-}) {
+export default function MapPage() {
+  const isMapViewFull = useAtomValue(isMapViewFullAtom);
+  const sortBooking = useAtomValue(sortbookingAtom);
+
+  // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО
+  const filterBooking = sortBooking?.filter(
+    (booking) => booking?.status === "active",
+  );
+
   const groupedPlaces =
-    bookingData?.reduce(
+    filterBooking?.reduce(
       (acc, place) => {
         // Получаем координаты
         const coordinates = place?.basicInfo?.loadingLocation?.coordinates;
@@ -233,15 +251,109 @@ export default function MapPage({
         { coordinates: [number, number]; places: IBookingDto[] }
       >,
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
-
+  if (!sortBooking) return <div>Загрузка...</div>;
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="flex flex-col gap-4 pr-1 overflow-y-auto max-h-[calc(100vh-15rem)] scroll-smooth p-1">
-        {isPending
+    <div
+      className={cn(
+        "grid grid-cols-8 gap-2 max-h-[calc(100vh-0px)]",
+        isMapViewFull && "grid-cols-1",
+      )}
+    >
+      <div
+        className={cn(
+          "col-span-6 h-[calc(100vh-240px)] border rounded-lg",
+          isMapViewFull && "col-span-1",
+        )}
+      >
+        {isMapViewFull && (
+          <MapContainer
+            center={[55.75, 37.57]}
+            zoom={isMapViewFull ? 6 : 4}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "8px",
+            }}
+            className="leaflet-container"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+
+            <MarkerClusterGroup
+              chunkedLoading
+              maxClusterRadius={60}
+              spiderfyOnMaxZoom={true}
+              showCoverageOnHover={false}
+              iconCreateFunction={createClusterIcon}
+            >
+              {Object.values(groupedPlaces).map((group, index) => (
+                <Marker
+                  key={index}
+                  position={group.coordinates as [number, number]}
+                  icon={createCustomIcon(group.places.length)}
+                >
+                  <Popup>
+                    <MarkerBookingDetailShort group={group} />
+                  </Popup>
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
+          </MapContainer>
+        )}
+        {!isMapViewFull && (
+          <MapContainer
+            center={[55.75, 37.57]}
+            zoom={isMapViewFull ? 4 : 4}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: "8px",
+            }}
+            className="leaflet-container"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+
+            <MarkerClusterGroup
+              chunkedLoading
+              maxClusterRadius={60}
+              spiderfyOnMaxZoom={true}
+              showCoverageOnHover={false}
+              iconCreateFunction={createClusterIcon}
+            >
+              {Object.values(groupedPlaces).map((group, index) => (
+                <Marker
+                  key={index}
+                  position={group.coordinates as [number, number]}
+                  icon={createCustomIcon(group.places.length)}
+                >
+                  <Popup>
+                    <MarkerBookingDetailShort group={group} />
+                  </Popup>
+                </Marker>
+              ))}
+            </MarkerClusterGroup>
+          </MapContainer>
+        )}
+      </div>
+      <div
+        className={cn(
+          "col-span-2 flex flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
+          isMapViewFull && "hidden",
+        )}
+      >
+        <span className="font-normal text-sm text-muted-foreground">
+          Всего заявок: {filterBooking?.length} шт.
+        </span>
+        {!sortBooking
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />
             ))
-          : bookingData?.map((booking, index) => (
+          : sortBooking?.map((booking, index) => (
               <BookingCard
                 key={booking._id}
                 orderNumber={index + 1}
@@ -263,55 +375,6 @@ export default function MapPage({
                 }
               />
             ))}
-      </div>
-
-      <div className="col-span-3 md:h-[400px] lg:h-[675px]">
-        <MapContainer
-          center={[55.75, 37.57]}
-          zoom={4}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: "8px",
-          }}
-          className="leaflet-container"
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-
-          <MarkerClusterGroup
-            chunkedLoading
-            maxClusterRadius={60}
-            spiderfyOnMaxZoom={true}
-            showCoverageOnHover={false}
-            iconCreateFunction={createClusterIcon}
-          >
-            {Object.values(groupedPlaces).map((group, index) => (
-              <Marker
-                key={index}
-                position={group.coordinates as [number, number]}
-                icon={createCustomIcon(group.places.length)}
-              >
-                <Popup>
-                  <div>
-                    <h3>Количество заявок: {group.places.length}</h3>
-                    {group.places.map((place) => (
-                      <div key={place._id} className="mt-2">
-                        <p>ID: {place._id}</p>
-                        <p>Описание: {place?.basicInfo?.culture}</p>{" "}
-                        {/* Замените на нужное поле */}
-                        {place._id !==
-                          group.places[group.places.length - 1]._id && <hr />}
-                      </div>
-                    ))}
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MarkerClusterGroup>
-        </MapContainer>
       </div>
     </div>
   );

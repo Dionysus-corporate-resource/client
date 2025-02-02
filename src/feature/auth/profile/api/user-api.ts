@@ -1,7 +1,10 @@
 import instance from "@/shared/model/api/axios-instance";
-import { IUser, IUserDto } from "@/shared/model/types/user";
+import { IUserDto, IUserRoles } from "@/shared/model/types/user";
 
-export type IUpdateProfile = Omit<IUser, "email" | "companyPublicData"> & {
+export type IUpdateProfile = {
+  userName: string;
+  phone: string;
+  roles: IUserRoles;
   nameCompany: string | null;
 };
 

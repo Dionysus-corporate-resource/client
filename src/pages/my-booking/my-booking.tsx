@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
 import { useAtomValue } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import { ChartMyBooking } from "@/widgets/chart/chart-my-booking";
 
 export default function MyBooking() {
   const user = useAtomValue(userStorageAtom);
@@ -23,7 +24,7 @@ export default function MyBooking() {
 
   return (
     // container
-    <div className="mx-auto w-full grid grid-cols-1 p-6">
+    <div className="mx-auto w-full grid grid-cols-1 p-6 bg-primary/0">
       <div className="h-full overflow-y-auto no-scrollbar">
         <Tabs
           defaultValue="active"
@@ -43,11 +44,17 @@ export default function MyBooking() {
             {/* <FilterPanel /> */}
           </div>
           {/* Content */}
-          <TabsContent value="active" className="h-full px-6">
-            <MyBookingListTable tableData={tableDataActive} />
+          <TabsContent value="active" className="h-full mx-6">
+            <div className="grid grid-cols-5 gap-12">
+              <MyBookingListTable tableData={tableDataActive} />
+              <ChartMyBooking />
+            </div>
           </TabsContent>
           <TabsContent value="archive" className="h-full px-6">
-            <MyBookingListTable tableData={tableDataArchive} />
+            <div className="grid grid-cols-5 gap-12">
+              <MyBookingListTable tableData={tableDataArchive} />
+              <ChartMyBooking />
+            </div>
           </TabsContent>
         </Tabs>
       </div>

@@ -9,17 +9,17 @@ export default function ThemeToggle() {
     <Button
       size="sm"
       variant="secondary"
-      className="[color:hsl(var(--muted-foreground))]"
+      className="[color:hsl(var(--muted-foreground))] mb-2"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "light" ? (
         <>
-          Темная
+          Темная тема
           <Moon />
         </>
       ) : (
         <>
-          Светлая
+          Светлая тема
           <Sun />
         </>
       )}

@@ -62,6 +62,13 @@ export default function MultiStepForm() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["booking"] });
     },
+    onError: () => {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось создать заявку",
+        variant: "destructive",
+      });
+    },
   });
 
   const user = useAtomValue(userStorageAtom);
@@ -95,8 +102,8 @@ export default function MultiStepForm() {
       additionalInformation: "",
       contacts: [
         {
-          name: user?.userName ?? "Заказчик",
-          phone: user?.phone ?? "-",
+          name: user?.userName || "Заказчик",
+          phone: user?.phone || "-",
         },
       ],
     },

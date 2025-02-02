@@ -17,7 +17,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
 
           return (
             <div key={step.id} className="flex flex-col items-center">
-              <div className="bg-white rounded-full p-2">
+              <div className="bg-background rounded-full p-2">
                 <div
                   className={cn(
                     "flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors duration-500 ",

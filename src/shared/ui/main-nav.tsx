@@ -1,20 +1,8 @@
 import { NavLink } from "react-router-dom";
-import {
-  BriefcaseBusiness,
-  Construction,
-  // Package,
-  // PackageOpen,
-  // PackagePlus,
-  // Sparkle,
-  UserCog,
-} from "lucide-react";
-import { Avatar, AvatarFallback } from "../components/ui/avatar";
+import { BriefcaseBusiness, Construction, UserCog } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
-// import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
-// import { Badge } from "../components/ui/badge";
 
 export type Props = {
   headerContent: {
@@ -43,13 +31,13 @@ export function MainNav() {
       },
       {
         // icon: BadgeRussianRuble,
-        linkLabel: "Подписки",
-        navigate: "/subscribe",
+        linkLabel: "Обсуждения",
+        navigate: "/card-view",
       },
       {
         // icon: ChartSpline,
-        linkLabel: "Аналитика",
-        navigate: "/analytics",
+        linkLabel: "Поддержка",
+        navigate: "/table-view",
       },
     ],
     linksFooter: [
@@ -63,20 +51,22 @@ export function MainNav() {
   return (
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full relative">
       <div className="flex items-center gap-12 ">
-        <NavLink to="/landing" className="flex items-center space-x-2 ">
+        <NavLink to="/landing" className="flex items-center space-x-2">
           <Construction className="w-6 h-6" />
-          {/* <img src="/truck-4.svg" className="w-6 h-6" /> */}
+          {/* <div className="border p-1 rounded-md bg-white">
+            <img src="/icons8-truck-30.png" className="w-6 h-6" />
+          </div> */}
           <span className="inline-block font-semibold text-lg">
             {headerContent.logoTitle}
           </span>
         </NavLink>
-        {/* <nav className="flex gap-6 -mb-1">
+        {/* <nav className="flex gap-6 -mb-1 text-">
           {headerContent.linksMain.map((link) => (
             <NavLink
               to={link.navigate}
               className={({ isActive }) =>
-                `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
-                  isActive ? "text-foreground" : "text-muted-foreground"
+                `flex gap-2 items-center text-sm font-medium transition-colors hover:text- ${
+                  isActive ? "font-medium" : "text-primary/60"
                 }`
               }
             >
@@ -87,68 +77,23 @@ export function MainNav() {
         </nav> */}
       </div>
 
-      {/* <Tabs defaultValue="info" className="mx-auto ">
-        <TabsList className="w-full justify-start h-auto p-0 bg-transparent border-b rounded-none ">
-          <TabsTrigger
-            value="booking"
-            className="py-4 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
-          >
-            <Package className="w-4 h-4" />
-            <span>Заявки</span>
-          </TabsTrigger>
-
-          <TabsTrigger
-            value="my-booking"
-            className="py-4 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
-          >
-            <PackageOpen className="w-4 h-4" />
-            <span>Мои заявки</span>
-            <Badge variant="secondary" className="ml-1 h-5">
-              0
-            </Badge>
-          </TabsTrigger>
-          <TabsTrigger
-            value="create-booking"
-            className="py-4 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
-          >
-            <PackagePlus className="w-4 h-4" />
-            <span>Создать заявку</span>
-          </TabsTrigger>
-          <TabsTrigger
-            value="subscribe"
-            className="py-4 space-x-2 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:shadow-none"
-          >
-            <Sparkle className="w-4 h-4" />
-            <span>Тарифы</span>
-          </TabsTrigger>
-        </TabsList>
-      </Tabs> */}
-
       {/* userData?.companyPublicData?.nameCompany && ( */}
-      <span className="text-sm font-medium absolute left-1/2 -translate-x-1/2 flex gap-12">
+      <span className="text-sm font-normal absolute left-1/2 -translate-x-1/2 flex gap-12">
         {/* ООО Логистик */}
         {/* <p>{!userData?.companyPublicData?.nameCompany}</p> */}
-        <a
-          className="underline  underline-offset-4"
-          href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
-          target="_blank"
-        >
-          Публичная оферта
-        </a>
-        <h1 className="text-red-500">
+
+        <h1 className="text-red-300 font-mono">
           Сайт находиться в разработке и тестируется
         </h1>
       </span>
 
       {userData ? (
         <div className="flex items-center gap-4">
-          <ThemeToggle />
           <NavLink to="/profile">
-            <Avatar>
-              <AvatarFallback>
-                <UserCog className="w-4 h-4" />
-              </AvatarFallback>
-            </Avatar>
+            <Button variant="link" className="text-">
+              <UserCog className="w-4 h-4" />
+              Профиль
+            </Button>
           </NavLink>
         </div>
       ) : (
