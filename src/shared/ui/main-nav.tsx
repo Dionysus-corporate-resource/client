@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { BriefcaseBusiness, UserCog } from "lucide-react";
+import { BriefcaseBusiness, Construction, UserCog } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
@@ -51,14 +51,16 @@ export function MainNav() {
   return (
     <div className="flex justify-between items-center gap-6 md:gap-10 w-full relative">
       <div className="flex items-center gap-12 ">
-        <NavLink to="/landing" className="flex items-center space-x-2 ">
-          {/* <Package2 className="w-6 h-6" /> */}
-          {/* <img src="/truck-4.svg" className="w-6 h-6" /> */}
+        <NavLink to="/landing" className="flex items-center space-x-2">
+          <Construction className="w-6 h-6" />
+          {/* <div className="border p-1 rounded-md bg-white">
+            <img src="/icons8-truck-30.png" className="w-6 h-6" />
+          </div> */}
           <span className="inline-block font-semibold text-lg">
             {headerContent.logoTitle}
           </span>
         </NavLink>
-        <nav className="flex gap-6 -mb-1 text-">
+        {/* <nav className="flex gap-6 -mb-1 text-">
           {headerContent.linksMain.map((link) => (
             <NavLink
               to={link.navigate}
@@ -72,7 +74,7 @@ export function MainNav() {
               {link.linkLabel}
             </NavLink>
           ))}
-        </nav>
+        </nav> */}
       </div>
 
       {/* userData?.companyPublicData?.nameCompany && ( */}

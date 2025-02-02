@@ -247,7 +247,7 @@ export default function MapPage() {
 
   return (
     <div className="grid grid-cols-8 gap-2 max-h-[calc(100vh-0px)] ">
-      <div className="col-span-6 max-h-[calc(100vh-240px)] border rounded-lg">
+      <div className="col-span-6 h-[calc(100vh-240px)] border rounded-lg">
         <MapContainer
           center={[55.75, 37.57]}
           zoom={4}

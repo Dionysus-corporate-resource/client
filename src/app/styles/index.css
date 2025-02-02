@@ -96,6 +96,11 @@
         --destructive-foreground: 210 40% 98%;
         --ring: 215 20.2% 65.1%;
         --radius: 0.5rem;
+        --chart-1: 222.2 47.4% 61.2%;
+        --chart-2: 222.2 47.4% 81.2%;
+        --chart-3: 216 92% 60%;
+        --chart-4: 210 98% 78%;
+        --chart-5: 212 97% 87%;
     }
     /* :root {
         --background: 0 0% 100%;

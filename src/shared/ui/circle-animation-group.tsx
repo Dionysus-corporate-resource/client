@@ -12,7 +12,7 @@ export default function CircleAnimationGroup() {
             duration: 0.5,
             ease: "easeOut",
           }}
-          className="relative w-28 h-20 mx-auto"
+          className="relative w-20 h-20 mx-auto"
         >
           <motion.div
             animate={{

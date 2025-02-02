@@ -9,7 +9,7 @@ import {
 } from "@/shared/components/ui/table";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowDownRight, CornerRightUp, Dot } from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Dot, Package } from "lucide-react";
 import { bookingQueryOption } from "../api/query-option";
 
 // interface TableData {
@@ -132,7 +132,9 @@ export default function BookingListTable() {
               </TableHead>
               <TableHead>Расстояние</TableHead>
               <TableHead className="text-right">Ставка</TableHead>
-              <TableHead className="w-[250px]"></TableHead>
+              <TableHead className="text-center w-[250px]">
+                Подробности
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="bg-background">
@@ -145,7 +147,10 @@ export default function BookingListTable() {
                   </div>
                 </TableCell>
                 <TableCell className="font-medium">
-                  {booking?.basicInfo?.culture}
+                  <div className="flex items-center gap-2">
+                    <Package className="w-4 h-4" />
+                    {booking?.basicInfo?.culture}
+                  </div>
                 </TableCell>
                 <TableCell>
                   {/* <MapPin className="w-4 h-4 text-muted-foreground" /> */}

@@ -1,4 +1,3 @@
-import { Button } from "@/shared/components/ui/button";
 import {
   Table,
   TableBody,
@@ -20,12 +19,21 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { Eye, EyeOff, MapPin, SlidersVertical } from "lucide-react";
+import {
+  ArrowDownRight,
+  CornerRightUp,
+  Dot,
+  Eye,
+  EyeOff,
+  Package,
+  Settings,
+} from "lucide-react";
 import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { bookingApi } from "@/pages/home/api/booking-api";
 import { queryClient } from "@/shared/model/api/query-client";
 import { toast } from "@/shared/hooks/use-toast";
+import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 
 export type IStateRemoveSureType = {
   isOpenDialog: boolean;
@@ -79,7 +87,7 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full col-span-4">
       <Table>
         <TableHeader>
           <TableRow>
@@ -90,6 +98,7 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
             <TableHead>Объем</TableHead>
             <TableHead>Расстояние</TableHead>
             <TableHead className="text-right">Ставка</TableHead>
+            <TableHead className="text-right w-[150px]">Подробности</TableHead>
             <TableHead className="text-right w-[100px]"></TableHead>
           </TableRow>
         </TableHeader>
@@ -101,29 +110,59 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
                 {booking?.view}
               </TableCell>
 
-              <TableCell>{booking?.basicInfo?.culture}</TableCell>
-              <TableCell className="flex gap-2">
-                <MapPin className="w-4 h-4 text-muted-foreground" />
-                {booking?.basicInfo?.loadingLocation.name}
+              <TableCell className="font-medium">
+                <div className="flex items-center gap-2">
+                  <Package className="w-4 h-4" />
+                  {booking?.basicInfo?.culture}
+                </div>
               </TableCell>
-              <TableCell>{booking?.basicInfo?.unLoadingLocation}</TableCell>
+
               <TableCell>
+                {/* <MapPin className="w-4 h-4 text-muted-foreground" /> */}
+                <div className="flex gap-2">
+                  <ArrowDownRight className="w-4 h-4" />
+                  {booking?.basicInfo?.loadingLocation.name}
+                </div>
+              </TableCell>
+
+              <TableCell>
+                <div className="flex gap-2">
+                  <CornerRightUp className="w-4 h-4 " />
+                  {booking?.basicInfo?.unLoadingLocation}
+                </div>
+              </TableCell>
+
+              <TableCell className="flex justify-start ml-4">
                 {booking?.basicInfo?.tonnage ? (
                   <>{booking?.basicInfo?.tonnage} т</>
                 ) : (
-                  "-"
+                  <Dot className="w-4 h-4" />
                 )}
               </TableCell>
-              <TableCell>{booking?.basicInfo?.distance}</TableCell>
-              <TableCell className="text-right  font-semibold">
+
+              <TableCell>{booking?.basicInfo?.distance} км</TableCell>
+
+              <TableCell className="text-right font-medium">
                 {booking?.detailTransportation?.ratePerTon} ₽/т
               </TableCell>
-              <TableCell className="text-right flex justify-end">
+
+              <TableCell className="text-right">
+                <BookingDetailSheet
+                  bookingId={booking?._id}
+                  actionSlot={
+                    <button className="hover:underline  underline-offset-4">
+                      Подробнее
+                    </button>
+                  }
+                />
+              </TableCell>
+
+              <TableCell className="flex items-center justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger>
-                    <Button variant="ghost" size="icon" className="">
-                      <SlidersVertical className="w-4 h-4" />
-                    </Button>
+                    <button>
+                      <Settings className="w-4 h-4" />
+                    </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="mr-6">
                     <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel>

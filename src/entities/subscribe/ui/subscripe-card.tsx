@@ -7,7 +7,6 @@ import {
 } from "@/shared/components/ui/card";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import CircleAnimationGroup from "@/shared/ui/circle-animation-group";
-import PageLoader from "@/shared/ui/page-loader";
 import { CustomTooltip } from "@/shared/ui/toltip";
 import { useAtomValue } from "jotai";
 import {
@@ -68,7 +67,10 @@ function useGetBadgeExistSubscription(
     case "showContact": {
       if (user?.activeSubscriptions?.showContactSubscription?.isPurchased) {
         return (
-          <Badge className="space-x-2 w-fit h-6" variant="outline">
+          <Badge
+            className="space-x-2 w-fit h-6 z-50 bg-background"
+            variant="outline"
+          >
             <BadgeCheck className="w-4 h-4" />
             <span>Куплена</span>
           </Badge>
@@ -81,7 +83,10 @@ function useGetBadgeExistSubscription(
         user?.activeSubscriptions?.unLimitedBookingSubscription?.isPurchased
       ) {
         return (
-          <Badge className="space-x-2 w-fit h-6" variant="outline">
+          <Badge
+            className="space-x-2 w-fit h-6 z-50 bg-background"
+            variant="outline"
+          >
             <BadgeCheck className="w-4 h-4" />
             <span>Куплена</span>
           </Badge>
@@ -91,7 +96,10 @@ function useGetBadgeExistSubscription(
     }
     case "limited": {
       return (
-        <Badge className="space-x-2 w-fit h-6" variant="outline">
+        <Badge
+          className="space-x-2 w-fit h-6 z-50 bg-background"
+          variant="outline"
+        >
           <Ticket className="w-4 h-4" />
           <span>
             {user?.activeSubscriptions?.purchasedBooking?.remainingBookings}
@@ -101,8 +109,11 @@ function useGetBadgeExistSubscription(
     }
     case "limitedPackage": {
       return (
-        <Badge className="space-x-2 w-fit h-6" variant="outline">
-          <Ticket className="w-4 h-4" />
+        <Badge
+          className="space-x-2 w-fit h-6 z-50 bg-background"
+          variant="outline"
+        >
+          <Ticket className="w-4 h-" />
           <span>
             {user?.activeSubscriptions?.purchasedBooking?.remainingBookings}
           </span>
@@ -214,9 +225,9 @@ export default function SubscripeCard({
           Акция действует до 12.02.2025
         </p>
       </CardFooter>
-      <div className="absolute -right-12 top-32">
+      {/* <div className="absolute -right-10 top-[120px]">
         <CircleAnimationGroup />
-      </div>
+      </div> */}
     </Card>
   );
 }
