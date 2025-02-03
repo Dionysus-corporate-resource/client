@@ -62,7 +62,10 @@ export default function BookingDetailContent({
         {/* Время создания */}
         <div className="flex items-center justify-between mt-1">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
+            <div
+              className="flex items-center gap-2
+              ex:px-2"
+            >
               <div className="flex items-center text-sm text-muted-foreground">
                 {/* <Clock className="w-4 h-4 mr-1" /> */}
                 {new Date(bookingData?.createdAt as string).toLocaleTimeString(

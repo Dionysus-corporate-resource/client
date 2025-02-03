@@ -83,7 +83,10 @@ export function ChartMyBooking() {
   }, [bookingData]);
 
   return (
-    <Card className="flex flex-col ">
+    <Card
+      className="flex-col
+      hidden 2xl:flex"
+    >
       <CardHeader className="items-center pb-0">
         <CardTitle>Статистика за период</CardTitle>
         <CardDescription>
@@ -199,10 +202,10 @@ export function ChartMyBooking() {
         </ChartContainer>
       </CardContent> */}
       <CardFooter className="flex-col items-center gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
+        <div className="flex items-start gap-2 font-medium leading-none">
           Ваши созданные заявки <Ticket className="h-4 w-4" />
         </div>
-        <div className="leading-none text-center text-muted-foreground">
+        <div className="leading-none text-start text-muted-foreground">
           Отслеживайте Активные заявки, и те что находяться в архиве
         </div>
       </CardFooter>

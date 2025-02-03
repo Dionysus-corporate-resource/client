@@ -7,8 +7,8 @@ import { useAtomValue } from "jotai";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
-import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 import { useWindowSize } from "../hooks/use-window-size";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
@@ -18,11 +18,12 @@ export default function AppLayout() {
     (booking) => booking?.user?._id === userData?._id,
   );
   const { width } = useWindowSize();
-
+  console.log(width);
+  // sticky top-0 z-50
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="px-6 mx-auto flex py-2 items-center border-b ">
+      <header className="w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className=" px-6 mx-auto flex py-2 items-center border-b ">
           <MainNav />
         </div>
 
@@ -42,8 +43,8 @@ export default function AppLayout() {
               <NavLink to="/">
                 <TabsTrigger
                   value="booking"
-                  className="pb-[10px] pt-[9px] -mb-[1px] rounded-none data-[state=active]:shadow-none
-                  text-xs md:text-sm pr-0 sm:pr-2"
+                  className="pb-[10px] pt-2 -mb-[1px] rounded-none data-[state=active]:shadow-none
+                  text-xs md:text-sm pr-2 sm:pr-2 "
                 >
                   Заявки
                 </TabsTrigger>
@@ -55,7 +56,7 @@ export default function AppLayout() {
                     <TabsTrigger
                       value="my-booking"
                       className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none
-                      text-xs md:text-sm pr-0 sm:pr-2"
+                      text-xs md:text-sm pr-2 sm:pr-2"
                     >
                       Мои заявки
                       <Badge
@@ -72,7 +73,7 @@ export default function AppLayout() {
                     <TabsTrigger
                       value="create-booking"
                       className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none
-                      text-xs md:text-sm pr-0 sm:pr-2"
+                      text-xs md:text-sm pr-2 sm:pr-2"
                     >
                       Создать заявку
                     </TabsTrigger>
@@ -84,19 +85,20 @@ export default function AppLayout() {
                 <TabsTrigger
                   value="subscribe"
                   className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none !shadow-none
-                  text-xs md:text-sm  pr-0 sm:pr-2"
+                  text-xs md:text-sm  pr-2 sm:pr-2"
                 >
                   Тарифы
                 </TabsTrigger>
               </NavLink>
             </TabsList>
           </Tabs>
-          {/* <ThemeToggle /> */}
+          {/* <span className="text-sm">{width} px</span> */}
+
+          <ThemeToggle />
         </div>
       </header>
       <div className="flex-1 flex">
-        {/* <Outlet /> */}
-        <span className="text-sm">{width} px</span>
+        <Outlet />
 
         <Toaster />
       </div>

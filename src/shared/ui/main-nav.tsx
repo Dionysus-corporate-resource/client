@@ -1,15 +1,9 @@
 import { NavLink } from "react-router-dom";
-import {
-  ALargeSmall,
-  BriefcaseBusiness,
-  Construction,
-  Headset,
-  UserCog,
-} from "lucide-react";
+import { ALargeSmall, BriefcaseBusiness, Headset, UserCog } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import { MobileNav } from "@/widgets/mobile-nav/mobile-nav";
+// import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
 
 export type Props = {
   headerContent: {
@@ -60,18 +54,23 @@ export function MainNav() {
         sm:gap-12"
       >
         <NavLink to="/landing" className="flex items-center space-x-2">
-          <Construction
+          <img
             className="w-4 h-4
-          sm:w-6 sm:h-6
-          "
+      sm:w-6 sm:h-6"
+            src="truck3.png"
           />
+          {/* <Package
+            style={{ color: "#5D91EF" }}
+            className="w-4 h-4
+        sm:w-6 sm:h-6"
+          /> */}
 
           <span className="inline-block font-semibold text-sm sm:text-lg">
             {headerContent.logoTitle}
           </span>
         </NavLink>
         {/* Навигация */}
-        <nav
+        {/* <nav
           className="flex gap-4 -mb-1
           sm:gap-6 "
         >
@@ -94,9 +93,21 @@ export function MainNav() {
               {link.linkLabel}
             </NavLink>
           ))}
-        </nav>
+        </nav> */}
       </div>
-      <MobileNav />
+      {/* <MobileNav /> */}
+      <div className="md:hidden">
+        <NavLink to="/profile">
+          <Button
+            variant="link"
+            className="ex:text-xs
+            sm:text-sm"
+          >
+            <UserCog className="w-4 h-4" />
+            Профиль
+          </Button>
+        </NavLink>
+      </div>
 
       {userData?.companyPublicData?.nameCompany && (
         <span

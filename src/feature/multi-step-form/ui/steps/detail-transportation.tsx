@@ -32,7 +32,10 @@ export function DetailTransportation({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
+    <div
+      className="grid gap-6 p-2 rounded-lg
+      es:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+    >
       {/* Простой */}
       <div className="space-y-2">
         <Label
@@ -143,7 +146,9 @@ export function DetailTransportation({
           placeholder="Укажите ставку за тонну"
           className={`transition-all ${errors.ratePerTon ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.ratePerTon}
-          onChange={(e) => handleChange("ratePerTon", e.target.value)}
+          onChange={(e) =>
+            handleChange("ratePerTon", e.target.value.replace(/\D/g, ""))
+          }
         />
         {errors.ratePerTon && (
           <p className="text-sm text-destructive flex items-center gap-1">

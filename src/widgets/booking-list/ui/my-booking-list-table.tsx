@@ -87,7 +87,10 @@ export default function MyBookingListTable({ tableData: bookingData }: Props) {
   };
 
   return (
-    <div className="w-full col-span-4">
+    <div
+      className="w-full
+      col-span-5 2xl:col-span-4"
+    >
       <Table>
         <TableHeader>
           <TableRow>

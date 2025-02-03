@@ -1,4 +1,4 @@
-import { Construction, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
@@ -89,7 +89,12 @@ export function RegisterForm({
               className="flex flex-col items-center gap-2 font-medium"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                <Construction className="size-6" />
+                {/* <Construction className="size-6" /> */}
+                <img
+                  className="w-6 h-6
+            sm:w-8 sm:h-8"
+                  src="truck3.png"
+                />
               </div>
               <span className="sr-only">Acme Inc.</span>
             </a>
@@ -207,7 +212,7 @@ export function RegisterForm({
               type="submit"
               variant="secondary"
               className="w-full -mt-2"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/")}
             >
               Вернуться назад
             </Button>

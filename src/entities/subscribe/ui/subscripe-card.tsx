@@ -134,8 +134,8 @@ export default function SubscripeCard({
   return (
     <Card
       key={subscription.name}
-      className={`relative overflow-hidden flex flex-col w-[450px] transition-all duration-200 hover:shadow-lg ${
-        subscription.popular ? "scale-105 shadow-lg " : ""
+      className={`md:w-[600px] lg:w-fit xl:w-[450px] relative overflow-hidden flex flex-col transition-all duration-200 hover:shadow-lg ${
+        subscription.popular ? "scale-100 shadow-lg " : ""
       }`}
     >
       <CardHeader className="flex flex-col gap-4 text-start">

@@ -1,5 +1,5 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { Construction, UserCog } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { UserCog } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAtomValue } from "jotai";
@@ -21,16 +21,31 @@ export type Props = {
 
 export function MainNavLanding({ headerContent }: Props) {
   const userData = useAtomValue(userStorageAtom);
-  const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between items-center gap-6 md:gap-10 w-full">
-      <NavLink to="/landing" className="flex items-center space-x-2 ">
-        <Construction
-          className="w-6 h-6"
-          // className="w-4 h-4"
+    <div
+      className="flex justify-between items-center md:gap-10 w-full
+      ex:px-4 ex:gap-4 gap-6 "
+    >
+      <NavLink to="/landing" className="flex items-center space-x-2">
+        {/* <Construction
+          className="w-4 h-4
+        sm:w-6 sm:h-6
+        "
+        /> */}
+        <img
+          className="w-4 h-4
+    sm:w-6 sm:h-6"
+          src="truck3.png"
         />
-        <span className="inline-block font-semibold text-lg">
+
+        {/* <Package
+          style={{ color: "#5D91EF" }}
+          className="w-4 h-4
+      sm:w-6 sm:h-6"
+        /> */}
+
+        <span className="inline-block font-semibold text-sm sm:text-lg">
           {headerContent.logoTitle}
         </span>
       </NavLink>
@@ -39,13 +54,12 @@ export function MainNavLanding({ headerContent }: Props) {
           <NavLink
             to={link.navigate}
             className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
+              `ex:text-xs flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
                 isActive ? "text-foreground" : "text-muted-foreground"
               }`
             }
           >
-            {link?.icon && <link.icon className="w-4 h-4" />}
-            {link.linkLabel}
+            Смотреть заявки
           </NavLink>
         ))}
       </nav>
@@ -53,18 +67,17 @@ export function MainNavLanding({ headerContent }: Props) {
         <div className="flex items-center gap-4">
           {/* <ThemeToggle /> */}
 
-          <Button
-            variant="link"
-            className="text-"
-            onClick={() => navigate("/profile")}
+          <NavLink
+            className="ex:text-xs text-sm flex items-center gap-2"
+            to="/profile"
           >
-            <UserCog className="w-4 h-4" />
+            <UserCog className="w-4 h-4 ex:hidden" />
             Профиль
-          </Button>
+          </NavLink>
         </div>
       ) : (
         <div className="space-x-2">
-          <NavLink to="/register">
+          <NavLink className="ex:hidden" to="/register">
             <Button size="sm" variant="link">
               Зарегистрироваться
             </Button>

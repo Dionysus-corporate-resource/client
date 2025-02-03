@@ -8,6 +8,7 @@ import SubscripeList from "@/widgets/subscripe-list/subscripe-list";
 import { IPlan } from "@/entities/subscribe/ui/subscripe-card";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAtomValue } from "jotai";
+import { Building2, CarTaxiFront } from "lucide-react";
 
 export default function SubscriptionsPageShort() {
   const userData = useAtomValue(userStorageAtom);
@@ -41,7 +42,8 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Начните работу прямо сейчас",
-      freeUse: "Получи 10 заявок бесплатно, напиши в телеграмм - @frontMor",
+      freeUse:
+        "Получи 10 заявок бесплатно, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Пакет заявок",
@@ -78,7 +80,7 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Продолжайте выкладывать",
-      freeUse: "Получи + 15 заявок, напиши в телеграмм - @frontMor",
+      freeUse: "Получи + 15 заявок, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Безлимит заявок",
@@ -116,7 +118,8 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Не останавливайтесь",
-      freeUse: "Получи 2 месяца безлимита, напиши в телеграмм - @frontMor",
+      freeUse:
+        "Получи 2 месяца безлимита, напиши в телеграмм - @gruzrynokSupport",
     },
   ];
   const subscriptionsForDriver: IPlan[] = [
@@ -148,7 +151,7 @@ export default function SubscriptionsPageShort() {
       },
       highlight: "Найди погрузку прямо сейчас",
       freeUse:
-        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @frontMor",
+        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Просмотр контактов",
@@ -178,37 +181,46 @@ export default function SubscriptionsPageShort() {
       },
       highlight: "Найди погрузку прямо сейчас",
       freeUse:
-        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @frontMor",
+        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @gruzrynokSupport",
     },
   ];
 
   return (
     <div className="w-full flex flex-col justify-between gap-6">
-      <div className="h-full overflow-y-auto no-scrollbar p-6">
+      <div
+        className="h-full overflow-y-auto no-scrollbar
+        ex:p-2 sm:p-4 md:p-6"
+      >
         <Tabs
           defaultValue={userData?.roles ?? "driver"}
           className="overflow-hidden space-y-4 overflow-y-auto no-scrollbar"
         >
           <div className="flex gap-6 justify-between">
             <TabsList>
-              <TabsTrigger value="customer" className="space-x-2">
-                {/* <List className="w-4 h-4" /> */}
-                <span>Для заказчика</span>
+              <TabsTrigger value="customer" className="flex items-center gap-2">
+                <Building2 className="w-4 h-4" />
+                <span className="ex:text-xs">Заказчика</span>
               </TabsTrigger>
-              <TabsTrigger value="driver" className="space-x-2">
-                {/* <MapPinned className="w-4 h-4" /> */}
-                <span>Для перевозчика</span>
+              <TabsTrigger value="driver" className="flex items-center gap-2">
+                <CarTaxiFront className="w-4 h-4" />
+                <span className="ex:text-xs">Перевозчика</span>
               </TabsTrigger>
             </TabsList>
           </div>
           {/* Content */}
           <TabsContent value="customer" className="h-full">
-            <div className="container mx-auto flex justify-center items-center py-10 space-y-16">
+            <div
+              className="container mx-auto flex justify-center items-center
+              ex:px-2 sm:px-4 md:px-6"
+            >
               <SubscripeList subscriptions={subscriptionsForCustomer} />
             </div>
           </TabsContent>
           <TabsContent value="driver">
-            <div className="container mx-auto flex justify-center items-center py-10 space-y-16">
+            <div
+              className="container mx-auto flex justify-center items-center
+              ex:px-2 sm:px-4 md:px-6"
+            >
               <SubscripeList subscriptions={subscriptionsForDriver} />
             </div>
           </TabsContent>
@@ -240,7 +252,7 @@ export default function SubscriptionsPageShort() {
             </div>
             <a
               className="underline underline-offset-4 text-sm text-muted-foreground"
-              href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
+              // href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
               target="_blank"
             >
               Публичная оферта

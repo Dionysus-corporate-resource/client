@@ -104,7 +104,7 @@ export default function BookingCard({
 
       <CardContent className="flex flex-col gap-2 justify-between">
         {/* Маршрут */}
-        <div className="relative grid grid-cols-[1fr_1fr] gap-4 py-2 ">
+        <div className="relative grid grid-cols-2 gap-4 py-2">
           <div className="relative flex gap-2">
             {/* <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" /> */}
             <ArrowDownRight className="w-4 h-4 mt-[2px]" />

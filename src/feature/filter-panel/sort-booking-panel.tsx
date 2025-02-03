@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { cn } from "@/shared/lib/utils";
 import { useAtomValue, useSetAtom } from "jotai";
 import {
   ArrowDownWideNarrow,
@@ -26,7 +27,11 @@ import { useEffect, useState } from "react";
 
 type ISortField = "distance" | "tonnage" | "ratePerTon";
 
-export default function SortBookingPanel() {
+export default function SortBookingPanel({
+  placeUse,
+}: {
+  placeUse: "mobile" | "desktop";
+}) {
   const [sortField, setSortField] = useState<ISortField | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   // const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -98,14 +103,19 @@ export default function SortBookingPanel() {
   }, [filterBooking, sortField, sortDirection, setSortBooking]);
 
   return (
-    <div className="flex gap-2">
+    <div
+      className={cn(
+        "gap-2",
+        placeUse === "mobile" ? "flex gap-2 ex:flex-col" : "hidden xl:flex",
+      )}
+    >
       {/* Выбор поля сортировки */}
-      <div>
+      <div className="w-full">
         <Select
           value={sortField || "none"}
           onValueChange={(e) => handleSortFieldChange(e as ISortField)}
         >
-          <SelectTrigger className="w-fit">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Поля сортировки" />
           </SelectTrigger>
           <SelectContent>
@@ -139,14 +149,13 @@ export default function SortBookingPanel() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Тип сортировки */}
-      <div>
+      <div className="w-full">
         <Select
           value={sortDirection || "asc"}
           onValueChange={(e) => setSortDirection(e as "asc" | "desc")}
         >
-          <SelectTrigger className="w-fit">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Тип сортировки" />
           </SelectTrigger>
           <SelectContent>
@@ -168,7 +177,6 @@ export default function SortBookingPanel() {
           </SelectContent>
         </Select>
       </div>
-
       {/* Календарь для выбора даты */}
       {/* <div>
         <Popover>

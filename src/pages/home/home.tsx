@@ -8,6 +8,8 @@ import FilterBookingPanel from "@/feature/filter-panel/filter-booking-panel";
 import { useAtom } from "jotai";
 import { isMapViewFullAtom } from "./model/sort-atom";
 import { List, Map, PanelRightDashed } from "lucide-react";
+import { MobileFilterPanel } from "@/widgets/mobile/mobile-filter-panel/mobile-filter-panel";
+import { MobileSortedPanel } from "@/widgets/mobile/mobile-sorted-panel/mobile-sorted-panel";
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
@@ -20,18 +22,22 @@ export default function HomePage() {
   if (isPending) return <div>Загрузка...</div>;
 
   return (
-    <div className="mx-auto flex flex-col flex-1 px-6 gap-2 pt-4 ">
+    <div
+      className="mx-auto flex flex-col flex-1
+      px-2 sm:px-6 pt-2 sm:pt-4 gap-0 sm:gap-2"
+    >
       <Tabs defaultValue={location.pathname}>
-        <div className="flex gap-6 justify-between">
+        <div className="relative flex gap-6 justify-between">
           <div className="flex gap-6">
             <TabsList>
               <TabsTrigger
                 value="/table-view"
-                className="space-x-2"
+                className="space-x-2
+                hidden xl:flex"
                 onClick={() => navigate("/table-view")}
               >
                 <List className="w-4 h-4" />
-                <span>Список</span>
+                <span className="">Список</span>
               </TabsTrigger>
               <TabsTrigger
                 value="/"
@@ -39,7 +45,7 @@ export default function HomePage() {
                 onClick={() => navigate("")}
               >
                 <Map className="w-4 h-4" />
-                <span>Карта</span>
+                <span className="ex:text-xs">Карта</span>
               </TabsTrigger>
 
               <TabsTrigger
@@ -49,10 +55,13 @@ export default function HomePage() {
               >
                 <PanelRightDashed className="w-4 h-4" />
 
-                <span>Карточки</span>
+                <span className="ex:text-xs">Карточки</span>
               </TabsTrigger>
             </TabsList>
-            <div className="flex items-center space-x-2 mr-2">
+            <div
+              className="items-center space-x-2 mr-2
+              hidden 2xl:flex"
+            >
               <Checkbox
                 checked={isMapViewFull}
                 onCheckedChange={(checked) => {
@@ -68,16 +77,37 @@ export default function HomePage() {
             </div>
           </div>
           {/* Панель сортировки */}
-          <SortBookingPanel
-          // filterBooking={filterBooking}
-          />
+          <div
+            className="flex items-center gap-4
+            ex:gap-2"
+          >
+            <MobileFilterPanel
+              filterPanelSlot={
+                <FilterBookingPanel
+                  placeUse="mobile"
+                  filterBooking={filterBooking}
+                />
+              }
+            />
+
+            <SortBookingPanel placeUse="desktop" />
+            <MobileSortedPanel
+              sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
+            />
+          </div>
         </div>
       </Tabs>
       {/* // Страниы */}
-      <div className="space-y-4 borde border-pink-600 h-full ">
+      <div
+        className="h-full
+        space-y-2 xl:space-y-4"
+      >
         <div className="flex justify-between gap-4">
-          <FilterBookingPanel filterBooking={filterBooking} />
-          <div className="flex gap-4">
+          <FilterBookingPanel
+            placeUse="desktop"
+            filterBooking={filterBooking}
+          />
+          {/* <div className="flex gap-4">
             <label
               htmlFor="terms"
               className="flex items-center gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -85,7 +115,7 @@ export default function HomePage() {
               <span className="w-[160px]">За последние 5 дней</span>
               <Checkbox />
             </label>
-          </div>
+          </div> */}
         </div>
 
         <Outlet />

@@ -65,7 +65,10 @@ export default function LandingPage() {
                 грузов. Прямое взаимодействие между заказчиками и перевозчиками.
               </p>
             </div>
-            <div className="space-x-4">
+            <div
+              className="flex gap-2
+              ex:flex-col"
+            >
               <Button
                 size="lg"
                 className="transition-transform hover:scale-105"
@@ -589,7 +592,7 @@ export default function LandingPage() {
 
             <a
               className="underline underline-offset-4 text-sm text-muted-foreground"
-              href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
+              // href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
               target="_blank"
               rel="noreferrer"
             >

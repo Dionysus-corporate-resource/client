@@ -22,17 +22,19 @@ export default function ProfilePage() {
   const authContext = useAuth();
 
   return (
-    <div className="w-full pt-6">
-      <div className="container mx-auto w-full grid grid-cols-2 gap-4">
-        <div className="space-y-4">
-          <PersonalInfo
-            userData={authContext?.user}
-            formSlot={<ProfileEditForm />}
-          />
+    <div className="w-full">
+      <div
+        className="mx-auto w-full grid grid-cols-1 gap-4
+        2xl:container p-2 md:p-4 xl:p-6 2xl:p-6 lg:grid-cols-2"
+      >
+        <PersonalInfo
+          userData={authContext?.user}
+          formSlot={<ProfileEditForm />}
+        />
 
-          {/* <PasswordChange /> */}
-          {/* Notification Preferences */}
-          {/* <Card>
+        {/* <PasswordChange /> */}
+        {/* Notification Preferences */}
+        {/* <Card>
             <CardHeader>
               <CardTitle>Уведомления</CardTitle>
               <CardDescription>
@@ -64,8 +66,8 @@ export default function ProfilePage() {
             </CardContent>
           </Card> */}
 
-          {/* Connected Accounts */}
-          {/* <Card>
+        {/* Connected Accounts */}
+        {/* <Card>
             <CardHeader>
               <CardTitle>Связанные аккаунты</CardTitle>
               <CardDescription>
@@ -95,8 +97,8 @@ export default function ProfilePage() {
             </CardContent>
           </Card> */}
 
-          {/* Session Management */}
-          {/* <Card>
+        {/* Session Management */}
+        {/* <Card>
             <CardHeader>
               <CardTitle>Активные сессии</CardTitle>
               <CardDescription>
@@ -135,7 +137,6 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card> */}
-        </div>
         <SubscriptionInfo />
       </div>
     </div>

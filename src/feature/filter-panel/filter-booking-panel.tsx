@@ -33,9 +33,12 @@ import { ru } from "date-fns/locale"; // Импортируем русскую �
 
 export default function FilterBookingPanel({
   filterBooking,
+  placeUse,
 }: {
   filterBooking: IBookingDto[] | undefined;
+  placeUse: "mobile" | "desktop";
 }) {
+  const [openSelectNameCompany, setOpenSelectNameCompany] = useState(false);
   const [loadingLocationFilter, setLoadingLocationFilter] =
     useState<string>("");
   const [unLoadingLocationFilter, setUnLoadingLocationFilter] =
@@ -104,158 +107,173 @@ export default function FilterBookingPanel({
   ];
 
   return (
-    <div className="flex justify-between w-full">
-      <div className="flex gap-2">
-        {/* Поле для фильтрации по месту загрузки */}
-        <div className="relative">
-          <Input
-            type="text"
-            value={loadingLocationFilter}
-            onChange={(e) => setLoadingLocationFilter(e.target.value)}
-            placeholder="Введите место загрузки"
-            className="pl-8"
-          />
-          <ArrowDownRight className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
-        </div>
-
-        {/* Поле для фильтрации по месту разгрузки */}
-        <div className="relative">
-          <Input
-            type="text"
-            value={unLoadingLocationFilter}
-            onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
-            placeholder="Введите место разгрузки"
-            className="pl-8"
-          />
-          <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
-        </div>
-
-        {/* Поле для фильтрации по культуре */}
-        <div className="relative">
-          <Input
-            type="text"
-            value={cultureFilter}
-            onChange={(e) => setCultureFilter(e.target.value)}
-            placeholder="Введите груз"
-            className="pl-8"
-          />
-          <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
-        </div>
-
-        {/* Выбор даты */}
-        <div className={cn("grid gap-2")}>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                id="date"
-                variant={"outline"}
-                className={cn(
-                  "w-fit justify-start text-left font-normal",
-                  !date && "text-muted-foreground",
-                )}
-              >
-                <CalendarIcon />
-                {date?.from ? (
-                  date.to ? (
-                    <>
-                      {format(date.from, "dd MMMM yyyy", { locale: ru })} -{" "}
-                      {format(date.to, "dd MMMM yyyy", { locale: ru })}
-                    </>
-                  ) : (
-                    format(date.from, "dd MMMM yyyy", { locale: ru })
-                  )
-                ) : (
-                  <span>Выберите дату</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                initialFocus
-                mode="range"
-                defaultMonth={date?.from}
-                selected={date}
-                onSelect={setDate}
-                numberOfMonths={2}
-                locale={ru} // Устанавливаем русскую локализацию
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        {/* Кнопка сброса фильтров */}
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setLoadingLocationFilter("");
-            setUnLoadingLocationFilter("");
-            setCultureFilter("");
-            setCompanyNameFilter("Все заказчики");
-            setDate(undefined);
-          }}
-        >
-          Сбросить
-        </Button>
+    <div
+      className={cn(
+        "justify-between w-full gap-2",
+        placeUse === "mobile"
+          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+          : "hidden xl:flex",
+      )}
+    >
+      {/* Поле для фильтрации по месту загрузки */}
+      <div className="relative w-full">
+        <Input
+          type="text"
+          value={loadingLocationFilter}
+          onChange={(e) => setLoadingLocationFilter(e.target.value)}
+          placeholder="Введите место загрузки"
+          className="pl-8"
+        />
+        <ArrowDownRight className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
       </div>
 
-      {/* Фидьтрация по дате и Названии компании */}
-      <div className="flex gap-2">
-        {/* Выбор заказчика */}
-        <div>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                className="w-full justify-between"
-              >
-                {companyNameFilter.length > 0
-                  ? `Выбрано: ${companyNameFilter}`
-                  : "Выберите Заказчика"}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
-                <CommandInput placeholder="Поиск заказчика..." />
-                <CommandList>
-                  <CommandEmpty>Ничего не найдено.</CommandEmpty>
-                  <CommandGroup heading="Заказчики">
+      {/* Поле для фильтрации по месту разгрузки */}
+      <div className="relative w-full">
+        <Input
+          type="text"
+          value={unLoadingLocationFilter}
+          onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
+          placeholder="Введите место разгрузки"
+          className="pl-8"
+        />
+        <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+      </div>
+
+      {/* Поле для фильтрации по культуре */}
+      <div className="relative w-full">
+        <Input
+          type="text"
+          value={cultureFilter}
+          onChange={(e) => setCultureFilter(e.target.value)}
+          placeholder="Введите груз"
+          className="pl-8"
+        />
+        <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+      </div>
+
+      {/* Выбор даты */}
+      <div
+        className={cn(
+          "grid gap-2 w-full",
+          placeUse === "mobile" && "hidden lg:block",
+        )}
+      >
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              id="date"
+              variant={"outline"}
+              className={cn(
+                "w-full justify-start text-left font-normal",
+                !date && "text-muted-foreground",
+              )}
+            >
+              <CalendarIcon />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "dd MMMM yyyy", { locale: ru })} -{" "}
+                    {format(date.to, "dd MMMM yyyy", { locale: ru })}
+                  </>
+                ) : (
+                  format(date.from, "dd MMMM yyyy", { locale: ru })
+                )
+              ) : (
+                <span>Выберите дату</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={date?.from}
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
+              locale={ru} // Устанавливаем русскую локализацию
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      {/* Выбор заказчика */}
+      <div className="w-full">
+        <Popover
+          open={openSelectNameCompany}
+          onOpenChange={setOpenSelectNameCompany}
+        >
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              className="w-full justify-between"
+            >
+              {companyNameFilter.length > 0
+                ? `Выбрано: ${companyNameFilter}`
+                : "Выберите Заказчика"}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Поиск заказчика..." />
+              <CommandList>
+                <CommandEmpty>Ничего не найдено.</CommandEmpty>
+                <CommandGroup heading="Заказчики">
+                  <CommandItem
+                    onSelect={() => setCompanyNameFilter("Все заказчики")}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        companyNameFilter === "Все заказчики"
+                          ? "opacity-100"
+                          : "opacity-0",
+                      )}
+                    />
+                    Все заказчики
+                  </CommandItem>
+                  {uniqueListCompany?.map((name, index) => (
                     <CommandItem
-                      onSelect={() => setCompanyNameFilter("Все заказчики")}
+                      key={index}
+                      onSelect={() => {
+                        setCompanyNameFilter(name);
+                        setOpenSelectNameCompany(false);
+                      }}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          companyNameFilter === "Все заказчики"
+                          companyNameFilter === name
                             ? "opacity-100"
                             : "opacity-0",
                         )}
                       />
-                      Все заказчики
+                      {name}
                     </CommandItem>
-                    {uniqueListCompany?.map((name, index) => (
-                      <CommandItem
-                        key={index}
-                        onSelect={() => setCompanyNameFilter(name)}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            companyNameFilter === name
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                        {name}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
+
+      {/* Кнопка сброса фильтров */}
+      <Button
+        className="w-full"
+        variant="secondary"
+        onClick={() => {
+          setLoadingLocationFilter("");
+          setUnLoadingLocationFilter("");
+          setCultureFilter("");
+          setCompanyNameFilter("Все заказчики");
+          setDate(undefined);
+        }}
+      >
+        Сбросить
+      </Button>
     </div>
   );
 }

@@ -255,13 +255,13 @@ export default function MapPage() {
   return (
     <div
       className={cn(
-        "grid grid-cols-8 gap-2 max-h-[calc(100vh-0px)]",
-        isMapViewFull && "grid-cols-1",
+        "grid-cols-1 2xl:grid-cols-8 grid gap-2 max-h-[calc(100vh-0px)]",
+        isMapViewFull && "!grid-cols-1",
       )}
     >
       <div
         className={cn(
-          "col-span-6 h-[calc(100vh-240px)] border rounded-lg",
+          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-230px)] col-span-6  border rounded-lg",
           isMapViewFull && "col-span-1",
         )}
       >
@@ -272,7 +272,6 @@ export default function MapPage() {
             style={{
               width: "100%",
               height: "100%",
-              borderRadius: "8px",
             }}
             className="leaflet-container"
           >
@@ -342,7 +341,7 @@ export default function MapPage() {
       </div>
       <div
         className={cn(
-          "col-span-2 flex flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
+          "hidden 2xl:flex col-span-2 flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
           isMapViewFull && "hidden",
         )}
       >
