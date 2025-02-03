@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router";
+import { NavLink } from "react-router";
 import { MainNav } from "./main-nav";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Badge } from "../components/ui/badge";
@@ -8,6 +8,7 @@ import { userStorageAtom } from "../model/atoms/user-atom";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
 import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
+import { useWindowSize } from "../hooks/use-window-size";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
@@ -16,6 +17,7 @@ export default function AppLayout() {
   const tableDataActive = bookingData?.filter(
     (booking) => booking?.user?._id === userData?._id,
   );
+  const { width } = useWindowSize();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -23,6 +25,7 @@ export default function AppLayout() {
         <div className="px-6 mx-auto flex py-2 items-center border-b">
           <MainNav />
         </div>
+
         <div className="px-6 pt-0 mx-auto flex items-center justify-between gap-16 bg-muted border-background border-b ">
           <Tabs defaultValue="info" className="bg-muted">
             <TabsList
@@ -34,8 +37,7 @@ export default function AppLayout() {
                   value="booking"
                   className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none "
                 >
-                  {/* <Package className="w-4 h-4" /> */}
-                  <span>Заявки</span>
+                  Заявки
                 </TabsTrigger>
               </NavLink>
 
@@ -46,11 +48,10 @@ export default function AppLayout() {
                       value="my-booking"
                       className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
                     >
-                      {/* <PackageOpen className="w-4 h-4" /> */}
-                      <span>Мои заявки</span>
+                      Мои заявки
                       <Badge
                         variant="outline"
-                        className="ml-1 h-5 bg-background"
+                        className="h-5 bg-background ml-2"
                       >
                         {tableDataActive?.length}
                       </Badge>
@@ -62,34 +63,28 @@ export default function AppLayout() {
                       value="create-booking"
                       className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
                     >
-                      {/* <PackagePlus className="w-4 h-4" /> */}
-                      <span>Создать заявку</span>
+                      Создать заявку
                     </TabsTrigger>
                   </NavLink>
                 </>
               )}
 
-              <NavLink
-                to="/subscribe"
-                // className={({ isActive }) =>
-                //   `${isActive ? "" : "border-b-2 border-transparent"}`
-                // }
-              >
+              <NavLink to="/subscribe">
                 <TabsTrigger
                   value="subscribe"
                   className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none !shadow-none"
                 >
-                  {/* <BicepsFlexed className="w-4 h-4" /> */}
-                  <span>Тарифы</span>
+                  Тарифы
                 </TabsTrigger>
               </NavLink>
             </TabsList>
           </Tabs>
+          <span className="text-sm">{width} px</span>
           <ThemeToggle />
         </div>
       </header>
       <div className="flex-1 flex">
-        <Outlet />
+        {/* <Outlet /> */}
         <Toaster />
       </div>
     </div>

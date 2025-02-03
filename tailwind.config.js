@@ -3,6 +3,14 @@ module.exports = {
   darkMode: ["class"],
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
+    screens: {
+      ex: { max: "639px" }, // → Только мобильные (<640px)
+      sm: "640px", // → Мобильные (вертикальные)
+      md: "768px", // → Планшеты
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
