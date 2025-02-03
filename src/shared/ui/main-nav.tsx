@@ -113,7 +113,10 @@ export function MainNav() {
       )}
 
       {userData ? (
-        <div className="flex items-center gap-4">
+        <div
+          className=" items-center gap-4
+          hidden md:flex"
+        >
           <NavLink to="/profile">
             <Button
               variant="link"

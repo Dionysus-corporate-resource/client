@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import { MainNav } from "./main-nav";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { Badge } from "../components/ui/badge";
@@ -26,16 +26,24 @@ export default function AppLayout() {
           <MainNav />
         </div>
 
-        <div className="px-6 pt-0 mx-auto flex items-center justify-between gap-16 bg-muted border-background border-b ">
-          <Tabs defaultValue="info" className="bg-muted">
+        <div
+          className="pt-0 flex items-center  gap-16 bg-muted border-background border-b
+         justify-center px-2 md:px-6 sm:justify-between"
+        >
+          <Tabs
+            defaultValue="info"
+            className="bg-muted
+            "
+          >
             <TabsList
-              className="justify-start h-full p-0 bg-transparent
-              rounded-none"
+              className="justify-start flex gap-0 h-full p-0 bg-transparent rounded-none
+              "
             >
               <NavLink to="/">
                 <TabsTrigger
                   value="booking"
-                  className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none "
+                  className="pb-[10px] pt-[9px] -mb-[1px] rounded-none data-[state=active]:shadow-none
+                  text-xs md:text-sm pr-0 sm:pr-2"
                 >
                   Заявки
                 </TabsTrigger>
@@ -46,12 +54,14 @@ export default function AppLayout() {
                   <NavLink to="/my-booking">
                     <TabsTrigger
                       value="my-booking"
-                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
+                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none
+                      text-xs md:text-sm pr-0 sm:pr-2"
                     >
                       Мои заявки
                       <Badge
                         variant="outline"
-                        className="h-5 bg-background ml-2"
+                        className="h-5 bg-background ml-2
+                        hidden md:block"
                       >
                         {tableDataActive?.length}
                       </Badge>
@@ -61,7 +71,8 @@ export default function AppLayout() {
                   <NavLink to="/create-booking">
                     <TabsTrigger
                       value="create-booking"
-                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none"
+                      className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none data-[state=active]:shadow-none
+                      text-xs md:text-sm pr-0 sm:pr-2"
                     >
                       Создать заявку
                     </TabsTrigger>
@@ -72,19 +83,21 @@ export default function AppLayout() {
               <NavLink to="/subscribe">
                 <TabsTrigger
                   value="subscribe"
-                  className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none !shadow-none"
+                  className="pb-[10px] pt-[9px] -mb-[1px] space-x-2 rounded-none !shadow-none
+                  text-xs md:text-sm  pr-0 sm:pr-2"
                 >
                   Тарифы
                 </TabsTrigger>
               </NavLink>
             </TabsList>
           </Tabs>
-          <span className="text-sm">{width} px</span>
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       </header>
       <div className="flex-1 flex">
         {/* <Outlet /> */}
+        <span className="text-sm">{width} px</span>
+
         <Toaster />
       </div>
     </div>
