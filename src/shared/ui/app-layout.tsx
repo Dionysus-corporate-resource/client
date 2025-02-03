@@ -22,7 +22,7 @@ export default function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="px-6 mx-auto flex py-2 items-center border-b">
+        <div className="px-6 mx-auto flex py-2 items-center border-b ">
           <MainNav />
         </div>
 
