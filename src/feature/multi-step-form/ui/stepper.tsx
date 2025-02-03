@@ -4,7 +4,10 @@ import { StepperProps } from "../model/types";
 
 export function Stepper({ steps, currentStep }: StepperProps) {
   return (
-    <div className="relative">
+    <div
+      className="relative
+      hidden xl:block xl:px-6 xl:mt-6"
+    >
       <div className="absolute left-0 top-8 h-0.5 w-full -translate-y-1/2 bg-muted" />
       <div
         className="absolute left-0 top-8 h-0.5 w-full -translate-y-1/2 bg-primary transition-all duration-500"

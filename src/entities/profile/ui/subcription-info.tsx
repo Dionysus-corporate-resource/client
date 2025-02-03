@@ -220,7 +220,7 @@ export default function SubscriptionInfo() {
                 </div>
               </div>
             </div>
-            <Badge variant="secondary">
+            <Badge className="ex:hidden" variant="secondary">
               {remainTimeUnLimitBooking?.remainingPercentage !== 0
                 ? "Активна"
                 : "Не активна"}
@@ -283,7 +283,10 @@ export default function SubscriptionInfo() {
           )}
 
           {/* Действия */}
-          <div className="flex items-center justify-between">
+          <div
+            className="flex items-center justify-between
+            ex:flex-col ex:items-start"
+          >
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
@@ -330,7 +333,7 @@ export default function SubscriptionInfo() {
               </div>
             </div>
           </div>
-          <Badge variant="secondary">
+          <Badge className="ex:hidden" variant="secondary">
             {remainTimeShowContact?.remainingPercentage !== 0
               ? "Активна"
               : "Не активна"}
@@ -390,7 +393,10 @@ export default function SubscriptionInfo() {
         )}
 
         {/* Действия */}
-        <div className="flex items-center justify-between">
+        <div
+          className="flex items-center justify-between
+          ex:flex-col ex:items-start"
+        >
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>

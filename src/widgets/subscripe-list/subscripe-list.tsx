@@ -11,8 +11,10 @@ export default function SubscripeList({
   return (
     <div
       className={cn(
-        "grid gap-8 lg:gap-8 mt-2",
-        subscriptions.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2",
+        "grid justify-center gap-4 mt-2",
+        subscriptions.length === 3
+          ? "lg:grid-cols-2 xl:grid-cols-3 2xl:gap-8"
+          : "lg:grid-cols-2 xl:grid-cols-2 2xl:gap-8",
       )}
     >
       {subscriptions.map((subscription) => (

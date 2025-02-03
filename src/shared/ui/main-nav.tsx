@@ -9,7 +9,7 @@ import {
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import { MobileNav } from "@/widgets/mobile-nav/mobile-nav";
+import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
 
 export type Props = {
   headerContent: {

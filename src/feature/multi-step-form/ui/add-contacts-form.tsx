@@ -84,7 +84,10 @@ export default function ContactsManager({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-3 gap-6">
+      <div
+        className="grid gap-6
+        grid-cols-2 lg:grid-cols-3"
+      >
         <div className="col-span-2 grid grid-cols-1 gap-2 h-fit">
           {formData.additionalConditions.contacts.map((contact, index) => (
             <div key={index} className="rounded-md shadow-sm border">
@@ -99,11 +102,19 @@ export default function ContactsManager({
                   <Button
                     variant="secondary"
                     size="sm"
-                    className=""
+                    className="hidden sm:flex"
                     onClick={() => handleEdit(index)}
                   >
                     <Pencil className="w-4 h-4 mr-2" />
                     Редактировать
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="ex:block hidden"
+                    onClick={() => handleEdit(index)}
+                  >
+                    <Pencil className="w-4 h-4" />
                   </Button>
                   <Button
                     variant="outline"
@@ -118,20 +129,7 @@ export default function ContactsManager({
             </div>
           ))}
         </div>
-        <div className="">
-          {/* <div className="flex justify-between items-center ">
-            {!isAdding && (
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={() => setIsAdding(true)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Добавить контакт
-              </Button>
-            )}
-          </div> */}
-
+        <div className="col-span-2 lg:col-span-1">
           {isAdding && (
             <div className="border p-6 shadow-sm rounded-lg space-y-4">
               <span className="font-medium">
@@ -140,8 +138,15 @@ export default function ContactsManager({
                   : "Добавить новый контакт"}
               </span>
 
-              <div className="w-full">
-                <form onSubmit={handleSubmit} className="space-y-4">
+              <div
+                className="w-full
+                "
+              >
+                <form
+                  onSubmit={handleSubmit}
+                  className="grid gap-4
+                  grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:space-y-4"
+                >
                   <div className="space-y-2">
                     <Label htmlFor="name" className="text-sm font-medium">
                       Имя *
@@ -176,7 +181,10 @@ export default function ContactsManager({
                       required
                     />
                   </div>
-                  <div className="flex justify-end gap-2 pt-4">
+                  <div
+                    className="flex w-full gap-4
+                    lg:col-span-1"
+                  >
                     <Button
                       type="button"
                       variant="outline"

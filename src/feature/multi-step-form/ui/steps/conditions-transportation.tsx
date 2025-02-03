@@ -35,7 +35,10 @@ export function ConditionsTransportation({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
+    <div
+      className="grid gap-6 rounded-lg
+      ex:grid-cols-1 ex:p-2 sm:grid-cols-2 lg:grid-cols-3"
+    >
       {/* Способ погрузки */}
       <div className="space-y-2">
         <Label

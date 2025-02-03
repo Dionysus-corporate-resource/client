@@ -65,7 +65,10 @@ export default function LandingPage() {
                 грузов. Прямое взаимодействие между заказчиками и перевозчиками.
               </p>
             </div>
-            <div className="space-x-4">
+            <div
+              className="flex gap-2
+              ex:flex-col"
+            >
               <Button
                 size="lg"
                 className="transition-transform hover:scale-105"

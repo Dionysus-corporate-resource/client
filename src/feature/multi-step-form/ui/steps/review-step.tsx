@@ -15,7 +15,10 @@ export function ReviewStep({ formData }: FormStepProps) {
   return (
     <div className="space-y-2">
       <MapSelector formData={formData} />
-      <div className="grid grid-cols-2 gap-6">
+      <div
+        className="grid gap-6
+        grid-cols-1 md:grid-cols-2"
+      >
         {/* Левая колонка */}
         <div className="space-y-6">
           <Table>

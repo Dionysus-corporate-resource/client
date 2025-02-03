@@ -27,25 +27,32 @@ export default function PersonalInfo({
   const authContext = useAuth();
   return (
     <Card className="h-min border shadow-none">
-      <CardHeader className="flex flex-row items-center gap-4">
-        <div className="w-min ">
+      <CardHeader className="flex flex-row items-start gap-4">
+        <div className="w-min">
           <Avatar className="h-12 w-12">
             <AvatarImage src="/placeholder.svg" />
             <AvatarFallback>ИП</AvatarFallback>
           </Avatar>
         </div>
-        <div className="flex justify-between w-full">
+        <div
+          className="grid justify-between w-full
+          grid-cols-1 md:grid-cols-2 gap-4 md:gap-2"
+        >
           <div className="space-y-1">
             <CardTitle>Личные данные</CardTitle>
             <CardDescription>
               Управляйте вашей личной информацией
             </CardDescription>
           </div>
-          <div className="space-x-2">
-            <Badge variant="secondary" className="h-8">
+          <div className="flex flex-col items-end w-full gap-2">
+            <Badge variant="secondary" className="h-8 w-fit">
               {userData?.email}
             </Badge>
-            <Button size="sm" onClick={() => authContext?.logOut()}>
+            <Button
+              className="w-fit"
+              size="sm"
+              onClick={() => authContext?.logOut()}
+            >
               Выйти
               <LogOut className="w-4 h-4" />
             </Button>

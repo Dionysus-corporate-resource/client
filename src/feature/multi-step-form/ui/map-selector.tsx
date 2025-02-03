@@ -70,7 +70,8 @@ export default function MapSelector({ setCoordinates, formData }: Props) {
       <MapContainer
         center={defaultPosition}
         zoom={4}
-        style={{ height: "415px", width: "100%", borderRadius: "8px" }}
+        style={{ width: "100%", borderRadius: "8px" }}
+        className="ex:h-[200px] h-[415px]"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

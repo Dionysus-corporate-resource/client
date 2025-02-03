@@ -107,8 +107,11 @@ export function BasicInfoStep({
   };
 
   return (
-    <div className="grid gap-6 p-4 rounded-lg grid-cols-3 ">
-      {/* Левая колонка с формой */}
+    <div
+      className="grid space-y-6 rounded-lg
+       xl:pt-6 grid-cols-1 lg:grid-cols-3 lg:gap-6"
+    >
+      {/* Карта */}
       <div className="h-full col-span-2">
         <MapSelector
           formData={formData}
@@ -117,24 +120,31 @@ export function BasicInfoStep({
         />
       </div>
 
-      {/* Правая колонка с картой */}
-      <div className="grid gap-4 grid-cols-1 h-full">
+      {/* Поля формы */}
+      <div
+        className="grid gap-2 grid-cols-1 h-full w-full
+        ex:px-2"
+      >
         {/* Место погрузки */}
         <div className="space-y-2">
           <Label
             htmlFor="loadingLocation"
             className="flex items-end justify-between"
           >
-            <div className="space-x-2">
+            <div
+              className="space-x-2"
+              // ex:text-xs"
+            >
               <span>Место погрузки *</span>
               {/* <Badge variant="secondary">Обязательное поле</Badge> */}
             </div>
-            <div className="flex items-center space-x-2 mr-2">
+            <div className="flex items-center space-x-2">
               <label
                 htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70
+                ex:text-xs text-sm"
               >
-                Ввести место погрузки вручную
+                Выбрать вручную
               </label>
               <Checkbox
                 checked={isViewMap}
@@ -178,6 +188,7 @@ export function BasicInfoStep({
                   role="combobox"
                   aria-expanded={open}
                   className="w-full justify-between"
+                  // ex:text-xs"
                 >
                   Выбрано: {formData?.basicInfo?.loadingLocation?.name}
                   {/* {selectedLocation?.name} */}
@@ -192,7 +203,7 @@ export function BasicInfoStep({
                     onValueChange={setSearch}
                   />
                   <CommandList className="z-[9999]">
-                    <CommandEmpty>No results found.</CommandEmpty>
+                    <CommandEmpty>Нет результатов</CommandEmpty>
                     {cityesLocations.map((city) => {
                       const filtered = filteredLocations(city.adress);
                       if (filtered.length === 0) return null;
@@ -245,12 +256,18 @@ export function BasicInfoStep({
                 }
               />
               {!formData?.basicInfo?.loadingLocation?.coordinates && (
-                <p className="mt-1 text-sm text-red-500">
+                <p
+                  className="mt-1 text-sm text-red-500
+                  ex:text-xs"
+                >
                   Пожалуйста, выберите точку на карте.
                 </p>
               )}
               {!formData?.basicInfo?.loadingLocation?.name && (
-                <p className="mt-1 text-sm text-red-500">
+                <p
+                  className="mt-1 text-sm text-red-500
+                  ex:text-xs"
+                >
                   Пожалуйста, введите место погрузки.
                 </p>
               )}
@@ -260,9 +277,17 @@ export function BasicInfoStep({
 
         {/* Расстояние */}
         <div className="space-y-2">
-          <Label htmlFor="distance" className="flex items-end justify-between">
+          <Label
+            htmlFor="distance"
+            className="flex items-end justify-between"
+            // ex:text-xs"
+          >
             Расстояние (км) *
-            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground"
+              // ex:text-xs"
+            >
               Обязательное поле
             </Badge>
           </Label>
@@ -277,7 +302,11 @@ export function BasicInfoStep({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="tonnage" className="flex items-end justify-between">
+          <Label
+            htmlFor="tonnage"
+            className="flex items-end justify-between
+            ex:text-xs"
+          >
             Тоннаж (тонн) *
             {/* <Badge variant="outline" className="ml-2 text-muted-foreground">
               Желательное поле
@@ -295,9 +324,14 @@ export function BasicInfoStep({
           <Label
             htmlFor="unLoadingLocation"
             className="flex items-end justify-between"
+            // ex:text-xs"
           >
             Место выгрузки *{" "}
-            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground"
+              // ex:text-xs"
+            >
               Обязательное поле
             </Badge>
           </Label>
@@ -316,9 +350,17 @@ export function BasicInfoStep({
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="culture" className="flex items-end justify-between">
+          <Label
+            htmlFor="culture"
+            className="flex items-end justify-between"
+            // ex:text-xs"
+          >
             Культура *{" "}
-            <Badge variant="secondary" className="ml-2 text-muted-foreground">
+            <Badge
+              variant="secondary"
+              className="text-muted-foreground"
+              // ex:text-xs"
+            >
               Обязательное поле
             </Badge>
           </Label>
