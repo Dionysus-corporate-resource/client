@@ -27,8 +27,8 @@ function App() {
       <Route element={<AppLayout />}>
         <Route path="" element={<HomePage />}>
           <Route path="table-view" element={<BookingTablePage />} />
-          <Route index element={<MapPage />} />
-          <Route path="card-view" element={<BookingCardPage />} />
+          <Route path="map-view" element={<MapPage />} />
+          <Route index element={<BookingCardPage />} />
         </Route>
         <Route path="subscribe" element={<SubscriptionsPageShort />} />
         <Route

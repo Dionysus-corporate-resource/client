@@ -7,14 +7,28 @@ import { useQuery } from "@tanstack/react-query";
 import FilterBookingPanel from "@/feature/filter-panel/filter-booking-panel";
 import { useAtom } from "jotai";
 import { isMapViewFullAtom } from "./model/sort-atom";
-import { List, Map, PanelRightDashed } from "lucide-react";
+import {
+  ArrowUpDown,
+  Filter,
+  List,
+  Map,
+  PanelRightDashed,
+  Search,
+  X,
+} from "lucide-react";
 import { MobileFilterPanel } from "@/widgets/mobile/mobile-filter-panel/mobile-filter-panel";
 import { MobileSortedPanel } from "@/widgets/mobile/mobile-sorted-panel/mobile-sorted-panel";
+import { useState } from "react";
+import { cn } from "@/shared/lib/utils";
+import { Toggle } from "@/shared/components/ui/toggle";
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
   const filterBooking = data?.filter((booking) => booking?.status === "active");
   const [isMapViewFull, setIsMapViewFull] = useAtom(isMapViewFullAtom);
+  const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(true);
+  const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
+  const [isOpenFilterAndSorted, setIsOpenFilterAndSorted] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,18 +54,18 @@ export default function HomePage() {
                 <span className="">Список</span>
               </TabsTrigger>
               <TabsTrigger
-                value="/"
+                value="/map-view"
                 className="space-x-2"
-                onClick={() => navigate("")}
+                onClick={() => navigate("/map-view")}
               >
                 <Map className="w-4 h-4" />
                 <span className="ex:text-xs">Карта</span>
               </TabsTrigger>
 
               <TabsTrigger
-                value="/card-view"
+                value="/"
                 className="space-x-2"
-                onClick={() => navigate("/card-view")}
+                onClick={() => navigate("/")}
               >
                 <PanelRightDashed className="w-4 h-4" />
 
@@ -81,19 +95,71 @@ export default function HomePage() {
             className="flex items-center gap-4
             ex:gap-2"
           >
-            <MobileFilterPanel
-              filterPanelSlot={
-                <FilterBookingPanel
-                  placeUse="mobile"
-                  filterBooking={filterBooking}
-                />
-              }
-            />
+            {/* Кнопка открытия панели сортировки */}
+            <div className="xl:hidden">
+              <button
+                onClick={() => setIsOpenMobileSorted((prev) => !prev)}
+                className={cn(
+                  "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
+                  isOpenMobileSorted && "border bg-red-50 border-red-50",
+                  "sm:hidden",
+                )}
+              >
+                {isOpenMobileSorted ? (
+                  <X className="text-red-400 w-4 h-4 m-0.5" />
+                ) : (
+                  <ArrowUpDown className="w-4 h-4 m-[3px]" />
+                )}
+              </button>
 
-            <SortBookingPanel placeUse="desktop" />
-            <MobileSortedPanel
-              sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
-            />
+              <Toggle
+                className="ex:hidden xl:hidden"
+                pressed={isOpenMobileFilter}
+                aria-label="Toggle italic"
+                onClick={() => setIsOpenMobileFilter((prev) => !prev)}
+              >
+                <ArrowUpDown className="h-4 w-4" />
+                <span className="ex:hidden">фильтрация</span>
+              </Toggle>
+            </div>
+            {/* Кнопка открытия панели фильтрации */}
+            <div className="xl:hidden">
+              <button
+                onClick={() => setIsOpenMobileFilter((prev) => !prev)}
+                className={cn(
+                  "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
+                  isOpenMobileFilter && "border bg-red-50 border-red-50",
+                  "sm:hidden",
+                )}
+              >
+                {isOpenMobileFilter ? (
+                  <X className="text-red-400 w-4 h-4 m-0.5" />
+                ) : (
+                  <Filter className="w-4 h-4 m-[3px]" />
+                )}
+              </button>
+
+              <Toggle
+                className="ex:hidden xl:hidden"
+                aria-label="Toggle italic"
+                pressed={isOpenMobileSorted}
+                onClick={() => setIsOpenMobileSorted((prev) => !prev)}
+              >
+                <Filter className="h-4 w-4" />
+                <span className="ex:hidden">сортировка</span>
+              </Toggle>
+            </div>
+
+            {/* Кнопка открытия общей панели фильтрации и сортировки */}
+            <Toggle
+              className="hidden xl:flex px-4"
+              aria-label="Toggle italic"
+              pressed={isOpenFilterAndSorted}
+              onClick={() => setIsOpenFilterAndSorted((prev) => !prev)}
+            >
+              <Search className="h-4 w-4" />
+              Расширенный поиск
+            </Toggle>
           </div>
         </div>
       </Tabs>
@@ -102,20 +168,34 @@ export default function HomePage() {
         className="h-full
         space-y-2 xl:space-y-4"
       >
-        <div className="flex justify-between gap-4">
-          <FilterBookingPanel
-            placeUse="desktop"
-            filterBooking={filterBooking}
-          />
-          {/* <div className="flex gap-4">
-            <label
-              htmlFor="terms"
-              className="flex items-center gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              <span className="w-[160px]">За последние 5 дней</span>
-              <Checkbox />
-            </label>
-          </div> */}
+        <div
+          className="flex flex-col justify-between gap-2
+          xl:grid xl:grid-cols-1"
+        >
+          {isOpenFilterAndSorted && (
+            <FilterBookingPanel
+              placeUse="desktop"
+              filterBooking={filterBooking}
+              sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+            />
+          )}
+
+          {isOpenMobileSorted && (
+            <MobileSortedPanel
+              sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
+            />
+          )}
+          {isOpenMobileFilter && (
+            <MobileFilterPanel
+              filterPanelSlot={
+                <FilterBookingPanel
+                  placeUse="mobile"
+                  filterBooking={filterBooking}
+                  sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+                />
+              }
+            />
+          )}
         </div>
 
         <Outlet />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { useSetAtom } from "jotai";
 import { filterbookingAtom } from "@/pages/home/model/sort-atom";
 import { IBookingDto } from "@/shared/model/types/booking";
@@ -21,7 +21,7 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
+  // CommandInput,
   CommandItem,
   CommandList,
 } from "@/shared/components/ui/command";
@@ -32,9 +32,11 @@ import { Calendar } from "@/shared/components/ui/calendar";
 import { ru } from "date-fns/locale"; // Импортируем русскую локализацию
 
 export default function FilterBookingPanel({
+  sortedPanelSlot,
   filterBooking,
   placeUse,
 }: {
+  sortedPanelSlot: ReactNode;
   filterBooking: IBookingDto[] | undefined;
   placeUse: "mobile" | "desktop";
 }) {
@@ -112,7 +114,7 @@ export default function FilterBookingPanel({
         "justify-between w-full gap-2",
         placeUse === "mobile"
           ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          : "hidden xl:flex",
+          : "hidden xl:grid xl:grid-cols-4 xl:col-span-1",
       )}
     >
       {/* Поле для фильтрации по месту загрузки */}
@@ -138,19 +140,6 @@ export default function FilterBookingPanel({
         />
         <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
       </div>
-
-      {/* Поле для фильтрации по культуре */}
-      <div className="relative w-full">
-        <Input
-          type="text"
-          value={cultureFilter}
-          onChange={(e) => setCultureFilter(e.target.value)}
-          placeholder="Введите груз"
-          className="pl-8"
-        />
-        <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
-      </div>
-
       {/* Выбор даты */}
       <div
         className={cn(
@@ -196,6 +185,17 @@ export default function FilterBookingPanel({
           </PopoverContent>
         </Popover>
       </div>
+      {/* Поле для фильтрации по культуре */}
+      <div className="relative w-full">
+        <Input
+          type="text"
+          value={cultureFilter}
+          onChange={(e) => setCultureFilter(e.target.value)}
+          placeholder="Введите груз"
+          className="pl-8"
+        />
+        <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+      </div>
 
       {/* Выбор заказчика */}
       <div className="w-full">
@@ -217,7 +217,7 @@ export default function FilterBookingPanel({
           </PopoverTrigger>
           <PopoverContent className="w-full p-0" align="start">
             <Command>
-              <CommandInput placeholder="Поиск заказчика..." />
+              {/* <CommandInput placeholder="Поиск заказчика..." /> */}
               <CommandList>
                 <CommandEmpty>Ничего не найдено.</CommandEmpty>
                 <CommandGroup heading="Заказчики">
@@ -259,6 +259,8 @@ export default function FilterBookingPanel({
           </PopoverContent>
         </Popover>
       </div>
+
+      {sortedPanelSlot}
 
       {/* Кнопка сброса фильтров */}
       <Button
