@@ -3,6 +3,7 @@ import { ALargeSmall, BriefcaseBusiness, Headset, UserCog } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 
 // import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
 
@@ -96,18 +97,16 @@ export function MainNav() {
           ))}
         </nav> */}
       </div>
+
       {/* <MobileNav /> */}
-      <div className="md:hidden">
-        <NavLink to="/profile">
-          <Button
-            variant="link"
-            className="ex:text-xs
-            sm:text-sm"
-          >
-            <UserCog className="w-4 h-4" />
-            Профиль
-          </Button>
+      <div
+        className="flex gap-4
+        sm:hidden"
+      >
+        <NavLink to="/profile" className="flex items-center gap-2 text-xs">
+          Профиль
         </NavLink>
+        <ThemeToggle />
       </div>
 
       {userData?.companyPublicData?.nameCompany && (
@@ -126,8 +125,8 @@ export function MainNav() {
 
       {userData ? (
         <div
-          className=" items-center gap-4
-          hidden md:flex"
+          className=" items-center gap-0
+          hidden sm:flex"
         >
           <NavLink to="/profile">
             <Button
@@ -135,15 +134,16 @@ export function MainNav() {
               className="text-xs
               sm:text-sm"
             >
-              <UserCog className="w-4 h-4" />
+              {/* <UserCog className="w-4 h-4" /> */}
               Профиль
             </Button>
           </NavLink>
+          <ThemeToggle />
         </div>
       ) : (
         <div
           className="hidden
-          md:block md:space-x-2"
+          sm:block sm:space-x-2"
         >
           <NavLink to="/register">
             <Button size="sm" variant="link">

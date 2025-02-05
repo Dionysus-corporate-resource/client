@@ -6,24 +6,19 @@ export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Button
-      size="sm"
-      variant="link"
-      className="[color:hsl(var(--muted-foreground))]
-      hidden sm:flex"
+    <button
+      className="[color:hsl(var(--muted-foreground))]"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "light" ? (
         <>
-          Темная тема
-          <Moon />
+          <Moon className="w-4 h-4" />
         </>
       ) : (
         <>
-          Светлая тема
-          <Sun />
+          <Sun className="w-4 h-4" />
         </>
       )}
-    </Button>
+    </button>
   );
 }

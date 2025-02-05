@@ -106,7 +106,9 @@ export default function SortBookingPanel({
     <div
       className={cn(
         "gap-2",
-        placeUse === "mobile" ? "flex gap-2 ex:flex-col" : "hidden xl:flex",
+        placeUse === "mobile"
+          ? "flex gap-2 ex:flex-col"
+          : "hidden xl:flex xl:col-span-2",
       )}
     >
       {/* Выбор поля сортировки */}
