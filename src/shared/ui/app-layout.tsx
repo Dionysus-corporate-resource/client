@@ -8,6 +8,7 @@ import { userStorageAtom } from "../model/atoms/user-atom";
 import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
 import { useWindowSize } from "../hooks/use-window-size";
+import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 
 export default function AppLayout() {
   const userData = useAtomValue(userStorageAtom);
@@ -93,7 +94,7 @@ export default function AppLayout() {
           </Tabs>
           {/* <span className="text-sm">{width} px</span> */}
 
-          {/* <ThemeToggle /> */}
+          <ThemeToggle />
         </div>
       </header>
       <div className="flex-1 flex">

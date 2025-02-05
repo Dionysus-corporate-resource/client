@@ -58,7 +58,7 @@ export function MobileSortedPanel({
             : "invisible -translate-y-4 opacity-0",
         )}
       >
-        <div className="p-4 ">{sortPanelSlot}</div>
+        <div className="p-2">{sortPanelSlot}</div>
       </nav>
     </div>
   );

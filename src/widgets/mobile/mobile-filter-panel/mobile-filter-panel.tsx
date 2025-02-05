@@ -58,7 +58,7 @@ export function MobileFilterPanel({
             : "invisible -translate-y-4 opacity-0",
         )}
       >
-        <div className="px-4 py-4">{filterPanelSlot}</div>
+        <div className="px-2 py-2">{filterPanelSlot}</div>
       </nav>
     </div>
   );

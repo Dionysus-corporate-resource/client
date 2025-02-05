@@ -1,4 +1,4 @@
-import { Construction, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
@@ -74,12 +74,21 @@ export function LoginForm({
               className="flex flex-col items-center gap-2 font-medium"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                <Construction className="size-6" />
+                {/* <Construction className="size-6" /> */}
+                <img
+                  className="w-6 h-6
+            sm:w-8 sm:h-8"
+                  src="truck3.png"
+                />
               </div>
               <span className="sr-only">Acme Inc.</span>
             </a>
             <h1 className="text-xl font-bold">
-              Приветсвуем в<NavLink to="/"> Груз Рынок</NavLink>
+              Приветсвуем в
+              <NavLink to="/" className="underline underline-offset-4">
+                {" "}
+                Груз Рынок
+              </NavLink>
             </h1>
             <div className="text-center text-sm">
               Еще не были на нашем сайте?{" "}
@@ -134,7 +143,7 @@ export function LoginForm({
               type="submit"
               variant="secondary"
               className="w-full -mt-2"
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/")}
             >
               Вернуться назад
             </Button>

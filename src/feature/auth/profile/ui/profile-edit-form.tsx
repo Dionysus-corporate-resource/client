@@ -162,7 +162,7 @@ export default function ProfileEditForm() {
         </div>
 
         {isChangeForm && (
-          <Button variant="secondary" className="w-full col-span-2 mt-2">
+          <Button variant="secondary" className="w-full col-span-1 mt-2">
             <Save className="w-4 h-4" />
             Сохранить
           </Button>

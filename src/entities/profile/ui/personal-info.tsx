@@ -43,6 +43,10 @@ export default function PersonalInfo({
             <CardDescription>
               Управляйте вашей личной информацией
             </CardDescription>
+            {/* aleksandringovatov0@gmail.com */}
+            {/* {authContext?.user?.email === "skorohodroman921@gmail.com" && (
+              <div>10 перевозчиков/ 6 заказчиков</div>
+            )} */}
           </div>
           <div className="flex flex-col items-end w-full gap-2">
             <Badge variant="secondary" className="h-8 w-fit">

@@ -42,7 +42,8 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Начните работу прямо сейчас",
-      freeUse: "Получи 10 заявок бесплатно, напиши в телеграмм - @frontMor",
+      freeUse:
+        "Получи 10 заявок бесплатно, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Пакет заявок",
@@ -79,7 +80,7 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Продолжайте выкладывать",
-      freeUse: "Получи + 15 заявок, напиши в телеграмм - @frontMor",
+      freeUse: "Получи + 15 заявок, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Безлимит заявок",
@@ -117,7 +118,8 @@ export default function SubscriptionsPageShort() {
         ],
       },
       highlight: "Не останавливайтесь",
-      freeUse: "Получи 2 месяца безлимита, напиши в телеграмм - @frontMor",
+      freeUse:
+        "Получи 2 месяца безлимита, напиши в телеграмм - @gruzrynokSupport",
     },
   ];
   const subscriptionsForDriver: IPlan[] = [
@@ -149,7 +151,7 @@ export default function SubscriptionsPageShort() {
       },
       highlight: "Найди погрузку прямо сейчас",
       freeUse:
-        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @frontMor",
+        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @gruzrynokSupport",
     },
     {
       name: "Просмотр контактов",
@@ -179,7 +181,7 @@ export default function SubscriptionsPageShort() {
       },
       highlight: "Найди погрузку прямо сейчас",
       freeUse:
-        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @frontMor",
+        "Получи 3 месяца просмотра контактов бесплатно, следуя нашей акции, напиши в телеграмм - @gruzrynokSupport",
     },
   ];
 
@@ -250,7 +252,7 @@ export default function SubscriptionsPageShort() {
             </div>
             <a
               className="underline underline-offset-4 text-sm text-muted-foreground"
-              href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
+              // href="https://drive.google.com/file/d/11qF2YpjL_4FQDJlr5wzz_wWcJ929z7Vg/view?usp=sharing"
               target="_blank"
             >
               Публичная оферта

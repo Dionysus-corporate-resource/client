@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { Construction, UserCog } from "lucide-react";
+
+import { UserCog } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { useAtomValue } from "jotai";
@@ -28,11 +29,22 @@ export function MainNavLanding({ headerContent }: Props) {
       ex:px-4 ex:gap-4 gap-6 "
     >
       <NavLink to="/landing" className="flex items-center space-x-2">
-        <Construction
+        {/* <Construction
           className="w-4 h-4
         sm:w-6 sm:h-6
         "
+        /> */}
+        <img
+          className="w-4 h-4
+    sm:w-6 sm:h-6"
+          src="truck3.png"
         />
+
+        {/* <Package
+          style={{ color: "#5D91EF" }}
+          className="w-4 h-4
+      sm:w-6 sm:h-6"
+        /> */}
 
         <span className="inline-block font-semibold text-sm sm:text-lg">
           {headerContent.logoTitle}
@@ -48,7 +60,7 @@ export function MainNavLanding({ headerContent }: Props) {
               }`
             }
           >
-            Смотркть заявки
+            Смотреть заявки
           </NavLink>
         ))}
       </nav>
