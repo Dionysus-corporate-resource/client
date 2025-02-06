@@ -111,7 +111,7 @@ export default function FilterBookingPanel({
   return (
     <div
       className={cn(
-        "justify-between w-full gap-2",
+        "justify-between w-full gap-1 py-0",
         placeUse === "mobile"
           ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           : "hidden xl:grid xl:grid-cols-4 xl:col-span-1",
@@ -124,7 +124,7 @@ export default function FilterBookingPanel({
           value={loadingLocationFilter}
           onChange={(e) => setLoadingLocationFilter(e.target.value)}
           placeholder="Введите место загрузки"
-          className="pl-8"
+          className="h-10 pl-8 rounded-none"
         />
         <ArrowDownRight className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
       </div>
@@ -136,7 +136,7 @@ export default function FilterBookingPanel({
           value={unLoadingLocationFilter}
           onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
           placeholder="Введите место разгрузки"
-          className="pl-8"
+          className="h-10 pl-8 rounded-none"
         />
         <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
       </div>
@@ -153,7 +153,7 @@ export default function FilterBookingPanel({
               id="date"
               variant={"outline"}
               className={cn(
-                "w-full justify-start text-left font-normal",
+                "h-10 w-full justify-start text-left font-normal rounded-none",
                 !date && "text-muted-foreground",
               )}
             >
@@ -192,7 +192,7 @@ export default function FilterBookingPanel({
           value={cultureFilter}
           onChange={(e) => setCultureFilter(e.target.value)}
           placeholder="Введите груз"
-          className="pl-8"
+          className="h-10 pl-8 rounded-none"
         />
         <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
       </div>
@@ -207,7 +207,7 @@ export default function FilterBookingPanel({
             <Button
               variant="outline"
               role="combobox"
-              className="w-full justify-between"
+              className="h-10 w-full justify-between rounded-none"
             >
               {companyNameFilter.length > 0
                 ? `Выбрано: ${companyNameFilter}`
@@ -264,7 +264,7 @@ export default function FilterBookingPanel({
 
       {/* Кнопка сброса фильтров */}
       <Button
-        className="w-full"
+        className="h-10 w-full rounded-none"
         variant="secondary"
         onClick={() => {
           setLoadingLocationFilter("");
@@ -274,7 +274,7 @@ export default function FilterBookingPanel({
           setDate(undefined);
         }}
       >
-        Сбросить
+        Сбросить фильтрацию
       </Button>
     </div>
   );

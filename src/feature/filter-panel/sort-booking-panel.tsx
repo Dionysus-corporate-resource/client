@@ -105,7 +105,7 @@ export default function SortBookingPanel({
   return (
     <div
       className={cn(
-        "gap-2",
+        "gap-1",
         placeUse === "mobile"
           ? "flex gap-2 ex:flex-col"
           : "hidden xl:flex xl:col-span-2",
@@ -117,7 +117,7 @@ export default function SortBookingPanel({
           value={sortField || "none"}
           onValueChange={(e) => handleSortFieldChange(e as ISortField)}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="h-10 w-full rounded-none">
             <SelectValue placeholder="Поля сортировки" />
           </SelectTrigger>
           <SelectContent>
@@ -157,7 +157,7 @@ export default function SortBookingPanel({
           value={sortDirection || "asc"}
           onValueChange={(e) => setSortDirection(e as "asc" | "desc")}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="h-10 w-full rounded-none">
             <SelectValue placeholder="Тип сортировки" />
           </SelectTrigger>
           <SelectContent>

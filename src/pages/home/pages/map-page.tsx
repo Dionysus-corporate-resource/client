@@ -7,7 +7,6 @@ import { ArrowUpRight, Package } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import {
-  BookingCard,
   MarkerBookingDetailShort,
   SkeletonBookingCard,
 } from "@/entities/booking";
@@ -19,6 +18,7 @@ import { Button } from "@/shared/components/ui/button";
 import { useAtomValue } from "jotai";
 import { isMapViewFullAtom, sortbookingAtom } from "../model/sort-atom";
 import { cn } from "@/shared/lib/utils";
+import BookingCardLong from "@/entities/booking/ui/booking-card-long";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -261,7 +261,7 @@ export default function MapPage() {
     >
       <div
         className={cn(
-          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-230px)] col-span-6  border rounded-lg",
+          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-230px)] col-span-5  border rounded-lg",
           isMapViewFull && "col-span-1",
         )}
       >
@@ -341,7 +341,7 @@ export default function MapPage() {
       </div>
       <div
         className={cn(
-          "hidden 2xl:flex col-span-2 flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
+          "hidden 2xl:flex col-span-3 flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
           isMapViewFull && "hidden",
         )}
       >
@@ -353,7 +353,7 @@ export default function MapPage() {
               <SkeletonBookingCard key={index} />
             ))
           : sortBooking?.map((booking, index) => (
-              <BookingCard
+              <BookingCardLong
                 key={booking._id}
                 orderNumber={index + 1}
                 booking={booking}
@@ -363,11 +363,11 @@ export default function MapPage() {
                     actionSlot={
                       <Button
                         variant="secondary"
-                        // className="bg-[hsl(var(--access-primary))] text-white "
+                        size="icon"
+                        style={{ borderRadius: "0 8px 0 8px" }}
                       >
-                        Подробнее
                         {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                        <ArrowUpRight className="w-4 h-4 ml-2" />
+                        <ArrowUpRight className="w-4 h-4 " />
                       </Button>
                     }
                   />

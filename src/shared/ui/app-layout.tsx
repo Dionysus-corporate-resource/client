@@ -1,21 +1,9 @@
-import { NavLink, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import { MainNav } from "./main-nav";
-import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { Badge } from "../components/ui/badge";
 import { Toaster } from "../components/ui/toaster";
-import { useAtomValue } from "jotai";
-import { userStorageAtom } from "../model/atoms/user-atom";
-import { useQuery } from "@tanstack/react-query";
-import { bookingQueryOption } from "@/pages/home/api/query-option";
 import { useWindowSize } from "../hooks/use-window-size";
 
 export default function AppLayout() {
-  const userData = useAtomValue(userStorageAtom);
-  const { data: bookingData } = useQuery(bookingQueryOption.getAll());
-
-  const tableDataActive = bookingData?.filter(
-    (booking) => booking?.user?._id === userData?._id,
-  );
   const { width } = useWindowSize();
   console.log(width);
   // sticky top-0 z-50
@@ -26,7 +14,7 @@ export default function AppLayout() {
           <MainNav />
         </div>
 
-        <div
+        {/* <div
           className="pt-0 flex items-center  gap-16 bg-muted border-background border-b
          justify-center px-2 md:px-6 sm:justify-between"
         >
@@ -91,8 +79,7 @@ export default function AppLayout() {
               </NavLink>
             </TabsList>
           </Tabs>
-          {/* <span className="text-sm">{width} px</span> */}
-        </div>
+        </div> */}
       </header>
       <div className="flex-1 flex">
         <Outlet />
