@@ -84,7 +84,7 @@ export default function BookingListTable() {
     (booking) => booking?.status === "active",
   );
   return (
-    <div className="w-full px-6 rounded-md">
+    <div className="w-full px-6 pb-6 rounded-md">
       {!filterBooking ? (
         <Table>
           <TableHeader>
@@ -127,29 +127,26 @@ export default function BookingListTable() {
         <Table className="">
           <TableHeader>
             <TableRow>
-              <TableHead>Заказчик</TableHead>
-              <TableHead>Культура</TableHead>
-              <TableHead>Погрузки</TableHead>
-              <TableHead>Выгрузки</TableHead>
+              {/* <TableHead>Заказчик</TableHead> */}
+              <TableHead className="w-[220px]">Культура</TableHead>
+              <TableHead className="w-[300px]">Погрузки</TableHead>
+              <TableHead className="w-[300px]">Выгрузки</TableHead>
               <TableHead className="flex justify-center items-center">
                 Объем
               </TableHead>
-              <TableHead>Расстояние</TableHead>
+              <TableHead>Расст.</TableHead>
               <TableHead className="text-right">Ставка</TableHead>
-              <TableHead className="text-center w-[250px]">
-                Подробности
-              </TableHead>
+              <TableHead className="text-center">Подробности</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="bg-background">
             {filterBooking?.map((booking) => (
               <TableRow key={booking._id}>
-                <TableCell>
+                {/* <TableCell>
                   <div className="flex gap-4">
-                    {/* <Factory className="w-4 h-4" /> */}
                     {booking?.companyPublicData?.nameCompany}
                   </div>
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
                     <Package className="w-4 h-4" />
@@ -169,11 +166,12 @@ export default function BookingListTable() {
                     {booking?.basicInfo?.unLoadingLocation}
                   </div>
                 </TableCell>
-                <TableCell className="flex justify-center">
+                <TableCell className="text-center">
                   {booking?.basicInfo?.tonnage ? (
                     <>{booking?.basicInfo?.tonnage} т</>
                   ) : (
-                    <Dot className="w-4 h-4" />
+                    // <Dot className="w-4 h-4" />
+                    <>Не указано</>
                   )}
                 </TableCell>
                 <TableCell>{booking?.basicInfo?.distance} км</TableCell>

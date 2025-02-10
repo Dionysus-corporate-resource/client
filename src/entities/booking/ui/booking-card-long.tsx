@@ -18,7 +18,7 @@ export default function BookingCardLong({
         {/* Left section with ID and culture */}
         <div className="w-[200px] border-dashed border-r border-border p-4 flex flex-col justify-between">
           <div className="space-y-2">
-            <Badge variant="default" className="bg-primary/85 space-x-2 w-full">
+            <Badge variant="secondary" className="space-x-2 w-full">
               {/* bg-primary/85 */}
               {/* <div className="flex gap-1">
                 <p className="text-xs">{orderNumber}</p>

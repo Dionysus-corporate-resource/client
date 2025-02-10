@@ -81,19 +81,20 @@ export function MainNav() {
         <NavLink to="/landing" className="flex items-center space-x-2">
           <img className="w-4 h-4  sm:w-6 sm:h-6" src="truck3.png" />
 
-          <span className="inline-block font-semibold text-sm sm:text-lg">
+          <span className="inline-block font-semibold text-sm sm:text-lg ">
             {headerContent.logoTitle}
           </span>
         </NavLink>
       </div>
+
       {/* Навигация */}
       <nav className="flex gap-4 -mb-1 sm:gap-6 ">
         {headerContent.linksMain.map((link) => (
           <NavLink
             to={link.navigate}
             className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
-                isActive ? "text-foreground" : "text-muted-foreground"
+              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
+                isActive ? "text-primary" : "text-primary/60"
               }
               hidden text-xs sm:text-sm xl:flex`
             }
@@ -157,17 +158,18 @@ export function MainNav() {
       </div>
 
       {userData ? (
-        <div className="items-center gap-0 hidden xl:flex">
+        <div className="items-center gap-0 hidden xl:flex text-primary">
           <NavLink to="/profile">
-            <Button variant="link" className="text-xs sm:text-sm">
+            <Button variant="link" className="text-xs sm:text-sm text-">
               {/* <UserCog className="w-4 h-4" /> */}
               Профиль
             </Button>
           </NavLink>
+
           <ThemeToggle />
         </div>
       ) : (
-        <div className="hidden xl:block sm:space-x-2">
+        <div className="hidden xl:block sm:space-x-2 text-white">
           <NavLink to="/register">
             <Button size="sm" variant="link">
               Зарегистрироваться

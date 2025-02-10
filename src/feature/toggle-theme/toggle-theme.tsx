@@ -6,7 +6,7 @@ export default function ThemeToggle() {
 
   return (
     <button
-      className="[color:hsl(var(--muted-foreground))]"
+      className="text-"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "light" ? (

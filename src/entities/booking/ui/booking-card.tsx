@@ -32,7 +32,7 @@ export default function BookingCard({
             </Badge> */}
             <Badge
               variant="default"
-              className="bg-primary/85 space-x-2
+              className="bg-primary/80 space-x-2
               "
             >
               <Package className="w-4 h-4" />

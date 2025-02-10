@@ -2,6 +2,7 @@ import {
   filterbookingAtom,
   sortbookingAtom,
 } from "@/pages/home/model/sort-atom";
+import { Label } from "@/shared/components/ui/label";
 
 import {
   Select,
@@ -105,19 +106,19 @@ export default function SortBookingPanel({
   return (
     <div
       className={cn(
-        "gap-1",
-        placeUse === "mobile"
-          ? "flex gap-2 ex:flex-col"
-          : "hidden xl:flex xl:col-span-2",
+        "flex items-end gap-4",
+        placeUse === "mobile" ? "flex gap-2 ex:flex-col" : "",
       )}
     >
       {/* Выбор поля сортировки */}
-      <div className="w-full">
+      <div className="w-full space-y-1">
+        <Label>Свойство сортировки</Label>
+
         <Select
           value={sortField || "none"}
           onValueChange={(e) => handleSortFieldChange(e as ISortField)}
         >
-          <SelectTrigger className="h-10 w-full rounded-none">
+          <SelectTrigger className="h-12 w-full bg-muted border-none">
             <SelectValue placeholder="Поля сортировки" />
           </SelectTrigger>
           <SelectContent>
@@ -152,12 +153,14 @@ export default function SortBookingPanel({
         </Select>
       </div>
       {/* Тип сортировки */}
-      <div className="w-full">
+      <div className="w-full space-y-1">
+        <Label>Тип сортировки</Label>
+
         <Select
           value={sortDirection || "asc"}
           onValueChange={(e) => setSortDirection(e as "asc" | "desc")}
         >
-          <SelectTrigger className="h-10 w-full rounded-none">
+          <SelectTrigger className="h-12 w-full bg-muted border-none">
             <SelectValue placeholder="Тип сортировки" />
           </SelectTrigger>
           <SelectContent>

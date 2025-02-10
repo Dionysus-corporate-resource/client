@@ -10,6 +10,7 @@ import {
   ChevronsUpDown,
   CornerRightUp,
   Package,
+  Search,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -30,6 +31,7 @@ import { format, endOfDay, startOfDay } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Calendar } from "@/shared/components/ui/calendar";
 import { ru } from "date-fns/locale"; // Импортируем русскую локализацию
+import { Label } from "@/shared/components/ui/label";
 
 export default function FilterBookingPanel({
   sortedPanelSlot,
@@ -111,34 +113,41 @@ export default function FilterBookingPanel({
   return (
     <div
       className={cn(
-        "justify-between w-full gap-1 py-0",
+        "justify-between w-full gap-1 mb-4 bg-mutedd rounded-lg p-4",
         placeUse === "mobile"
           ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          : "hidden xl:grid xl:grid-cols-4 xl:col-span-1",
+          : "grid grid-cols-1 gap-4",
       )}
     >
+      {/* <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
+        <p>Панель для расширенного поиcка</p>
+      </div> */}
+
+      {/* <div className="border-b" /> */}
       {/* Поле для фильтрации по месту загрузки */}
-      <div className="relative w-full">
+      <div className="relative w-full space-y-1">
+        <Label>Введите место загрузки</Label>
         <Input
           type="text"
           value={loadingLocationFilter}
           onChange={(e) => setLoadingLocationFilter(e.target.value)}
-          placeholder="Введите место загрузки"
-          className="h-10 pl-8 rounded-none"
+          placeholder="Ростов-на-Дону"
+          className="h-12 pl-12 bg-muted border-none"
         />
-        <ArrowDownRight className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        <ArrowDownRight className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
-
       {/* Поле для фильтрации по месту разгрузки */}
-      <div className="relative w-full">
+      <div className="relative w-full space-y-1">
+        <Label>Введите место разгрузки</Label>
+
         <Input
           type="text"
           value={unLoadingLocationFilter}
           onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
-          placeholder="Введите место разгрузки"
-          className="h-10 pl-8 rounded-none"
+          placeholder="Краснодар"
+          className="h-12 pl-12 bg-muted border-none"
         />
-        <CornerRightUp className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        <CornerRightUp className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
       {/* Выбор даты */}
       <div
@@ -147,17 +156,18 @@ export default function FilterBookingPanel({
           placeUse === "mobile" && "hidden lg:block",
         )}
       >
+        <Label>Выберите дату</Label>
         <Popover>
           <PopoverTrigger asChild>
             <Button
               id="date"
               variant={"outline"}
               className={cn(
-                "h-10 w-full justify-start text-left font-normal rounded-none",
+                "h-12 w-full justify-start text-left font-normal bg-muted border-none",
                 !date && "text-muted-foreground",
               )}
             >
-              <CalendarIcon />
+              <CalendarIcon className="mr-2" />
               {date?.from ? (
                 date.to ? (
                   <>
@@ -168,11 +178,11 @@ export default function FilterBookingPanel({
                   format(date.from, "dd MMMM yyyy", { locale: ru })
                 )
               ) : (
-                <span>Выберите дату</span>
+                <span>На сегодня</span>
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-full p-0" align="start">
+          <PopoverContent className="w-full pl-0" align="start">
             <Calendar
               initialFocus
               mode="range"
@@ -186,19 +196,22 @@ export default function FilterBookingPanel({
         </Popover>
       </div>
       {/* Поле для фильтрации по культуре */}
-      <div className="relative w-full">
+      <div className="relative w-full space-y-1">
+        <Label>Введите груз</Label>
+
         <Input
           type="text"
           value={cultureFilter}
           onChange={(e) => setCultureFilter(e.target.value)}
           placeholder="Введите груз"
-          className="h-10 pl-8 rounded-none"
+          className="h-12 pl-12 bg-muted border-none"
         />
-        <Package className="absolute top-2.5 left-2.5 w-4 h-4 text-muted-foreground" />
+        <Package className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
-
       {/* Выбор заказчика */}
-      <div className="w-full">
+      <div className="w-full space-y-1">
+        <Label>Выбирете заказчика</Label>
+
         <Popover
           open={openSelectNameCompany}
           onOpenChange={setOpenSelectNameCompany}
@@ -207,7 +220,7 @@ export default function FilterBookingPanel({
             <Button
               variant="outline"
               role="combobox"
-              className="h-10 w-full justify-between rounded-none"
+              className="h-12 w-full justify-between bg-muted border-none"
             >
               {companyNameFilter.length > 0
                 ? `Выбрано: ${companyNameFilter}`
@@ -259,13 +272,11 @@ export default function FilterBookingPanel({
           </PopoverContent>
         </Popover>
       </div>
-
       {sortedPanelSlot}
-
       {/* Кнопка сброса фильтров */}
       <Button
-        className="h-10 w-full rounded-none"
-        variant="secondary"
+        className="h-12 bg-primary/80"
+        variant="default"
         onClick={() => {
           setLoadingLocationFilter("");
           setUnLoadingLocationFilter("");

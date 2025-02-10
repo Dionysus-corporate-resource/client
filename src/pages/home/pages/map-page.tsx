@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { ArrowUpRight, Package } from "lucide-react";
+import { Package, PhoneOutgoing } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import {
@@ -19,6 +19,7 @@ import { useAtomValue } from "jotai";
 import { isMapViewFullAtom, sortbookingAtom } from "../model/sort-atom";
 import { cn } from "@/shared/lib/utils";
 import BookingCardLong from "@/entities/booking/ui/booking-card-long";
+import { Input } from "@/shared/components/ui/input";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -78,7 +79,13 @@ const createClusterIcon = (cluster: unknown) => {
   });
 };
 
-const CustomMarkerIcon = ({ count }: { count: number }) => {
+const CustomMarkerIcon = ({
+  count,
+  booking,
+}: {
+  count: number;
+  booking: IBookingDto[];
+}) => {
   const getStyle = (count: number) => {
     if (count > 8) {
       return {
@@ -109,11 +116,11 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
     return {
       backgroundColor: "rgba(82, 139, 239, 0.9)",
       backgroundColorOut: "rgba(82, 139, 239, 0.3)",
-      sizeX: count > 1 ? "48px" : "28px",
-      sizeY: count > 1 ? "30px" : "28px",
-      sizeOutX: count > 1 ? "58px" : "36px",
-      sizeOutY: count > 1 ? "40px" : "36px",
-      rightX: count > 1 ? "-23px" : "-2px",
+      sizeX: count > 1 ? "48px" : "36px",
+      sizeY: count > 1 ? "30px" : "24px",
+      sizeOutX: count > 1 ? "58px" : "44px",
+      sizeOutY: count > 1 ? "40px" : "32px",
+      rightX: count > 1 ? "-23px" : "-10px",
       bottomX: count > 1 ? "-5px" : "-4px",
       iconSize: 18,
     };
@@ -134,7 +141,7 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           justifyContent: "center",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
           transform: "scale(1)",
-          borderRadius: "600px",
+          borderRadius: "6px",
         }}
         className="absolute animate-ping"
       ></div>
@@ -151,7 +158,7 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           transform: "scale(1)",
           right: style.rightX,
           bottom: style.bottomX,
-          borderRadius: "600px",
+          borderRadius: "6px",
         }}
         className="absolute "
       ></div>
@@ -163,7 +170,7 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: "6000px",
+          borderRadius: "6px",
           color: "white",
           fontWeight: "600",
           backdropFilter: "blur(8px)", // Эффект стекла
@@ -188,22 +195,25 @@ const CustomMarkerIcon = ({ count }: { count: number }) => {
           </span>
         ) : null}
         {/* // Box, PackagePlus, ArrowBigDownDash */}
-        <Package
+        <span className="text-xs">
+          {booking[0]?.detailTransportation?.ratePerTon}
+        </span>
+        {/* <Package
           size={style.iconSize}
           color="white"
           className="animate-"
           style={{
             filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2))",
           }}
-        />
+        /> */}
       </div>
     </div>
   );
 };
 
-const createCustomIcon = (count: number) => {
+const createCustomIcon = (count: number, booking: IBookingDto[]) => {
   return divIcon({
-    html: renderToString(<CustomMarkerIcon count={count} />),
+    html: renderToString(<CustomMarkerIcon count={count} booking={booking} />),
     className: "custom-div-icon",
     iconSize: [30, 30],
     iconAnchor: [15, 15],
@@ -253,15 +263,10 @@ export default function MapPage() {
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
   if (!sortBooking) return <div>Загрузка...</div>;
   return (
-    <div
-      className={cn(
-        "grid-cols-1 2xl:grid-cols-8 grid gap-2 max-h-[calc(100vh-0px)]",
-        isMapViewFull && "!grid-cols-1",
-      )}
-    >
+    <div className={cn("flex flex-col gap-6", isMapViewFull && "!grid-cols-1")}>
       <div
         className={cn(
-          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-230px)] col-span-5  border rounded-lg",
+          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-500px)] col-span-5  border rounded-lg",
           isMapViewFull && "col-span-1",
         )}
       >
@@ -291,7 +296,7 @@ export default function MapPage() {
                 <Marker
                   key={index}
                   position={group.coordinates as [number, number]}
-                  icon={createCustomIcon(group.places.length)}
+                  icon={createCustomIcon(group.places.length, group.places)}
                 >
                   <Popup>
                     <MarkerBookingDetailShort group={group} />
@@ -328,7 +333,7 @@ export default function MapPage() {
                 <Marker
                   key={index}
                   position={group.coordinates as [number, number]}
-                  icon={createCustomIcon(group.places.length)}
+                  icon={createCustomIcon(group.places.length, group.places)}
                 >
                   <Popup>
                     <MarkerBookingDetailShort group={group} />
@@ -339,15 +344,21 @@ export default function MapPage() {
           </MapContainer>
         )}
       </div>
-      <div
-        className={cn(
-          "hidden 2xl:flex col-span-3 flex-col gap-4 pr-2 pl-4 pt-4 rounded-lg pb-4 bg-primary/0 overflow-y-auto max-h-[calc(100vh-240px)]",
-          isMapViewFull && "hidden",
-        )}
-      >
-        <span className="font-normal text-sm text-muted-foreground">
-          Всего заявок: {filterBooking?.length} шт.
-        </span>
+
+      <div className="grid grid-cols-2 gap-4">
+        {/* <div>
+          <span className="font-normal text-sm text-muted-foreground">
+            Всего заявок: {filterBooking?.length} шт.
+          </span>
+          <div className="relative w-full">
+            <Input
+              type="text"
+              placeholder="Поиск по названиею грузка"
+              className="h-10 pl-10 bg-background"
+            />
+            <Package className="absolute top-3 left-3 w-4 h-4 text-muted-foreground" />
+          </div>
+        </div> */}
         {!sortBooking
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />
@@ -363,11 +374,12 @@ export default function MapPage() {
                     actionSlot={
                       <Button
                         variant="secondary"
+                        className="h-full"
                         size="icon"
                         style={{ borderRadius: "0 8px 0 8px" }}
                       >
                         {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                        <ArrowUpRight className="w-4 h-4 " />
+                        <PhoneOutgoing className="w-4 h-4 " />
                       </Button>
                     }
                   />
