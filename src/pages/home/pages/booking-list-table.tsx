@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
-import { ArrowDownRight, CornerRightUp, Dot, Package } from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
 import { sortbookingAtom } from "../model/sort-atom";
 import { useAtomValue } from "jotai";
 

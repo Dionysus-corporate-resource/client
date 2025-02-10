@@ -11,7 +11,6 @@ import {
   List,
   Map,
   PanelRightDashed,
-  Search,
   X,
 } from "lucide-react";
 import { MobileFilterPanel } from "@/widgets/mobile/mobile-filter-panel/mobile-filter-panel";
@@ -26,7 +25,7 @@ export default function HomePage() {
   // const [isMapViewFull, setIsMapViewFull] = useAtom(isMapViewFullAtom);
   const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(true);
   const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
-  const [isOpenFilterAndSorted, setIsOpenFilterAndSorted] = useState(true);
+  const [isOpenFilterAndSorted] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,144 +33,129 @@ export default function HomePage() {
   if (isPending) return <div>Загрузка...</div>;
 
   return (
-    <div className="mx-auto flex flex-col flex-1 mt-2 px-2 sm:px-6 pt-2 sm:pt-4 gap-2 sm:gap-2">
-      {/* // Страниы */}
-
-      <div className="h-full grid grid-cols-4 gap-6">
-        <div className="flex flex-col gap-2 relative">
-          <Tabs defaultValue={location.pathname}>
-            <div className="relative flex gap-6 justify-between mb-1">
-              <div className="flex gap-6">
-                <TabsList>
-                  <TabsTrigger
-                    value="/table-view"
-                    className="space-x-2
-                    hidden xl:flex"
-                    onClick={() => navigate("/table-view")}
-                  >
-                    <List className="w-4 h-4" />
-                    <span className="">Список</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="/map-view"
-                    className="space-x-2"
-                    onClick={() => navigate("/map-view")}
-                  >
-                    <Map className="w-4 h-4" />
-                    <span className="ex:text-xs">Карта</span>
-                  </TabsTrigger>
-
-                  <TabsTrigger
-                    value="/"
-                    className="space-x-2"
-                    onClick={() => navigate("/")}
-                  >
-                    <PanelRightDashed className="w-4 h-4" />
-
-                    <span className="ex:text-xs">Карточки</span>
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-              <div
-                className="flex items-center gap-4
-                ex:gap-2"
-              >
-                {/* Кнопка открытия панели сортировки */}
-                <div className="xl:hidden">
-                  <button
-                    onClick={() => setIsOpenMobileSorted((prev) => !prev)}
-                    className={cn(
-                      "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
-                      isOpenMobileSorted && "border bg-red-50 border-red-50",
-                      "sm:hidden",
-                    )}
-                  >
-                    {isOpenMobileSorted ? (
-                      <X className="text-red-400 w-4 h-4 m-0.5" />
-                    ) : (
-                      <ArrowUpDown className="w-4 h-4 m-[3px]" />
-                    )}
-                  </button>
-
-                  <Toggle
-                    className="ex:hidden xl:hidden"
-                    pressed={isOpenMobileFilter}
-                    aria-label="Toggle italic"
-                    onClick={() => setIsOpenMobileFilter((prev) => !prev)}
-                  >
-                    <ArrowUpDown className="h-4 w-4" />
-                    <span className="ex:hidden">фильтрация</span>
-                  </Toggle>
-                </div>
-                {/* Кнопка открытия панели фильтрации */}
-                <div className="xl:hidden">
-                  <button
-                    onClick={() => setIsOpenMobileFilter((prev) => !prev)}
-                    className={cn(
-                      "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
-                      isOpenMobileFilter && "border bg-red-50 border-red-50",
-                      "sm:hidden",
-                    )}
-                  >
-                    {isOpenMobileFilter ? (
-                      <X className="text-red-400 w-4 h-4 m-0.5" />
-                    ) : (
-                      <Filter className="w-4 h-4 m-[3px]" />
-                    )}
-                  </button>
-
-                  <Toggle
-                    className="ex:hidden xl:hidden"
-                    aria-label="Toggle italic"
-                    pressed={isOpenMobileSorted}
-                    onClick={() => setIsOpenMobileSorted((prev) => !prev)}
-                  >
-                    <Filter className="h-4 w-4" />
-                    <span className="ex:hidden">сортировка</span>
-                  </Toggle>
-                </div>
-
-                {/* Кнопка открытия общей панели фильтрации и сортировки */}
-                {/* <Toggle
-                  className="hidden xl:flex px-4"
-                  aria-label="Toggle italic"
-                  pressed={isOpenFilterAndSorted}
-                  onClick={() => setIsOpenFilterAndSorted((prev) => !prev)}
+    <div className="w-full mx-auto h-full grid grid-cols-1 xl:grid-cols-4 xl:gap-0 2xl:gap-4">
+      <div className="flex flex-col gap-2 p-1 sm:pb-2 md:pb-3 ex:pr-1 sm:p-2 md:p-4">
+        <Tabs defaultValue={location.pathname}>
+          <div className="relative flex gap-6 justify-between flex-row xl:flex-row">
+            <div className="flex gap-6">
+              <TabsList>
+                <TabsTrigger
+                  value="/table-view"
+                  className="space-x-2
+                    hidden 2xl:flex"
+                  onClick={() => navigate("/table-view")}
                 >
-                  <Search className="h-4 w-4" />
-                  Расширенный поиск
-                </Toggle> */}
+                  <List className="w-4 h-4" />
+                  <span className="">Таблица</span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="/map-view"
+                  className="space-x-2"
+                  onClick={() => navigate("/map-view")}
+                >
+                  <Map className="w-4 h-4" />
+                  <span className="ex:text-xs">Карта</span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="/"
+                  className="space-x-2"
+                  onClick={() => navigate("/")}
+                >
+                  <PanelRightDashed className="w-4 h-4" />
+
+                  <span className="ex:text-xs">Карточки</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            <div
+              className="flex items-center gap-4
+                ex:gap-2"
+            >
+              {/* Кнопка открытия панели сортировки */}
+              <div className="xl:hidden">
+                <button
+                  onClick={() => setIsOpenMobileSorted((prev) => !prev)}
+                  className={cn(
+                    "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
+                    isOpenMobileSorted && "border bg-red-50 border-red-50",
+                    "sm:hidden",
+                  )}
+                >
+                  {isOpenMobileSorted ? (
+                    <X className="text-red-400 w-4 h-4 m-0.5" />
+                  ) : (
+                    <ArrowUpDown className="w-4 h-4 m-[3px]" />
+                  )}
+                </button>
+
+                <Toggle
+                  className="ex:hidden xl:hidden"
+                  pressed={isOpenMobileFilter}
+                  aria-label="Toggle italic"
+                  onClick={() => setIsOpenMobileFilter((prev) => !prev)}
+                >
+                  <ArrowUpDown className="h-4 w-4" />
+                  <span className="ex:hidden">фильтрация</span>
+                </Toggle>
+              </div>
+              {/* Кнопка открытия панели фильтрации */}
+              <div className="xl:hidden">
+                <button
+                  onClick={() => setIsOpenMobileFilter((prev) => !prev)}
+                  className={cn(
+                    "bg-muted p-1 focus:outline-none flex justify-start items-center rounded-md",
+                    isOpenMobileFilter && "border bg-red-50 border-red-50",
+                    "sm:hidden",
+                  )}
+                >
+                  {isOpenMobileFilter ? (
+                    <X className="text-red-400 w-4 h-4 m-0.5" />
+                  ) : (
+                    <Filter className="w-4 h-4 m-[3px]" />
+                  )}
+                </button>
+
+                <Toggle
+                  className="ex:hidden xl:hidden"
+                  aria-label="Toggle italic"
+                  pressed={isOpenMobileSorted}
+                  onClick={() => setIsOpenMobileSorted((prev) => !prev)}
+                >
+                  <Filter className="h-4 w-4" />
+                  <span className="ex:hidden">сортировка</span>
+                </Toggle>
               </div>
             </div>
-          </Tabs>
+          </div>
+        </Tabs>
 
-          {isOpenFilterAndSorted && (
-            <FilterBookingPanel
-              placeUse="desktop"
-              filterBooking={filterBooking}
-              sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
-            />
-          )}
-          {isOpenMobileSorted && (
-            <MobileSortedPanel
-              sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
-            />
-          )}
-          {isOpenMobileFilter && (
-            <MobileFilterPanel
-              filterPanelSlot={
-                <FilterBookingPanel
-                  placeUse="mobile"
-                  filterBooking={filterBooking}
-                  sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
-                />
-              }
-            />
-          )}
-        </div>
-        <div className="col-span-3 pb-6 h-[calc(100vh-80px)] overflow-y-auto pr-2">
-          <Outlet />
-        </div>
+        {isOpenFilterAndSorted && (
+          <FilterBookingPanel
+            placeUse="desktop"
+            filterBooking={filterBooking}
+            sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+          />
+        )}
+        {isOpenMobileSorted && (
+          <MobileSortedPanel
+            sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
+          />
+        )}
+        {isOpenMobileFilter && (
+          <MobileFilterPanel
+            filterPanelSlot={
+              <FilterBookingPanel
+                placeUse="mobile"
+                filterBooking={filterBooking}
+                sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+              />
+            }
+          />
+        )}
+      </div>
+      <div className="col-span-3 pb-6 h-[calc(100vh-80px)] xl:overflow-y-auto xl:pr-2 px-0 sm:px-4 xl:px-0">
+        <Outlet />
       </div>
     </div>
   );

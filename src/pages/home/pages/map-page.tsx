@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { divIcon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Package, PhoneOutgoing } from "lucide-react";
+import { PhoneOutgoing } from "lucide-react";
 import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import {
@@ -19,7 +19,6 @@ import { useAtomValue } from "jotai";
 import { isMapViewFullAtom, sortbookingAtom } from "../model/sort-atom";
 import { cn } from "@/shared/lib/utils";
 import BookingCardLong from "@/entities/booking/ui/booking-card-long";
-import { Input } from "@/shared/components/ui/input";
 
 const createClusterIcon = (cluster: unknown) => {
   const count = (cluster as { getChildCount: () => number }).getChildCount();
@@ -263,10 +262,12 @@ export default function MapPage() {
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
   if (!sortBooking) return <div>Загрузка...</div>;
   return (
-    <div className={cn("flex flex-col gap-6", isMapViewFull && "!grid-cols-1")}>
+    <div
+      className={cn("flex flex-col gap-6 ", isMapViewFull && "!grid-cols-1")}
+    >
       <div
         className={cn(
-          "ex:-ml-2 ex:-mr-2  ex:h-[calc(100vh-150px)] sm:h-[calc(100vh-180px)] xl:h-[calc(100vh-500px)] col-span-5  border rounded-lg",
+          "ex:-ml-2 ex:-mr-2 sm:-ml-2 sm:-mr-2 xl:-ml-0 xl:-mr-0 xl:mt-4  ex:h-[calc(100vh-100px)] sm:h-[calc(100vh-500px)] xl:h-[calc(100vh-500px)] col-span-5  border rounded-lg",
           isMapViewFull && "col-span-1",
         )}
       >
@@ -345,20 +346,7 @@ export default function MapPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        {/* <div>
-          <span className="font-normal text-sm text-muted-foreground">
-            Всего заявок: {filterBooking?.length} шт.
-          </span>
-          <div className="relative w-full">
-            <Input
-              type="text"
-              placeholder="Поиск по названиею грузка"
-              className="h-10 pl-10 bg-background"
-            />
-            <Package className="absolute top-3 left-3 w-4 h-4 text-muted-foreground" />
-          </div>
-        </div> */}
+      <div className="hidden sm:grid sm:gap-4 sm:grid-cols-1 2xl:grid-cols-2">
         {!sortBooking
           ? Array.from({ length: 10 }).map((_, index) => (
               <SkeletonBookingCard key={index} />

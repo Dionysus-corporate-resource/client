@@ -106,8 +106,10 @@ export default function SortBookingPanel({
   return (
     <div
       className={cn(
-        "flex items-end gap-4",
-        placeUse === "mobile" ? "flex gap-2 ex:flex-col" : "",
+        "",
+        placeUse === "mobile"
+          ? "flex flex-row ex:flex-col ex:gap-2 ex:pb-2 gap-4"
+          : "hidden xl:grid grid-cols-1 2xl:grid-cols-2 items-end gap-4",
       )}
     >
       {/* Выбор поля сортировки */}
@@ -118,7 +120,7 @@ export default function SortBookingPanel({
           value={sortField || "none"}
           onValueChange={(e) => handleSortFieldChange(e as ISortField)}
         >
-          <SelectTrigger className="h-12 w-full bg-muted border-none">
+          <SelectTrigger className="h-8 md:h-8 lg:h-10 xl:h-12 pl-4 w-full bg-muted border-none">
             <SelectValue placeholder="Поля сортировки" />
           </SelectTrigger>
           <SelectContent>
@@ -160,7 +162,7 @@ export default function SortBookingPanel({
           value={sortDirection || "asc"}
           onValueChange={(e) => setSortDirection(e as "asc" | "desc")}
         >
-          <SelectTrigger className="h-12 w-full bg-muted border-none">
+          <SelectTrigger className="h-8 md:h-8 lg:h-10 xl:h-12 pl-4 w-full bg-muted border-none">
             <SelectValue placeholder="Тип сортировки" />
           </SelectTrigger>
           <SelectContent>

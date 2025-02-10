@@ -15,8 +15,8 @@ export default function BookingListCard() {
 
   return (
     <div
-      className="mx-auto w-fit grid gap-4 pb-6
-     grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-3 lg:w-full 2xl:grid-cols-3 2xl:w-full"
+      className="mx-auto w-fit grid gap-4 pb-6 pt-0 xl:pt-4
+     grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-3 xl:grid-cols-2 lg:w-full 2xl:grid-cols-3 2xl:w-full"
     >
       {!filterBooking
         ? Array.from({ length: 10 }).map((_, index) => (

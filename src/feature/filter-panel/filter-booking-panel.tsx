@@ -10,7 +10,6 @@ import {
   ChevronsUpDown,
   CornerRightUp,
   Package,
-  Search,
 } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -113,10 +112,10 @@ export default function FilterBookingPanel({
   return (
     <div
       className={cn(
-        "justify-between w-full gap-1 mb-4 bg-mutedd rounded-lg p-4",
+        "justify-between w-full gap-1 mb-4 bg-mutedd rounded-lg xl:p-4",
         placeUse === "mobile"
-          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          : "grid grid-cols-1 gap-4",
+          ? "grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 items-end px-2 md:px-0 gap-x-4 gap-y-2"
+          : "hidden xl:grid xl:grid-cols-1 gap-4",
       )}
     >
       {/* <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
@@ -132,9 +131,9 @@ export default function FilterBookingPanel({
           value={loadingLocationFilter}
           onChange={(e) => setLoadingLocationFilter(e.target.value)}
           placeholder="Ростов-на-Дону"
-          className="h-12 pl-12 bg-muted border-none"
+          className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
-        <ArrowDownRight className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
+        <ArrowDownRight className="absolute top-8 md:top-8 lg:top-9 xl:top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
       {/* Поле для фильтрации по месту разгрузки */}
       <div className="relative w-full space-y-1">
@@ -145,9 +144,9 @@ export default function FilterBookingPanel({
           value={unLoadingLocationFilter}
           onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
           placeholder="Краснодар"
-          className="h-12 pl-12 bg-muted border-none"
+          className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
-        <CornerRightUp className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
+        <CornerRightUp className="absolute top-8 md:top-8 lg:top-9 xl:top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
       {/* Выбор даты */}
       <div
@@ -163,7 +162,7 @@ export default function FilterBookingPanel({
               id="date"
               variant={"outline"}
               className={cn(
-                "h-12 w-full justify-start text-left font-normal bg-muted border-none",
+                "h-8 md:h-8 lg:h-10 xl:h-12 pl-4 w-full justify-start text-left font-normal bg-muted border-none",
                 !date && "text-muted-foreground",
               )}
             >
@@ -204,9 +203,9 @@ export default function FilterBookingPanel({
           value={cultureFilter}
           onChange={(e) => setCultureFilter(e.target.value)}
           placeholder="Введите груз"
-          className="h-12 pl-12 bg-muted border-none"
+          className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
-        <Package className="absolute top-10 left-4 w-4 h-4 text-muted-foreground" />
+        <Package className="absolute top-8 md:top-8 lg:top-9 xl:top-10 left-4 w-4 h-4 text-muted-foreground" />
       </div>
       {/* Выбор заказчика */}
       <div className="w-full space-y-1">
@@ -220,7 +219,7 @@ export default function FilterBookingPanel({
             <Button
               variant="outline"
               role="combobox"
-              className="h-12 w-full justify-between bg-muted border-none"
+              className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 w-full justify-between bg-muted border-none"
             >
               {companyNameFilter.length > 0
                 ? `Выбрано: ${companyNameFilter}`
@@ -275,7 +274,7 @@ export default function FilterBookingPanel({
       {sortedPanelSlot}
       {/* Кнопка сброса фильтров */}
       <Button
-        className="h-12 bg-primary/80"
+        className="h-10 md:h-10 xl:h-12 pl-12 mt-2 xl:mt-0 bg-primary/80"
         variant="default"
         onClick={() => {
           setLoadingLocationFilter("");
