@@ -108,8 +108,8 @@ export function BasicInfoStep({
 
   return (
     <div
-      className="grid space-y-6 rounded-lg
-       xl:pt-6 grid-cols-1 lg:grid-cols-3 lg:gap-6"
+      className="grid rounded-lg
+       xl:pt-6 grid-cols-1 lg:grid-cols-3 lg:gap-6 items-start space-y-6 xl:space-y-0"
     >
       {/* Карта */}
       <div className="h-full col-span-2">
@@ -122,7 +122,7 @@ export function BasicInfoStep({
 
       {/* Поля формы */}
       <div
-        className="grid gap-2 grid-cols-1 h-full w-full
+        className="grid grid-cols-1 w-full h-fit gap-6
         ex:px-2"
       >
         {/* Место погрузки */}

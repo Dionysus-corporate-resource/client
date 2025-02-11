@@ -1,5 +1,4 @@
-import { Building2, Phone, Sparkles } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
+import { Building2, Phone } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -12,10 +11,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { useAtomValue } from "jotai";
-import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+// import { useAtomValue } from "jotai";
+// import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { icon } from "leaflet";
 
@@ -52,9 +51,9 @@ export default function BookingDetailContent({
   bookingId: string;
 }) {
   const { data: bookingData } = useQuery(bookingQueryOption.getOne(bookingId));
-  const user = useAtomValue(userStorageAtom);
-  const isMyBooking = bookingData?.user?._id === user?._id;
-  const navigate = useNavigate();
+  // const user = useAtomValue(userStorageAtom);
+  // const isMyBooking = bookingData?.user?._id === user?._id;
+  // const navigate = useNavigate();
 
   return (
     <div className="max-w-3xl w-full">
@@ -117,7 +116,7 @@ export default function BookingDetailContent({
         )}
 
         {/* Котакты */}
-        <div>
+        {/* <div>
           <div>
             <div className="space-y-2 ">
               {isMyBooking ||
@@ -129,9 +128,7 @@ export default function BookingDetailContent({
                       key={index}
                       className="flex items-center gap-4 p-3 rounded-lg bg-muted transition-colors"
                     >
-                      {/* <div className="h-9 w-9 rounded-md bg-white border flex items-center justify-center">
-                        <User className="h-4 w-4 text-primary" />
-                      </div> */}
+
                       <div className="flex-1 min-w-0 ml-2">
                         <p className="text-sm font-medium truncate">
                           {contact.name}
@@ -164,7 +161,26 @@ export default function BookingDetailContent({
               )}
             </div>
           </div>
-        </div>
+        </div> */}
+        {bookingData?.additionalConditions?.contacts.map((contact, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-4 p-3 rounded-lg bg-muted transition-colors"
+          >
+            {/* <div className="h-9 w-9 rounded-md bg-white border flex items-center justify-center">
+                <User className="h-4 w-4 text-primary" />
+              </div> */}
+            <div className="flex-1 min-w-0 ml-2">
+              <p className="text-sm font-medium truncate">{contact.name}</p>
+              {contact.phone && (
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <Phone className="h-3 w-3" />
+                  <span>{contact.phone}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
 
         <Tabs defaultValue="info" className="w-full">
           <TabsList className="w-full justify-start h-auto p-0 bg-transparent border-b rounded-none">

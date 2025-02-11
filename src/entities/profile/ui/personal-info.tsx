@@ -53,7 +53,7 @@ export default function PersonalInfo({
               {userData?.email}
             </Badge>
             <Button
-              className="w-fit"
+              className="w-fit bg-primary/80"
               size="sm"
               onClick={() => authContext?.logOut()}
             >

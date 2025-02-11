@@ -84,7 +84,7 @@ export default function BookingListTable() {
     (booking) => booking?.status === "active",
   );
   return (
-    <div className="w-full px-6 pb-6 rounded-md">
+    <div className="w-full pb-6 rounded-md">
       {!filterBooking ? (
         <Table>
           <TableHeader>

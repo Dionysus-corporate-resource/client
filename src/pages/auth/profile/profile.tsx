@@ -2,7 +2,7 @@ import { useAuth } from "@/app/providers/auth-provider";
 import {
   // PasswordChange,
   PersonalInfo,
-  SubscriptionInfo,
+  // SubscriptionInfo,
 } from "@/entities/profile";
 import { ProfileEditForm } from "@/feature/auth/profile";
 // import { Button } from "@/shared/components/ui/button";
@@ -137,7 +137,18 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card> */}
-        <SubscriptionInfo />
+        {/* <SubscriptionInfo /> */}
+        <div className="bg-muted rounded-lg flex justify-center items-center py-12">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-lg font-semibold text-muted-foreground">
+              Подписки отключены
+            </span>
+            <span className="max-w-md text-center font-medium text-muted-foreground">
+              Платформа в активной разработке, на первое время подписки решено
+              было отключить и сделать систему бесплатной
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -71,7 +71,7 @@ export default function MapSelector({ setCoordinates, formData }: Props) {
         center={defaultPosition}
         zoom={4}
         style={{ width: "100%", borderRadius: "8px" }}
-        className="ex:h-[200px] h-[415px]"
+        className="ex:h-[200px] h-[calc(100vh-400px)]"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

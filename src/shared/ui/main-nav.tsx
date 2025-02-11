@@ -79,31 +79,30 @@ export function MainNav() {
     <div className="relative flex justify-between items-center gap-2 w-full sm:gap-4">
       <div className="flex items-center gap-4 sm:gap-12">
         <NavLink to="/landing" className="flex items-center space-x-2">
-          <img className="w-4 h-4  sm:w-6 sm:h-6" src="truck3.png" />
+          {/* <img className="w-4 h-4  sm:w-6 sm:h-6" src="truck3.png" /> */}
 
-          <span className="inline-block font-semibold text-sm sm:text-lg ">
+          <span className="inline-block font-semibold text-sm sm:text-xl md:text-2xl">
             {headerContent.logoTitle}
           </span>
         </NavLink>
-      </div>
-
-      {/* Навигация */}
-      <nav className="flex gap-4 -mb-1 sm:gap-6 ">
-        {headerContent.linksMain.map((link) => (
-          <NavLink
-            to={link.navigate}
-            className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
-                isActive ? "text-primary" : "text-primary/60"
+        {/* Навигация */}
+        <nav className="flex gap-4 -mb-1 sm:gap-6 ">
+          {headerContent.linksMain.map((link) => (
+            <NavLink
+              to={link.navigate}
+              className={({ isActive }) =>
+                `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
+                  isActive ? "text-primary" : "text-primary/60"
+                }
+                hidden text-xs sm:text-sm xl:flex`
               }
-              hidden text-xs sm:text-sm xl:flex`
-            }
-          >
-            {link?.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4" />}
-            {link.linkLabel}
-          </NavLink>
-        ))}
-      </nav>
+            >
+              {link?.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4" />}
+              {link.linkLabel}
+            </NavLink>
+          ))}
+        </nav>
+      </div>
 
       {/* <MobileNav /> */}
 

@@ -1,4 +1,4 @@
-import { ArrowDownRight, CornerRightUp } from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
 import { Card } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
@@ -13,38 +13,34 @@ export default function BookingCardLong({
   booking: IBookingDto;
 }) {
   return (
-    <Card className="relative w-full bg-card shadow-md hover:shadow-lg transition-shadow duration-200">
-      <div className="flex">
-        {/* Left section with ID and culture */}
-        <div className="w-[200px] border-dashed border-r border-border p-4 flex flex-col justify-between">
-          <div className="space-y-2">
-            <Badge variant="secondary" className="space-x-2 w-full">
-              {/* bg-primary/85 */}
-              {/* <div className="flex gap-1">
-                <p className="text-xs">{orderNumber}</p>
-                <Package className="w-4 h-4 shrink-0" />
-              </div> */}
-              <p className="max-w-20">
-                {booking?.basicInfo?.culture || "Уточнить"}
-              </p>
-            </Badge>
-            <div className="text-xs text-muted-foreground">
-              {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
-                day: "2-digit",
-                month: "long",
-              })}{" "}
-              {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </div>
-          </div>
-
-          <div className="text-xs text-muted-foreground">
-            ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
-          </div>
+    <Card className="relative max-w-xl h-fit bg-card shadow-md hover:shadow-lg transition-shadow duration-200">
+      {/* Left section with ID and culture */}
+      <div className="border-dashed border-b p-2 w-full flex items-center justify-between">
+        <div className="flex items-center ">
+          <Badge variant="outline" className="space-x-2 w-full border-none">
+            <Package className="w-4 h-4 shrink-0" />
+            <p className="text-xs font-medium">
+              {booking?.basicInfo?.culture || "Уточнить"}
+            </p>
+          </Badge>
         </div>
 
+        <div className="text-xs text-muted-foreground mr-2">
+          {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
+            day: "2-digit",
+            month: "long",
+          })}{" "}
+          {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+        {/* <div className="text-xs text-muted-foreground">
+          ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
+        </div> */}
+      </div>
+
+      <div className="flex">
         {/* Middle section with route info */}
         <div className="w-[120px] border-dashed border-r border-border p-4 flex flex-col justify-between">
           <div className="grid grid-cols-1 gap-2">
@@ -122,7 +118,9 @@ export default function BookingCardLong({
           </div>
         </div>
 
-        <div className="absolute right-0 h-full">{bookingDetailSlot}</div>
+        <div className="absolute right-0 h-[calc(100%-38px)]">
+          {bookingDetailSlot}
+        </div>
       </div>
     </Card>
   );

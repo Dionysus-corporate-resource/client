@@ -8,7 +8,7 @@ import { renderToString } from "react-dom/server";
 import { IBookingDto } from "@/shared/model/types/booking";
 import {
   MarkerBookingDetailShort,
-  SkeletonBookingCard,
+  SkeletonBookingCardLong,
 } from "@/entities/booking";
 
 import L from "leaflet";
@@ -17,7 +17,6 @@ import { Button } from "@/shared/components/ui/button";
 
 import { useAtomValue } from "jotai";
 import { isMapViewFullAtom, sortbookingAtom } from "../model/sort-atom";
-import { cn } from "@/shared/lib/utils";
 import BookingCardLong from "@/entities/booking/ui/booking-card-long";
 
 const createClusterIcon = (cluster: unknown) => {
@@ -261,16 +260,46 @@ export default function MapPage() {
       >,
     ) || {}; // Если bookingData undefined, возвращаем пустой объект
   if (!sortBooking) return <div>Загрузка...</div>;
+  // grid-cols-[448px_1fr]
   return (
-    <div
-      className={cn("flex flex-col gap-6 ", isMapViewFull && "!grid-cols-1")}
-    >
+    <div className="grid grid-cols-1 2xl:grid-cols-[512px_1fr] gap-0">
       <div
-        className={cn(
-          "ex:-ml-2 ex:-mr-2 sm:-ml-2 sm:-mr-2 xl:-ml-0 xl:-mr-0 xl:mt-4  ex:h-[calc(100vh-100px)] sm:h-[calc(100vh-500px)] xl:h-[calc(100vh-500px)] col-span-5  border rounded-lg",
-          isMapViewFull && "col-span-1",
-        )}
+        className="hidden h-[calc(100vh-420px)] 2xl:h-[calc(100vh-80px)] xl:grid row-start-2 2xl:row-start-1 xl:mt-4 sm:gap-4 sm:grid-cols-2 2xl:grid-cols-1 overflow-y-auto 2xl:pr-4
+        2xl:flex 2xl:flex-col"
       >
+        <div className="hidden 2xl:block text-lg font-medium -mb-2">
+          Всего заявок {sortBooking?.length}
+        </div>
+        {!sortBooking
+          ? Array.from({ length: 10 }).map((_, index) => (
+              <SkeletonBookingCardLong key={index} />
+            ))
+          : sortBooking?.map((booking, index) => (
+              <BookingCardLong
+                key={booking._id}
+                orderNumber={index + 1}
+                booking={booking}
+                bookingDetailSlot={
+                  <BookingDetailSheet
+                    bookingId={booking?._id}
+                    actionSlot={
+                      <Button
+                        variant="secondary"
+                        className="h-full"
+                        size="icon"
+                        style={{ borderRadius: "0 0 8px 0" }}
+                      >
+                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
+                        <PhoneOutgoing className="w-4 h-4 " />
+                      </Button>
+                    }
+                  />
+                }
+              />
+            ))}
+      </div>
+
+      <div className="ex:-ml-2 ex:-mr-2 sm:-ml-2 sm:-mr-2 xl:-ml-0 xl:-mr-0 ex:h-[calc(100vh-100px)] sm:h-[calc(100vh-128px)] xl:h-[calc(100vh-500px)] 2xl:h-[calc(100vh-80px)] rounded-lg p-2">
         {isMapViewFull && (
           <MapContainer
             center={[55.75, 37.57]}
@@ -344,36 +373,6 @@ export default function MapPage() {
             </MarkerClusterGroup>
           </MapContainer>
         )}
-      </div>
-
-      <div className="hidden sm:grid sm:gap-4 sm:grid-cols-1 2xl:grid-cols-2">
-        {!sortBooking
-          ? Array.from({ length: 10 }).map((_, index) => (
-              <SkeletonBookingCard key={index} />
-            ))
-          : sortBooking?.map((booking, index) => (
-              <BookingCardLong
-                key={booking._id}
-                orderNumber={index + 1}
-                booking={booking}
-                bookingDetailSlot={
-                  <BookingDetailSheet
-                    bookingId={booking?._id}
-                    actionSlot={
-                      <Button
-                        variant="secondary"
-                        className="h-full"
-                        size="icon"
-                        style={{ borderRadius: "0 8px 0 8px" }}
-                      >
-                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                        <PhoneOutgoing className="w-4 h-4 " />
-                      </Button>
-                    }
-                  />
-                }
-              />
-            ))}
       </div>
     </div>
   );

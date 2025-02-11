@@ -33,8 +33,8 @@ export default function HomePage() {
   if (isPending) return <div>Загрузка...</div>;
 
   return (
-    <div className="w-full mx-auto h-full grid grid-cols-1 xl:grid-cols-4 xl:gap-0 2xl:gap-4">
-      <div className="flex flex-col gap-2 p-1 sm:pb-2 md:pb-3 ex:pr-1 sm:p-2 md:p-4">
+    <div className="w-full mx-auto h-full grid grid-cols-1 xl:grid-cols-4 xl:gap-0 2xl:gap-0">
+      <div className="flex flex-col gap-2 p-1 pb-0 sm:pb-2 md:pb-3 ex:pr-1 sm:p-2 md:p-4">
         <Tabs defaultValue={location.pathname}>
           <div className="relative flex gap-6 justify-between flex-row xl:flex-row">
             <div className="flex gap-6">
@@ -154,7 +154,7 @@ export default function HomePage() {
           />
         )}
       </div>
-      <div className="col-span-3 pb-6 h-[calc(100vh-80px)] xl:overflow-y-auto xl:pr-2 px-0 sm:px-4 xl:px-0">
+      <div className="col-span-3 pb-0 h-[calc(100vh-508px)] xl:h-[calc(100vh-60px)] xl:overflow-y-auto px-0 sm:px-4 xl:px-0">
         <Outlet />
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import HomePage from "../pages/home/home";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
-import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
+// import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
 import LandingLayout from "@/shared/ui/landing-layout";
 import LandingPage from "@/pages/landing/landing-page";
 import LoginPage from "@/pages/auth/sign-in/login-page";
@@ -30,7 +30,7 @@ function App() {
           <Route path="map-view" element={<MapPage />} />
           <Route index element={<BookingCardPage />} />
         </Route>
-        <Route path="subscribe" element={<SubscriptionsPageShort />} />
+        {/* <Route path="subscribe" element={<SubscriptionsPageShort />} /> */}
         <Route
           path="profile"
           element={

@@ -15,12 +15,12 @@ export default function BookingCard({
 }) {
   return (
     <Card
-      className="w-full max-w-md bg-card flex flex-col gap-2 justify-between
+      className="w-full max-w-xl bg-card flex flex-col gap-2 justify-between
       shadow-md hover:shadow-lg transition-shadow duration-200
       "
     >
       {/* Заголовок с номером заявки и статусом */}
-      <CardHeader className="pb-4 ">
+      <CardHeader className="pb-4 ex:p-4">
         <div className="flex items-start justify-between mb-4">
           <div className="flex flex-col items-start gap-2">
             {/* <Badge variant="default" className="bg-muted-foreground text-white">
@@ -122,11 +122,11 @@ export default function BookingCard({
       <CardContent className="flex flex-col gap-2 justify-between">
         {/* Маршрут */}
         <div
-          className="relative grid grid-cols-2 gap-4 py-2
+          className="relative grid grid-cols-1 gap-4 py-2
           ex:grid-cols-1"
         >
           <div className="relative flex gap-2">
-            <ArrowDownRight className="w-4 h-4 mt-[2px]" />
+            <ArrowDownRight className="w-4 h-4 mt-[2px] shrink-0" />
 
             <div className="">
               <p className="text-sm font-medium">
@@ -152,7 +152,7 @@ export default function BookingCard({
 
           <div className="relative flex gap-2">
             {/* <div className="absolute w-3 h-3 rounded-full bg-muted-foreground/30 top-[5px] left-0" /> */}
-            <CornerRightUp className="w-4 h-4 mt-[2px]" />
+            <CornerRightUp className="w-4 h-4 mt-[2px] shrink-0" />
             <div className="">
               <p className="text-sm font-medium">
                 {booking?.basicInfo?.unLoadingLocation
@@ -169,7 +169,7 @@ export default function BookingCard({
 
         {/* Действия */}
 
-        <div className="grid grid-cols-1 gap-3 ">
+        <div className="grid grid-cols-1 gap-3">
           <div className="col-start-2 flex justify-end">
             {bookingDetailSlot}
           </div>

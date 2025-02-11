@@ -2,11 +2,11 @@
 import { userApi } from "@/feature/auth/profile/api/user-api";
 import { MultiStepForm } from "@/feature/multi-step-form";
 import PageLoader from "@/shared/ui/page-loader";
-import RequsetBlockingCreate from "@/widgets/request-blocking-create/request-blocking-create";
+// import RequsetBlockingCreate from "@/widgets/request-blocking-create/request-blocking-create";
 import { useQuery } from "@tanstack/react-query";
 
 export default function CreateBookingPage() {
-  const { data: userData, isLoading } = useQuery({
+  const { isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: () => userApi.getDataProfile(),
   });
@@ -19,7 +19,7 @@ export default function CreateBookingPage() {
       <div className="h-full w-full overflow-y-auto no-scrollbar">
         {isLoading ? <PageLoader /> : <MultiStepForm />}
       </div>
-      <RequsetBlockingCreate user={userData} />
+      {/* <RequsetBlockingCreate user={userData} /> */}
     </div>
   );
 }
