@@ -18,6 +18,7 @@ import { MobileSortedPanel } from "@/widgets/mobile/mobile-sorted-panel/mobile-s
 import { useState } from "react";
 import { cn } from "@/shared/lib/utils";
 import { Toggle } from "@/shared/components/ui/toggle";
+import PageLoader from "@/shared/ui/page-loader";
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
@@ -30,7 +31,12 @@ export default function HomePage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (isPending) return <div>Загрузка...</div>;
+  if (isPending)
+    return (
+      <div className="w-full h-[calc(100vh-80px)]">
+        <PageLoader />
+      </div>
+    );
 
   return (
     <div className="w-full mx-auto h-full grid grid-cols-1 xl:grid-cols-4 xl:gap-0 2xl:gap-0">
@@ -154,7 +160,7 @@ export default function HomePage() {
           />
         )}
       </div>
-      <div className="col-span-3 pb-0 h-[calc(100vh-508px)] xl:h-[calc(100vh-60px)] xl:overflow-y-auto px-0 sm:px-4 xl:px-0">
+      <div className="col-span-3 h-[calc(100vh-508px)] xl:h-[calc(100vh-70px)] xl:overflow-y-auto xl:pr-2">
         <Outlet />
       </div>
     </div>

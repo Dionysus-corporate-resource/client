@@ -264,42 +264,46 @@ export default function MapPage() {
   return (
     <div className="grid grid-cols-1 2xl:grid-cols-[512px_1fr] gap-0">
       <div
-        className="hidden h-[calc(100vh-420px)] 2xl:h-[calc(100vh-80px)] xl:grid row-start-2 2xl:row-start-1 xl:mt-4 sm:gap-4 sm:grid-cols-2 2xl:grid-cols-1 overflow-y-auto 2xl:pr-4
+        className="hidden h-[calc(100vh-420px)] 2xl:h-[calc(100vh-96px)] xl:grid row-start-2 2xl:row-start-1 xl:mt-4 xl:pb-2 sm:gap-4 sm:grid-cols-2 2xl:grid-cols-1 overflow-y-auto 2xl:pr-4
         2xl:flex 2xl:flex-col"
       >
         <div className="hidden 2xl:block text-lg font-medium -mb-2">
           Всего заявок {sortBooking?.length}
         </div>
-        {!sortBooking
-          ? Array.from({ length: 10 }).map((_, index) => (
-              <SkeletonBookingCardLong key={index} />
-            ))
-          : sortBooking?.map((booking, index) => (
-              <BookingCardLong
-                key={booking._id}
-                orderNumber={index + 1}
-                booking={booking}
-                bookingDetailSlot={
-                  <BookingDetailSheet
-                    bookingId={booking?._id}
-                    actionSlot={
-                      <Button
-                        variant="secondary"
-                        className="h-full"
-                        size="icon"
-                        style={{ borderRadius: "0 0 8px 0" }}
-                      >
-                        {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
-                        <PhoneOutgoing className="w-4 h-4 " />
-                      </Button>
-                    }
-                  />
-                }
-              />
-            ))}
+        {!sortBooking ? (
+          Array.from({ length: 10 }).map((_, index) => (
+            <SkeletonBookingCardLong key={index} />
+          ))
+        ) : sortBooking?.length > 0 ? (
+          sortBooking?.map((booking, index) => (
+            <BookingCardLong
+              key={booking._id}
+              orderNumber={index + 1}
+              booking={booking}
+              bookingDetailSlot={
+                <BookingDetailSheet
+                  bookingId={booking?._id}
+                  actionSlot={
+                    <Button
+                      variant="secondary"
+                      className="h-full"
+                      size="icon"
+                      style={{ borderRadius: "0 0 8px 0" }}
+                    >
+                      {/* <ArrowRight className="w-4 h-4 ml-2" /> */}
+                      <PhoneOutgoing className="w-4 h-4 " />
+                    </Button>
+                  }
+                />
+              }
+            />
+          ))
+        ) : (
+          <div className="text-muted-foreground">Нет активных заявок</div>
+        )}
       </div>
 
-      <div className="ex:-ml-2 ex:-mr-2 sm:-ml-2 sm:-mr-2 xl:-ml-0 xl:-mr-0 ex:h-[calc(100vh-100px)] sm:h-[calc(100vh-128px)] xl:h-[calc(100vh-500px)] 2xl:h-[calc(100vh-80px)] rounded-lg p-2">
+      <div className="ex:-ml-2 ex:-mr-2 sm:-ml-2 sm:-mr-2 xl:-ml-0 xl:-mr-0 ex:h-[calc(100vh-100px)] sm:h-[calc(100vh-128px)] xl:h-[calc(100vh-500px)] 2xl:h-[calc(100vh-80px)] rounded-lg pt-2">
         {isMapViewFull && (
           <MapContainer
             center={[55.75, 37.57]}

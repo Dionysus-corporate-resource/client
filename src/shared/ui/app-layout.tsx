@@ -14,7 +14,6 @@ export default function AppLayout() {
       </header>
       <div className="flex-1 flex">
         <Outlet />
-
         <Toaster />
       </div>
     </div>

@@ -11,7 +11,7 @@ export default function MarkerBookingDetailShort({
 }) {
   return (
     <div className="">
-      <h3>Количество заявок: {group.places.length}</h3>
+      {/* <h3>Количество заявок: {group.places.length}</h3> */}
       <div
         className={cn(
           "w-[150px] overflow-y-auto",
@@ -25,7 +25,7 @@ export default function MarkerBookingDetailShort({
             <p>Описание: {place?.basicInfo?.culture}</p>{" "} */}
             <div className="space-y-0 flex flex-col gap-0">
               <div className="flex gap-2 place-items-center">
-                <Package className="w-4 h-4" />
+                <Package className="w-4 h-4 shrink-0" />
                 <p className="font-bold text-sm">{place?.basicInfo?.culture}</p>
               </div>
 

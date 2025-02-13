@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   BriefcaseBusiness,
+  Headset,
   Menu,
   PackageOpen,
   PackagePlus,
@@ -18,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { useAuth } from "@/app/providers/auth-provider";
 // import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
 
 export type Props = {
@@ -38,14 +40,15 @@ export type Props = {
 export function MainNav() {
   const userData = useAtomValue(userStorageAtom);
   const navigate = useNavigate();
+  const user = useAuth();
   const headerContent: Props["headerContent"] = {
     logoTitle: "Груз Рынок",
     linksMain: [
-      {
-        icon: PackageSearch,
-        linkLabel: "Смотреть заявки",
-        navigate: "/",
-      },
+      // {
+      //   icon: PackageSearch,
+      //   linkLabel: "Смотреть заявки",
+      //   navigate: "/",
+      // },
       {
         icon: PackageOpen,
         linkLabel: "Мои заявки",
@@ -86,7 +89,19 @@ export function MainNav() {
           </span>
         </NavLink>
         {/* Навигация */}
-        <nav className="flex gap-4 -mb-1 sm:gap-6 ">
+        <nav className="flex gap-4 -mb-1 sm:gap-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
+                isActive ? "text-primary" : "text-primary/60"
+              }
+              hidden text-xs sm:text-sm xl:flex`
+            }
+          >
+            <PackageSearch className="w-3 h-3 sm:w-4 sm:h-4" />
+            Смотреть заявки
+          </NavLink>
           {headerContent.linksMain.map((link) => (
             <NavLink
               to={link.navigate}
@@ -94,6 +109,7 @@ export function MainNav() {
                 `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
                   isActive ? "text-primary" : "text-primary/60"
                 }
+                ${user?.token && user?.user?.roles === "customer" ? "" : "!hidden"}
                 hidden text-xs sm:text-sm xl:flex`
               }
             >
@@ -101,11 +117,22 @@ export function MainNav() {
               {link.linkLabel}
             </NavLink>
           ))}
+          <NavLink
+            to="/support"
+            className={({ isActive }) =>
+              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
+                isActive ? "text-primary" : "text-primary/60"
+              }
+              hidden text-xs sm:text-sm xl:flex`
+            }
+          >
+            <Headset className="w-3 h-3 sm:w-4 sm:h-4" />
+            Поддержка
+          </NavLink>
         </nav>
       </div>
 
       {/* <MobileNav /> */}
-
       <div className="flex gap-4 xl:hidden">
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -130,30 +157,8 @@ export function MainNav() {
               <p>Профиль</p>
               <UserCog2 className="w-4 h-4" />
             </DropdownMenuItem>
-
-            {/* <DropdownMenuItem className="flex gap-2 justify-between">
-              <p>Мои заявки</p>
-              <PackageOpen className="w-4 h-4" />
-            </DropdownMenuItem>
-
-            <DropdownMenuItem className="flex gap-2 justify-between">
-              <p>Создать заявку</p>
-              <PackagePlus className="w-4 h-4" />
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem className="flex gap-2 justify-between">
-              <p>Обсуждения</p>
-              <ALargeSmall className="w-4 h-4" />
-            </DropdownMenuItem>
-
-            <DropdownMenuItem className="flex gap-2 justify-between">
-              <p>Поддержка</p>
-              <Headset className="w-4 h-4" />
-            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
-        {/* <ThemeToggle /> */}
       </div>
 
       {userData ? (
@@ -164,7 +169,6 @@ export function MainNav() {
               Профиль
             </Button>
           </NavLink>
-
           <ThemeToggle />
         </div>
       ) : (
