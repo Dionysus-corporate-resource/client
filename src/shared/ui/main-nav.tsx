@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   BriefcaseBusiness,
-  Headset,
+  Coffee,
   Menu,
   PackageOpen,
   PackagePlus,
@@ -93,8 +93,8 @@ export function MainNav() {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
-                isActive ? "text-primary" : "text-primary/60"
+              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
+                isActive ? "text-foreground" : "text-foreground/60"
               }
               hidden text-xs sm:text-sm xl:flex`
             }
@@ -106,8 +106,8 @@ export function MainNav() {
             <NavLink
               to={link.navigate}
               className={({ isActive }) =>
-                `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
-                  isActive ? "text-primary" : "text-primary/60"
+                `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
+                  isActive ? "text-foreground" : "text-foreground/60"
                 }
                 ${user?.token && user?.user?.roles === "customer" ? "" : "!hidden"}
                 hidden text-xs sm:text-sm xl:flex`
@@ -117,18 +117,20 @@ export function MainNav() {
               {link.linkLabel}
             </NavLink>
           ))}
-          <NavLink
-            to="/support"
-            className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:primary ${
-                isActive ? "text-primary" : "text-primary/60"
-              }
+          {user?.token && (
+            <NavLink
+              to="/proposals"
+              className={({ isActive }) =>
+                `flex gap-2 items-center text-sm font-medium transition-colors hover:foreground ${
+                  isActive ? "text-foreground" : "text-foreground/60"
+                }
               hidden text-xs sm:text-sm xl:flex`
-            }
-          >
-            <Headset className="w-3 h-3 sm:w-4 sm:h-4" />
-            Поддержка
-          </NavLink>
+              }
+            >
+              <Coffee className="w-3 h-3 sm:w-4 sm:h-4" />
+              Предложения
+            </NavLink>
+          )}
         </nav>
       </div>
 
@@ -157,12 +159,22 @@ export function MainNav() {
               <p>Профиль</p>
               <UserCog2 className="w-4 h-4" />
             </DropdownMenuItem>
+            {/* proposals */}
+            {user?.token && (
+              <DropdownMenuItem
+                onClick={() => navigate("/proposals")}
+                className="flex gap-4 justify-between"
+              >
+                <p>Предложения</p>
+                <Coffee className="w-4 h-4" />
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
       {userData ? (
-        <div className="items-center gap-0 hidden xl:flex text-primary">
+        <div className="items-center gap-0 hidden xl:flex text-foreground">
           <NavLink to="/profile">
             <Button variant="link" className="text-xs sm:text-sm text-">
               {/* <UserCog className="w-4 h-4" /> */}
@@ -172,7 +184,7 @@ export function MainNav() {
           <ThemeToggle />
         </div>
       ) : (
-        <div className="hidden xl:block sm:space-x-2 text-white">
+        <div className="hidden xl:block sm:space-x-2 text-foreground">
           <NavLink to="/register">
             <Button size="sm" variant="link">
               Зарегистрироваться

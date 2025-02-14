@@ -274,7 +274,7 @@ export default function FilterBookingPanel({
       {sortedPanelSlot}
       {/* Кнопка сброса фильтров */}
       <Button
-        className="h-10 md:h-10 xl:h-12 pl-12 mt-2 xl:mt-0 bg-primary/80"
+        className="h-10 md:h-10 xl:h-12 pl-12 mt-2 xl:mt-0 bg-primary/85"
         variant="default"
         onClick={() => {
           setLoadingLocationFilter("");

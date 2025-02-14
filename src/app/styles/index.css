@@ -72,26 +72,40 @@
 
 @layer base {
     :root {
+        /* 209, 70%, 44%; */
         --background: 0 0% 100%;
+        /* фон */
         --foreground: 222.2 47.4% 11.2%;
+        /* текст, но активируется в компонентах от shadcn */
+
         --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
+        /* фон для компонентов */
+        --muted-foreground: 520 14% 30%;
+        /* текст внутри инпутов, маленький текст, в компонентах с фоном от --muted */
+
         --popover: 0 0% 100%;
         --popover-foreground: 222.2 47.4% 11.2%;
+
         --border: 214.3 31.8% 91.4%;
         --input: 214.3 31.8% 91.4%;
+
         --card: 0 0% 100%;
         --card-foreground: 222.2 47.4% 11.2%;
+        /* фон в карточках и цвет текста */
         /* // черный */
         --primary: 222.2 47.4% 11.2%;
-        /* // синий */
-        /* --primary: 215 45% 61%; */
         --access-primary: 211, 73%, 59%;
+        /*- не нашел */
         --primary-foreground: 210 40% 98%;
+        /* текст внутри кнопок и бэйджев */
+
         --secondary: 210 40% 96.1%;
         --secondary-foreground: 222.2 47.4% 11.2%;
+        /* текст и фон для варианта secondary в компонентах от shadcn */
+
         --accent: 210 40% 96.1%;
         --accent-foreground: 222.2 47.4% 11.2%;
+        /* Элементы меняют фон при наведении и текст соответсвенно - выпадающие списки и элементы внутри него */
         --destructive: 0 100% 50%;
         --destructive-foreground: 210 40% 98%;
         --ring: 215 20.2% 65.1%;
@@ -105,33 +119,33 @@
     /* :root {
         --background: 0 0% 100%;
         --foreground: 222.2 47.4% 11.2%;
-
-        --muted: 220 14% 95%;
-        --muted-foreground: 220 14% 35%;
-
+        --muted: 219 100% 96.1%;
+        --muted-foreground: 219 10% 45%;
         --popover: 0 0% 100%;
-        --popover-foreground: 222.2 47.4% 11.2%;
-
-        --border: 220 14% 85%;
-        --input: 220 14% 90%;
-
+        --popover-foreground: 219 100% 50%;
+        --border: 219 20% 90%;
+        --input: 219 20% 90%;
         --card: 0 0% 100%;
         --card-foreground: 222.2 47.4% 11.2%;
-
-        --primary: 211 73% 59%;
+        --primary: 219 100% 50%;
+        --access-primary: 222.2 47.4% 11.2%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 220 14% 95%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-
-        --accent: 220 14% 90%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-
-        --destructive: 0 72% 51%;
+        --secondary: 219 100% 97%;
+        --secondary-foreground: 219 100% 50%;
+        --accent: 219 100% 90%;
+        --accent-foreground: 219 100% 50%;
+        --destructive: 0 100% 50%;
         --destructive-foreground: 0 0% 100%;
-
-        --ring: 211 73% 59%;
+        --ring: 219 100% 50%;
         --radius: 0.5rem;
-    } */
+
+        --chart-1: 219 100% 50%;
+        --chart-2: 219 100% 70%;
+        --chart-3: 219 100% 80%;
+        --chart-4: 219 100% 90%;
+        --chart-5: 219 100% 95%;
+    }
+     */
     .dark {
         --background: 220 14% 20%; /* Темно-серый с синим оттенком */
         --foreground: 220 14% 85%; /* Светло-серый для текста */
