@@ -11,7 +11,7 @@ import {
 import { Button } from "../components/ui/button";
 import { userStorageAtom } from "../model/atoms/user-atom";
 import { useAtomValue } from "jotai";
-import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
+// import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -81,7 +81,7 @@ export function MainNav() {
   return (
     <div className="relative flex justify-between items-center gap-2 w-full sm:gap-4">
       <div className="flex items-center gap-4 sm:gap-12">
-        <NavLink to="/landing" className="flex items-center space-x-2">
+        <NavLink to="/" className="flex items-center space-x-2">
           {/* <img className="w-4 h-4  sm:w-6 sm:h-6" src="truck3.png" /> */}
 
           <span className="inline-block font-semibold text-sm sm:text-xl md:text-2xl">
@@ -141,6 +141,13 @@ export function MainNav() {
             <Menu className="w-6 h-6" />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="mr-4 mt-4">
+            <DropdownMenuItem
+              onClick={() => navigate("/")}
+              className="flex gap-4 justify-between"
+            >
+              <p>Смотреть заявки</p>
+              <PackageSearch className="w-4 h-4" />
+            </DropdownMenuItem>
             {headerContent.linksMain.map((nav) => (
               <DropdownMenuItem
                 onClick={() => navigate(nav.navigate)}
@@ -181,7 +188,7 @@ export function MainNav() {
               Профиль
             </Button>
           </NavLink>
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
         </div>
       ) : (
         <div className="hidden xl:block sm:space-x-2 text-foreground">

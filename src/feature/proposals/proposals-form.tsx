@@ -69,6 +69,7 @@ export default function ProposalsForm({
             description: "Поздравляю, сообщение создано",
           });
           setIsOpenFeedBackForm(false);
+          form.reset();
         },
         onError: () => {
           toast({

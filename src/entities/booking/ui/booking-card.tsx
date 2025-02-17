@@ -30,9 +30,9 @@ export default function BookingCard({
                 "Уточнить"
               )}
             </Badge> */}
-            <Badge variant="default" className="bg-primary/85 space-x-2">
+            <Badge variant="default" className="bg-primary/80 space-x-2">
               <Package className="w-4 h-4" />
-              <p className="max-w-24">
+              <p className="max-w-32">
                 {booking?.basicInfo?.culture
                   ? booking?.basicInfo?.culture
                   : "Уточнить"}

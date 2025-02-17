@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
 import { useAtomValue } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
-import { ChartMyBooking } from "@/widgets/chart/chart-my-booking";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
 import { Button } from "@/shared/components/ui/button";
@@ -34,7 +33,7 @@ export default function MyBooking() {
   return (
     // container
     <div
-      className="mx-auto w-full grid grid-cols-1 bg-primary/0
+      className="container mx-auto w-full grid grid-cols-1 bg-primary/0
       ex:p-2 sm:p-4 md:p-6"
     >
       <div className="h-full overflow-y-auto no-scrollbar">
@@ -75,7 +74,7 @@ export default function MyBooking() {
           <TabsContent value="card-view" className="min-h-[calc(100vh-150px)]">
             <div
               className="mx-auto w-fit grid gap-4
-             grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-3 lg:w-full 2xl:grid-cols-4 2xl:w-full"
+             grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-3 lg:w-full 2xl:grid-cols-3 2xl:w-full"
             >
               {!tableDataActive
                 ? Array.from({ length: 10 }).map((_, index) => (
@@ -105,15 +104,15 @@ export default function MyBooking() {
             </div>
           </TabsContent>
           <TabsContent value="active" className="h-full">
-            <div className="grid grid-cols-5 gap-12">
+            <div className="grid grid-cols-3 gap-12">
               <MyBookingListTable tableData={tableDataActive} />
-              <ChartMyBooking />
+              {/* <ChartMyBooking /> */}
             </div>
           </TabsContent>
           <TabsContent value="archive" className="h-full">
-            <div className="grid grid-cols-5 gap-12">
+            <div className="grid grid-cols-3 5 gap-12">
               <MyBookingListTable tableData={tableDataArchive} />
-              <ChartMyBooking />
+              {/* <ChartMyBooking /> */}
             </div>
           </TabsContent>
         </Tabs>

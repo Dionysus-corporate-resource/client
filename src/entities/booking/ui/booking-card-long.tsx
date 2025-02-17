@@ -13,7 +13,7 @@ export default function BookingCardLong({
   booking: IBookingDto;
 }) {
   return (
-    <Card className="relative max-w-xl h-fit bg-card shadow-md hover:shadow-lg transition-shadow duration-200">
+    <Card className="relative max-w-xl h-full bg-card shadow-md hover:shadow-lg transition-shadow duration-200">
       {/* Left section with ID and culture */}
       <div className="border-dashed border-b p-2 w-full flex items-center justify-between">
         <div className="flex items-center ">

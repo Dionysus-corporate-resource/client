@@ -16,26 +16,29 @@ import { IProposalsDto } from "@/shared/model/types/proposals";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { SkeletonProposals } from "@/entities/proposals";
+import { Input } from "@/shared/components/ui/input";
 
 export default function FeedbackList({
   setIsOpenFeedBackForm,
 }: {
   setIsOpenFeedBackForm?: Dispatch<SetStateAction<boolean>>;
 }) {
+  const [filter, setFilter] = useState<string>("all");
+  const [search, setSearch] = useState("");
+
   const { data: proposals, isPending } = useQuery({
     queryKey: ["proposals"],
     queryFn: () => proposalsApi.getAll(),
   });
-  const [filter, setFilter] = useState<string>("all");
 
-  const filteredFeedback = proposals?.filter((item) =>
-    filter === "all" ? true : item.topic === filter,
-  );
+  const filteredFeedback = proposals
+    ?.filter((item) => (filter === "all" ? true : item.topic === filter))
+    .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div className="h-[calc(100vh-80px)] p-6 ex:p-4 pr-4 col-span-2">
       <div className="flex flex-row ex:flex-col justify-between gap-4 ex:gap-2 mb-4">
-        <div>
+        <div className="w-full">
           <Button
             className="bg-primary/80 lg:hidden"
             onClick={() => setIsOpenFeedBackForm && setIsOpenFeedBackForm(true)}
@@ -43,6 +46,12 @@ export default function FeedbackList({
             <MessageCirclePlus className="h-4 w-4" />
             Оставить предложение
           </Button>
+          <Input
+            className="w-full"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Найти предложение или ошибку"
+          />
         </div>
         <div className="flex gap-4 w-full sm:w-auto">
           <Select value={filter} onValueChange={setFilter}>
@@ -67,7 +76,10 @@ export default function FeedbackList({
           ))
         ) : filteredFeedback ? (
           filteredFeedback?.map((item) => (
-            <div key={item._id} className="bg-muted p-4 ex:p-2 rounded-lg">
+            <div
+              key={item._id}
+              className="flex flex-col justify-between bg-muted p-4 ex:p-2 rounded-lg"
+            >
               <div className="flex flex-row ex:flex-col gap-2 justify-between items-start">
                 <div className="flex items-start gap-2">
                   {item.topic === "bag" ? (
@@ -97,6 +109,29 @@ export default function FeedbackList({
               >
                 {item.description}
               </p>
+
+              <div className="w-full flex justify-end mt-2 items-center gap-2">
+                <div
+                  className="flex items-center text-sm text-muted-foreground
+                  ex:text-xs"
+                >
+                  {/* <Calendar className="w-4 h-4 mr-1" /> */}
+                  {new Date(item.createdAt).toLocaleDateString("ru-RU", {
+                    day: "2-digit",
+                    month: "long",
+                  })}
+                </div>
+                <div
+                  className="flex items-center text-sm text-muted-foreground
+                  ex:text-sm"
+                >
+                  {/* <Clock className="w-4 h-4 mr-1" /> */}
+                  {new Date(item?.createdAt).toLocaleTimeString("ru-RU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </div>
+              </div>
             </div>
           ))
         ) : (

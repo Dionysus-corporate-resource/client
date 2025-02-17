@@ -3,8 +3,8 @@ import HomePage from "../pages/home/home";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
 // import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
-import LandingLayout from "@/shared/ui/landing-layout";
-import LandingPage from "@/pages/landing/landing-page";
+// import LandingLayout from "@/shared/ui/landing-layout";
+// import LandingPage from "@/pages/landing/landing-page";
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import ProfilePage from "@/pages/auth/profile/profile";
@@ -21,9 +21,9 @@ import ProposalsPage from "@/pages/proposals/proposals-page";
 function App() {
   return (
     <Routes>
-      <Route path="landing" element={<LandingLayout />}>
+      {/* <Route path="landing" element={<LandingLayout />}>
         <Route index element={<LandingPage />} />
-      </Route>
+      </Route> */}
 
       <Route element={<AppLayout />}>
         <Route path="" element={<HomePage />}>

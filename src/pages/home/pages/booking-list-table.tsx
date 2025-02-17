@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
-import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
+// import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import { ArrowDownRight, CornerRightUp } from "lucide-react";
 import { sortbookingAtom } from "../model/sort-atom";
 import { useAtomValue } from "jotai";
 
@@ -84,7 +84,7 @@ export default function BookingListTable() {
     (booking) => booking?.status === "active",
   );
   return (
-    <div className="w-full pb-6 rounded-md">
+    <div className="w-full px-2 bg-background rounded-md">
       {!filterBooking ? (
         <Table>
           <TableHeader>
@@ -128,7 +128,7 @@ export default function BookingListTable() {
           <TableHeader>
             <TableRow>
               {/* <TableHead>Заказчик</TableHead> */}
-              <TableHead className="w-[220px]">Культура</TableHead>
+              <TableHead className="w-[100px]">Культура</TableHead>
               <TableHead className="w-[300px]">Погрузки</TableHead>
               <TableHead className="w-[300px]">Выгрузки</TableHead>
               <TableHead className="flex justify-center items-center">
@@ -136,7 +136,7 @@ export default function BookingListTable() {
               </TableHead>
               <TableHead>Расст.</TableHead>
               <TableHead className="text-right">Ставка</TableHead>
-              <TableHead className="text-center">Подробности</TableHead>
+              {/* <TableHead className="text-center">Подробности</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody className="bg-background">
@@ -149,7 +149,7 @@ export default function BookingListTable() {
                 </TableCell> */}
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
-                    <Package className="w-4 h-4" />
+                    {/* <Package className="w-4 h-4" /> */}
                     {booking?.basicInfo?.culture}
                   </div>
                 </TableCell>
@@ -178,7 +178,7 @@ export default function BookingListTable() {
                 <TableCell className="text-right font-medium">
                   {booking?.detailTransportation?.ratePerTon} ₽/т
                 </TableCell>
-                <TableCell className="flex justify-center">
+                {/* <TableCell className="flex justify-center">
                   <BookingDetailSheet
                     bookingId={booking?._id}
                     actionSlot={
@@ -187,7 +187,7 @@ export default function BookingListTable() {
                       </button>
                     }
                   />
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

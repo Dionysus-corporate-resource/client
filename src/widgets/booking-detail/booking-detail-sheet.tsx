@@ -20,7 +20,7 @@ export default function BookingDetailSheet({
       <SheetTrigger className="h-full">{actionSlot}</SheetTrigger>
       <SheetContent
         side="left"
-        className="w-[400px] max-w-[400px] sm:w-[540px] sm:max-w-[540px] lg:w-[520px] overflow-y-auto z-[999]
+        className="w-[400px] sm:w-[540px] sm:max-w-[640px] lg:w-[620px] overflow-y-auto z-[99999]
         ex:w-[100vw] ex:p-2"
       >
         <SheetHeader

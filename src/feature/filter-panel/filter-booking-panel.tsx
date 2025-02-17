@@ -112,16 +112,29 @@ export default function FilterBookingPanel({
   return (
     <div
       className={cn(
-        "justify-between w-full gap-1 mb-4 bg-mutedd rounded-lg xl:p-4",
+        "justify-between w-full gap-1 mb-4 bg-mutedd rounded-lg lg:p-2 xl:p-4",
         placeUse === "mobile"
           ? "grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 items-end px-2 md:px-0 gap-x-4 gap-y-2"
-          : "hidden xl:grid xl:grid-cols-1 gap-4",
+          : "hidden lg:grid lg:grid-cols-1 gap-4",
       )}
     >
-      {/* <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
+      <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
         <p>Панель для расширенного поиcка</p>
-      </div> */}
+      </div>
 
+      {/* Поле для фильтрации по культуре */}
+      <div className="relative w-full space-y-1">
+        <Label>Введите груз</Label>
+
+        <Input
+          type="text"
+          value={cultureFilter}
+          onChange={(e) => setCultureFilter(e.target.value)}
+          placeholder="Пшеница"
+          className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
+        />
+        <Package className="absolute top-8 md:top-8 lg:top-9 xl:top-10 left-4 w-4 h-4 text-muted-foreground" />
+      </div>
       {/* <div className="border-b" /> */}
       {/* Поле для фильтрации по месту загрузки */}
       <div className="relative w-full space-y-1">
@@ -194,19 +207,7 @@ export default function FilterBookingPanel({
           </PopoverContent>
         </Popover>
       </div>
-      {/* Поле для фильтрации по культуре */}
-      <div className="relative w-full space-y-1">
-        <Label>Введите груз</Label>
 
-        <Input
-          type="text"
-          value={cultureFilter}
-          onChange={(e) => setCultureFilter(e.target.value)}
-          placeholder="Введите груз"
-          className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
-        />
-        <Package className="absolute top-8 md:top-8 lg:top-9 xl:top-10 left-4 w-4 h-4 text-muted-foreground" />
-      </div>
       {/* Выбор заказчика */}
       <div className="w-full space-y-1">
         <Label>Выбирете заказчика</Label>

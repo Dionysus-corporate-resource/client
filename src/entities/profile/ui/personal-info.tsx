@@ -41,7 +41,8 @@ export default function PersonalInfo({
           <div className="space-y-1">
             <CardTitle>Личные данные</CardTitle>
             <CardDescription>
-              Управляйте вашей личной информацией
+              Вы можете редактировать свои данные, для этого измените поле и
+              нажмите кнопку "сохранить"
             </CardDescription>
             {/* aleksandringovatov0@gmail.com */}
             {/* {authContext?.user?.email === "skorohodroman921@gmail.com" && (

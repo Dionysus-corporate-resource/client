@@ -7,7 +7,7 @@ export function MobileSortedPanel({
   sortPanelSlot: ReactNode;
 }) {
   return (
-    <div className="w-full mt-2 borde border-green-600 xl:hidden">
+    <div className="w-full mt-2 borde border-green-600 lg:hidden">
       {/* Мобильное меню */}
       <nav className={cn("w-full z-10 borde border-pink-600 bg-background")}>
         <div className="w-full">{sortPanelSlot}</div>

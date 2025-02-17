@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function ProposalsPage() {
   const [isOpenFeedBackForm, setIsOpenFeedBackForm] = useState(false);
   return (
-    <div className="w-full">
+    <div className="container mx-auto">
       <div className="lg:hidden">
         {isOpenFeedBackForm ? (
           <ProposalsForm setIsOpenFeedBackForm={setIsOpenFeedBackForm} />
