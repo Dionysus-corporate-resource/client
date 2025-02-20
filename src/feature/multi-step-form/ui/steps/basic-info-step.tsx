@@ -20,16 +20,89 @@ import {
 } from "@/shared/components/ui/popover";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/lib/utils";
-import { cityesLocations } from "@/shared/lib/cityes";
+import { cityesLocations, ILocation, IRegion } from "@/shared/lib/cityes";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import MapSelector from "../map-selector";
 import { Badge } from "@/shared/components/ui/badge";
 
-type IAdressLocation = {
+type FlattenedItem = {
   name: string;
   coordinates: [number, number];
+  type: "district" | "city" | "village";
 };
 
+type RegionWithLocation = {
+  region: string;
+  location: FlattenedItem[];
+};
+
+// Функция для преобразования одного региона в нужный формат
+function flattenRegion(region: IRegion): RegionWithLocation {
+  const location: FlattenedItem[] = [];
+
+  // Проходим по районам
+  region.districts.forEach((district) => {
+    location.push({
+      name: district.name,
+      coordinates: district.coordinates,
+      type: "district",
+    });
+
+    // Добавляем деревни в районе
+    district.villages?.forEach((village) => {
+      location.push({
+        name: village.name,
+        coordinates: village.coordinates,
+        type: "village",
+      });
+    });
+
+    // Проходим по городам в районе
+    district.cities?.forEach((city) => {
+      location.push({
+        name: city.name,
+        coordinates: city.coordinates,
+        type: "city",
+      });
+
+      // Проходим по деревням в городе
+      city.villages?.forEach((village) => {
+        location.push({
+          name: village.name,
+          coordinates: village.coordinates,
+          type: "village",
+        });
+      });
+    });
+  });
+
+  // Если в регионе есть отдельные города
+  region.city?.forEach((city) => {
+    location.push({
+      name: city.name,
+      coordinates: city.coordinates,
+      type: "city",
+    });
+
+    city.villages?.forEach((village) => {
+      location.push({
+        name: village.name,
+        coordinates: village.coordinates,
+        type: "village",
+      });
+    });
+  });
+
+  return {
+    region: region.region,
+    location: location,
+  };
+}
+
+// Функция для обработки массива регионов
+// function flattenRegions(regions: IRegion[]): RegionWithLocation[] {
+//   return regions.map(flattenRegion);
+// }
 export function BasicInfoStep({
   formData,
   updateFormData,
@@ -42,8 +115,9 @@ export function BasicInfoStep({
   console.log("coordinates", coordinates);
   // const [errors] = useState<Record<string, string>>({});
 
-  const [selectedLocation, setSelectedLocation] =
-    useState<IAdressLocation | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<ILocation | null>(
+    null,
+  );
   console.log("selectedLocation", selectedLocation);
 
   const setCoordinatesHandle = (e: [number, number] | null) => {
@@ -71,7 +145,7 @@ export function BasicInfoStep({
     });
   };
 
-  const handleSelect = (value: IAdressLocation) => {
+  const handleSelect = (value: ILocation) => {
     setSelectedLocation(value);
     setOpen(false);
 
@@ -99,9 +173,12 @@ export function BasicInfoStep({
   };
 
   const [search, setSearch] = useState("");
-  const filteredLocations = (addresses: IAdressLocation[]) => {
-    if (!search) return addresses; // Если поиск пустой, возвращаем все адреса
-    return addresses.filter((location) =>
+  const filteredLocations = (
+    addresses: RegionWithLocation,
+  ): RegionWithLocation["location"] => {
+    if (!search) return addresses.location; // Если поиск пустой, возвращаем все адреса
+
+    return addresses.location.filter((location) =>
       location.name.toLowerCase().includes(search.toLowerCase()),
     );
   };
@@ -109,10 +186,10 @@ export function BasicInfoStep({
   return (
     <div
       className="grid rounded-lg
-       xl:pt-6 grid-cols-1 lg:grid-cols-3 lg:gap-6 items-start space-y-6 xl:space-y-0"
+       xl:pt-6 grid-cols-1  xl:grid-cols-3 lg:gap-6 items-start space-y-6 xl:space-y-0"
     >
       {/* Карта */}
-      <div className="h-full col-span-2">
+      <div className="h-full md col-span-2">
         <MapSelector
           formData={formData}
           setCoordinates={setCoordinatesHandle}
@@ -204,13 +281,16 @@ export function BasicInfoStep({
                   />
                   <CommandList className="z-[9999]">
                     <CommandEmpty>Нет результатов</CommandEmpty>
-                    {cityesLocations.map((city) => {
-                      const filtered = filteredLocations(city.adress);
+                    {cityesLocations.map((region) => {
+                      const filtered = filteredLocations(flattenRegion(region));
                       if (filtered.length === 0) return null;
 
                       return (
                         <>
-                          <CommandGroup key={city.region} heading={city.region}>
+                          <CommandGroup
+                            key={region.region}
+                            heading={region.region}
+                          >
                             {filtered.map((location) => (
                               <CommandItem
                                 key={location.name}

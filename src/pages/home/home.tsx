@@ -13,7 +13,9 @@ import { cn } from "@/shared/lib/utils";
 import { Toggle } from "@/shared/components/ui/toggle";
 import PageLoader from "@/shared/ui/page-loader";
 import { SiteFooter } from "@/shared/ui/footer";
-import MapBackground from "@/widgets/map/map-background";
+// import MapBackground from "@/widgets/map/map-background";
+import MapBackgroundYandex from "@/widgets/map/map-background-yandex";
+// карта Яндекс
 
 export default function HomePage() {
   const { data, isPending } = useQuery(bookingQueryOption.getAll());
@@ -38,9 +40,15 @@ export default function HomePage() {
       {/* карта */}
       <div className="col-span-3  rounded-lg overflow-hidden">
         <div className="absolute left-0 col-span-3  h-[414px] w-full rounded-lg overflow-hidden">
-          <MapBackground />
+          <MapBackgroundYandex />
         </div>
       </div>
+      {/* карта */}
+      {/* <div className="col-span-3  rounded-lg overflow-hidden">
+        <div className="absolute left-0 col-span-3  h-[414px] w-full rounded-lg overflow-hidden">
+          <MapBackground />
+        </div>
+      </div> */}
 
       {/* сортировочная панель */}
       <div className="col-span-3 md:col-span-3 lg:col-span-1 flex flex-col">

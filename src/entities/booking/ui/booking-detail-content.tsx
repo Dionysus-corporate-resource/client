@@ -15,20 +15,21 @@ import {
 import { IBookingDto } from "@/shared/model/types/booking";
 // import { useAtomValue } from "jotai";
 // import { userStorageAtom } from "@/shared/model/atoms/user-atom";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { icon } from "leaflet";
+// import { MapContainer, TileLayer, Marker } from "react-leaflet";
+// import { icon } from "leaflet";
 
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+// import markerIcon from "leaflet/dist/images/marker-icon.png";
+// import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
 import { useQuery } from "@tanstack/react-query";
+import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 // Создаем кастомную иконку
-const customIcon = icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+// const customIcon = icon({
+//   iconUrl: markerIcon,
+//   shadowUrl: markerShadow,
+//   iconSize: [25, 41],
+//   iconAnchor: [12, 41],
+// });
 
 function getPaymentMethodLabel(
   paymentType: IBookingDto["detailTransportation"]["paymentType"],
@@ -94,8 +95,8 @@ export default function BookingDetailContent({
 
         {/* Карта */}
         {bookingData?.basicInfo?.loadingLocation?.coordinates && (
-          <div>
-            <MapContainer
+          <div className="rounded-md overflow-hidden">
+            {/* <MapContainer
               center={bookingData?.basicInfo?.loadingLocation?.coordinates}
               zoom={6}
               style={{ height: "200px", width: "100%", borderRadius: "8px" }}
@@ -111,7 +112,38 @@ export default function BookingDetailContent({
                   icon={customIcon}
                 />
               )}
-            </MapContainer>
+            </MapContainer> */}
+
+            <YMaps
+              query={{
+                apikey: "e7f81961-a083-48fe-b94f-914620e7d372",
+                lang: "ru_RU",
+                // load: "package.full",
+                suggest_apikey: "b53c7cf5-43b8-4331-9d4f-06db83c2ce5a",
+              }}
+            >
+              <Map
+                style={{ height: "200px", width: "100%", borderRadius: "8px" }}
+                className="relative"
+                defaultState={{
+                  center: bookingData?.basicInfo?.loadingLocation
+                    ?.coordinates ?? [47.222109, 39.718813],
+                  zoom: 5,
+                }}
+              >
+                <Placemark
+                  key={bookingData._id}
+                  geometry={
+                    bookingData?.basicInfo?.loadingLocation?.coordinates ?? [
+                      47.222109, 39.718813,
+                    ]
+                  }
+                  options={{
+                    preset: "twirl#blueIcon", // Пресет с синим значком
+                  }}
+                />
+              </Map>
+            </YMaps>
           </div>
         )}
 
