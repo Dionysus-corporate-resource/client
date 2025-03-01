@@ -53,7 +53,14 @@ export type IBooking = {
   detailTransportation: {
     demurrage: string | null;
     allowedShortage: string | null;
-    paymentType: "cash" | "nds" | "without_nds";
+    paymentType:
+      | "cash"
+      | "nds"
+      | "without_nds"
+      | "nds_20"
+      | "nds_15"
+      | "nds_10"
+      | "nds_5";
     ratePerTon: string;
     paymentDeadline: string | null;
   };

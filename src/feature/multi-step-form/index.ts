@@ -1,3 +1,3 @@
-import MultiStepForm from "./ui/multi-step-form";
+import CreateBookingStepForm from "./ui/multi-step-form";
 
-export { MultiStepForm };
+export { CreateBookingStepForm };

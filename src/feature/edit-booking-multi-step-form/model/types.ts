@@ -1,3 +1,4 @@
+import { IBooking } from "@/shared/model/types/booking";
 import { Dispatch, SetStateAction } from "react";
 // import { z } from "zod";
 
@@ -77,7 +78,7 @@ export type FormData = {
   detailTransportation: {
     demurrage: string;
     allowedShortage: string;
-    paymentType: "cash" | "nds" | "without_nds";
+    paymentType: IBooking["detailTransportation"]["paymentType"];
     ratePerTon: string;
     paymentDeadline: string;
   };

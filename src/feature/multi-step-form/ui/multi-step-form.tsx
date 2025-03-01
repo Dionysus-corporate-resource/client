@@ -4,7 +4,7 @@ import { Button } from "@/shared/components/ui/button";
 import { FormData, Step } from "../model/types";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { ReviewStep } from "./steps/review-step";
-import { Stepper } from "./stepper";
+import { Stepper } from "./components/stepper";
 import { ConditionsTransportation } from "./steps/conditions-transportation";
 import { ConfirmationStep } from "./steps/confirmation-step";
 import { DetailTransportation } from "./steps/detail-transportation";
@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { bookingApi } from "@/pages/home/api/booking-api";
 import { queryClient } from "@/shared/model/api/query-client";
 import { toast } from "@/shared/hooks/use-toast";
+import { cityesLocations } from "@/shared/lib/cityes";
 
 const steps: Step[] = [
   {
@@ -51,7 +52,7 @@ const steps: Step[] = [
   },
 ];
 
-export default function MultiStepForm() {
+export default function CreateBookingStepForm() {
   const createBookingMutation = useMutation({
     mutationFn: (data: FormData) => bookingApi.create(data),
     onSettled: () => {
@@ -74,8 +75,8 @@ export default function MultiStepForm() {
     basicInfo: {
       distance: "",
       loadingLocation: {
-        name: "Майкопский Район",
-        coordinates: [44.6078, 40.1058],
+        name: cityesLocations[0].districts[0].name,
+        coordinates: cityesLocations[0].districts[0].coordinates,
       },
       unLoadingLocation: "",
       tonnage: "",
@@ -188,12 +189,9 @@ export default function MultiStepForm() {
         {renderStep()}
       </div>
       {currentStep < steps.length && (
-        <div
-          className="flex justify-between gap-2 mx-auto px-4
-          ex:flex-col"
-        >
+        <div className="flex justify-end ex:gap-2 gap-4 mx-auto pb-4 ex:flex-col">
           <Button
-            variant="outline"
+            variant="secondary"
             className="ex:text-xs"
             onClick={handleBack}
             disabled={currentStep === 1}
@@ -201,7 +199,7 @@ export default function MultiStepForm() {
             Предыдущий этап
           </Button>
           <Button
-            className="ex:text-xs"
+            className="ex:text-xs bg-primary/85"
             onClick={
               currentStep === steps.length - 1 ? handleSubmit : handleNext
             }

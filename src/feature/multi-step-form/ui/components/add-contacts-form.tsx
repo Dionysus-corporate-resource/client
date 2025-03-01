@@ -3,7 +3,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Pencil, Trash2, Plus } from "lucide-react";
 
-import { FormData } from "../model/types";
+import { FormData } from "@/feature/edit-booking-multi-step-form/model/types";
 import { Label } from "@/shared/components/ui/label";
 
 interface Contact {
@@ -144,7 +144,7 @@ export default function ContactsManager({
               >
                 <form
                   onSubmit={handleSubmit}
-                  className="grid gap-4
+                  className="grid gap-4 xl:gap-0
                   grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:space-y-4"
                 >
                   <div className="space-y-2">

@@ -7,8 +7,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import MapSelector from "../map-selector";
+import MapSelector from "@/feature/edit-booking-multi-step-form/ui/map-selector";
 import { X } from "lucide-react";
+import { IBooking } from "@/shared/model/types/booking";
+
+function paymentType(type: IBooking["detailTransportation"]["paymentType"]) {
+  switch (type) {
+    case "cash":
+      return "Наличными";
+    case "without_nds":
+      return "Без НДС";
+    case "nds":
+      return "С НДС";
+    case "nds_5":
+      return "С НДС 5%";
+    case "nds_10":
+      return "С НДС 10%";
+    case "nds_15":
+      return "С НДС 15%";
+    case "nds_20":
+      return "С НДС 20%";
+  }
+}
 
 export function ReviewStep({ formData }: FormStepProps) {
   console.log("formData", formData);
@@ -173,12 +193,9 @@ export function ReviewStep({ formData }: FormStepProps) {
                 },
                 {
                   label: "Тип оплаты",
-                  value:
-                    formData?.detailTransportation?.paymentType === "cash"
-                      ? "Наличный"
-                      : formData?.detailTransportation?.paymentType === "nds"
-                        ? "С НДС"
-                        : "Без НДС",
+                  value: paymentType(
+                    formData?.detailTransportation?.paymentType,
+                  ),
                   addEnd: "",
                   required: true,
                 },

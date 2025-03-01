@@ -7,7 +7,7 @@
 // } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 // import { icon } from "leaflet";
-import { FormData } from "../model/types";
+import { FormData } from "@/feature/edit-booking-multi-step-form/model/types";
 
 // Исправляем проблему с иконкой маркера
 // import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -100,13 +100,13 @@ export default function MapSelector({ setCoordinates, formData }: Props) {
       >
         <Map
           style={{ width: "100%" }}
-          className="relative ex:h-[200px] h-[calc(100vh-550px)] rounded-md overflow-hidden"
+          className="relative ex:h-[200px] h-[calc(100vh-450px)] rounded-md overflow-hidden"
           defaultState={{ center: defaultPosition, zoom: 5 }}
           state={{ center, zoom: 5 }}
           onClick={handleMapClick}
         >
           <Placemark
-            geometry={defaultPosition ?? [47.222109, 39.718813]}
+            geometry={defaultPosition}
             options={{
               preset: "twirl#blueIcon", // Пресет с синим значком
             }}

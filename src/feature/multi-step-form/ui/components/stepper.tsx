@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { StepperProps } from "../model/types";
+import { StepperProps } from "@/feature/edit-booking-multi-step-form/model/types";
 
 export function Stepper({ steps, currentStep }: StepperProps) {
   return (

@@ -53,7 +53,7 @@ export function ConditionsTransportation({
         </Label>
         <Input
           id="loadingMethod"
-          placeholder="Укажите способ погрузки"
+          placeholder="Это поле можно оставить пустым"
           className="transition-all"
           value={formData.conditionsTransportation?.loadingMethod}
           onChange={(e) =>
@@ -87,7 +87,7 @@ export function ConditionsTransportation({
         <Input
           id="scaleCapacity"
           name="scaleCapacity"
-          placeholder="Укажите грузо-подъемность весов"
+          placeholder="Это поле можно оставить пустым"
           className="transition-all"
           value={formData.conditionsTransportation?.scaleCapacity}
           onChange={handleChange}

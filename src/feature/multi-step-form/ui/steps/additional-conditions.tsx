@@ -2,7 +2,7 @@ import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
 
 import { Textarea } from "@/shared/components/ui/textarea";
-import ContactsManager from "../add-contacts-form";
+import ContactsManager from "@/feature/edit-booking-multi-step-form/ui/add-contacts-form";
 
 export function AdditionalTransportation({
   formData,
@@ -28,8 +28,8 @@ export function AdditionalTransportation({
         </Label>
         <Textarea
           id="additionalInformation"
-          placeholder="Дополнительная информация, которую не удалось указать ранее, или что-то важно, касающееся заявки"
-          className="transition-all"
+          placeholder="Дополнительная информация, которую не удалось указать ранее, или важные детали, касающиеся заявки."
+          className="transition-all h-[150px]"
           value={formData.additionalConditions?.additionalInformation}
           onChange={(e) =>
             updateFormData({

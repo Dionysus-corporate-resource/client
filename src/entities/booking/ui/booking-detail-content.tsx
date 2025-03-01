@@ -31,18 +31,22 @@ import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
 //   iconAnchor: [12, 41],
 // });
 
-function getPaymentMethodLabel(
-  paymentType: IBookingDto["detailTransportation"]["paymentType"],
-) {
-  switch (paymentType) {
+function paymentType(type: IBookingDto["detailTransportation"]["paymentType"]) {
+  switch (type) {
     case "cash":
-      return "Наличные";
-    case "nds":
-      return "НДС";
+      return "Наличными";
     case "without_nds":
       return "Без НДС";
-    default:
-      return "Уточнить";
+    case "nds":
+      return "С НДС";
+    case "nds_5":
+      return "С НДС 5%";
+    case "nds_10":
+      return "С НДС 10%";
+    case "nds_15":
+      return "С НДС 15%";
+    case "nds_20":
+      return "С НДС 20%";
   }
 }
 
@@ -390,7 +394,7 @@ export default function BookingDetailContent({
                     <TableRow>
                       <TableCell className="font-medium">Вид оплаты</TableCell>
                       <TableCell className="text-end">
-                        {getPaymentMethodLabel(
+                        {paymentType(
                           bookingData?.detailTransportation?.paymentType,
                         )}
                       </TableCell>
