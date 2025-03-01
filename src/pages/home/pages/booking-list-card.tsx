@@ -32,10 +32,7 @@ export default function BookingListCard() {
               <BookingDetailSheet
                 bookingId={booking?._id}
                 actionSlot={
-                  <Button
-                    variant="secondary"
-                    // className="bg-[hsl(var(--access-primary))] text-white "
-                  >
+                  <Button variant="secondary">
                     Подробнее
                     <ArrowUpRight className="w-4 h-4 ml-2" />
                   </Button>

@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
 import { IBookingDto } from "@/shared/model/types/booking";
-import { cn } from "@/shared/lib/utils";
 
 export default function BookingCard({
   bookingDetailSlot,
@@ -52,7 +51,6 @@ export default function BookingCard({
                 className="flex items-center text-sm text-muted-foreground
                 ex:text-xs"
               >
-                {/* <Calendar className="w-4 h-4 mr-1" /> */}
                 {new Date(booking.createdAt).toLocaleDateString("ru-RU", {
                   day: "2-digit",
                   month: "long",
@@ -62,14 +60,13 @@ export default function BookingCard({
                 className="flex items-center text-sm text-muted-foreground
                 ex:text-sm"
               >
-                {/* <Clock className="w-4 h-4 mr-1" /> */}
                 {new Date(booking?.createdAt).toLocaleTimeString("ru-RU", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </div>
             </div>
-            {showStatus && (
+            {/* {showStatus && (
               <Badge
                 variant="secondary"
                 className={cn(
@@ -80,7 +77,7 @@ export default function BookingCard({
               >
                 {booking?.status === "active" ? "Актуальная" : "В архиве"}
               </Badge>
-            )}
+            )} */}
             {/* <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
             </span> */}
@@ -189,9 +186,16 @@ export default function BookingCard({
               </div>
             )}
           </div>
-          <div className="flex gap-2 xl:gap-4">
+          <div className="flex">
+            {/* <div className="flex gap-2 mr-4">
+              <Skeleton className="w-32 h-4" />
+              <Skeleton className="w-9 h-4" />
+              <Skeleton className="w-9 h-4" />
+            </div> */}
             <div>{bookingDetailSlot}</div>
-            <div>{bookingEditSlot}</div>
+            {bookingEditSlot && (
+              <div className="ml-2 xl:ml-4">{bookingEditSlot}</div>
+            )}
           </div>
         </div>
         {/* <Button

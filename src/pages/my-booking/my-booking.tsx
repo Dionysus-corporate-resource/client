@@ -188,11 +188,7 @@ export default function MyBooking() {
                         <BookingDetailSheet
                           bookingId={booking?._id}
                           actionSlot={
-                            <Button
-                              size="sm"
-                              variant="secondary"
-                              // className="bg-[hsl(var(--access-primary))] text-white "
-                            >
+                            <Button size="sm" variant="secondary">
                               Подробнее
                               <ArrowUpRight className="w-4 h-4 ml-2" />
                             </Button>
