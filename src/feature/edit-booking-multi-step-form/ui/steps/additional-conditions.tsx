@@ -1,21 +1,24 @@
-import { useState } from "react";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
 
 import { Textarea } from "@/shared/components/ui/textarea";
-import ContactsManager from "../add-contacts-form";
+import ContactsManager from "@/feature/edit-booking-multi-step-form/ui/add-contacts-form";
 
 export function AdditionalTransportation({
   formData,
   updateFormData,
   // onNext,
 }: FormStepProps) {
-  const [errors] = useState<Record<string, string>>({});
-
   return (
-    <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
+    <div
+      className="grid gap-6 p-4 rounded-lg
+      lg:grid-cols-2 xl:grid-cols-3"
+    >
       {/* Доп инфа */}
-      <div className="space-y-2">
+      <div
+        className="space-y-2
+         col-span-2 xl:col-span-1"
+      >
         <Label
           htmlFor="additionalInformation"
           className="flex items-center gap-2"
@@ -25,8 +28,8 @@ export function AdditionalTransportation({
         </Label>
         <Textarea
           id="additionalInformation"
-          placeholder="Дополнительная информация, которую не удалось указать ранее, или что-то важно, касающееся заявки"
-          className="transition-all"
+          placeholder="Дополнительная информация, которую не удалось указать ранее, или важные детали, касающиеся заявки."
+          className="transition-all h-[150px]"
           value={formData.additionalConditions?.additionalInformation}
           onChange={(e) =>
             updateFormData({
@@ -44,19 +47,10 @@ export function AdditionalTransportation({
           htmlFor="paymentDeadline"
           className="flex items-center justify-between gap-2"
         >
-          {/* <Route className="w-4 h-4" /> */}
           <span>Контакты *</span>
-          {/* <Badge variant="secondary" className="ml-2 text-muted-foreground">
-            Обязательное поле
-          </Badge> */}
         </Label>
+
         <ContactsManager formData={formData} updateFormData={updateFormData} />
-        {errors.paymentDeadline && (
-          <p className="text-sm text-destructive flex items-center gap-1">
-            <span className="inline-block w-1 h-1 bg-destructive rounded-full" />
-            {errors.paymentDeadline}
-          </p>
-        )}
       </div>
     </div>
   );

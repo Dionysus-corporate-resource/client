@@ -12,6 +12,8 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { Badge } from "@/shared/components/ui/badge";
+import { cn } from "@/shared/lib/utils";
+import { IBooking } from "@/shared/model/types/booking";
 
 export function DetailTransportation({
   formData,
@@ -32,7 +34,10 @@ export function DetailTransportation({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
+    <div
+      className="grid gap-6 p-2 rounded-lg
+      es:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+    >
       {/* Простой */}
       <div className="space-y-2">
         <Label
@@ -46,7 +51,7 @@ export function DetailTransportation({
         </Label>
         <Input
           id="demurrage"
-          placeholder="Со вторых суток, по 2000 ₽/день"
+          placeholder="Это поле можно оставить пустым"
           className={`transition-all ${errors.demurrage ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.demurrage}
           onChange={(e) => handleChange("demurrage", e.target.value)}
@@ -73,7 +78,7 @@ export function DetailTransportation({
         </Label>
         <Input
           id="allowedShortage"
-          placeholder="Укажите допустимую недостачу"
+          placeholder="Это поле можно оставить пустым"
           className={`transition-all ${errors.allowedShortage ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.allowedShortage}
           onChange={(e) => handleChange("allowedShortage", e.target.value)}
@@ -93,16 +98,23 @@ export function DetailTransportation({
           className="flex items-end justify-between gap-2"
         >
           {/* <Wallet className="w-4 h-4" /> */}
-          <span>Вид оплаты *</span>
-          <Badge variant="secondary" className="ml-2 text-muted-foreground">
+          <span>Тип оплаты *</span>
+          <Badge
+            variant="secondary"
+            className={cn(
+              "hidden",
+              !formData?.detailTransportation?.paymentType &&
+                "block text-red-400 bg-red-50",
+            )}
+          >
             Обязательное поле
           </Badge>
         </Label>
         <Select
           value={formData.detailTransportation?.paymentType}
-          onValueChange={(value: "cash" | "nds" | "without_nds") =>
-            handleChange("paymentType", value)
-          }
+          onValueChange={(
+            value: IBooking["detailTransportation"]["paymentType"],
+          ) => handleChange("paymentType", value)}
         >
           <SelectTrigger
             className={`w-full ${errors.paymentType ? "border-destructive" : ""}`}
@@ -113,8 +125,12 @@ export function DetailTransportation({
             <SelectGroup>
               <SelectLabel>Тип оплаты</SelectLabel>
               <SelectItem value="cash">Наличный</SelectItem>
-              <SelectItem value="nds">С НДС</SelectItem>
               <SelectItem value="without_nds">Без НДС</SelectItem>
+              <SelectItem value="nds">С НДС</SelectItem>
+              <SelectItem value="nds_20">С НДС 20%</SelectItem>
+              <SelectItem value="nds_15">С НДС 15%</SelectItem>
+              <SelectItem value="nds_10">С НДС 10%</SelectItem>
+              <SelectItem value="nds_5">С НДС 5%</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -134,7 +150,14 @@ export function DetailTransportation({
         >
           {/* <BanknoteIcon className="w-4 h-4" /> */}
           <span>Ставка ₽/тонна *</span>
-          <Badge variant="secondary" className="ml-2 text-muted-foreground">
+          <Badge
+            variant="secondary"
+            className={cn(
+              "hidden",
+              !formData?.detailTransportation?.ratePerTon &&
+                "block text-red-400 bg-red-50",
+            )}
+          >
             Обязательное поле
           </Badge>
         </Label>
@@ -143,7 +166,9 @@ export function DetailTransportation({
           placeholder="Укажите ставку за тонну"
           className={`transition-all ${errors.ratePerTon ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.ratePerTon}
-          onChange={(e) => handleChange("ratePerTon", e.target.value)}
+          onChange={(e) =>
+            handleChange("ratePerTon", e.target.value.replace(/\D/g, ""))
+          }
         />
         {errors.ratePerTon && (
           <p className="text-sm text-destructive flex items-center gap-1">
@@ -167,7 +192,7 @@ export function DetailTransportation({
         </Label>
         <Input
           id="paymentDeadline"
-          placeholder="В течении 3~5 банковских дней"
+          placeholder="Это поле можно оставить пустым"
           className={`transition-all ${errors.paymentDeadline ? "border-destructive" : ""}`}
           value={formData.detailTransportation?.paymentDeadline}
           onChange={(e) => handleChange("paymentDeadline", e.target.value)}

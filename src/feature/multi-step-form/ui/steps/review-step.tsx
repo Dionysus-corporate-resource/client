@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import MapSelector from "@/feature/edit-booking-multi-step-form/ui/map-selector";
+import MapSelector from "../components/map-selector";
 import { X } from "lucide-react";
 import { IBooking } from "@/shared/model/types/booking";
 

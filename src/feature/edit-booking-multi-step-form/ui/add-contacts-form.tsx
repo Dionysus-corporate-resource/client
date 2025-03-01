@@ -85,7 +85,7 @@ export default function ContactsManager({
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-3 gap-6">
-        <div className="col-span-2 grid grid-cols-1 gap-2 h-fit">
+        <div className="ex:col-span-3 col-span-2 grid grid-cols-1 gap-2 h-fit">
           {formData.additionalConditions.contacts.map((contact, index) => (
             <div key={index} className="rounded-md shadow-sm border">
               <div className="flex items-center justify-between py-2 px-4">
@@ -102,8 +102,8 @@ export default function ContactsManager({
                     className=""
                     onClick={() => handleEdit(index)}
                   >
-                    <Pencil className="w-4 h-4 mr-2" />
-                    Редактировать
+                    <Pencil className="w-4 h-4 ex:mr-0 mr-2" />
+                    <p className="ex:hidden">Редактировать</p>
                   </Button>
                   <Button
                     variant="outline"
@@ -118,20 +118,7 @@ export default function ContactsManager({
             </div>
           ))}
         </div>
-        <div className="">
-          {/* <div className="flex justify-between items-center ">
-            {!isAdding && (
-              <Button
-                variant="secondary"
-                className="w-full"
-                onClick={() => setIsAdding(true)}
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Добавить контакт
-              </Button>
-            )}
-          </div> */}
-
+        <div className="ex:col-span-3 col-span-1">
           {isAdding && (
             <div className="border p-6 shadow-sm rounded-lg space-y-4">
               <span className="font-medium">

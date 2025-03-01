@@ -2,7 +2,7 @@ import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
 
 import { Textarea } from "@/shared/components/ui/textarea";
-import ContactsManager from "@/feature/edit-booking-multi-step-form/ui/add-contacts-form";
+import ContactsManager from "../components/add-contacts-form";
 
 export function AdditionalTransportation({
   formData,
@@ -41,7 +41,6 @@ export function AdditionalTransportation({
           }
         ></Textarea>
       </div>
-      {/* Сроки оплаты */}
       <div className="space-y-2 col-span-2">
         <Label
           htmlFor="paymentDeadline"

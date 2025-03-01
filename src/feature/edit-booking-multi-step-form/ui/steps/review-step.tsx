@@ -7,15 +7,38 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
-import MapSelector from "../map-selector";
+import MapSelector from "@/feature/edit-booking-multi-step-form/ui/map-selector";
 import { X } from "lucide-react";
+import { IBooking } from "@/shared/model/types/booking";
+
+function paymentType(type: IBooking["detailTransportation"]["paymentType"]) {
+  switch (type) {
+    case "cash":
+      return "Наличными";
+    case "without_nds":
+      return "Без НДС";
+    case "nds":
+      return "С НДС";
+    case "nds_5":
+      return "С НДС 5%";
+    case "nds_10":
+      return "С НДС 10%";
+    case "nds_15":
+      return "С НДС 15%";
+    case "nds_20":
+      return "С НДС 20%";
+  }
+}
 
 export function ReviewStep({ formData }: FormStepProps) {
   console.log("formData", formData);
   return (
     <div className="space-y-2">
       <MapSelector formData={formData} />
-      <div className="grid grid-cols-2 gap-6">
+      <div
+        className="grid gap-6
+        grid-cols-1 md:grid-cols-2"
+      >
         {/* Левая колонка */}
         <div className="space-y-6">
           <Table>
@@ -110,10 +133,9 @@ export function ReviewStep({ formData }: FormStepProps) {
                   value: new Date(
                     formData?.conditionsTransportation?.loadingDate,
                   )
-                    ?.toISOString()
+                    .toISOString()
                     .split("T")[0],
                   addEnd: "",
-
                   required: true,
                 },
               ].map(({ label, value, addEnd, required }, index) => (
@@ -173,12 +195,9 @@ export function ReviewStep({ formData }: FormStepProps) {
                 },
                 {
                   label: "Тип оплаты",
-                  value:
-                    formData?.detailTransportation?.paymentType === "cash"
-                      ? "Наличный"
-                      : formData?.detailTransportation?.paymentType === "nds"
-                        ? "С НДС"
-                        : "Без НДС",
+                  value: paymentType(
+                    formData?.detailTransportation?.paymentType,
+                  ),
                   addEnd: "",
                   required: true,
                 },

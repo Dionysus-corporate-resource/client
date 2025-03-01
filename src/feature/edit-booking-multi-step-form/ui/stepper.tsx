@@ -1,10 +1,13 @@
 import { Check } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { StepperProps } from "../model/types";
+import { StepperProps } from "@/feature/edit-booking-multi-step-form/model/types";
 
 export function Stepper({ steps, currentStep }: StepperProps) {
   return (
-    <div className="relative">
+    <div
+      className="relative
+      hidden 2xl:block xl:px-6 xl:mt-6"
+    >
       <div className="absolute left-0 top-8 h-0.5 w-full -translate-y-1/2 bg-muted" />
       <div
         className="absolute left-0 top-8 h-0.5 w-full -translate-y-1/2 bg-primary transition-all duration-500"
@@ -17,7 +20,7 @@ export function Stepper({ steps, currentStep }: StepperProps) {
 
           return (
             <div key={step.id} className="flex flex-col items-center">
-              <div className="bg-white rounded-full p-2">
+              <div className="bg-background rounded-full p-2">
                 <div
                   className={cn(
                     "flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors duration-500 ",

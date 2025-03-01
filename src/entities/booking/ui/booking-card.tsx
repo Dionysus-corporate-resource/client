@@ -1,21 +1,25 @@
-import { ArrowDownRight, CornerRightUp, Package } from "lucide-react";
+import { ArrowDownRight, CornerRightUp, Eye, Package } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/shared/components/ui/card";
 import { Badge } from "@/shared/components/ui/badge";
 import { ReactNode } from "react";
 import { IBookingDto } from "@/shared/model/types/booking";
+import { cn } from "@/shared/lib/utils";
 
 export default function BookingCard({
   bookingDetailSlot,
-  // orderNumber,
+  bookingEditSlot,
   booking,
+  showStatus,
 }: {
   bookingDetailSlot?: ReactNode;
+  bookingEditSlot?: ReactNode;
   orderNumber: number;
   booking: IBookingDto;
+  showStatus?: boolean;
 }) {
   return (
     <Card
-      className="w-full max-w-xl bg-card flex flex-col gap-2 justify-between
+      className="w-full max-w-xl bg-card flex flex-col ex:gap-0 gap-2 justify-between
       shadow-md hover:shadow-lg transition-shadow duration-200
       "
     >
@@ -30,7 +34,7 @@ export default function BookingCard({
                 "Уточнить"
               )}
             </Badge> */}
-            <Badge variant="default" className="bg-primary/80 space-x-2">
+            <Badge variant="secondary" className="space-x-2">
               <Package className="w-4 h-4" />
               <p className="max-w-32">
                 {booking?.basicInfo?.culture
@@ -42,7 +46,7 @@ export default function BookingCard({
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
             </span>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-1 flex flex-col justify-end">
             <div className="flex items-center gap-2">
               <div
                 className="flex items-center text-sm text-muted-foreground
@@ -65,6 +69,18 @@ export default function BookingCard({
                 })}
               </div>
             </div>
+            {showStatus && (
+              <Badge
+                variant="secondary"
+                className={cn(
+                  booking?.status === "active"
+                    ? "bg-blue-50 text-blue-400"
+                    : "bg-rose-50 text-rose-400",
+                )}
+              >
+                {booking?.status === "active" ? "Актуальная" : "В архиве"}
+              </Badge>
+            )}
             {/* <span className="text-xs text-muted-foreground">
               ID: {booking?._id.slice(Math.floor(booking._id.length / 2))}
             </span> */}
@@ -164,10 +180,18 @@ export default function BookingCard({
         </div>
 
         {/* Действия */}
-
-        <div className="grid grid-cols-1 gap-3">
-          <div className="col-start-2 flex justify-end">
-            {bookingDetailSlot}
+        <div className="flex items-center justify-between pt-4">
+          <div>
+            {showStatus && (
+              <div className="flex gap-2 items-center text-muted-foreground">
+                <Eye className="w-4 h-4" />
+                {booking?.view}
+              </div>
+            )}
+          </div>
+          <div className="flex gap-2 xl:gap-4">
+            <div>{bookingDetailSlot}</div>
+            <div>{bookingEditSlot}</div>
           </div>
         </div>
         {/* <Button

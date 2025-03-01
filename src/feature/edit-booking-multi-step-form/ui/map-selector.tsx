@@ -68,7 +68,7 @@ export default function MapSelector({ formData }: Props) {
       >
         <Map
           style={{ width: "100%" }}
-          className="relative ex:h-[200px] h-[calc(100vh-550px)] rounded-md overflow-hidden"
+          className="relative ex:h-[200px] h-[calc(100vh-450px)] rounded-md overflow-hidden"
           state={{
             center: formData?.basicInfo?.loadingLocation?.coordinates ?? [
               55.75, 37.57,

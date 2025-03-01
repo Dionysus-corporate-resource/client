@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/shared/components/ui/card";
+
 import { FormData, Step } from "../model/types";
 import { BasicInfoStep } from "./steps/basic-info-step";
 import { ReviewStep } from "./steps/review-step";
@@ -227,34 +222,33 @@ export default function EditBookingMultiStepForm() {
   };
 
   return (
-    <Card className="w-full border-none shadow-none">
-      <CardHeader>
-        {/* <CardTitle>Форма создания заявки</CardTitle> */}
-      </CardHeader>
-      <CardContent className="space-y-12">
+    <div className="w-full shadow-none space-y-10">
+      <div className="space-y-0 xl:space-y-6">
         <Stepper steps={steps} currentStep={currentStep} />
         {renderStep()}
-      </CardContent>
+      </div>
       {currentStep < steps.length && (
-        <CardFooter className="flex justify-between">
+        <div className="flex justify-end ex:gap-2 gap-4 mx-auto pb-4 ex:flex-col">
           <Button
-            variant="outline"
+            variant="secondary"
+            className="ex:text-xs"
             onClick={handleBack}
             disabled={currentStep === 1}
           >
             Предыдущий этап
           </Button>
           <Button
+            className="ex:text-xs bg-primary/85"
             onClick={
               currentStep === steps.length - 1 ? handleSubmit : handleNext
             }
           >
             {currentStep === steps.length - 1
-              ? "Отредактировать заявку"
+              ? "Сохранить изменения"
               : "Следующий этап"}
           </Button>
-        </CardFooter>
+        </div>
       )}
-    </Card>
+    </div>
   );
 }

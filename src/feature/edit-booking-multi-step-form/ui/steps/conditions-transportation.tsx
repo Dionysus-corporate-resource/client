@@ -3,6 +3,7 @@ import { Input } from "@/shared//components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { FormStepProps } from "../../model/types";
 import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
@@ -35,7 +36,10 @@ export function ConditionsTransportation({
   };
 
   return (
-    <div className="grid grid-cols-3 gap-6 p-4 rounded-lg">
+    <div
+      className="grid gap-6 rounded-lg
+      ex:grid-cols-1 ex:p-2 sm:grid-cols-2 lg:grid-cols-3"
+    >
       {/* Способ погрузки */}
       <div className="space-y-2">
         <Label
@@ -49,7 +53,7 @@ export function ConditionsTransportation({
         </Label>
         <Input
           id="loadingMethod"
-          placeholder="Укажите способ погрузки"
+          placeholder="Это поле можно оставить пустым"
           className="transition-all"
           value={formData.conditionsTransportation?.loadingMethod}
           onChange={(e) =>
@@ -83,7 +87,7 @@ export function ConditionsTransportation({
         <Input
           id="scaleCapacity"
           name="scaleCapacity"
-          placeholder="Укажите грузо-подъемность весов"
+          placeholder="Это поле можно оставить пустым"
           className="transition-all"
           value={formData.conditionsTransportation?.scaleCapacity}
           onChange={handleChange}
@@ -120,7 +124,9 @@ export function ConditionsTransportation({
             >
               <CalendarIcon />
               {formData?.conditionsTransportation?.loadingDate ? (
-                format(formData?.conditionsTransportation?.loadingDate, "PPP")
+                format(formData?.conditionsTransportation?.loadingDate, "PPP", {
+                  locale: ru,
+                })
               ) : (
                 <span>Выберите дату погрузки</span>
               )}
@@ -129,6 +135,7 @@ export function ConditionsTransportation({
           <PopoverContent className="w-auto p-0" align="start">
             <Calendar
               mode="single"
+              locale={ru}
               selected={formData?.conditionsTransportation?.loadingDate}
               onSelect={(value) => {
                 updateFormData({
