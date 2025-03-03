@@ -6,8 +6,9 @@ import { FormStepProps } from "../../model/types";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import MapSelector from "../components/map-selector";
 import { Badge } from "@/shared/components/ui/badge";
-import LocationSelector from "../components/select-loading-location";
+// import LocationSelector from "../components/select-loading-location";
 import { cn } from "@/shared/lib/utils";
+import SearchLoadingLocation from "../components/search-loading-location";
 
 // type FlattenedItem = {
 //   name: string;
@@ -242,7 +243,11 @@ export function BasicInfoStep({
           </Label>
 
           {!isViewMap ? (
-            <LocationSelector
+            // <LocationSelector
+            //   updateFormData={updateFormData}
+            //   formData={formData}
+            // />
+            <SearchLoadingLocation
               updateFormData={updateFormData}
               formData={formData}
             />

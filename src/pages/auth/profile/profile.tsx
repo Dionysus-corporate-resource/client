@@ -1,25 +1,47 @@
 import { useAuth } from "@/app/providers/auth-provider";
-import {
-  // PasswordChange,
-  PersonalInfo,
-  // SubscriptionInfo,
-} from "@/entities/profile";
+// import { TruckInfoCard } from "@/entities/driver";
+import { PersonalInfo } from "@/entities/profile";
 import { ProfileEditForm } from "@/feature/auth/profile";
-// import { Button } from "@/shared/components/ui/button";
-// import {
-//   Card,
-//   CardContent,
-//   CardDescription,
-//   CardHeader,
-//   CardTitle,
-// } from "@/shared/components/ui/card";
-// import { Label } from "@/shared/components/ui/label";
-// import { Separator } from "@/shared/components/ui/separator";
-// import { Switch } from "@/shared/components/ui/switch";
-// import { Bell, LogOut, Settings, UserCircle } from "lucide-react";
 
 export default function ProfilePage() {
   const authContext = useAuth();
+
+  // const [location, setLocation] = useState<[number, number] | null>(null);
+
+  // const getLocation = () => {
+  //   if ("geolocation" in navigator) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const { latitude, longitude } = position.coords;
+  //         setLocation([latitude, longitude]);
+  //       },
+  //       (error) => {
+  //         console.error("Ошибка получения геолокации:", error);
+  //       },
+  //     );
+  //   } else {
+  //     console.error("Геолокация не поддерживается этим браузером");
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!("geolocation" in navigator)) {
+  //     console.error("Геолокация не поддерживается этим браузером");
+  //     return;
+  //   }
+
+  //   const watchId = navigator.geolocation.watchPosition(
+  //     (position) => {
+  //       const { latitude, longitude } = position.coords;
+  //       setLocation([latitude, longitude]);
+  //     },
+  //     (error) => {
+  //       console.error("Ошибка получения геолокации:", error);
+  //     },
+  //   );
+
+  //   return () => navigator.geolocation.clearWatch(watchId);
+  // }, []);
 
   return (
     <div className="w-full">
@@ -65,7 +87,6 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card> */}
-
         {/* Connected Accounts */}
         {/* <Card>
             <CardHeader>
@@ -96,7 +117,6 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card> */}
-
         {/* Session Management */}
         {/* <Card>
             <CardHeader>
@@ -149,6 +169,12 @@ export default function ProfilePage() {
             </span>
           </div>
         </div>
+
+        {/* <div className="space-y-4">
+          {Array.from({ length: 10 }).map((_, index) => (
+            <TruckInfoCard key={index} />
+          ))}
+        </div> */}
       </div>
     </div>
   );
