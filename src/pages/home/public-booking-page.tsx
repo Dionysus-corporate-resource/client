@@ -21,11 +21,11 @@ import useFilteredBooking from "./hooks/use-filtered-booking";
 
 export default function PublicBookingPage() {
   const { data: bookings, isPending } = useQuery(bookingQueryOption.getAll());
-  const filteredBookingByActiveStatus = useFilteredBooking({ bookings });
+  const { filteredBooking, filters, setFilters, uniqueListCompany } =
+    useFilteredBooking({ bookings });
 
   const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(false);
   const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
-  const [isOpenFilterAndSorted] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -130,13 +130,14 @@ export default function PublicBookingPage() {
             </div>
           </Tabs>
           <div className="bg-background rounded-r-lg">
-            {isOpenFilterAndSorted && (
-              <FilterBookingPanel
-                placeUse="desktop"
-                filterBooking={filteredBookingByActiveStatus}
-                sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
-              />
-            )}
+            <FilterBookingPanel
+              filters={filters}
+              setFilters={setFilters}
+              uniqueListCompany={uniqueListCompany}
+              placeUse="desktop"
+              sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+            />
+
             {isOpenMobileSorted && (
               <MobileSortedPanel
                 sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
@@ -146,8 +147,10 @@ export default function PublicBookingPage() {
               <MobileFilterPanel
                 filterPanelSlot={
                   <FilterBookingPanel
+                    filters={filters}
+                    setFilters={setFilters}
+                    uniqueListCompany={uniqueListCompany}
                     placeUse="mobile"
-                    filterBooking={filteredBookingByActiveStatus}
                     sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
                   />
                 }
@@ -158,13 +161,8 @@ export default function PublicBookingPage() {
       </div>
 
       <div className="relative col-span-3 md:col-span-3 lg:col-span-2 z-10 ex:px-0 px-4 pt-0 mt-0 mx-auto lg:mt-[350px] rounded-xl">
-        <PublicBookingListCard bookings={filteredBookingByActiveStatus} />
+        <PublicBookingListCard bookings={filteredBooking} />
       </div>
-
-      {/* реклама */}
-      {/* <div className="col-span-3">
-        <FeaturePromo />
-      </div> */}
 
       {/* подвал */}
       <div className="h-60 col-span-3 mt-0">
@@ -175,5 +173,3 @@ export default function PublicBookingPage() {
     </div>
   );
 }
-
-// <div className="container mx-auto flex flex-1 md:grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px] gap-6 p-4 md:p-6">
