@@ -1,6 +1,6 @@
 import { useState, useEffect, ReactNode } from "react";
 import { useSetAtom } from "jotai";
-import { filterbookingAtom } from "@/pages/home/model/sort-atom";
+import { filterbookingAtom } from "@/shared/model/atoms/sort-atom";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { Input } from "@/shared/components/ui/input";
 import {

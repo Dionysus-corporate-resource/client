@@ -1,9 +1,3 @@
-import BookingListCard from "./pages/booking-list-card";
-import MapPage from "./pages/map-page";
-import BookingListTable from "./pages/booking-list-table";
+import PublicBookingPage from "./public-booking-page";
 
-export {
-  BookingListCard as BookingCardPage,
-  MapPage,
-  BookingListTable as BookingTablePage,
-};
+export { PublicBookingPage };

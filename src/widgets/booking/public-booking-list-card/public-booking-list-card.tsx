@@ -1,11 +1,16 @@
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import { Button } from "@/shared/components/ui/button";
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
 import { useAtomValue } from "jotai";
 import { ArrowUpRight } from "lucide-react";
-import { sortbookingAtom } from "../model/sort-atom";
+import { sortbookingAtom } from "@/shared/model/atoms/sort-atom";
+import { IBookingDto } from "@/shared/model/types/booking";
 
-export default function BookingListCard() {
+export default function PublicBookingListCard({
+  bookings,
+}: {
+  bookings: IBookingDto[] | undefined;
+}) {
   const sortBooking = useAtomValue(sortbookingAtom);
 
   // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО

@@ -1,5 +1,5 @@
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import SortBookingPanel from "@/feature/filter-panel/sort-booking-panel";
 import { bookingQueryOption } from "./api/query-option";
 import { useQuery } from "@tanstack/react-query";
@@ -15,12 +15,14 @@ import PageLoader from "@/shared/ui/page-loader";
 import { SiteFooter } from "@/shared/ui/footer";
 // import MapBackground from "@/widgets/map/map-background";
 import MapBackgroundYandex from "@/widgets/map/map-background-yandex";
+import PublicBookingListCard from "@/widgets/booking/public-booking-list-card/public-booking-list-card";
+import useFilteredBooking from "./hooks/use-filtered-booking";
 // карта Яндекс
 
-export default function HomePage() {
-  const { data, isPending } = useQuery(bookingQueryOption.getAll());
-  const filterBooking = data?.filter((booking) => booking?.status === "active");
-  // const [isMapViewFull, setIsMapViewFull] = useAtom(isMapViewFullAtom);
+export default function PublicBookingPage() {
+  const { data: bookings, isPending } = useQuery(bookingQueryOption.getAll());
+  const filteredBookingByActiveStatus = useFilteredBooking({ bookings });
+
   const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(false);
   const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
   const [isOpenFilterAndSorted] = useState(true);
@@ -51,14 +53,6 @@ export default function HomePage() {
             <div className="relative flex gap-2 xl:gap-6 ex:gap-2 justify-between ex:flex-col flex-col xl:flex-row">
               <div className="flex gap-6">
                 <TabsList className="h-10 rounded-b-none">
-                  {/* <TabsTrigger
-                    value="/table-view"
-                    className="space-x-2"
-                    onClick={() => navigate("/table-view")}
-                  >
-                    <List className="w-4 h-4" />
-                    <span className="">Таблица</span>
-                  </TabsTrigger> */}
                   <TabsTrigger
                     disabled
                     value="/map-view"
@@ -139,7 +133,7 @@ export default function HomePage() {
             {isOpenFilterAndSorted && (
               <FilterBookingPanel
                 placeUse="desktop"
-                filterBooking={filterBooking}
+                filterBooking={filteredBookingByActiveStatus}
                 sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
               />
             )}
@@ -153,7 +147,7 @@ export default function HomePage() {
                 filterPanelSlot={
                   <FilterBookingPanel
                     placeUse="mobile"
-                    filterBooking={filterBooking}
+                    filterBooking={filteredBookingByActiveStatus}
                     sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
                   />
                 }
@@ -164,7 +158,7 @@ export default function HomePage() {
       </div>
 
       <div className="relative col-span-3 md:col-span-3 lg:col-span-2 z-10 ex:px-0 px-4 pt-0 mt-0 mx-auto lg:mt-[350px] rounded-xl">
-        <Outlet />
+        <PublicBookingListCard bookings={filteredBookingByActiveStatus} />
       </div>
 
       {/* реклама */}

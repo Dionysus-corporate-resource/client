@@ -1,7 +1,7 @@
 import {
   filterbookingAtom,
   sortbookingAtom,
-} from "@/pages/home/model/sort-atom";
+} from "@/shared/model/atoms/sort-atom";
 import { Label } from "@/shared/components/ui/label";
 
 import {

@@ -1,8 +1,8 @@
-import { sortbookingAtom } from "@/pages/home/model/sort-atom";
+import { sortbookingAtom } from "@/shared/model/atoms/sort-atom";
 import { YMaps, Map, Placemark, Clusterer } from "@pbe/react-yandex-maps";
 import { useAtomValue } from "jotai";
 import { useState } from "react";
-import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
+import BookingDetailSheet from "../booking/booking-detail/booking-detail-sheet";
 
 export default function MapBackgroundYandex() {
   const sortBooking = useAtomValue(sortbookingAtom);
