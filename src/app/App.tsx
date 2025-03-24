@@ -1,10 +1,7 @@
 import { Route, Routes } from "react-router";
-import HomePage from "../pages/home/home";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
-// import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
-// import LandingLayout from "@/shared/ui/landing-layout";
-// import LandingPage from "@/pages/landing/landing-page";
+
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import ProfilePage from "@/pages/auth/profile/profile";
@@ -14,23 +11,15 @@ import CreateBookingPage from "@/pages/create-booking/create-booking-page";
 import Authentication from "./providers/authenication-provider";
 import SuccessPage from "@/pages/payment/payment-success";
 import ErrorPage from "@/pages/payment/payment-failed";
-import { BookingCardPage, BookingTablePage, MapPage } from "@/pages/home";
+import PublicBookingPage from "../pages/home/public-booking-page";
 import ProposalsPage from "@/pages/proposals/proposals-page";
 import EditBookingPage from "@/pages/edit-booking/edit-booking";
 
 function App() {
   return (
     <Routes>
-      {/* <Route path="landing" element={<LandingLayout />}>
-        <Route index element={<LandingPage />} />
-      </Route> */}
-
       <Route element={<AppLayout />}>
-        <Route path="" element={<HomePage />}>
-          <Route path="table-view" element={<BookingTablePage />} />
-          <Route path="map-view" element={<MapPage />} />
-          <Route index element={<BookingCardPage />} />
-        </Route>
+        <Route path="" element={<PublicBookingPage />} />
         {/* <Route path="subscribe" element={<SubscriptionsPageShort />} /> */}
         <Route
           path="profile"

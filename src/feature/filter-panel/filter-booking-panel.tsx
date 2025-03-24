@@ -1,7 +1,5 @@
-import { useState, useEffect, ReactNode } from "react";
-import { useSetAtom } from "jotai";
-import { filterbookingAtom } from "@/pages/home/model/sort-atom";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { ReactNode, Dispatch } from "react";
+import { SetStateAction } from "jotai";
 import { Input } from "@/shared/components/ui/input";
 import {
   ArrowDownRight,
@@ -21,94 +19,41 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  // CommandInput,
   CommandItem,
   CommandList,
 } from "@/shared/components/ui/command";
 import { cn } from "@/shared/lib/utils";
-import { format, endOfDay, startOfDay } from "date-fns";
-import { DateRange } from "react-day-picker";
+import { format } from "date-fns";
 import { Calendar } from "@/shared/components/ui/calendar";
-import { ru } from "date-fns/locale"; // Импортируем русскую локализацию
+import { ru } from "date-fns/locale";
 import { Label } from "@/shared/components/ui/label";
+import { DateRange } from "react-day-picker";
 
 export default function FilterBookingPanel({
   sortedPanelSlot,
-  filterBooking,
   placeUse,
+  filters,
+  setFilters,
+  uniqueListCompany,
 }: {
   sortedPanelSlot: ReactNode;
-  filterBooking: IBookingDto[] | undefined;
   placeUse: "mobile" | "desktop";
+  filters: {
+    loadingLocationFilter: string;
+    unLoadingLocationFilter: string;
+    companyNameFilter: string;
+    cultureFilter: string;
+    date: DateRange | undefined;
+  };
+  setFilters: {
+    setLoadingLocationFilter: Dispatch<SetStateAction<string>>;
+    setUnLoadingLocationFilter: Dispatch<SetStateAction<string>>;
+    setCompanyNameFilter: Dispatch<SetStateAction<string>>;
+    setCultureFilter: Dispatch<SetStateAction<string>>;
+    setDate: Dispatch<SetStateAction<DateRange | undefined>>;
+  };
+  uniqueListCompany: string[];
 }) {
-  const [openSelectNameCompany, setOpenSelectNameCompany] = useState(false);
-  const [loadingLocationFilter, setLoadingLocationFilter] =
-    useState<string>("");
-  const [unLoadingLocationFilter, setUnLoadingLocationFilter] =
-    useState<string>("");
-  const [companyNameFilter, setCompanyNameFilter] =
-    useState<string>("Все заказчики");
-  const [cultureFilter, setCultureFilter] = useState<string>("");
-  const setFilteredBookings = useSetAtom(filterbookingAtom);
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
-
-  // Эффект для фильтрации и обновления атома
-  useEffect(() => {
-    if (!filterBooking) return;
-
-    const filteredBookings = filterBooking.filter((booking) => {
-      const matchesLoadingLocation = booking.basicInfo.loadingLocation.name
-        .toLowerCase()
-        .includes(loadingLocationFilter.toLowerCase());
-
-      const matchesUnLoadingLocation = booking.basicInfo.unLoadingLocation
-        .toLowerCase()
-        .includes(unLoadingLocationFilter.toLowerCase());
-
-      const matchesCulture = booking.basicInfo.culture
-        .toLowerCase()
-        .includes(cultureFilter.toLowerCase());
-
-      const loadingDate = startOfDay(
-        new Date(booking?.conditionsTransportation?.loadingDate),
-      ); // Обнуляем время
-      const matchesDate = date
-        ? loadingDate >= startOfDay(date.from || new Date(0)) &&
-          loadingDate <= endOfDay(date.to || new Date(8640000000000000))
-        : true;
-
-      const matchesCompany =
-        companyNameFilter === "Все заказчики"
-          ? true
-          : booking?.companyPublicData?.nameCompany === companyNameFilter;
-
-      return (
-        matchesLoadingLocation &&
-        matchesUnLoadingLocation &&
-        matchesCulture &&
-        matchesDate &&
-        matchesCompany
-      );
-    });
-
-    setFilteredBookings(filteredBookings);
-  }, [
-    filterBooking,
-    loadingLocationFilter,
-    unLoadingLocationFilter,
-    cultureFilter,
-    companyNameFilter,
-    date,
-    setFilteredBookings,
-  ]);
-
-  // Уникальный список заказчиков
-  const uniqueListCompany = [
-    ...new Set(
-      filterBooking?.map((booking) => booking?.companyPublicData?.nameCompany),
-    ),
-  ];
-
   return (
     <div
       className={cn(
@@ -118,7 +63,7 @@ export default function FilterBookingPanel({
           : "hidden lg:grid lg:grid-cols-1 gap-4",
       )}
     >
-      <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
+      <div className="hidden lg:flex gap-2 items-center text-xl font-medium">
         <p>Панель для расширенного поиcка</p>
       </div>
 
@@ -128,8 +73,8 @@ export default function FilterBookingPanel({
 
         <Input
           type="text"
-          value={cultureFilter}
-          onChange={(e) => setCultureFilter(e.target.value)}
+          value={filters.cultureFilter}
+          onChange={(e) => setFilters.setCultureFilter(e.target.value)}
           placeholder="Пшеница"
           className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
@@ -141,8 +86,8 @@ export default function FilterBookingPanel({
         <Label>Введите место загрузки</Label>
         <Input
           type="text"
-          value={loadingLocationFilter}
-          onChange={(e) => setLoadingLocationFilter(e.target.value)}
+          value={filters.loadingLocationFilter}
+          onChange={(e) => setFilters.setLoadingLocationFilter(e.target.value)}
           placeholder="Ростов-на-Дону"
           className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
@@ -154,8 +99,10 @@ export default function FilterBookingPanel({
 
         <Input
           type="text"
-          value={unLoadingLocationFilter}
-          onChange={(e) => setUnLoadingLocationFilter(e.target.value)}
+          value={filters.unLoadingLocationFilter}
+          onChange={(e) =>
+            setFilters.setUnLoadingLocationFilter(e.target.value)
+          }
           placeholder="Краснодар"
           className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 bg-muted border-none"
         />
@@ -176,18 +123,18 @@ export default function FilterBookingPanel({
               variant={"outline"}
               className={cn(
                 "h-8 md:h-8 lg:h-10 xl:h-12 pl-4 w-full justify-start text-left font-normal bg-muted border-none",
-                !date && "text-muted-foreground",
+                !filters.date && "text-muted-foreground",
               )}
             >
               <CalendarIcon className="mr-2" />
-              {date?.from ? (
-                date.to ? (
+              {filters.date?.from ? (
+                filters.date.to ? (
                   <>
-                    {format(date.from, "dd MMMM yyyy", { locale: ru })} -{" "}
-                    {format(date.to, "dd MMMM yyyy", { locale: ru })}
+                    {format(filters.date.from, "dd MMMM yyyy", { locale: ru })}{" "}
+                    - {format(filters.date.to, "dd MMMM yyyy", { locale: ru })}
                   </>
                 ) : (
-                  format(date.from, "dd MMMM yyyy", { locale: ru })
+                  format(filters.date.from, "dd MMMM yyyy", { locale: ru })
                 )
               ) : (
                 <span>На сегодня</span>
@@ -198,9 +145,9 @@ export default function FilterBookingPanel({
             <Calendar
               initialFocus
               mode="range"
-              defaultMonth={date?.from}
-              selected={date}
-              onSelect={setDate}
+              defaultMonth={filters.date?.from}
+              selected={filters.date}
+              onSelect={setFilters.setDate}
               numberOfMonths={2}
               locale={ru} // Устанавливаем русскую локализацию
             />
@@ -212,18 +159,15 @@ export default function FilterBookingPanel({
       <div className="w-full space-y-1">
         <Label>Выбирете заказчика</Label>
 
-        <Popover
-          open={openSelectNameCompany}
-          onOpenChange={setOpenSelectNameCompany}
-        >
+        <Popover>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
               className="h-8 md:h-8 lg:h-10 xl:h-12 pl-12 w-full justify-between bg-muted border-none"
             >
-              {companyNameFilter.length > 0
-                ? `Выбрано: ${companyNameFilter}`
+              {filters.companyNameFilter.length > 0
+                ? `Выбрано: ${filters.companyNameFilter}`
                 : "Выберите Заказчика"}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
@@ -235,12 +179,14 @@ export default function FilterBookingPanel({
                 <CommandEmpty>Ничего не найдено.</CommandEmpty>
                 <CommandGroup heading="Заказчики">
                   <CommandItem
-                    onSelect={() => setCompanyNameFilter("Все заказчики")}
+                    onSelect={() =>
+                      setFilters.setCompanyNameFilter("Все заказчики")
+                    }
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        companyNameFilter === "Все заказчики"
+                        filters.companyNameFilter === "Все заказчики"
                           ? "opacity-100"
                           : "opacity-0",
                       )}
@@ -250,15 +196,12 @@ export default function FilterBookingPanel({
                   {uniqueListCompany?.map((name, index) => (
                     <CommandItem
                       key={index}
-                      onSelect={() => {
-                        setCompanyNameFilter(name);
-                        setOpenSelectNameCompany(false);
-                      }}
+                      onSelect={() => setFilters.setCompanyNameFilter(name)}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          companyNameFilter === name
+                          filters.companyNameFilter === name
                             ? "opacity-100"
                             : "opacity-0",
                         )}
@@ -278,11 +221,11 @@ export default function FilterBookingPanel({
         className="h-10 md:h-10 xl:h-12 pl-12 mt-2 xl:mt-0 bg-primary/85"
         variant="default"
         onClick={() => {
-          setLoadingLocationFilter("");
-          setUnLoadingLocationFilter("");
-          setCultureFilter("");
-          setCompanyNameFilter("Все заказчики");
-          setDate(undefined);
+          setFilters.setLoadingLocationFilter("");
+          setFilters.setUnLoadingLocationFilter("");
+          setFilters.setCultureFilter("");
+          setFilters.setCompanyNameFilter("Все заказчики");
+          setFilters.setDate(undefined);
         }}
       >
         Сбросить фильтрацию

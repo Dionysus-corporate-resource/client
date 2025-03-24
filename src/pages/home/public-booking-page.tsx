@@ -1,11 +1,11 @@
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
-import { Outlet, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import SortBookingPanel from "@/feature/filter-panel/sort-booking-panel";
 import { bookingQueryOption } from "./api/query-option";
 import { useQuery } from "@tanstack/react-query";
 import FilterBookingPanel from "@/feature/filter-panel/filter-booking-panel";
 
-import { ArrowUpDown, Filter, Package2, X } from "lucide-react";
+import { ArrowBigUpDash, ArrowUpDown, Filter, Package2, X } from "lucide-react";
 import { MobileFilterPanel } from "@/widgets/mobile/mobile-filter-panel/mobile-filter-panel";
 import { MobileSortedPanel } from "@/widgets/mobile/mobile-sorted-panel/mobile-sorted-panel";
 import { useState } from "react";
@@ -15,15 +15,25 @@ import PageLoader from "@/shared/ui/page-loader";
 import { SiteFooter } from "@/shared/ui/footer";
 // import MapBackground from "@/widgets/map/map-background";
 import MapBackgroundYandex from "@/widgets/map/map-background-yandex";
+import PublicBookingListCard from "@/widgets/booking/public-booking-list-card/public-booking-list-card";
+import useFilteredBooking from "./hooks/use-filtered-booking";
+import { PaginationPublicBooking } from "@/feature/pagination-booking/pagination-public-booking";
 // карта Яндекс
+import { usePaginationPublicBooking } from "@/feature/pagination-booking";
 
-export default function HomePage() {
-  const { data, isPending } = useQuery(bookingQueryOption.getAll());
-  const filterBooking = data?.filter((booking) => booking?.status === "active");
-  // const [isMapViewFull, setIsMapViewFull] = useAtom(isMapViewFullAtom);
+export default function PublicBookingPage() {
+  const { data: bookings, isPending } = useQuery(bookingQueryOption.getAll());
+  const { filteredBooking, filters, setFilters, uniqueListCompany } =
+    useFilteredBooking({ bookings });
+
+  // pagination
+  const { paginatedBookings, setPage, page, itemsPerPage } =
+    usePaginationPublicBooking({
+      filteredBooking,
+    });
+
   const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(false);
   const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
-  const [isOpenFilterAndSorted] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,12 +45,15 @@ export default function HomePage() {
       </div>
     );
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   return (
     <div className="container mx-auto grid grid-cols-3 gap-6">
       {/* карта */}
       <div className="col-span-3  rounded-lg overflow-hidden">
         <div className="absolute left-0 col-span-3  h-[414px] w-full rounded-lg overflow-hidden">
-          <MapBackgroundYandex />
+          <MapBackgroundYandex bookings={filteredBooking} />
         </div>
       </div>
 
@@ -51,14 +64,6 @@ export default function HomePage() {
             <div className="relative flex gap-2 xl:gap-6 ex:gap-2 justify-between ex:flex-col flex-col xl:flex-row">
               <div className="flex gap-6">
                 <TabsList className="h-10 rounded-b-none">
-                  {/* <TabsTrigger
-                    value="/table-view"
-                    className="space-x-2"
-                    onClick={() => navigate("/table-view")}
-                  >
-                    <List className="w-4 h-4" />
-                    <span className="">Таблица</span>
-                  </TabsTrigger> */}
                   <TabsTrigger
                     disabled
                     value="/map-view"
@@ -136,13 +141,14 @@ export default function HomePage() {
             </div>
           </Tabs>
           <div className="bg-background rounded-r-lg">
-            {isOpenFilterAndSorted && (
-              <FilterBookingPanel
-                placeUse="desktop"
-                filterBooking={filterBooking}
-                sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
-              />
-            )}
+            <FilterBookingPanel
+              filters={filters}
+              setFilters={setFilters}
+              uniqueListCompany={uniqueListCompany}
+              placeUse="desktop"
+              sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
+            />
+
             {isOpenMobileSorted && (
               <MobileSortedPanel
                 sortPanelSlot={<SortBookingPanel placeUse="mobile" />}
@@ -152,8 +158,10 @@ export default function HomePage() {
               <MobileFilterPanel
                 filterPanelSlot={
                   <FilterBookingPanel
+                    filters={filters}
+                    setFilters={setFilters}
+                    uniqueListCompany={uniqueListCompany}
                     placeUse="mobile"
-                    filterBooking={filterBooking}
                     sortedPanelSlot={<SortBookingPanel placeUse="desktop" />}
                   />
                 }
@@ -163,14 +171,25 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="relative col-span-3 md:col-span-3 lg:col-span-2 z-10 ex:px-0 px-4 pt-0 mt-0 mx-auto lg:mt-[350px] rounded-xl">
-        <Outlet />
+      <div className="relative col-span-3 md:col-span-3 lg:col-span-2 w-full z-10 ex:px-0 px-4 pt-0 mt-0 mx-auto lg:mt-[350px] rounded-xl">
+        <PublicBookingListCard bookings={paginatedBookings} />
+        <div className="mt-6 ex:mt-4 ex:px-2 flex justify-start">
+          <div>
+            <PaginationPublicBooking
+              filteredBooking={filteredBooking}
+              setPage={setPage}
+              page={page}
+              itemsPerPage={itemsPerPage}
+            />
+          </div>
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition"
+          >
+            <ArrowBigUpDash className="w-6 h-6 shrink-0" />
+          </button>
+        </div>
       </div>
-
-      {/* реклама */}
-      {/* <div className="col-span-3">
-        <FeaturePromo />
-      </div> */}
 
       {/* подвал */}
       <div className="h-60 col-span-3 mt-0">
@@ -181,5 +200,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-// <div className="container mx-auto flex flex-1 md:grid md:grid-cols-[1fr_280px] lg:grid-cols-[1fr_300px] gap-6 p-4 md:p-6">

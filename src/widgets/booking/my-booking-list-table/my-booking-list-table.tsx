@@ -10,7 +10,7 @@ import {
 import { IBookingDto } from "@/shared/model/types/booking";
 import { ArrowDownRight, CornerRightUp, Dot, Eye } from "lucide-react";
 
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
 import { ReactNode } from "react";
 
 export type IStateRemoveSureType = {

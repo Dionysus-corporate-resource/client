@@ -4,13 +4,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-import { MyBookingListTable } from "@/widgets/booking-list";
+import MyBookingListTable from "@/widgets/booking/my-booking-list-table/my-booking-list-table";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
 import { useAtomValue } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import BookingDetailSheet from "@/widgets/booking/booking-detail/booking-detail-sheet";
 import { Button } from "@/shared/components/ui/button";
 import {
   ArrowUpRight,

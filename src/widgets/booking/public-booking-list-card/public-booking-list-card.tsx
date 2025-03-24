@@ -1,29 +1,25 @@
 import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import { Button } from "@/shared/components/ui/button";
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
-import { useAtomValue } from "jotai";
+import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
 import { ArrowUpRight } from "lucide-react";
-import { sortbookingAtom } from "../model/sort-atom";
+import { IBookingDto } from "@/shared/model/types/booking";
 
-export default function BookingListCard() {
-  const sortBooking = useAtomValue(sortbookingAtom);
-
-  // Фильтруем заявки по статусу "active" ДЛЯ КАРТЫ ЧИСТО
-  const filterBooking = sortBooking?.filter(
-    (booking) => booking?.status === "active",
-  );
-
+export default function PublicBookingListCard({
+  bookings,
+}: {
+  bookings: IBookingDto[] | undefined;
+}) {
   return (
     <div
       className="mx-auto w-fit grid gap-4 ex:px-2 ex:mt-2 p- bg- rounded-xl
      grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-1 xl:grid-cols-2 lg:w-full 2xl:grid-cols-2 2xl:w-full"
     >
-      {!filterBooking ? (
+      {!bookings ? (
         Array.from({ length: 10 }).map((_, index) => (
           <SkeletonBookingCard key={index} />
         ))
-      ) : filterBooking.length > 0 ? (
-        filterBooking?.reverse().map((booking, index) => (
+      ) : bookings.length > 0 ? (
+        bookings?.reverse().map((booking, index) => (
           <BookingCard
             key={booking._id}
             orderNumber={index + 1}

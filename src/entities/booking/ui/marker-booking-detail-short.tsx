@@ -1,7 +1,7 @@
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/lib/utils";
 import { IBookingDto } from "@/shared/model/types/booking";
-import BookingDetailSheet from "@/widgets/booking-detail/booking-detail-sheet";
+import BookingDetailSheet from "@/widgets/booking/booking-detail/booking-detail-sheet";
 import { ArrowUpRight, Package } from "lucide-react";
 
 export default function MarkerBookingDetailShort({
