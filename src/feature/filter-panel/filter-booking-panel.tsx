@@ -63,7 +63,7 @@ export default function FilterBookingPanel({
           : "hidden lg:grid lg:grid-cols-1 gap-4",
       )}
     >
-      <div className="hidden lg:flex gap-2 items-center text-xl font-semibold">
+      <div className="hidden lg:flex gap-2 items-center text-xl font-medium">
         <p>Панель для расширенного поиcка</p>
       </div>
 
