@@ -1,36 +1,82 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "@/shared/components/ui/pagination";
+import { IBookingDto } from "@/shared/model/types/booking";
+import { Dispatch, SetStateAction } from "react";
 
-export function PaginationPublicBooking() {
+export function PaginationPublicBooking({
+  filteredBooking,
+  setPage,
+  page,
+  itemsPerPage,
+}: {
+  filteredBooking: IBookingDto[] | undefined;
+  setPage: Dispatch<SetStateAction<number>>;
+  page: number;
+  itemsPerPage: number;
+}) {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  if (
+    !filteredBooking ||
+    filteredBooking.length == 0 ||
+    filteredBooking.length / itemsPerPage <= 1
+  )
+    return null;
+
   return (
-    <Pagination>
+    <Pagination className="w-fit">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious
+            // href="#"
+            onClick={() => {
+              setPage((prev) => Math.max(prev - 1, 1));
+              scrollToTop();
+            }}
+            // disabled={page === 1}
+          />
         </PaginationItem>
+
+        {[...Array(Math.ceil(filteredBooking.length / itemsPerPage))].map(
+          (_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                // href="/"
+                isActive={index + 1 === page}
+                onClick={() => {
+                  setPage(index + 1);
+                  scrollToTop();
+                }}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ),
+        )}
+        {/* <PaginationEllipsis /> */}
+
         <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#" isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext
+            // href="#"
+            onClick={() => {
+              setPage((prev) =>
+                Math.min(
+                  prev + 1,
+                  Math.ceil(filteredBooking.length / itemsPerPage),
+                ),
+              );
+              scrollToTop();
+            }}
+
+            // disabled={page === Math.ceil(bookings.length / itemsPerPage)}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
