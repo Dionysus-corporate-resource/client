@@ -17,12 +17,32 @@ import { SiteFooter } from "@/shared/ui/footer";
 import MapBackgroundYandex from "@/widgets/map/map-background-yandex";
 import PublicBookingListCard from "@/widgets/booking/public-booking-list-card/public-booking-list-card";
 import useFilteredBooking from "./hooks/use-filtered-booking";
+import { PaginationPublicBooking } from "@/feature/pagination-booking/pagination-public-booking";
 // карта Яндекс
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/shared/components/ui/pagination";
 
 export default function PublicBookingPage() {
   const { data: bookings, isPending } = useQuery(bookingQueryOption.getAll());
   const { filteredBooking, filters, setFilters, uniqueListCompany } =
     useFilteredBooking({ bookings });
+
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 15;
+
+  // Вычисляем индекс начала и конца текущей страницы
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedData = filteredBooking?.slice(startIndex, endIndex);
+
+  //
 
   const [isOpenMobileFilter, setIsOpenMobileFilter] = useState(false);
   const [isOpenMobileSorted, setIsOpenMobileSorted] = useState(false);
@@ -42,7 +62,7 @@ export default function PublicBookingPage() {
       {/* карта */}
       <div className="col-span-3  rounded-lg overflow-hidden">
         <div className="absolute left-0 col-span-3  h-[414px] w-full rounded-lg overflow-hidden">
-          <MapBackgroundYandex />
+          <MapBackgroundYandex bookings={filteredBooking} />
         </div>
       </div>
 
@@ -161,7 +181,50 @@ export default function PublicBookingPage() {
       </div>
 
       <div className="relative col-span-3 md:col-span-3 lg:col-span-2 z-10 ex:px-0 px-4 pt-0 mt-0 mx-auto lg:mt-[350px] rounded-xl">
-        <PublicBookingListCard bookings={filteredBooking} />
+        <PublicBookingListCard bookings={paginatedData} />
+      </div>
+
+      <div>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                // href="#"
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                // disabled={page === 1}
+              />
+            </PaginationItem>
+
+            {[...Array(Math.ceil(filteredBooking.length / itemsPerPage))].map(
+              (_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink
+                    href="#"
+                    isActive={index + 1 === page}
+                    onClick={() => setPage(index + 1)}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ),
+            )}
+
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() =>
+                  setPage((prev) =>
+                    Math.min(
+                      prev + 1,
+                      Math.ceil(filteredBooking.length / itemsPerPage),
+                    ),
+                  )
+                }
+                // disabled={page === Math.ceil(bookings.length / itemsPerPage)}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
 
       {/* подвал */}

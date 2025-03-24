@@ -29,40 +29,44 @@ export default function useFilteredBooking({
   ];
 
   // Фильтрация данных
-  const filteredBooking = bookings?.filter((booking) => {
-    const matchesLoadingLocation = booking.basicInfo.loadingLocation.name
-      .toLowerCase()
-      .includes(loadingLocationFilter.toLowerCase());
+  const filteredBooking = bookings
+    ?.filter((booking) => {
+      const isActiveStatus = booking.status === "active";
+      const matchesLoadingLocation = booking.basicInfo.loadingLocation.name
+        .toLowerCase()
+        .includes(loadingLocationFilter.toLowerCase());
 
-    const matchesUnLoadingLocation = booking.basicInfo.unLoadingLocation
-      .toLowerCase()
-      .includes(unLoadingLocationFilter.toLowerCase());
+      const matchesUnLoadingLocation = booking.basicInfo.unLoadingLocation
+        .toLowerCase()
+        .includes(unLoadingLocationFilter.toLowerCase());
 
-    const matchesCulture = booking.basicInfo.culture
-      .toLowerCase()
-      .includes(cultureFilter.toLowerCase());
+      const matchesCulture = booking.basicInfo.culture
+        .toLowerCase()
+        .includes(cultureFilter.toLowerCase());
 
-    const loadingDate = startOfDay(
-      new Date(booking?.conditionsTransportation?.loadingDate),
-    ); // Обнуляем время
-    const matchesDate = date
-      ? loadingDate >= startOfDay(date.from || new Date(0)) &&
-        loadingDate <= endOfDay(date.to || new Date(8640000000000000))
-      : true;
+      const loadingDate = startOfDay(
+        new Date(booking?.conditionsTransportation?.loadingDate),
+      ); // Обнуляем время
+      const matchesDate = date
+        ? loadingDate >= startOfDay(date.from || new Date(0)) &&
+          loadingDate <= endOfDay(date.to || new Date(8640000000000000))
+        : true;
 
-    const matchesCompany =
-      companyNameFilter === "Все заказчики"
-        ? true
-        : booking?.companyPublicData?.nameCompany === companyNameFilter;
+      const matchesCompany =
+        companyNameFilter === "Все заказчики"
+          ? true
+          : booking?.companyPublicData?.nameCompany === companyNameFilter;
 
-    return (
-      matchesLoadingLocation &&
-      matchesUnLoadingLocation &&
-      matchesCulture &&
-      matchesDate &&
-      matchesCompany
-    );
-  });
+      return (
+        matchesLoadingLocation &&
+        matchesUnLoadingLocation &&
+        matchesCulture &&
+        matchesDate &&
+        matchesCompany &&
+        isActiveStatus
+      );
+    })
+    .reverse();
 
   return {
     filteredBooking,
