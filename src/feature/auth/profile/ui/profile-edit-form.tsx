@@ -12,6 +12,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IUpdateProfile, userApi } from "../api/user-api";
 import { useSetAtom } from "jotai";
 import { userStorageAtom } from "@/shared/model/atoms/user-atom";
+import InputMask from "react-input-mask";
 
 type IFormData = {
   userName: string;
@@ -20,6 +21,37 @@ type IFormData = {
   roles: IUserRoles;
   nameCompany: string | null;
 };
+
+// const EditableInput = ({
+//   value,
+//   onChange,
+// }: {
+//   value: string | null;
+//   onChange: (val: ChangeEvent<HTMLInputElement>) => void;
+// }) => {
+//   const [isEditing, setIsEditing] = useState(false);
+
+//   return (
+//     <div
+//       className="relative cursor-pointer"
+//       onClick={() => setIsEditing(true)}
+//       onBlur={() => setIsEditing(false)}
+//     >
+//       {isEditing ? (
+//         <input
+//           type="text"
+//           value={value || ""}
+//           name="nameCompany"
+//           onChange={(e) => onChange(e)}
+//           autoFocus
+//           className="w-full border-b-2 border-gray-400 outline-none focus:border-black transition"
+//         />
+//       ) : (
+//         <span className="block text-gray-800">{value || "ООО 'Компания'"}</span>
+//       )}
+//     </div>
+//   );
+// };
 
 export default function ProfileEditForm() {
   const [isChangeForm, setIsChangeForm] = useState(false);
@@ -64,6 +96,14 @@ export default function ProfileEditForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handlePhoneChange = (phone: string) => {
+    let rawValue = phone.replace(/\D/g, ""); // Оставляем только цифры
+
+    if (rawValue.length > 11) rawValue = rawValue.slice(0, 11); // Ограничение длины
+
+    return rawValue;
+  };
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsChangeForm(false);
@@ -78,7 +118,7 @@ export default function ProfileEditForm() {
 
     const data = {
       userName: formData.userName,
-      phone: formData.phone,
+      phone: handlePhoneChange(formData.phone),
       roles: formData.roles,
       nameCompany: formData.nameCompany || null,
     };
@@ -126,16 +166,18 @@ export default function ProfileEditForm() {
             id="companyName"
             placeholder="ООО 'Компания'"
           />
+          {/* <EditableInput value={formData.nameCompany} onChange={handleChange} /> */}
         </div>
         {/* Телефон */}
-        <div className="space-y-2">
+        <div className="flex flex-col gap-2">
           <Label htmlFor="phone">Телефон</Label>
-          <Input
-            id="phone"
-            type="tel"
+
+          <InputMask
+            mask="+7 (999) 999-99-99"
             name="phone"
-            onChange={handleChange}
             value={formData?.phone}
+            onChange={handleChange}
+            className="border shadow-sm p-2 rounded-md"
             placeholder="+7 (999) 999-99-99"
           />
         </div>
