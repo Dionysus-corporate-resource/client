@@ -20,7 +20,6 @@ import useFilteredBooking from "./hooks/use-filtered-booking";
 import { PaginationPublicBooking } from "@/feature/pagination-booking/pagination-public-booking";
 // карта Яндекс
 import { usePaginationPublicBooking } from "@/feature/pagination-booking";
-
 export default function PublicBookingPage() {
   const { data: bookings, isPending } = useQuery(bookingQueryOption.getAll());
   const { filteredBooking, filters, setFilters, uniqueListCompany } =
@@ -51,7 +50,7 @@ export default function PublicBookingPage() {
   return (
     <div className="container mx-auto grid grid-cols-3 gap-6">
       {/* карта */}
-      <div className="col-span-3  rounded-lg overflow-hidden">
+      <div className="col-span-3 rounded-lg overflow-hidden">
         <div className="absolute left-0 col-span-3  h-[414px] w-full rounded-lg overflow-hidden">
           <MapBackgroundYandex bookings={filteredBooking} />
         </div>

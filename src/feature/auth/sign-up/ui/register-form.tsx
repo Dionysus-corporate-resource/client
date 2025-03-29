@@ -83,91 +83,63 @@ export function RegisterForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center gap-2">
-            <a
-              href="#"
-              className="flex flex-col items-center gap-2 font-medium"
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                {/* <Construction className="size-6" /> */}
-                <img
-                  className="w-6 h-6
-            sm:w-8 sm:h-8"
-                  src="truck3.png"
-                />
-              </div>
-              <span className="sr-only">Acme Inc.</span>
-            </a>
-            <h1 className="text-xl font-bold">
-              Приветсвуем в
-              <NavLink to="/" className="underline underline-offset-4">
-                {" "}
-                Груз Рынок
-              </NavLink>
-            </h1>
-            <div className="text-center text-sm">
-              Уже регистрировались на нашем сайте?{" "}
-              <NavLink to="/login" className="underline underline-offset-4">
-                Войти
-              </NavLink>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-lg font-semibold">Регистрация</h1>
+            <div className="text-sm font-medium text-primary/60">
+              Создайте аккаунт, чтобы выкладывать заявки и использовать все
+              возможности платформы
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {/* Почта */}
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2">
-                {/* <AtSign className="w-4 h-6" /> */}
-                <Label htmlFor="email">Почта</Label>
-              </div>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="m@example.com"
-                required
-              />
-            </div>
+
+            <Input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              onChange={handleChange}
+              placeholder="Почта"
+              required
+            />
             {/* Пароль */}
             <div className="grid gap-2 relative">
-              <Label htmlFor="email">Пароль</Label>
               <Input
                 id="password"
                 type={!showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="**********"
+                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+                placeholder="Пароль"
                 required
               />
               <span
                 onClick={togglePasswordVisibility}
-                className="absolute top-10 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                className="absolute top-6 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer"
               >
                 {showPassword ? (
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-6 h-6" />
                 ) : (
-                  <EyeOff className="w-4 h-4" />
+                  <EyeOff className="w-6 h-6" />
                 )}
               </span>
             </div>
             {/* Телефон */}
-            <div className="grid gap-2">
-              <Label htmlFor="phone">Телефон</Label>
-              <Input
-                id="phone"
-                type="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="7 918 522 96 65"
-                required
-              />
-            </div>
+            <Input
+              id="phone"
+              type="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Телефон"
+              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              required
+            />
             {/* Выбор роли */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3 mt-1">
               <Checkbox
                 checked={isCustomer}
                 onCheckedChange={(checked) => {
@@ -180,58 +152,40 @@ export function RegisterForm({
                 htmlFor="terms"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Зарегистрироваться как логист или заказчик
+                Я логист / заказчик
               </label>
             </div>
             {isCustomer && (
-              <>
-                {/* Имя компании */}
-                <div className="grid gap-2 mt-2">
-                  <div className="flex items-center gap-2">
-                    {/* <AtSign className="w-4 h-6" /> */}
-                    <Label htmlFor="company-name">
-                      Название организации или ИП
-                    </Label>
-                  </div>
-                  <Input
-                    id="company-name"
-                    type="company-name"
-                    name="nameCompany"
-                    value={formData.nameCompany}
-                    onChange={handleChange}
-                    placeholder="ООО Мироторг или ИП Иванов"
-                    required
-                  />
-                </div>
-              </>
+              <Input
+                id="company-name"
+                type="company-name"
+                name="nameCompany"
+                value={formData.nameCompany}
+                onChange={handleChange}
+                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+                placeholder="ООО или ИП организации"
+                required
+              />
             )}
-            <Button type="submit" className="w-full mt-2">
-              Зарегистрировать
-            </Button>
+          </div>
+          <div className="space-y-3">
             <Button
               type="submit"
-              variant="secondary"
-              className="w-full -mt-2"
-              onClick={() => navigate("/")}
+              className="w-full py-6 px-5 rounded-xl bg-[hsl(var(--access-primary))]"
             >
-              Вернуться назад
+              Зарегистрироваться
             </Button>
+            <div className="font-medium text-sm space-x-3">
+              <span className="text-primary/60">Уже есть аккаунт?</span>
+              <NavLink to="/login">Войти</NavLink>
+            </div>
           </div>
-          {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">
-              или
-            </span>
-          </div>
-          <Button variant="outline" className="w-full flex gap-2">
-            <PhoneCall />
-            Продолжить через телефон
-          </Button> */}
         </div>
       </form>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
+      {/* <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
         Нажимая Зарегистрировать, вы соглашаетесь с{" "}
         <a href="#">Публичной офертой</a> и <a href="#">Приватной политикой</a>.
-      </div>
+      </div> */}
     </div>
   );
 }

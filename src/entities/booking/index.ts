@@ -4,6 +4,7 @@ import BookingCard from "./ui/booking-card";
 import SkeletonBookingCard from "./ui/skeleton-booking-card";
 import MarkerBookingDetailShort from "./ui/marker-booking-detail-short";
 import SkeletonBookingCardLong from "./ui/skeleton-booking-card-long";
+import NewBookingCard from "./ui/new-booking-card";
 
 export {
   TemplateOneBookingCard,
@@ -12,4 +13,5 @@ export {
   SkeletonBookingCard,
   MarkerBookingDetailShort,
   SkeletonBookingCardLong,
+  NewBookingCard,
 };

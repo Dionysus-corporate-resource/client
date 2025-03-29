@@ -68,101 +68,62 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col items-center gap-2">
-            <a
-              href="#"
-              className="flex flex-col items-center gap-2 font-medium"
-            >
-              <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                {/* <Construction className="size-6" /> */}
-                <img
-                  className="w-6 h-6
-            sm:w-8 sm:h-8"
-                  src="truck3.png"
-                />
-              </div>
-              <span className="sr-only">Acme Inc.</span>
-            </a>
-            <h1 className="text-xl font-bold">
-              Приветсвуем в
-              <NavLink to="/" className="underline underline-offset-4">
-                {" "}
-                Груз Рынок
-              </NavLink>
-            </h1>
-            <div className="text-center text-sm">
-              Еще не были на нашем сайте?{" "}
-              <NavLink to="/register" className="underline underline-offset-4">
-                Зарегистрироваться
-              </NavLink>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-lg font-semibold">Вход в аккаунт</h1>
+            <div className="text-sm font-medium text-primary/60">
+              Приветствуем вас снова!
             </div>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="grid gap-2">
-              <div className="flex items-center gap-2">
-                {/* <AtSign className="w-4 h-6" /> */}
-                <Label htmlFor="email">Почта</Label>
-              </div>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="m@example.com"
-                required
-              />
-            </div>
+          <div className="flex flex-col gap-3">
+            <Input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Почта"
+              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              required
+            />
             <div className="grid gap-2 relative">
-              <Label htmlFor="email">Пароль</Label>
               <Input
                 id="password"
                 type={!showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="**********"
+                placeholder="Пароль"
+                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
                 required
               />
               <span
                 onClick={togglePasswordVisibility}
-                className="absolute top-10 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
+                className="absolute top-6 right-4 transform -translate-y-1/2 text-gray-500 cursor-pointer"
               >
                 {showPassword ? (
-                  <Eye className="w-4 h-4" />
+                  <Eye className="w-6 h-6" />
                 ) : (
-                  <EyeOff className="w-4 h-4" />
+                  <EyeOff className="w-6 h-6" />
                 )}
               </span>
             </div>
-            <Button type="submit" className="w-full mt-2">
-              Войти
-            </Button>
+          </div>
+
+          <div className="space-y-3">
             <Button
               type="submit"
-              variant="secondary"
-              className="w-full -mt-2"
-              onClick={() => navigate("/")}
+              className="w-full py-6 px-5 rounded-xl bg-[hsl(var(--access-primary))]"
             >
-              Вернуться назад
+              Войти
             </Button>
+            <div className="font-medium text-sm space-x-3">
+              <span className="text-primary/60">Еще нет аккаунта?</span>
+              <NavLink to="/login">Зарегистрироваться</NavLink>
+            </div>
           </div>
-          {/* <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-            <span className="relative z-10 bg-background px-2 text-muted-foreground">
-              или
-            </span>
-          </div>
-          <Button variant="outline" className="w-full flex gap-2">
-            <PhoneCall />
-            Продолжить через телефон
-          </Button> */}
         </div>
       </form>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary  ">
-        Нажимая войти, вы соглашаетесь с <a href="#">Публичной офертой</a> и{" "}
-        <a href="#">Приватной политикой</a>.
-      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   BriefcaseBusiness,
+  ChartLine,
   Coffee,
   Menu,
   PackageOpen,
@@ -22,118 +23,67 @@ import {
 import { useAuth } from "@/app/providers/auth-provider";
 // import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
 
-export type Props = {
-  headerContent: {
-    logoTitle: string;
-    linksMain: {
-      icon?: React.ComponentType<{ className?: string }>;
-      linkLabel: string;
-      navigate: string;
-    }[];
-    linksFooter: {
-      icon?: React.ComponentType<{ className?: string }>;
-      linkLabel: string;
-    }[];
-  };
+export type TLinksHeader = {
+  icon?: React.ComponentType<{ className?: string }>;
+  linkLabel: string;
+  navigate: string;
 };
 
 export function MainNav() {
   const userData = useAtomValue(userStorageAtom);
   const navigate = useNavigate();
   const user = useAuth();
-  const headerContent: Props["headerContent"] = {
-    logoTitle: "Груз Рынок",
-    linksMain: [
-      // {
-      //   icon: PackageSearch,
-      //   linkLabel: "Смотреть заявки",
-      //   navigate: "/",
-      // },
-      {
-        icon: PackageOpen,
-        linkLabel: "Мои заявки",
-        navigate: "/my-booking",
-      },
-      {
-        icon: PackagePlus,
-        linkLabel: "Создать заявку",
-        navigate: "/create-booking",
-      },
-      // {
-      //   icon: ALargeSmall,
-      //   linkLabel: "Обсуждения",
-      //   navigate: "/card-view",
-      // },
-      // {
-      //   icon: Headset,
-      //   linkLabel: "Поддержка",
-      //   navigate: "/table-view",
-      // },
-    ],
-    linksFooter: [
-      {
-        icon: BriefcaseBusiness,
-        linkLabel: "Заявки",
-      },
-    ],
-  };
+  const linksHeader: TLinksHeader[] = [
+    {
+      linkLabel: "Выложить заявку",
+      navigate: "/create-booking",
+    },
+    {
+      linkLabel: "Мои заявки",
+      navigate: "/my-booking",
+    },
+
+    // {
+    //   linkLabel: "Статсика",
+    //   navigate: "/analytics",
+    // },
+  ];
 
   return (
-    <div className="relative flex justify-between items-center gap-2 w-full sm:gap-4">
-      <div className="flex items-center gap-4 sm:gap-12">
-        <NavLink to="/" className="flex items-center space-x-2">
-          {/* <img className="w-4 h-4  sm:w-6 sm:h-6" src="truck3.png" /> */}
+    <div className="relative flex justify-between items-center gap-2 w-full sm:gap-4 ">
+      <NavLink to="/" className="font-semibold text-sm sm:text-xl md:text-2xl">
+        Груз Рынок
+      </NavLink>
 
-          <span className="inline-block font-semibold text-sm sm:text-xl md:text-2xl">
-            {headerContent.logoTitle}
-          </span>
+      {/* Навигация */}
+      <nav className="flex gap-4 -mb-1 sm:gap-6">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex gap-2 items-center text-sm font-semibold transition-colors hover:text-white ${
+              isActive ? "text-white" : "text-white/60"
+            }
+            hidden text-xs sm:text-sm xl:flex`
+          }
+        >
+          Искать заявки
         </NavLink>
-        {/* Навигация */}
-        <nav className="flex gap-4 -mb-1 sm:gap-6">
+        {linksHeader.map((link) => (
           <NavLink
-            to="/"
+            to={link.navigate}
             className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
-                isActive ? "text-foreground" : "text-foreground/60"
+              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-white ${
+                isActive ? "text-white" : "text-white/60"
               }
+              ${user?.token && user?.user?.roles === "customer" ? "" : "!hidden"}
               hidden text-xs sm:text-sm xl:flex`
             }
           >
-            <PackageSearch className="w-3 h-3 sm:w-4 sm:h-4" />
-            Смотреть заявки
+            {link?.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4" />}
+            {link.linkLabel}
           </NavLink>
-          {headerContent.linksMain.map((link) => (
-            <NavLink
-              to={link.navigate}
-              className={({ isActive }) =>
-                `flex gap-2 items-center text-sm font-medium transition-colors hover:text-primary ${
-                  isActive ? "text-foreground" : "text-foreground/60"
-                }
-                ${user?.token && user?.user?.roles === "customer" ? "" : "!hidden"}
-                hidden text-xs sm:text-sm xl:flex`
-              }
-            >
-              {link?.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4" />}
-              {link.linkLabel}
-            </NavLink>
-          ))}
-          {user?.token && (
-            <NavLink
-              to="/proposals"
-              className={({ isActive }) =>
-                `flex gap-2 items-center text-sm font-medium transition-colors hover:foreground ${
-                  isActive ? "text-foreground" : "text-foreground/60"
-                }
-              hidden text-xs sm:text-sm xl:flex`
-              }
-            >
-              <Coffee className="w-3 h-3 sm:w-4 sm:h-4" />
-              Предложения
-            </NavLink>
-          )}
-        </nav>
-      </div>
-
+        ))}
+      </nav>
       {/* <MobileNav /> */}
       <div className="flex gap-4 xl:hidden">
         <DropdownMenu>
@@ -148,7 +98,7 @@ export function MainNav() {
               <p>Смотреть заявки</p>
               <PackageSearch className="w-4 h-4" />
             </DropdownMenuItem>
-            {headerContent.linksMain.map((nav) => (
+            {linksHeader.map((nav) => (
               <DropdownMenuItem
                 onClick={() => navigate(nav.navigate)}
                 className="flex gap-4 justify-between"
@@ -181,9 +131,12 @@ export function MainNav() {
       </div>
 
       {userData ? (
-        <div className="items-center gap-0 hidden xl:flex text-foreground">
+        <div className="items-center gap-0 hidden xl:flex text-white">
           <NavLink to="/profile">
-            <Button variant="link" className="text-xs sm:text-sm text-">
+            <Button
+              variant="link"
+              className="text-sm font-semibold sm:text-sm text-white"
+            >
               {/* <UserCog className="w-4 h-4" /> */}
               Профиль
             </Button>
@@ -191,20 +144,18 @@ export function MainNav() {
           {/* <ThemeToggle /> */}
         </div>
       ) : (
-        <div className="hidden xl:block sm:space-x-2 text-foreground">
+        <div className="hidden xl:block sm:space-x-2">
           <NavLink to="/register">
-            <Button size="sm" variant="link">
+            <Button size="sm" variant="link" className="text-white">
               Зарегистрироваться
             </Button>
           </NavLink>
           <NavLink to="/login">
-            <Button size="sm" variant="link">
+            <Button size="sm" variant="link" className="text-white">
               Войти
             </Button>
           </NavLink>
-
         </div>
-
       )}
     </div>
   );

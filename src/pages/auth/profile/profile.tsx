@@ -1,6 +1,6 @@
 import { useAuth } from "@/app/providers/auth-provider";
 // import { TruckInfoCard } from "@/entities/driver";
-import { PersonalInfo } from "@/entities/profile";
+import { PersonalInfo, SubscriptionInfo } from "@/entities/profile";
 import { ProfileEditForm } from "@/feature/auth/profile";
 
 export default function ProfilePage() {
@@ -157,7 +157,7 @@ export default function ProfilePage() {
               </div>
             </CardContent>
           </Card> */}
-        {/* <SubscriptionInfo /> */}
+        <SubscriptionInfo />
         <div className="bg-muted rounded-lg flex justify-center items-center py-12">
           <div className="flex flex-col items-center gap-2">
             <span className="text-lg font-semibold text-muted-foreground">

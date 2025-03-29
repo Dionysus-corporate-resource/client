@@ -14,12 +14,20 @@ import ErrorPage from "@/pages/payment/payment-failed";
 import PublicBookingPage from "../pages/home/public-booking-page";
 import ProposalsPage from "@/pages/proposals/proposals-page";
 import EditBookingPage from "@/pages/edit-booking/edit-booking";
+import AnalyticsPage from "@/pages/analytics/analytics-page";
+import usePageView from "@/shared/hooks/use-page-view";
+import NewPublicBookingPage from "@/pages/home/new-public-booking-page";
+// import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
 
 function App() {
+  usePageView();
+
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        <Route path="" element={<PublicBookingPage />} />
+        {/* <Route path="" element={<PublicBookingPage />} /> */}
+        <Route path="" element={<NewPublicBookingPage />} />
+
         {/* <Route path="subscribe" element={<SubscriptionsPageShort />} /> */}
         <Route
           path="profile"
@@ -53,6 +61,16 @@ function App() {
             </Authentication>
           }
         />
+
+        <Route
+          path="analytics"
+          element={
+            <Authentication permissions={["admin"]}>
+              <AnalyticsPage />
+            </Authentication>
+          }
+        />
+
         <Route path="/payment-success" element={<SuccessPage />} />
         <Route path="/payment-failed" element={<ErrorPage />} />
         <Route

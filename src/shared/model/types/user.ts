@@ -1,6 +1,7 @@
 import { ICompanyPublicDto } from "./company-public";
 
-export type IUserRoles = "super_viser" | "customer" | "driver";
+export type IUserRoles = "customer" | "driver";
+export type IPermissions = "developer" | "admin";
 
 export type IUser = {
   userName: string;
@@ -24,6 +25,7 @@ export type IUser = {
     };
   };
   roles: IUserRoles;
+  permissions: IPermissions[];
 };
 
 export type IUserDto = IUser & {

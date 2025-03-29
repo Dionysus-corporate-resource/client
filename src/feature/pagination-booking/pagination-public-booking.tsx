@@ -31,8 +31,8 @@ export function PaginationPublicBooking({
     return null;
 
   return (
-    <Pagination className="w-fit">
-      <PaginationContent>
+    <Pagination className="w-full">
+      <PaginationContent className="w-full justify-between">
         <PaginationItem>
           <PaginationPrevious
             // href="#"
@@ -44,22 +44,24 @@ export function PaginationPublicBooking({
           />
         </PaginationItem>
 
-        {[...Array(Math.ceil(filteredBooking.length / itemsPerPage))].map(
-          (_, index) => (
-            <PaginationItem key={index}>
-              <PaginationLink
-                // href="/"
-                isActive={index + 1 === page}
-                onClick={() => {
-                  setPage(index + 1);
-                  scrollToTop();
-                }}
-              >
-                {index + 1}
-              </PaginationLink>
-            </PaginationItem>
-          ),
-        )}
+        <div className="flex gap-2">
+          {[...Array(Math.ceil(filteredBooking.length / itemsPerPage))].map(
+            (_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  // href="/"
+                  isActive={index + 1 === page}
+                  onClick={() => {
+                    setPage(index + 1);
+                    scrollToTop();
+                  }}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ),
+          )}
+        </div>
         {/* <PaginationEllipsis /> */}
 
         <PaginationItem>
