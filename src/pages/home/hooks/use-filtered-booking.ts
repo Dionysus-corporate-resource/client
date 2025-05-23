@@ -53,7 +53,7 @@ export default function useFilteredAndSortedBooking({
             return booking?.companyPublicData?.nameCompany;
           }
         })
-        .filter(Boolean),
+        .filter((name): name is string => Boolean(name)),
     ),
   ];
 

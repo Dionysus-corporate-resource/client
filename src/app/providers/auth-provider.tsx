@@ -1,12 +1,16 @@
 import { useLocalStorage } from "@/shared/hooks/use-localStorage";
 import instance from "@/shared/model/api/axios-instance";
-// import { corporateLogisticianStorageAtom } from "@/shared/model/atoms/user-atom";
-import { useAtom } from "jotai";
-import { createContext, ReactNode, useContext } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { IUserDto } from "@/shared/model/types/user";
-import { userStorageAtom } from "@/shared/model/atoms/user-atom";
 
 // то что приходит в функцию логирования
 type LoginData = {
@@ -34,6 +38,7 @@ interface AuthContextProps {
   logOut: () => void;
   logUp: (data: RegisterData) => Promise<RegisterDataDto>;
   user: IUserDto | null;
+  setUser: Dispatch<SetStateAction<IUserDto | null>>;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -44,7 +49,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const redirectPath = location.state?.path || "/";
 
   const [token, setToken] = useLocalStorage<string | null>("token", null);
-  const [user, setUser] = useAtom(userStorageAtom);
+  // const [user, setUser] = useAtom(userStorageAtom);
+  const [user, setUser] = useState<IUserDto | null>(null);
 
   const logIn = async (data: LoginData): Promise<LoginDataDto> => {
     try {
@@ -90,7 +96,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, logIn, logUp, logOut }}>
+    <AuthContext.Provider
+      value={{ token, user, setUser, logIn, logUp, logOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -99,7 +107,3 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
-
-// function loginRequest(url: string, data: LoginDto) {
-//   return instance.post(`${url}`, data);
-// }

@@ -119,7 +119,7 @@ export function LoginForm({
             </Button>
             <div className="font-medium text-sm space-x-3">
               <span className="text-primary/60">Еще нет аккаунта?</span>
-              <NavLink to="/login">Зарегистрироваться</NavLink>
+              <NavLink to="/register">Зарегистрироваться</NavLink>
             </div>
           </div>
         </div>

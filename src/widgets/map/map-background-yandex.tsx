@@ -28,7 +28,7 @@ export default function MapBackgroundYandex({
         }}
       >
         <Map
-          style={{ height: "100%", width: "100%" }}
+          style={{ height: "450px", width: "100%" }}
           className="relative"
           defaultState={{
             center: [47.222109, 39.718813],

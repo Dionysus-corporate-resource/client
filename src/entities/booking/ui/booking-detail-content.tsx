@@ -1,4 +1,3 @@
-import { Building2, Phone } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -11,25 +10,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-// import { useNavigate } from "react-router-dom";
 import { IBookingDto } from "@/shared/model/types/booking";
-// import { useAtomValue } from "jotai";
-// import { userStorageAtom } from "@/shared/model/atoms/user-atom";
-// import { MapContainer, TileLayer, Marker } from "react-leaflet";
-// import { icon } from "leaflet";
-
-// import markerIcon from "leaflet/dist/images/marker-icon.png";
-// import markerShadow from "leaflet/dist/images/marker-shadow.png";
 import { bookingQueryOption } from "@/pages/home/api/query-option";
 import { useQuery } from "@tanstack/react-query";
 import { Map, Placemark, YMaps } from "@pbe/react-yandex-maps";
-// Создаем кастомную иконку
-// const customIcon = icon({
-//   iconUrl: markerIcon,
-//   shadowUrl: markerShadow,
-//   iconSize: [25, 41],
-//   iconAnchor: [12, 41],
-// });
 
 function paymentType(type: IBookingDto["detailTransportation"]["paymentType"]) {
   switch (type) {
@@ -49,16 +33,18 @@ function paymentType(type: IBookingDto["detailTransportation"]["paymentType"]) {
       return "С НДС 20%";
   }
 }
-
+const formatPhoneNumber = (phone: string) => {
+  return phone.replace(
+    /^(8|7)(\d{3})(\d{3})(\d{2})(\d{2})$/,
+    "+7 ($2) $3-$4-$5",
+  );
+};
 export default function BookingDetailContent({
   bookingId,
 }: {
   bookingId: string;
 }) {
   const { data: bookingData } = useQuery(bookingQueryOption.getOne(bookingId));
-  // const user = useAtomValue(userStorageAtom);
-  // const isMyBooking = bookingData?.user?._id === user?._id;
-  // const navigate = useNavigate();
 
   return (
     <div className="max-w-3xl w-full">
@@ -67,11 +53,10 @@ export default function BookingDetailContent({
         <div className="flex items-center justify-between mt-1">
           <div className="space-y-1">
             <div
-              className="flex items-center gap-2
+              className="flex items-center gap-1
               ex:px-2"
             >
-              <div className="flex items-center text-sm text-muted-foreground">
-                {/* <Clock className="w-4 h-4 mr-1" /> */}
+              <div className="flex items-center text-sm text-primary/80">
                 {new Date(bookingData?.createdAt as string).toLocaleTimeString(
                   "ru-RU",
                   {
@@ -80,7 +65,7 @@ export default function BookingDetailContent({
                   },
                 )}
               </div>
-              <div className="flex items-center text-sm text-muted-foreground">
+              <div className="flex items-center text-sm text-primary/80">
                 {/* <Calendar className="w-4 h-4 mr-1" /> */}
                 {new Date(bookingData?.createdAt as string).toLocaleDateString(
                   "ru-RU",
@@ -92,127 +77,68 @@ export default function BookingDetailContent({
               </div>
             </div>
           </div>
-          <span className="text-xs text-muted-foreground">
-            ID: {bookingData?._id.slice(Math.floor(bookingData._id.length / 2))}
-          </span>
+          <span className="text-xs text-muted-foreground"></span>
         </div>
 
         {/* Карта */}
         {bookingData?.basicInfo?.loadingLocation?.coordinates && (
-          <div className="rounded-md overflow-hidden">
-            {/* <MapContainer
-              center={bookingData?.basicInfo?.loadingLocation?.coordinates}
-              zoom={6}
-              style={{ height: "200px", width: "100%", borderRadius: "8px" }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
+          <div className="space-y-1">
+            <span className="text-sm font-normal text-primary/60">
+              Место погрузки
+            </span>
 
-              {bookingData?.basicInfo?.loadingLocation?.coordinates && (
-                <Marker
-                  position={bookingData.basicInfo.loadingLocation.coordinates}
-                  icon={customIcon}
-                />
-              )}
-            </MapContainer> */}
-
-            <YMaps
-              query={{
-                apikey: "e7f81961-a083-48fe-b94f-914620e7d372",
-                lang: "ru_RU",
-                // load: "package.full",
-                suggest_apikey: "b53c7cf5-43b8-4331-9d4f-06db83c2ce5a",
-              }}
-            >
-              <Map
-                style={{ height: "200px", width: "100%", borderRadius: "8px" }}
-                className="relative"
-                defaultState={{
-                  center: bookingData?.basicInfo?.loadingLocation
-                    ?.coordinates ?? [47.222109, 39.718813],
-                  zoom: 5,
+            <div className="rounded-xl overflow-hidden">
+              <YMaps
+                query={{
+                  apikey: "e7f81961-a083-48fe-b94f-914620e7d372",
+                  lang: "ru_RU",
+                  // load: "package.full",
+                  suggest_apikey: "b53c7cf5-43b8-4331-9d4f-06db83c2ce5a",
                 }}
               >
-                <Placemark
-                  key={bookingData._id}
-                  geometry={
-                    bookingData?.basicInfo?.loadingLocation?.coordinates ?? [
-                      47.222109, 39.718813,
-                    ]
-                  }
-                  options={{
-                    preset: "twirl#blueIcon", // Пресет с синим значком
+                <Map
+                  style={{
+                    height: "200px",
+                    width: "100%",
+                    borderRadius: "8px",
                   }}
-                />
-              </Map>
-            </YMaps>
+                  className="relative"
+                  defaultState={{
+                    center: bookingData?.basicInfo?.loadingLocation
+                      ?.coordinates ?? [47.222109, 39.718813],
+                    zoom: 5,
+                  }}
+                >
+                  <Placemark
+                    key={bookingData._id}
+                    geometry={
+                      bookingData?.basicInfo?.loadingLocation?.coordinates ?? [
+                        47.222109, 39.718813,
+                      ]
+                    }
+                    options={{
+                      preset: "twirl#blueIcon", // Пресет с синим значком
+                    }}
+                  />
+                </Map>
+              </YMaps>
+            </div>
           </div>
         )}
 
-        {/* Котакты */}
-        {/* <div>
-          <div>
-            <div className="space-y-2 ">
-              {isMyBooking ||
-              user?.activeSubscriptions?.showContactSubscription
-                ?.isPurchased ? (
-                bookingData?.additionalConditions?.contacts.map(
-                  (contact, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-4 p-3 rounded-lg bg-muted transition-colors"
-                    >
-
-                      <div className="flex-1 min-w-0 ml-2">
-                        <p className="text-sm font-medium truncate">
-                          {contact.name}
-                        </p>
-                        {contact.phone && (
-                          <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                            <Phone className="h-3 w-3" />
-                            <span>{contact.phone}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ),
-                )
-              ) : (
-                <div className="p-4 space-y-4 rounded-lg bg-muted/50 text-muted-foreground">
-                  <p>
-                    Контакты недоступны, для просмотра необходимо оплатить
-                    подписку
-                  </p>
-                  <Button
-                    size="sm"
-                    className="w-full"
-                    onClick={() => navigate("/subscribe")}
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    Оплатить доступ
-                  </Button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div> */}
         {bookingData?.additionalConditions?.contacts.map((contact, index) => (
           <div
             key={index}
-            className="flex items-center gap-4 p-3 rounded-lg bg-muted transition-colors"
+            className="flex items-center gap-4 p-3 rounded-xl bg-muted transition-colors"
           >
-            {/* <div className="h-9 w-9 rounded-md bg-white border flex items-center justify-center">
-                <User className="h-4 w-4 text-primary" />
-              </div> */}
             <div className="flex-1 min-w-0 ml-2">
-              <p className="text-sm font-medium truncate">{contact.name}</p>
+              <p className="text-base font-normal truncate text-primary/60">
+                {contact.name}
+              </p>
               {contact.phone && (
-                <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Phone className="h-3 w-3" />
-                  <span>{contact.phone}</span>
-                </div>
+                <span className="flex items-center gap-2 text-lg">
+                  {formatPhoneNumber(contact.phone)}
+                </span>
               )}
             </div>
           </div>
@@ -240,35 +166,38 @@ export default function BookingDetailContent({
                 <TableBody>
                   <TableRow>
                     <TableCell
-                      className="font-semibold bg-muted/50"
+                      className="text-lg font-medium text-primary/80 bg-muted/50 px-4 py-4"
                       colSpan={4}
                     >
                       Основная информация
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
                       Место погрузки
                     </TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.basicInfo?.loadingLocation.name
                         ? bookingData?.basicInfo?.loadingLocation.name
                         : "-"}
                     </TableCell>
                   </TableRow>
+
                   <TableRow>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
                       Место выгрузки
                     </TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.basicInfo?.unLoadingLocation
                         ? bookingData?.basicInfo?.unLoadingLocation
                         : "-"}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Расстояние</TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
+                      Расстояние
+                    </TableCell>
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.basicInfo?.distance ? (
                         <>{bookingData?.basicInfo?.distance} км</>
                       ) : (
@@ -277,8 +206,10 @@ export default function BookingDetailContent({
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Ценна</TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
+                      Ценна
+                    </TableCell>
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.detailTransportation?.ratePerTon ? (
                         <>{bookingData?.detailTransportation?.ratePerTon} ₽/т</>
                       ) : (
@@ -286,12 +217,11 @@ export default function BookingDetailContent({
                       )}
                     </TableCell>
                   </TableRow>
-
                   <TableRow>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
                       Объем перевозки
                     </TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.basicInfo?.tonnage ? (
                         <>{bookingData?.basicInfo?.tonnage} тонн</>
                       ) : (
@@ -300,8 +230,10 @@ export default function BookingDetailContent({
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Груз</TableCell>
-                    <TableCell className="text-end">
+                    <TableCell className="font-normal text-primary/60 text-sm p-3">
+                      Груз
+                    </TableCell>
+                    <TableCell className="text-end text-sm font-normal">
                       {bookingData?.basicInfo?.culture
                         ? bookingData?.basicInfo?.culture
                         : "-"}
@@ -312,7 +244,7 @@ export default function BookingDetailContent({
                 <TableBody>
                   <TableRow>
                     <TableCell
-                      className="font-semibold bg-muted/50"
+                      className="text-lg font-medium text-primary/80 bg-muted/50 px-4 py-4"
                       colSpan={4}
                     >
                       Условия погрузки
@@ -320,10 +252,10 @@ export default function BookingDetailContent({
                   </TableRow>
                   {bookingData?.conditionsTransportation?.loadingMethod && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Способ погрузки
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.conditionsTransportation?.loadingMethod}
                       </TableCell>
                     </TableRow>
@@ -331,10 +263,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.conditionsTransportation?.scaleCapacity && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Грузоподъемность весов
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.conditionsTransportation?.scaleCapacity}{" "}
                         тонн
                       </TableCell>
@@ -343,10 +275,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.conditionsTransportation?.loadingDate && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Дата начала погрузки
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.conditionsTransportation?.loadingDate
                           ? new Date(
                               bookingData?.conditionsTransportation?.loadingDate,
@@ -363,7 +295,7 @@ export default function BookingDetailContent({
                 <TableBody>
                   <TableRow>
                     <TableCell
-                      className="font-semibold bg-muted/50"
+                      className="text-lg font-medium text-primary/80 bg-muted/50 px-4 py-4"
                       colSpan={4}
                     >
                       Детали перевозки
@@ -372,8 +304,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.detailTransportation?.demurrage && (
                     <TableRow>
-                      <TableCell className="font-medium">Простой</TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
+                        Простой
+                      </TableCell>
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.detailTransportation?.demurrage}
                       </TableCell>
                     </TableRow>
@@ -381,10 +315,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.detailTransportation?.allowedShortage && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Допустимая недостача
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.detailTransportation?.allowedShortage}
                       </TableCell>
                     </TableRow>
@@ -392,8 +326,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.detailTransportation?.paymentType && (
                     <TableRow>
-                      <TableCell className="font-medium">Вид оплаты</TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
+                        Вид оплаты
+                      </TableCell>
+                      <TableCell className="text-end text-sm font-normal">
                         {paymentType(
                           bookingData?.detailTransportation?.paymentType,
                         )}
@@ -403,10 +339,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.detailTransportation?.paymentDeadline && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Сроки оплаты
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {bookingData?.detailTransportation?.paymentDeadline}
                       </TableCell>
                     </TableRow>
@@ -414,10 +350,10 @@ export default function BookingDetailContent({
 
                   {bookingData?.additionalConditions?.additionalInformation && (
                     <TableRow>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-normal text-primary/60 text-sm p-3">
                         Дополнительная информация
                       </TableCell>
-                      <TableCell className="text-end">
+                      <TableCell className="text-end text-sm font-normal">
                         {
                           bookingData?.additionalConditions
                             ?.additionalInformation
@@ -432,28 +368,11 @@ export default function BookingDetailContent({
 
           <TabsContent value="reviews">
             {/* О компании */}
-            <div className="mt-6 flex items-center gap-4 px-4 py-2 rounded-lg border bg-card">
-              <div className="h-10 w-10 rounded-md bg-muted-foreground/5 border flex items-center justify-center">
-                <Building2 className="h-5 w-5 text-primary" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-medium">
-                    {bookingData?.companyPublicData?.nameCompany}
-                  </h3>
-                </div>
-                {/* <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <FileText className="h-4 w-4" />
-                  <span>{32} заявок</span>
-                </div> */}
-              </div>
-              {/* <Badge
-                variant="secondary"
-                className="flex items-center gap-2 py-1 px-2"
-              >
-                <Star className="h-3.5 w-3.5 fill-primary" />
-                {3.5}
-              </Badge> */}
+            <div className="flex flex-col p-3 mt-4">
+              <p className="text-sm font-normal text-primary/60">Компния</p>
+              <span className="text-lg">
+                {bookingData?.companyPublicData?.nameCompany}
+              </span>
             </div>
           </TabsContent>
 

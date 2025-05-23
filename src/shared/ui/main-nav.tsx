@@ -1,27 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import {
-  BriefcaseBusiness,
-  ChartLine,
-  Coffee,
-  Menu,
-  PackageOpen,
-  PackagePlus,
-  PackageSearch,
-  UserCog2,
-} from "lucide-react";
-import { Button } from "../components/ui/button";
-import { userStorageAtom } from "../model/atoms/user-atom";
-import { useAtomValue } from "jotai";
-// import ThemeToggle from "@/feature/toggle-theme/toggle-theme";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
-import { useAuth } from "@/app/providers/auth-provider";
-// import { MobileNav } from "@/widgets/mobile/mobile-nav/mobile-nav";
+import { NavLink, useNavigate } from "react-router";
 
 export type TLinksHeader = {
   icon?: React.ComponentType<{ className?: string }>;
@@ -30,10 +7,11 @@ export type TLinksHeader = {
 };
 
 export function MainNav() {
-  const userData = useAtomValue(userStorageAtom);
-  const navigate = useNavigate();
-  const user = useAuth();
-  const linksHeader: TLinksHeader[] = [
+  const linkHeader: TLinksHeader[] = [
+    {
+      linkLabel: "Смотреть заявки",
+      navigate: "/",
+    },
     {
       linkLabel: "Выложить заявку",
       navigate: "/create-booking",
@@ -42,121 +20,62 @@ export function MainNav() {
       linkLabel: "Мои заявки",
       navigate: "/my-booking",
     },
-
-    // {
-    //   linkLabel: "Статсика",
-    //   navigate: "/analytics",
-    // },
+  ];
+  const linkSubHeader: TLinksHeader[] = [
+    {
+      linkLabel: "Новости",
+      navigate: "/news",
+    },
+    {
+      linkLabel: "Поддержка",
+      navigate: "/support",
+    },
+    {
+      linkLabel: "Тарифы",
+      navigate: "/subscribe",
+    },
   ];
 
   return (
-    <div className="relative flex justify-between items-center gap-2 w-full sm:gap-4 ">
-      <NavLink to="/" className="font-semibold text-sm sm:text-xl md:text-2xl">
-        Груз Рынок
-      </NavLink>
-
-      {/* Навигация */}
-      <nav className="flex gap-4 -mb-1 sm:gap-6">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            `flex gap-2 items-center text-sm font-semibold transition-colors hover:text-white ${
-              isActive ? "text-white" : "text-white/60"
-            }
-            hidden text-xs sm:text-sm xl:flex`
-          }
-        >
-          Искать заявки
-        </NavLink>
-        {linksHeader.map((link) => (
-          <NavLink
-            to={link.navigate}
-            className={({ isActive }) =>
-              `flex gap-2 items-center text-sm font-medium transition-colors hover:text-white ${
-                isActive ? "text-white" : "text-white/60"
+    <div className="container mx-auto px-8">
+      <div className="flex justify-between items-center py-4">
+        <span className="font-bold text-2xl">Груз рынок</span>
+        <div className="flex gap-8">
+          {linkHeader.map((link) => (
+            <NavLink
+              to={link.navigate}
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-sm"
+                  : "font-medium text-sm text-background/60 hover:text-background"
               }
-              ${user?.token && user?.user?.roles === "customer" ? "" : "!hidden"}
-              hidden text-xs sm:text-sm xl:flex`
-            }
-          >
-            {link?.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4" />}
-            {link.linkLabel}
-          </NavLink>
-        ))}
-      </nav>
-      {/* <MobileNav /> */}
-      <div className="flex gap-4 xl:hidden">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Menu className="w-6 h-6" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-4 mt-4">
-            <DropdownMenuItem
-              onClick={() => navigate("/")}
-              className="flex gap-4 justify-between"
             >
-              <p>Смотреть заявки</p>
-              <PackageSearch className="w-4 h-4" />
-            </DropdownMenuItem>
-            {linksHeader.map((nav) => (
-              <DropdownMenuItem
-                onClick={() => navigate(nav.navigate)}
-                className="flex gap-4 justify-between"
-              >
-                <p>{nav.linkLabel}</p>
-                {nav?.icon && <nav.icon className="w-4 h-4" />}
-              </DropdownMenuItem>
-            ))}
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              onClick={() => navigate("/profile")}
-              className="flex gap-4 justify-between"
-            >
-              <p>Профиль</p>
-              <UserCog2 className="w-4 h-4" />
-            </DropdownMenuItem>
-            {/* proposals */}
-            {user?.token && (
-              <DropdownMenuItem
-                onClick={() => navigate("/proposals")}
-                className="flex gap-4 justify-between"
-              >
-                <p>Предложения</p>
-                <Coffee className="w-4 h-4" />
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              {link.linkLabel}
+            </NavLink>
+          ))}
+        </div>
+        <div className="w-[35px] h-[35px] rounded-[30px] bg-background"></div>
       </div>
-
-      {userData ? (
-        <div className="items-center gap-0 hidden xl:flex text-white">
-          <NavLink to="/profile">
-            <Button
-              variant="link"
-              className="text-sm font-semibold sm:text-sm text-white"
+      <div className="py-3 flex justify-between items-center border-t-[1px] border-background/15">
+        <div className="flex gap-6">
+          {linkSubHeader.map((link) => (
+            <NavLink
+              to={link.navigate}
+              className={({ isActive }) =>
+                isActive
+                  ? "font-medium text-sm"
+                  : "font-medium text-sm text-background/60 hover:text-background"
+              }
             >
-              {/* <UserCog className="w-4 h-4" /> */}
-              Профиль
-            </Button>
-          </NavLink>
-          {/* <ThemeToggle /> */}
+              {link.linkLabel}
+            </NavLink>
+          ))}
         </div>
-      ) : (
-        <div className="hidden xl:block sm:space-x-2">
-          <NavLink to="/register">
-            <Button size="sm" variant="link" className="text-white">
-              Зарегистрироваться
-            </Button>
-          </NavLink>
-          <NavLink to="/login">
-            <Button size="sm" variant="link" className="text-white">
-              Войти
-            </Button>
-          </NavLink>
-        </div>
-      )}
+
+        <span className="font-medium text-sm text-background/60">
+          У вас 3 заявки
+        </span>
+      </div>
     </div>
   );
 }

@@ -35,7 +35,9 @@ export default function BookingDetailSheet({
           ex:px-2"
         >
           {/* <PackageOpen className="w-4 h-4 text-muted-foreground" /> */}
-          <SheetTitle>Детали заявки</SheetTitle>
+          <SheetTitle className="text-2xl font-normal">
+            Детали заявки
+          </SheetTitle>
         </SheetHeader>
         {bookingId && <BookingDetailContent bookingId={bookingId} />}
       </SheetContent>

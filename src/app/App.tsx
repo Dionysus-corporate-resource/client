@@ -17,6 +17,7 @@ import EditBookingPage from "@/pages/edit-booking/edit-booking";
 import AnalyticsPage from "@/pages/analytics/analytics-page";
 import usePageView from "@/shared/hooks/use-page-view";
 import NewPublicBookingPage from "@/pages/home/new-public-booking-page";
+import EditProfilePage from "@/pages/auth/profile/edit-profile-page";
 // import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
 
 function App() {
@@ -34,6 +35,14 @@ function App() {
           element={
             <Authentication>
               <ProfilePage />
+            </Authentication>
+          }
+        />
+        <Route
+          path="edit-profile"
+          element={
+            <Authentication>
+              <EditProfilePage />
             </Authentication>
           }
         />

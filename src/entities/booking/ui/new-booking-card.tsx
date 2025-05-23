@@ -1,15 +1,16 @@
-import { Button } from "@/shared/components/ui/button";
+import useFormatters from "@/shared/hooks/use-formatters";
 import { IBookingDto } from "@/shared/model/types/booking";
 import { Asterisk } from "lucide-react";
+import { ReactNode } from "react";
 
-export default function NewBookingCard({ booking }: { booking: IBookingDto }) {
-  const formatPhoneNumber = (phone: string) => {
-    return phone.replace(
-      /^(8|7)(\d{3})(\d{3})(\d{2})(\d{2})$/,
-      "+7 ($2) $3-$4-$5",
-    );
-  };
-
+export default function NewBookingCard({
+  booking,
+  bookingDetailSlot,
+}: {
+  booking: IBookingDto;
+  bookingDetailSlot: ReactNode;
+}) {
+  const { formatPhoneNumber } = useFormatters();
   return (
     <div className="max-w-sm  flex flex-col justify-between border bg-background rounded-xl p-3 space-y-4">
       <div className="space-y-4">
@@ -90,12 +91,7 @@ export default function NewBookingCard({ booking }: { booking: IBookingDto }) {
             )}
           </span>
         </div>
-        <Button
-          className="rounded-xl shadow-none text-xs font-semibold px-4 py-2 text-[hsl(var(--access-primary))]"
-          style={{ background: "#E8F1FF" }}
-        >
-          Подробнее
-        </Button>
+        {bookingDetailSlot}
       </div>
     </div>
   );
