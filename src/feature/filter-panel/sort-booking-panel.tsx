@@ -84,8 +84,8 @@ export default function SortBookingPanel({
           break;
 
         case "ratePerTon":
-          valueA = parseFloat(a?.detailTransportation?.ratePerTon);
-          valueB = parseFloat(b?.detailTransportation?.ratePerTon);
+          valueA = parseFloat(a?.basicInfo?.ratePerTon);
+          valueB = parseFloat(b?.basicInfo?.ratePerTon);
           break;
 
         default:

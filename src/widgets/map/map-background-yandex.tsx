@@ -9,7 +9,7 @@ export default function MapBackgroundYandex({
   bookings: TBookingDto[] | undefined;
 }) {
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [openDetailBooking, setOpenDetailBooking] = useState(false);
+  // const [openDetailBooking, setOpenDetailBooking] = useState(false);
 
   const handleMapClick = (event: ymaps.IEvent) => {
     const coords = event.get("coords");
@@ -50,7 +50,7 @@ export default function MapBackgroundYandex({
                   key={booking._id}
                   onClick={() => {
                     setBookingId(booking._id);
-                    setOpenDetailBooking(true);
+                    // setOpenDetailBooking(true);
                   }}
                   geometry={
                     booking?.basicInfo?.loadingLocation?.coordinates ?? [
@@ -68,8 +68,8 @@ export default function MapBackgroundYandex({
       </YMaps>
       <BookingDetailSheet
         bookingId={bookingId}
-        open={openDetailBooking}
-        onOpenChange={setOpenDetailBooking}
+        // open={openDetailBooking}
+        // onOpenChange={setOpenDetailBooking}
       />
     </>
   );

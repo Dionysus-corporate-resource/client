@@ -1,28 +1,23 @@
-import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import { Button } from "@/shared/components/ui/button";
 import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
 import { ArrowUpRight } from "lucide-react";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
+import BookingCard from "@/entities/booking/booking-card";
 
 export default function PublicBookingListCard({
   bookings,
 }: {
-  bookings: IBookingDto[] | undefined;
+  bookings: TBookingDto[] | undefined;
 }) {
   return (
     <div
       className="mx-auto w-fit grid gap-4 ex:px-2 ex:mt-2 p- bg- rounded-xl
      grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-1 xl:grid-cols-2 lg:w-full 2xl:grid-cols-2 2xl:w-full"
     >
-      {!bookings ? (
-        Array.from({ length: 10 }).map((_, index) => (
-          <SkeletonBookingCard key={index} />
-        ))
-      ) : bookings.length > 0 ? (
-        bookings?.reverse().map((booking, index) => (
+      {bookings && bookings.length > 0 ? (
+        bookings?.reverse().map((booking) => (
           <BookingCard
             key={booking._id}
-            orderNumber={index + 1}
             booking={booking}
             bookingDetailSlot={
               <BookingDetailSheet

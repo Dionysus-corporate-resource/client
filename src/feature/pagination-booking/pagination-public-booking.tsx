@@ -6,7 +6,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/shared/components/ui/pagination";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 import { Dispatch, SetStateAction } from "react";
 
 export function PaginationPublicBooking({
@@ -15,7 +15,7 @@ export function PaginationPublicBooking({
   page,
   itemsPerPage,
 }: {
-  filteredBooking: IBookingDto[] | undefined;
+  filteredBooking: TBookingDto[] | undefined;
   setPage: Dispatch<SetStateAction<number>>;
   page: number;
   itemsPerPage: number;

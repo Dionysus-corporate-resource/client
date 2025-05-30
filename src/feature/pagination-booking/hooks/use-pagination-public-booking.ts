@@ -1,10 +1,10 @@
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 import { useState } from "react";
 
 export default function usePaginationPublicBooking({
   filteredBooking,
 }: {
-  filteredBooking: IBookingDto[] | undefined;
+  filteredBooking: TBookingDto[] | undefined;
 }) {
   const [page, setPage] = useState(1);
   const itemsPerPage = 10;

@@ -1,9 +1,9 @@
-import { FormData } from "@/feature/multi-step-form/model/types";
+import { formData } from "@/feature/create-detail-booking/types";
 import instance from "@/shared/model/api/axios-instance";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 
 export const bookingApi = {
-  getAll: async (): Promise<IBookingDto[]> => {
+  getAll: async (): Promise<TBookingDto[]> => {
     try {
       const response = await instance.get("/booking");
       console.log("bookingApi getAll", response.data);
@@ -15,7 +15,7 @@ export const bookingApi = {
       throw err;
     }
   },
-  getOne: async (bookingId: string): Promise<IBookingDto> => {
+  getOne: async (bookingId: string): Promise<TBookingDto> => {
     try {
       const response = await instance.get(`/booking/${bookingId}`);
       console.log("bookingApi getOne", response.data);
@@ -27,7 +27,7 @@ export const bookingApi = {
       throw err;
     }
   },
-  create: async (data: FormData): Promise<IBookingDto> => {
+  create: async (data: formData): Promise<TBookingDto> => {
     try {
       const response = await instance.post("/booking", data);
       console.log("bookingApi create", response.data);
@@ -38,7 +38,7 @@ export const bookingApi = {
       throw err;
     }
   },
-  update: async (data: FormData, bookingId: string): Promise<IBookingDto> => {
+  update: async (data: FormData, bookingId: string): Promise<TBookingDto> => {
     try {
       const response = await instance.put(`/booking/${bookingId}`, data);
       console.log("bookingApi update", response.data);
@@ -50,9 +50,9 @@ export const bookingApi = {
     }
   },
   updateStatus: async (
-    data: IBookingDto["status"],
+    data: TBookingDto["status"],
     bookingId: string,
-  ): Promise<IBookingDto> => {
+  ): Promise<TBookingDto> => {
     try {
       const response = await instance.patch(`/booking/${bookingId}`, {
         status: data,
@@ -65,7 +65,7 @@ export const bookingApi = {
       throw err;
     }
   },
-  remove: async (bookingId: string): Promise<IBookingDto> => {
+  remove: async (bookingId: string): Promise<TBookingDto> => {
     try {
       const response = await instance.delete(`/booking/${bookingId}`);
       console.log("bookingApi remove", response.data);

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 import { ArrowDownRight, CornerRightUp, Dot, Eye } from "lucide-react";
 
 import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
@@ -19,8 +19,8 @@ export type IStateRemoveSureType = {
 };
 
 type Props = {
-  tableData: IBookingDto[] | undefined;
-  bookingEditSlot: (booking: IBookingDto) => ReactNode;
+  tableData: TBookingDto[] | undefined;
+  bookingEditSlot: (booking: TBookingDto) => ReactNode;
 };
 
 export default function MyBookingListTable({
@@ -89,7 +89,7 @@ export default function MyBookingListTable({
               <TableCell>{booking?.basicInfo?.distance} км</TableCell>
 
               <TableCell className="text-right font-medium">
-                {booking?.detailTransportation?.ratePerTon} ₽/т
+                {booking?.basicInfo?.ratePerTon} ₽/т
               </TableCell>
 
               <TableCell className="text-right">

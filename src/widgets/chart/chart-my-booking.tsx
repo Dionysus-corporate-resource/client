@@ -59,10 +59,10 @@ export function ChartMyBooking() {
 
   // const allBookingUser = bookingData?.filter((booking) => booking?.user?._id === user?._id)
   const tableDataActive = bookingData
-    ?.filter((booking) => booking?.user?._id === user?._id)
+    ?.filter((booking) => booking?.user === user?._id)
     .filter((booking) => booking?.status === "active");
   const tableDataArchive = bookingData
-    ?.filter((booking) => booking?.user?._id === user?._id)
+    ?.filter((booking) => booking?.user === user?._id)
     .filter((booking) => booking?.status === "inactive");
 
   const chartData = [
