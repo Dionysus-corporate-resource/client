@@ -16,17 +16,18 @@ import {
 } from "@/shared/components/ui/select";
 import useProfileEdit from "../hooks/use-profile-edit";
 import { useNavigate } from "react-router";
+import PageLoader from "@/shared/ui/page-loader";
 
 export default function ProfileEditForm() {
   const {
-    state: { isChangeForm, formData, isLoading },
+    state: { isChangeForm, formData, isLoadingDataUser },
     actions: { setIsChangeForm, setFormData, handleChange, handleSubmit },
   } = useProfileEdit();
 
   const navigate = useNavigate();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isLoadingDataUser) {
+    return <PageLoader />;
   }
 
   return (

@@ -10,11 +10,11 @@ import QueryProvider from "./providers/query-client-provider.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <QueryProvider>
+      <QueryProvider>
+        <AuthProvider>
           <App />
-        </QueryProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </QueryProvider>
     </BrowserRouter>
   </StrictMode>,
 );

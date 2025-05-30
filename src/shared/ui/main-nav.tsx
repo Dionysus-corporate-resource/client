@@ -1,6 +1,4 @@
 import { useAuth } from "@/app/providers/auth-provider";
-import { userApi } from "@/feature/auth/profile/api/user-api";
-import { useQuery } from "@tanstack/react-query";
 import { NavLink, useNavigate } from "react-router";
 
 export type TLinksHeader = {
@@ -21,13 +19,11 @@ function imgRoleVariant(role: "customer" | "driver" | undefined) {
 }
 
 export function MainNav() {
-  const { data: userData } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => userApi.getDataProfile(),
-  });
+  const {
+    user: { userData },
+  } = useAuth();
 
   const navigate = useNavigate();
-  const userContext = useAuth();
   const linkHeader: TLinksHeader[] = [
     {
       linkLabel: "Смотреть заявки",
@@ -81,7 +77,7 @@ export function MainNav() {
           className="w-[35px] h-[35px] rounded-[30px] bg-background hover:cursor-pointer overflow-hidden"
         >
           <img
-            src={imgRoleVariant(userContext?.user?.roles)}
+            src={imgRoleVariant(userData?.roles)}
             className="object-cover w-full h-full"
           />
         </div>

@@ -1,6 +1,6 @@
 import { useAuth } from "@/app/providers/auth-provider";
-import useProfileEdit from "@/feature/auth/profile/hooks/use-profile-edit";
 import useFormatters from "@/shared/hooks/use-formatters";
+import PageLoader from "@/shared/ui/page-loader";
 import { NavLink } from "react-router";
 
 function imgRoleVariant(role: "customer" | "driver" | undefined) {
@@ -15,13 +15,14 @@ function imgRoleVariant(role: "customer" | "driver" | undefined) {
 }
 
 export default function ProfilePage() {
-  const authContext = useAuth();
   const {
-    state: { userData, isLoading },
-  } = useProfileEdit();
+    user: { userData, isLoadingDataUser, isErrorDataUser },
+    logOut,
+  } = useAuth();
   const { formatPhoneNumber } = useFormatters();
 
-  if (isLoading) return <div>Загрузка данных</div>;
+  if (isLoadingDataUser) return <PageLoader />;
+  if (isErrorDataUser) return <div>Ошибка при запросе</div>;
 
   return (
     <div className="container mx-auto w-full rounded-2xl bg-background mt-10 p-5">
@@ -69,7 +70,7 @@ export default function ProfilePage() {
             </NavLink>
             <span
               className="text-primary/90 text-sm font-semibold hover:cursor-pointer"
-              onClick={authContext?.logOut}
+              onClick={logOut}
             >
               Выйти
             </span>

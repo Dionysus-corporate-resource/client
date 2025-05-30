@@ -1,5 +1,5 @@
 import { toast } from "@/shared/hooks/use-toast";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { IUpdateProfile, userApi } from "../api/user-api";
 import { queryClient } from "@/shared/model/api/query-client";
@@ -16,13 +16,15 @@ type IFormData = {
 };
 
 export default function useProfileEdit() {
-  const authContext = useAuth();
+  const {
+    user: { userData, isLoadingDataUser },
+  } = useAuth();
   const navigate = useNavigate();
   // запросы и сосония
-  const { data: userData, isLoading } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => userApi.getDataProfile(),
-  });
+  // const { data: userData, isLoading } = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: () => userApi.getDataProfile(),
+  // });
 
   const updateProfileMutation = useMutation({
     mutationFn: (data: IUpdateProfile) => userApi.updateDataProfile(data),
@@ -43,7 +45,7 @@ export default function useProfileEdit() {
   // logic
   useEffect(() => {
     if (userData) {
-      authContext?.setUser(userData);
+      // authContext?.setUser(userData);
       // setUser(userData);
       setFormData({
         userName: userData.userName || "",
@@ -53,7 +55,7 @@ export default function useProfileEdit() {
         companyName: userData.companyName || null,
       });
     }
-  }, [userData, authContext]);
+  }, [userData]);
 
   // handlers
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -109,7 +111,7 @@ export default function useProfileEdit() {
       isChangeForm,
       formData,
       userData,
-      isLoading,
+      isLoadingDataUser,
     },
     actions: {
       setIsChangeForm,

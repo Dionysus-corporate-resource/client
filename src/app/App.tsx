@@ -10,7 +10,7 @@ import SuccessPage from "@/pages/payment/payment-success";
 import ErrorPage from "@/pages/payment/payment-failed";
 import ProposalsPage from "@/pages/proposals/proposals-page";
 import AnalyticsPage from "@/pages/analytics/analytics-page";
-import usePageView from "@/shared/hooks/use-page-view";
+// import usePageView from "@/shared/hooks/use-page-view";
 import EditProfilePage from "@/pages/auth/profile/edit-profile-page";
 import { PublicBookingPage } from "@/pages/home";
 import ChooseCreateBookingPage from "@/pages/create-booking/choose-create-booking-page";
@@ -20,11 +20,16 @@ import MyBookingPage from "@/pages/my-booking/my-booking";
 import EditDetailBookingPage from "@/pages/edit-booking/edit-detail-booking";
 import EditShortBookingPage from "@/pages/edit-booking/edit-short-booking";
 import SubscribePage from "@/pages/subscribe/subscribe-page";
+import MobileBlock from "@/shared/ui/mobile-block";
+import useMobileCheck from "@/shared/hooks/use-mobile-check";
 
 function App() {
-  usePageView();
+  // usePageView();
+  const isMobile = useMobileCheck();
 
-  return (
+  return isMobile ? (
+    <MobileBlock />
+  ) : (
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="" element={<PublicBookingPage />} />

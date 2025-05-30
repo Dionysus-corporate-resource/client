@@ -1,16 +1,10 @@
 import { useLocalStorage } from "@/shared/hooks/use-localStorage";
 import instance from "@/shared/model/api/axios-instance";
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { IUserDto } from "@/shared/model/types/user";
+import { useQuery } from "@tanstack/react-query";
 
 // то что приходит в функцию логирования
 type LoginData = {
@@ -37,8 +31,13 @@ interface AuthContextProps {
   logIn: (data: LoginData) => Promise<LoginDataDto>;
   logOut: () => void;
   logUp: (data: RegisterData) => Promise<RegisterDataDto>;
-  user: IUserDto | null;
-  setUser: Dispatch<SetStateAction<IUserDto | null>>;
+  // user: IUserDto | null;
+  // setUser: Dispatch<SetStateAction<IUserDto | null>>;
+  user: {
+    userData: IUserDto | undefined;
+    isLoadingDataUser: boolean;
+    isErrorDataUser: boolean;
+  };
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -50,16 +49,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const [token, setToken] = useLocalStorage<string | null>("token", null);
   // const [user, setUser] = useAtom(userStorageAtom);
-  const [user, setUser] = useState<IUserDto | null>(null);
+  // const [user, setUser] = useState<IUserDto | null>(null);
+  const {
+    data: userData,
+    isLoading: isLoadingDataUser,
+    isError: isErrorDataUser,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: async (): Promise<IUserDto> => {
+      try {
+        const response = await instance.get("/auth/me");
+        console.log("Загрузка данных пользователя в провайдере", response.data);
+        return response.data;
+      } catch (err) {
+        console.error(err);
+        setToken(null);
+        throw err;
+      }
+    },
+  });
 
   const logIn = async (data: LoginData): Promise<LoginDataDto> => {
     try {
       const response = await instance.post("/auth/login", data);
       console.log("loginRequest", response.data);
 
-      // TODO: проверь правильно или нет
       setToken(response.data.token);
-      setUser(response.data);
+      // setUser(response.data);
 
       navigate(redirectPath, { replace: true });
       return response.data;
@@ -90,14 +106,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     navigate("/");
     console.log("logOut");
     setTimeout(() => {
-      setUser(null);
+      // setUser(null);
       setToken(null);
     }, 100);
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, user, setUser, logIn, logUp, logOut }}
+      value={{
+        token,
+        user: {
+          userData,
+          isLoadingDataUser,
+          isErrorDataUser,
+        },
+        logIn,
+        logUp,
+        logOut,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -105,5 +131,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+  return context;
 };
