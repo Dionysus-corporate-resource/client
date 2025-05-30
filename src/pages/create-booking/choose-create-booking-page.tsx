@@ -11,8 +11,8 @@ export default function ChooseCreateBookingPage() {
   });
 
   return (
-    <div className="container relative mx-auto flex flex-1">
-      <div className="w-full grid grid-cols-2 justify-between items-center h-fit mt-[60px]">
+    <div className="container relative mx-auto flex items-center flex-1 px-6">
+      <div className="w-full grid grid-cols-2 gap-20 justify-between items-center h-fit">
         <div className="flex flex-col gap-6">
           <h1 className="text-5xl font-bold">Создайте свою заявку</h1>
           <span className="text-xl font-normal text-primary/80">
@@ -26,13 +26,13 @@ export default function ChooseCreateBookingPage() {
           <CreateBookingCard
             title="Детальная"
             description="Заполняйте дополнительные поля, это привлечет более опытных водителей"
-            time="5"
+            time="8"
             link="detail"
           />
           <CreateBookingCard
             title="Короткая"
             description="Заполняйте самое необходимое и экономьте свое время"
-            time="8"
+            time="5"
             link="short"
           />
         </div>

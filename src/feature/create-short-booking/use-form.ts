@@ -4,6 +4,7 @@ import { toast } from "@/shared/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import instance from "@/shared/model/api/axios-instance";
 import { useNavigate } from "react-router";
+import { queryClient } from "@/shared/model/api/query-client";
 
 const steps = [
   {
@@ -32,6 +33,7 @@ export default function useForm() {
       return response.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       toast({
         title: "Заявка создна",
         description: "Можете увидеть ее на странице мои заявки",

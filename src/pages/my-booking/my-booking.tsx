@@ -82,7 +82,7 @@ export default function MyBookingPage() {
   };
 
   return (
-    <div className="container mx-auto flex flex-col">
+    <div className="container mx-auto flex flex-col px-6">
       <div className="flex justify-between mt-16">
         <Tabs defaultValue="active" className="w-fit">
           <TabsList className="rounded-[30px] px-2 py-2">
@@ -137,106 +137,112 @@ export default function MyBookingPage() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="mt-8 grid grid-cols-4 gap-4">
-        {userBookings.map((booking) => (
-          <BookingCard
-            key={booking._id}
-            booking={booking}
-            bookingDetailSlot={
-              <BookingDetailSheet
-                bookingId={booking?._id}
-                actionSlot={
-                  <Button
-                    className="rounded-[30px] shadow-none text-xs font-semibold px-4 py-5 text-[hsl(var(--access-primary))]"
-                    style={{ background: "#E8F1FF" }}
-                  >
-                    Подробнее
-                  </Button>
-                }
-              />
-            }
-            bookingEditSlot={
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <button className="">
-                    <Settings2 className="w-5 h-5" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="mr-6 rounded-[30px] py-2 px-2">
-                  {/* <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel> */}
-                  {/* <DropdownMenuSeparator /> */}
-                  {booking?.additionalConditions ? (
+      <div className="mt-8 grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+        {userBookings.length > 0 ? (
+          userBookings.map((booking) => (
+            <BookingCard
+              key={booking._id}
+              booking={booking}
+              bookingDetailSlot={
+                <BookingDetailSheet
+                  bookingId={booking?._id}
+                  actionSlot={
+                    <Button
+                      className="rounded-[30px] shadow-none text-xs font-semibold px-4 py-5 text-[hsl(var(--access-primary))]"
+                      style={{ background: "#E8F1FF" }}
+                    >
+                      Подробнее
+                    </Button>
+                  }
+                />
+              }
+              bookingEditSlot={
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <button className="">
+                      <Settings2 className="w-5 h-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="mr-6 rounded-[30px] py-2 px-2">
+                    {/* <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel> */}
+                    {/* <DropdownMenuSeparator /> */}
+                    {booking?.additionalConditions ? (
+                      <DropdownMenuItem
+                        className="rounded-[30px]"
+                        onClick={() =>
+                          navigate(`/edit-booking-detail/${booking._id}`)
+                        }
+                      >
+                        <span className="px-2">Редактировть заявку</span>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem
+                        className="rounded-[30px]"
+                        onClick={() =>
+                          navigate(`/edit-booking-short/${booking._id}`)
+                        }
+                      >
+                        <span className="px-2">Редактировть заявку</span>
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSub>
+                      <DropdownMenuSubTrigger className="rounded-[30px]">
+                        <span className="px-2">Изменить статус</span>
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuPortal>
+                        <DropdownMenuSubContent className="rounded-[30px] py-2 px-2">
+                          <DropdownMenuItem
+                            className="rounded-[30px]"
+                            onClick={() =>
+                              updateStatusMutation.mutate({
+                                data: "active",
+                                bookingId: booking?._id,
+                              })
+                            }
+                          >
+                            <span className="px-2">Активная</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="rounded-[30px]"
+                            onClick={() =>
+                              updateStatusMutation.mutate({
+                                data: "archive",
+                                bookingId: booking?._id,
+                              })
+                            }
+                          >
+                            <span className="px-2">Архив</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="rounded-[30px]"
+                            onClick={() =>
+                              updateStatusMutation.mutate({
+                                data: "inactive",
+                                bookingId: booking?._id,
+                              })
+                            }
+                          >
+                            <span className="px-2">Не актуальная</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuPortal>
+                    </DropdownMenuSub>
                     <DropdownMenuItem
                       className="rounded-[30px]"
-                      onClick={() =>
-                        navigate(`/edit-booking-detail/${booking._id}`)
-                      }
+                      onClick={() => handleRemove(booking._id)}
                     >
-                      <span className="px-2">Редактировть заявку</span>
+                      <span className="px-2">Удалить заявку</span>
                     </DropdownMenuItem>
-                  ) : (
-                    <DropdownMenuItem
-                      className="rounded-[30px]"
-                      onClick={() =>
-                        navigate(`/edit-booking-short/${booking._id}`)
-                      }
-                    >
-                      <span className="px-2">Редактировть заявку</span>
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger className="rounded-[30px]">
-                      <span className="px-2">Изменить статус</span>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent className="rounded-[30px] py-2 px-2">
-                        <DropdownMenuItem
-                          className="rounded-[30px]"
-                          onClick={() =>
-                            updateStatusMutation.mutate({
-                              data: "active",
-                              bookingId: booking?._id,
-                            })
-                          }
-                        >
-                          <span className="px-2">Активная</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="rounded-[30px]"
-                          onClick={() =>
-                            updateStatusMutation.mutate({
-                              data: "archive",
-                              bookingId: booking?._id,
-                            })
-                          }
-                        >
-                          <span className="px-2">Архив</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className="rounded-[30px]"
-                          onClick={() =>
-                            updateStatusMutation.mutate({
-                              data: "inactive",
-                              bookingId: booking?._id,
-                            })
-                          }
-                        >
-                          <span className="px-2">Не актуальная</span>
-                        </DropdownMenuItem>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                  <DropdownMenuItem
-                    className="rounded-[30px]"
-                    onClick={() => handleRemove(booking._id)}
-                  >
-                    <span className="px-2">Удалить заявку</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            }
-          />
-        ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              }
+            />
+          ))
+        ) : (
+          <span className="font-normal text-base">
+            Заявок в этом разделе нет.
+          </span>
+        )}
       </div>
     </div>
   );

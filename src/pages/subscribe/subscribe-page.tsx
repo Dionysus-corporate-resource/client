@@ -4,11 +4,23 @@ import { paymentApi, TTypeSubscripe } from "./paymentApi";
 
 export default function SubscribePage() {
   return (
-    <div className="container mx-auto flex items-center">
-      <div className="grid grid-cols-3 gap-4 w-full">
-        <SubscribeCardOne />
-        <SubscribeCardTwo />
-        <SubscribeCardThree />
+    <div className="container mx-auto flex items-center justify-center">
+      <div className="flex flex-col gap-16">
+        <div className="flex gap-2 flex-col items-center justify-center">
+          <h4 className="font-semibold text-3xl text-center max-w-xl w-full">
+            Выберите подходящий тариф
+          </h4>
+          <span className="font-normal text-base text-center max-w-xl w-full">
+            Мы сотрудничаем с QKassa, проверенным платежным сервисом, чтобы
+            гарантировать безопасность ваших данных.
+          </span>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 w-full px-6">
+          <SubscribeCardOne />
+          <SubscribeCardTwo />
+          <SubscribeCardThree />
+        </div>
       </div>
     </div>
   );
@@ -106,7 +118,7 @@ function SubscribeCardTwo() {
       <div className="flex flex-col gap-1">
         <span className="text-xl font-medium">Выгодный пакет заявок</span>
         <span className="text-xs font-normal">
-          Бери набор со скидкой, дешевле чем поштучные
+          Бери набор со скидкой, дешевле чем покупать поштучно
         </span>
       </div>
       <div>
@@ -154,7 +166,7 @@ function SubscribeCardThree() {
   const handlePayment = () => {
     const data = {
       typeSubscriprion: "unLimited" as TTypeSubscripe,
-      countMonthSubscribe: 30,
+      countMonthSubscribe: 1,
     };
     paymentApi.createUnlimitSubscription(data);
   };
@@ -162,7 +174,7 @@ function SubscribeCardThree() {
     <div className="border rounded-[30px] p-6 flex flex-col gap-8 h-fit">
       <div className="flex flex-col gap-1">
         <span className="text-xl font-medium">Месячная подписка</span>
-        <span className="text-xs font-normal">Для активных пользователей</span>
+        <span className="text-xs font-normal">Неограниченное число заявок</span>
       </div>
       <div>
         <div className="flex flex-col gap-1">

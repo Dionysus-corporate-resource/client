@@ -51,8 +51,8 @@ export default function PublicBookingPage() {
           />
         </div>
 
-        <div className="grid grid-cols-4 gap-8 mt-20 z-20">
-          <div className="col-span-3 space-y-2">
+        <div className="grid grid-cols-6 2xl:grid-cols-4 gap-2 2xl:gap-8 mt-20 z-20 px-6">
+          <div className="col-span-4 2xl:col-span-3 space-y-2">
             <span className="text-base font-normal text-primary/60 -mb-2">
               Всего заявок: {filteredBooking?.length}
             </span>
@@ -66,7 +66,7 @@ export default function PublicBookingPage() {
               />
             </div>
           </div>
-          <div className="col-span-1 flex flex-col mt-2">
+          <div className="col-span-2 2xl:col-span-1 flex flex-col mt-2">
             <div className="sticky top-8">
               <SortPublicBookingPanel
                 filters={filters}

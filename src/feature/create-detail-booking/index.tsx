@@ -82,7 +82,7 @@ export default function CreateDetaBookingForm() {
     return;
   };
   return (
-    <div className="relative grid grid-cols-2 w-screen h-full">
+    <div className="relative grid grid-cols-2  gap-24 xl:gap-0 w-screen h-full">
       {renderClue(clueIsView)}
       <div className="">
         <MapSelector

@@ -15,7 +15,7 @@ export default function BookingCard({
 }) {
   const { formatPhoneNumber } = useFormatters();
   return (
-    <div className="max-w-sm w-full flex flex-col justify-between border bg-background rounded-[30px] p-5 space-y-4">
+    <div className="max-w-lg w-full flex flex-col justify-between border bg-background rounded-[30px] p-5 space-y-4">
       <div className="space-y-4">
         {bookingEditSlot && (
           // <div className="bg-[#F9F9F9] px-4 pt-[8px] pb-0 rounded-[30px] flex items-center justify-end">

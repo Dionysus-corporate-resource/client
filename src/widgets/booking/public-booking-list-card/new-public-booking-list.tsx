@@ -9,7 +9,7 @@ export default function NewPublicBookingList({
   bookings: TBookingDto[] | undefined;
 }) {
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-2 2xl:grid-cols-3 gap-4">
       {bookings?.map((booking) => (
         <BookingCard
           booking={booking}
