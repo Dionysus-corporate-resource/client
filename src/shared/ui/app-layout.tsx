@@ -1,11 +1,10 @@
 import { Outlet } from "react-router";
 import { MainNav } from "./main-nav";
 import { Toaster } from "../components/ui/toaster";
-import { useEffect, useState } from "react";
 
 export default function AppLayout() {
-  const [isHeaderVisible, setHeaderVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
+  // const [isHeaderVisible, setHeaderVisible] = useState(true);
+  // const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -32,21 +31,12 @@ export default function AppLayout() {
   //   };
   // }, [prevScrollPos]);
   return (
-    <div className="flex flex-col min-h-screen">
-      <div
-        className={`w-full bg-[#141414] text-white z-[20]
-        px-8 mx-auto flex items-center transition-transform duration-300`}
-      >
+    <div className="relative flex flex-col min-h-screen">
+      <div className={`w-full bg-[#141414] text-white z-[20]`}>
         <MainNav />
+        <div className="absolute top-[65px] left-0 border-background/10 border-t-[1px] w-screen" />
       </div>
-      <header
-        className={`fixed top-0 left-0 w-full bg-[#141414] text-white z-[20]
-          px-8 mx-auto flex items-center transition-transform duration-300  ${
-            isHeaderVisible ? "translate-y-0" : "-translate-y-full"
-          }`}
-      >
-        <MainNav />
-      </header>
+
       <div className="relative flex-1 flex">
         <Outlet />
         <Toaster />

@@ -1,7 +1,7 @@
 import instance from "@/shared/model/api/axios-instance";
 
 export const paymentApi = {
-  handlePurchase: async ({
+  createPurchase: async ({
     priceOneBooking,
     countBooking,
   }: {
@@ -20,7 +20,7 @@ export const paymentApi = {
       console.error(error);
     }
   },
-  handleUnlimitSubscription: async ({
+  createUnlimitSubscription: async ({
     typeSubscriprion,
     countMonthSubscribe,
   }: {

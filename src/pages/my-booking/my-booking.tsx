@@ -1,31 +1,13 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-import MyBookingListTable from "@/widgets/booking/my-booking-list-table/my-booking-list-table";
+import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { bookingQueryOption } from "../home/api/query-option";
-import { useAtomValue } from "jotai";
-import { userStorageAtom } from "@/shared/model/atoms/user-atom";
-import { BookingCard, SkeletonBookingCard } from "@/entities/booking";
 import BookingDetailSheet from "@/widgets/booking/booking-detail/booking-detail-sheet";
 import { Button } from "@/shared/components/ui/button";
-import {
-  ArrowUpRight,
-  Eye,
-  EyeOff,
-  FolderClock,
-  FolderOpenDot,
-  PanelRightDashed,
-  Settings,
-} from "lucide-react";
+import { Settings2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
   DropdownMenuSub,
@@ -33,30 +15,31 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { useNavigate } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { bookingApi } from "../home/api/booking-api";
 import { queryClient } from "@/shared/model/api/query-client";
 import { toast } from "@/shared/hooks/use-toast";
-import { IBookingDto } from "@/shared/model/types/booking";
-import { useState } from "react";
+import { TBookingDto } from "@/shared/model/types/booking";
+import { useMemo, useState } from "react";
+import BookingCard from "@/entities/booking/booking-card";
+import { userApi } from "@/feature/auth/profile/api/user-api";
 
-export default function MyBooking() {
-  const { data: bookingData } = useQuery(bookingQueryOption.getAll());
-  const user = useAtomValue(userStorageAtom);
-  const [selectStatus, setSelectStatus] =
-    useState<IBookingDto["status"]>("active");
-
+export default function MyBookingPage() {
   const navigate = useNavigate();
+  const { data: bookingData } = useQuery(bookingQueryOption.getAll());
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => userApi.getDataProfile(),
+  });
+  const [selectStatus, setSelectStatus] =
+    useState<TBookingDto["status"]>("active");
 
-  const tableDataActiveOrArchive = bookingData
-    ?.filter((booking) => booking?.user?._id === user?._id)
-    .filter((booking) => booking?.status === selectStatus);
-  const tableDataActive = bookingData
-    ?.filter((booking) => booking?.user?._id === user?._id)
-    .filter((booking) => booking?.status === "active");
-  const tableDataArchive = bookingData
-    ?.filter((booking) => booking?.user?._id === user?._id)
-    .filter((booking) => booking?.status === "inactive");
+  const userBookings = useMemo(() => {
+    if (!bookingData || !userData) return [];
+    return bookingData
+      .filter((booking) => booking.user === userData._id)
+      .filter((booking) => booking?.status === selectStatus);
+  }, [bookingData, userData, selectStatus]);
 
   const removeMutation = useMutation({
     mutationFn: (bookingId: string) => bookingApi.remove(bookingId),
@@ -75,7 +58,7 @@ export default function MyBooking() {
       data,
       bookingId,
     }: {
-      data: IBookingDto["status"];
+      data: TBookingDto["status"];
       bookingId: string;
     }) => bookingApi.updateStatus(data, bookingId),
     onSuccess: () => {
@@ -99,296 +82,161 @@ export default function MyBooking() {
   };
 
   return (
-    // container
-    <div
-      className="container mx-auto w-full grid grid-cols-1 bg-primary/0
-      ex:p-4 sm:p-4 md:p-6"
-    >
-      <div className="h-full overflow-y-auto no-scrollbar">
-        <Tabs
-          defaultValue="card-view_active"
-          className="overflow-hidden space-y-4 overflow-y-auto no-scrollbar "
-        >
-          {/* Панель для мобильной версии */}
-          <div className="block xl:hidden">
-            <TabsList>
-              <TabsTrigger
-                value="card-view_active"
-                className="items-center gap-2"
-                onClick={() => setSelectStatus("active")}
-              >
-                <FolderOpenDot className="w-4 h-4" />
-                <span className="ex:text-xs">Активные</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="card-view_inactive"
-                className="items-center gap-2"
-                onClick={() => setSelectStatus("inactive")}
-              >
-                <FolderClock className="w-4 h-4" />
-                <span className="ex:text-xs">Архив</span>
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          {/* Панель для desktop версии */}
-          <div className="gap-6 justify-between hidden xl:flex">
-            <TabsList>
-              <TabsTrigger
-                value="card-view_active"
-                onClick={() => setSelectStatus("active")}
-                className="items-center gap-2 hidden xl:flex"
-              >
-                <PanelRightDashed className="w-4 h-4" />
-
-                <span className="ex:text-xs">Вид карточками</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="active"
-                className="items-center gap-2
-                hidden xl:flex"
-              >
-                <FolderOpenDot className="w-4 h-4" />
-                <span className="ex:text-xs">Активные</span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="archive"
-                className="items-center gap-2
-                hidden xl:flex"
-              >
-                <FolderClock className="w-4 h-4" />
-                <span className="ex:text-xs">Архив</span>
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          {/* Содержимое страниц */}
-          <TabsContent
-            value={`card-view_${selectStatus}`}
-            className="min-h-[calc(100vh-150px)]"
-          >
-            <span className="text-muted-foreground">
-              Всего заявок: {tableDataActiveOrArchive?.length} шт.
-            </span>
-            <div
-              className="w-full grid gap-4 mt-2
-             grid-cols-1 md:grid-cols-2 md:w-full lg:grid-cols-2 xl:grid-cols-3 lg:w-full 2xl:grid-cols-3 2xl:w-full"
+    <div className="container mx-auto flex flex-col">
+      <div className="flex justify-between mt-16">
+        <Tabs defaultValue="active" className="w-fit">
+          <TabsList className="rounded-[30px] px-2 py-2">
+            <TabsTrigger
+              value="active"
+              className="px-4 py-2 rounded-[30px] font-semibold text-sm"
+              onClick={() => setSelectStatus("active")}
             >
-              {!tableDataActiveOrArchive
-                ? Array.from({ length: 10 }).map((_, index) => (
-                    <SkeletonBookingCard key={index} />
-                  ))
-                : tableDataActiveOrArchive?.map((booking, index) => (
-                    <BookingCard
-                      key={booking._id}
-                      orderNumber={index + 1}
-                      booking={booking}
-                      showStatus={true}
-                      bookingDetailSlot={
-                        <BookingDetailSheet
-                          bookingId={booking?._id}
-                          actionSlot={
-                            <Button size="sm" variant="secondary">
-                              Подробнее
-                              <ArrowUpRight className="w-4 h-4 ml-2" />
-                            </Button>
-                          }
-                        />
-                      }
-                      bookingEditSlot={
-                        <DropdownMenu>
-                          <DropdownMenuTrigger>
-                            <Button size="sm" variant="secondary" className="">
-                              <p className="ex:hidden">Редактировать</p>
-                              <Settings className="w-4 h-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent className="mr-6">
-                            <DropdownMenuLabel>
-                              Меню редактирования
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              onClick={() =>
-                                navigate(`/edit-booking/${booking._id}`)
-                              }
-                            >
-                              Изменить заявку
-                            </DropdownMenuItem>
-                            <DropdownMenuSub>
-                              <DropdownMenuSubTrigger>
-                                Перенести в архив
-                              </DropdownMenuSubTrigger>
-                              <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                  <DropdownMenuItem
-                                    className="flex gap-6"
-                                    onClick={() =>
-                                      updateStatusMutation.mutate({
-                                        data: "active",
-                                        bookingId: booking?._id,
-                                      })
-                                    }
-                                  >
-                                    Актуальна
-                                    <Eye className="w-4 h-4" />
-                                  </DropdownMenuItem>
-                                  <DropdownMenuItem
-                                    className="flex gap-6 justify-between"
-                                    onClick={() =>
-                                      updateStatusMutation.mutate({
-                                        data: "inactive",
-                                        bookingId: booking?._id,
-                                      })
-                                    }
-                                  >
-                                    В архив
-                                    <EyeOff className="w-4 h-4" />
-                                  </DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                              </DropdownMenuPortal>
-                            </DropdownMenuSub>
-                            <DropdownMenuItem
-                              onClick={() => handleRemove(booking._id)}
-                            >
-                              Удалить заявку
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      }
-                    />
-                  ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="active" className="h-full">
-            <div className="grid grid-cols-3 gap-12">
-              <MyBookingListTable
-                tableData={tableDataActive}
-                bookingEditSlot={(booking: IBookingDto) => (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <button>
-                        <Settings className="w-4 h-4" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-6">
-                      <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => navigate(`/edit-booking/${booking._id}`)}
-                      >
-                        Изменить заявку
-                      </DropdownMenuItem>
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          Перенести в архив
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                          <DropdownMenuSubContent>
-                            <DropdownMenuItem
-                              className="flex gap-6"
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  data: "active",
-                                  bookingId: booking?._id,
-                                })
-                              }
-                            >
-                              Актуальна
-                              <Eye className="w-4 h-4" />
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="flex gap-6 justify-between"
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  data: "inactive",
-                                  bookingId: booking?._id,
-                                })
-                              }
-                            >
-                              В архив
-                              <EyeOff className="w-4 h-4" />
-                            </DropdownMenuItem>
-                          </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                      </DropdownMenuSub>
-                      <DropdownMenuItem
-                        onClick={() => handleRemove(booking._id)}
-                      >
-                        Удалить заявку
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              />
-              {/* <ChartMyBooking /> */}
-            </div>
-          </TabsContent>
-          <TabsContent value="archive" className="h-full">
-            <div className="grid grid-cols-3 5 gap-12">
-              <MyBookingListTable
-                tableData={tableDataArchive}
-                bookingEditSlot={(booking: IBookingDto) => (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <button>
-                        <Settings className="w-4 h-4" />
-                      </button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="mr-6">
-                      <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => navigate(`/edit-booking/${booking._id}`)}
-                      >
-                        Изменить заявку
-                      </DropdownMenuItem>
-                      <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>
-                          Перенести в архив
-                        </DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                          <DropdownMenuSubContent>
-                            <DropdownMenuItem
-                              className="flex gap-6"
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  data: "active",
-                                  bookingId: booking?._id,
-                                })
-                              }
-                            >
-                              Актуальна
-                              <Eye className="w-4 h-4" />
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="flex gap-6 justify-between"
-                              onClick={() =>
-                                updateStatusMutation.mutate({
-                                  data: "inactive",
-                                  bookingId: booking?._id,
-                                })
-                              }
-                            >
-                              В архив
-                              <EyeOff className="w-4 h-4" />
-                            </DropdownMenuItem>
-                          </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                      </DropdownMenuSub>
-                      <DropdownMenuItem
-                        onClick={() => handleRemove(booking._id)}
-                      >
-                        Удалить заявку
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              />
-              {/* <ChartMyBooking /> */}
-            </div>
-          </TabsContent>
+              Активные
+            </TabsTrigger>
+            <TabsTrigger
+              value="archive"
+              className="px-4 py-2 rounded-[30px] font-semibold text-sm"
+              onClick={() => setSelectStatus("archive")}
+            >
+              Архив
+            </TabsTrigger>
+            <TabsTrigger
+              value="inactive"
+              className="px-4 py-2 rounded-[30px] font-semibold text-sm"
+              onClick={() => setSelectStatus("inactive")}
+            >
+              Не активные
+            </TabsTrigger>
+          </TabsList>
         </Tabs>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <button className="h-fit w-fit text-base font-semibold text-white px-6 py-4 rounded-[30px] bg-[#64A5FE]">
+              Создать заявку
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="rounded-[30px] py-2 px-2 mt-2">
+            <DropdownMenuItem className="rounded-[30px]">
+              <NavLink
+                to="/create-booking/detail"
+                className="pl-2 pr-8  text-base font-normal"
+              >
+                Детальную
+              </NavLink>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="rounded-[30px]">
+              <NavLink
+                to="/create-booking/short"
+                className="px-2 pr-8 text-base font-normal"
+              >
+                Короткую
+              </NavLink>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="mt-8 grid grid-cols-4 gap-4">
+        {userBookings.map((booking) => (
+          <BookingCard
+            key={booking._id}
+            booking={booking}
+            bookingDetailSlot={
+              <BookingDetailSheet
+                bookingId={booking?._id}
+                actionSlot={
+                  <Button
+                    className="rounded-[30px] shadow-none text-xs font-semibold px-4 py-5 text-[hsl(var(--access-primary))]"
+                    style={{ background: "#E8F1FF" }}
+                  >
+                    Подробнее
+                  </Button>
+                }
+              />
+            }
+            bookingEditSlot={
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <button className="">
+                    <Settings2 className="w-5 h-5" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="mr-6 rounded-[30px] py-2 px-2">
+                  {/* <DropdownMenuLabel>Меню редактирования</DropdownMenuLabel> */}
+                  {/* <DropdownMenuSeparator /> */}
+                  {booking?.additionalConditions ? (
+                    <DropdownMenuItem
+                      className="rounded-[30px]"
+                      onClick={() =>
+                        navigate(`/edit-booking-detail/${booking._id}`)
+                      }
+                    >
+                      <span className="px-2">Редактировть заявку</span>
+                    </DropdownMenuItem>
+                  ) : (
+                    <DropdownMenuItem
+                      className="rounded-[30px]"
+                      onClick={() =>
+                        navigate(`/edit-booking-short/${booking._id}`)
+                      }
+                    >
+                      <span className="px-2">Редактировть заявку</span>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger className="rounded-[30px]">
+                      <span className="px-2">Изменить статус</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent className="rounded-[30px] py-2 px-2">
+                        <DropdownMenuItem
+                          className="rounded-[30px]"
+                          onClick={() =>
+                            updateStatusMutation.mutate({
+                              data: "active",
+                              bookingId: booking?._id,
+                            })
+                          }
+                        >
+                          <span className="px-2">Активная</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="rounded-[30px]"
+                          onClick={() =>
+                            updateStatusMutation.mutate({
+                              data: "archive",
+                              bookingId: booking?._id,
+                            })
+                          }
+                        >
+                          <span className="px-2">Архив</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="rounded-[30px]"
+                          onClick={() =>
+                            updateStatusMutation.mutate({
+                              data: "inactive",
+                              bookingId: booking?._id,
+                            })
+                          }
+                        >
+                          <span className="px-2">Не актуальная</span>
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                  <DropdownMenuItem
+                    className="rounded-[30px]"
+                    onClick={() => handleRemove(booking._id)}
+                  >
+                    <span className="px-2">Удалить заявку</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            }
+          />
+        ))}
       </div>
     </div>
   );

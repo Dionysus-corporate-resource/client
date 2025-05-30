@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import useProfileEdit from "../hooks/use-profile-edit";
+import { useNavigate } from "react-router";
 
 export default function ProfileEditForm() {
   const {
@@ -22,13 +23,15 @@ export default function ProfileEditForm() {
     actions: { setIsChangeForm, setFormData, handleChange, handleSubmit },
   } = useProfileEdit();
 
+  const navigate = useNavigate();
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-1">
         <div className="space-y-1">
           <Label htmlFor="name" className="text-xs font-medium text-primary/60">
             Имя
@@ -39,7 +42,7 @@ export default function ProfileEditForm() {
             id="name"
             name="userName"
             placeholder="Иван Петров"
-            className="border bg-background py-6 px-5 rounded-xl text-base font-medium"
+            className="border bg-background py-6 px-5 rounded-[30px] text-base font-medium"
           />
         </div>
         <div
@@ -52,11 +55,11 @@ export default function ProfileEditForm() {
             Компания
           </Label>
           <Input
-            value={formData.nameCompany ?? ""}
+            value={formData.companyName ?? ""}
             onChange={handleChange}
-            name="nameCompany"
+            name="companyName"
             id="companyName"
-            className="border bg-background py-6 px-5 rounded-xl text-base font-medium"
+            className="border bg-background py-6 px-5 rounded-[30px] text-base font-medium"
             placeholder="ООО 'Компания'"
           />
         </div>
@@ -74,7 +77,7 @@ export default function ProfileEditForm() {
             name="phone"
             value={formData?.phone}
             onChange={handleChange}
-            className="border bg-background py-3.5 px-4 rounded-xl text-base font-medium"
+            className="border bg-background py-3.5 px-4 rounded-[30px] text-base font-medium"
             placeholder="+7 (999) 999-99-99"
           />
         </div>
@@ -91,37 +94,43 @@ export default function ProfileEditForm() {
               setFormData((prev) => ({ ...prev, roles: value }));
             }}
           >
-            <SelectTrigger className="w-full py-6  rounded-xl border text-base font-medium">
+            <SelectTrigger className="w-full py-6  rounded-[30px] border text-base font-medium">
               <SelectValue placeholder="Поля сортировки" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-[30px]">
               <SelectGroup>
-                <SelectLabel className="text-xs font-normal text-primary/60">
+                <SelectLabel className="text-xs font-normal text-primary/60 p-4">
                   Ваша роль:
                 </SelectLabel>
-                <SelectItem value="driver">
+                <SelectItem value="driver" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Водитель</div>
                 </SelectItem>
-                <SelectItem value="customer">
+                <SelectItem value="customer" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Заказчик / Логист</div>
                 </SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
+      </div>
 
+      <div className="w-full flex gap-2 justify-end mt-10">
         {isChangeForm && (
-          <div
-            className={cn(
-              "space-y-1 pt-7",
-              formData.roles === "customer" && "pt-3",
-            )}
+          <Button
+            type="submit"
+            className="w-fit py-6 rounded-[30px] bg-[hsl(var(--access-primary))] hover:bg-primary/80 text-background font-medium"
           >
-            <Button className="w-full col-span-1 py-6 rounded-xl bg-[hsl(var(--access-primary))] hover:bg-primary/80 text-background font-medium">
-              Сохранить
-            </Button>
-          </div>
+            Сохранить изменения
+          </Button>
         )}
+
+        <button
+          type="button"
+          onClick={() => navigate("/profile")}
+          className="w-fit py-3 px-6 rounded-[30px] font-medium bg-primary/5 text-primary"
+        >
+          Назад
+        </button>
       </div>
     </form>
   );

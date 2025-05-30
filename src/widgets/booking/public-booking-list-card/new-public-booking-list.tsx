@@ -1,24 +1,24 @@
-import { NewBookingCard } from "@/entities/booking";
 import { Button } from "@/shared/components/ui/button";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 import BookingDetailSheet from "../booking-detail/booking-detail-sheet";
+import BookingCard from "@/entities/booking/booking-card";
 
 export default function NewPublicBookingList({
   bookings,
 }: {
-  bookings: IBookingDto[] | undefined;
+  bookings: TBookingDto[] | undefined;
 }) {
   return (
     <div className="grid grid-cols-3 gap-4">
       {bookings?.map((booking) => (
-        <NewBookingCard
+        <BookingCard
           booking={booking}
           bookingDetailSlot={
             <BookingDetailSheet
               bookingId={booking?._id}
               actionSlot={
                 <Button
-                  className="rounded-xl shadow-none text-xs font-semibold px-4 py-2 text-[hsl(var(--access-primary))]"
+                  className="rounded-[30px] shadow-none text-xs font-semibold px-4 py-5 text-[hsl(var(--access-primary))]"
                   style={{ background: "#E8F1FF" }}
                 >
                   Подробнее

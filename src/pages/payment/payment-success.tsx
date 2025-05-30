@@ -1,13 +1,3 @@
-import { BadgeRussianRuble } from "lucide-react";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card";
 import { useNavigate } from "react-router";
 import { Progress } from "@/shared/components/ui/progress";
 import { useEffect, useState } from "react";
@@ -30,63 +20,23 @@ export default function SuccessPage() {
   }, [lineRedirect, navigate]);
 
   return (
-    <div className="container mx-auto flex justify-center">
-      <div className="flex items-center justify-center bg-background p-4">
-        <Card className="max-w-xl">
-          <CardHeader className="">
-            {/* <div className="flex justify-center mb-4">
-              <BadgeCheck className="h-12 w-12" />
-            </div> */}
+    <div className="relative h-wull">
+      <div className="fixed inset-0 z-10 flex items-center justify-center backdrop-blur-[2px] px-2">
+        <div className="absolute inset-0 bg-primary/60" />
+        <div className="relative max-w-lg w-full bg-background border rounded-[30px] p-8 flex flex-col gap-8 shadow-lg">
+          <span>Груз рынок</span>
 
-            <div className="flex items-center gap-4">
-              <BadgeRussianRuble className="h-8 w-8" />
-              <div className="space-y-0">
-                <CardTitle className="text-2xl font-bold">
-                  Вы вернулись
-                </CardTitle>
-                <CardDescription>
-                  Вас перенаправят на страницу профиля
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Детали подписки */}
-            <div className="space-y-3 rounded-lg bg-muted/50 p-3">
-              <div className="text-muted-foreground">
-                <p>
-                  Если вы оплатили подписку, она появиться в вашем профиле.
-                  Обычно это происходит сразу, но может занять и несколько
-                  минут. Если вдруг подписка не появилась, напишите в поддержку
-                </p>
-              </div>
-              {/* <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span>Дата покупки</span>
-                </div>
-                <div className="flex-grow relative mx-2">
-                  <div className="absolute -bottom-2 inset-0 border-b border-dotted border-muted-foreground/30" />
-                </div>
-                <span className="font-medium">31.01.25</span>
-              </div> */}
-
-              {/* <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Timer className="h-4 w-4" />
-                  <span>Дата окончания</span>
-                </div>
-                <div className="flex-grow relative mx-2">
-                  <div className="absolute -bottom-2 inset-0 border-b border-dotted border-muted-foreground/30" />
-                </div>
-                <span className="font-medium">29.02.25</span>
-              </div> */}
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-2">
+            <h4 className="font-semibold text-2xl">Вы вернулись на сайт</h4>
+            <span className="font-normal text-base">
+              Если вы оплатили покупку, она должна появиться в вашем профиле в
+              течении нескольких минут.
+            </span>
+          </div>
+          <div className="mt-10">
             <Progress value={lineRedirect} className="h-2" />
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

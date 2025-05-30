@@ -3,8 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink } from "react-router";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
@@ -14,7 +13,7 @@ type FormData = {
   email: string;
   password: string;
   phone: string;
-  nameCompany?: string;
+  companyName?: string;
 };
 
 export function RegisterForm({
@@ -22,14 +21,13 @@ export function RegisterForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const authContext = useAuth();
-  const navigate = useNavigate();
   const [isCustomer, setIsCustomer] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     phone: "",
-    nameCompany: "",
+    companyName: "",
   });
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +49,8 @@ export function RegisterForm({
       email: formData.email,
       password: formData.password,
       phone: formData.phone.replace(/[\s()-]/g, ""),
-      ...(isCustomer && formData.nameCompany
-        ? { nameCompany: formData.nameCompany }
+      ...(isCustomer && formData.companyName
+        ? { companyName: formData.companyName }
         : {}),
     };
 
@@ -83,8 +81,8 @@ export function RegisterForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold">Регистрация</h1>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-medium">Регистрация</h1>
             <div className="text-sm font-medium text-primary/60">
               Создайте аккаунт, чтобы выкладывать заявки и использовать все
               возможности платформы
@@ -99,7 +97,7 @@ export function RegisterForm({
               type="email"
               name="email"
               value={formData.email}
-              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
               onChange={handleChange}
               placeholder="Почта"
               required
@@ -112,7 +110,7 @@ export function RegisterForm({
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+                className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
                 placeholder="Пароль"
                 required
               />
@@ -135,7 +133,7 @@ export function RegisterForm({
               value={formData.phone}
               onChange={handleChange}
               placeholder="Телефон"
-              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
               required
             />
             {/* Выбор роли */}
@@ -159,10 +157,10 @@ export function RegisterForm({
               <Input
                 id="company-name"
                 type="company-name"
-                name="nameCompany"
-                value={formData.nameCompany}
+                name="companyName"
+                value={formData.companyName}
                 onChange={handleChange}
-                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+                className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
                 placeholder="ООО или ИП организации"
                 required
               />
@@ -171,7 +169,7 @@ export function RegisterForm({
           <div className="space-y-3">
             <Button
               type="submit"
-              className="w-full py-6 px-5 rounded-xl bg-[hsl(var(--access-primary))]"
+              className="w-full py-6 px-5 rounded-[30px] bg-[hsl(var(--access-primary))]"
             >
               Зарегистрироваться
             </Button>

@@ -1,10 +1,16 @@
 import { LoginForm } from "@/feature/auth/sign-in";
+import { NavLink } from "react-router";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10 ">
-      <div className="w-full max-w-sm">
-        <LoginForm />
+    <div className="flex flex-col min-h-svh py-6 px-8">
+      <NavLink to="/" className="text-base font-medium">
+        Груз рынок
+      </NavLink>
+      <div className="flex-1 w-full h-full flex items-center justify-center">
+        <div className="w-full max-w-sm">
+          <LoginForm />
+        </div>
       </div>
     </div>
   );

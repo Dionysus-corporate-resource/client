@@ -1,3 +1,6 @@
+import { useAuth } from "@/app/providers/auth-provider";
+import { userApi } from "@/feature/auth/profile/api/user-api";
+import { useQuery } from "@tanstack/react-query";
 import { NavLink, useNavigate } from "react-router";
 
 export type TLinksHeader = {
@@ -6,7 +9,25 @@ export type TLinksHeader = {
   navigate: string;
 };
 
+function imgRoleVariant(role: "customer" | "driver" | undefined) {
+  if (!role)
+    return "https://images.unsplash.com/photo-1742330425089-1f91d18eaa4e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  switch (role) {
+    case "customer":
+      return "https://images.unsplash.com/photo-1544725121-be3bf52e2dc8?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    case "driver":
+      return "https://images.unsplash.com/photo-1615563164538-89e1da13fcc4?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  }
+}
+
 export function MainNav() {
+  const { data: userData } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => userApi.getDataProfile(),
+  });
+
+  const navigate = useNavigate();
+  const userContext = useAuth();
   const linkHeader: TLinksHeader[] = [
     {
       linkLabel: "Смотреть заявки",
@@ -22,14 +43,14 @@ export function MainNav() {
     },
   ];
   const linkSubHeader: TLinksHeader[] = [
-    {
-      linkLabel: "Новости",
-      navigate: "/news",
-    },
-    {
-      linkLabel: "Поддержка",
-      navigate: "/support",
-    },
+    // {
+    //   linkLabel: "Новости",
+    //   navigate: "/news",
+    // },
+    // {
+    //   linkLabel: "Поддержка",
+    //   navigate: "/support",
+    // },
     {
       linkLabel: "Тарифы",
       navigate: "/subscribe",
@@ -38,6 +59,7 @@ export function MainNav() {
 
   return (
     <div className="container mx-auto px-8">
+      {/* container mx-auto */}
       <div className="flex justify-between items-center py-4">
         <span className="font-bold text-2xl">Груз рынок</span>
         <div className="flex gap-8">
@@ -54,9 +76,18 @@ export function MainNav() {
             </NavLink>
           ))}
         </div>
-        <div className="w-[35px] h-[35px] rounded-[30px] bg-background"></div>
+        <div
+          onClick={() => navigate("/profile")}
+          className="w-[35px] h-[35px] rounded-[30px] bg-background hover:cursor-pointer overflow-hidden"
+        >
+          <img
+            src={imgRoleVariant(userContext?.user?.roles)}
+            className="object-cover w-full h-full"
+          />
+        </div>
       </div>
-      <div className="py-3 flex justify-between items-center border-t-[1px] border-background/15">
+      {/* border-t-[1px] */}
+      <div className="py-3 pb-4 flex justify-between items-center  border-background/15">
         <div className="flex gap-6">
           {linkSubHeader.map((link) => (
             <NavLink
@@ -73,7 +104,9 @@ export function MainNav() {
         </div>
 
         <span className="font-medium text-sm text-background/60">
-          У вас 3 заявки
+          Заявки:{" "}
+          {userData?.activeSubscriptions?.purchasedBooking?.remainingBookings}{" "}
+          шт.
         </span>
       </div>
     </div>

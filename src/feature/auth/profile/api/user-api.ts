@@ -5,13 +5,14 @@ export type IUpdateProfile = {
   userName: string;
   phone: string;
   roles: IUserRoles;
-  nameCompany: string | null;
+  companyName: string | null;
 };
 
 export const userApi = {
   updateDataProfile: async (data: IUpdateProfile) => {
     try {
-      const response = await instance.patch("/users/profile", data);
+      // console.log("edit profile", data);
+      const response = await instance.put("/user/edit-profile", data);
 
       return response.data;
     } catch (err) {

@@ -1,5 +1,3 @@
-import { ICompanyPublicDto } from "./company-public";
-
 export type IUserRoles = "customer" | "driver";
 export type IPermissions = "developer" | "admin";
 
@@ -7,7 +5,7 @@ export type IUser = {
   userName: string;
   email: string;
   phone: string;
-  companyPublicData?: ICompanyPublicDto | null;
+  companyName: string | null;
   activeSubscriptions: {
     purchasedBooking: {
       allPurchasedBookings: number;

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function PageLoader() {
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center bg-background">
+    <div className="absolute h-full w-full flex flex-col items-center justify-center bg-background">
       <div className="space-y-8 text-center">
         {/* Logo placeholder - can be replaced with your actual logo */}
         <motion.div

@@ -1,24 +1,25 @@
 import { Route, Routes } from "react-router";
 import AuthLayout from "../shared/ui/auth-layout";
 import AppLayout from "@/shared/ui/app-layout";
-
 import LoginPage from "@/pages/auth/sign-in/login-page";
 import RegisterPage from "@/pages/auth/sign-up/register-page";
 import ProfilePage from "@/pages/auth/profile/profile";
 import NotFound from "@/pages/not-found/not-found";
-import MyBooking from "@/pages/my-booking/my-booking";
-import CreateBookingPage from "@/pages/create-booking/create-booking-page";
 import Authentication from "./providers/authenication-provider";
 import SuccessPage from "@/pages/payment/payment-success";
 import ErrorPage from "@/pages/payment/payment-failed";
-import PublicBookingPage from "../pages/home/public-booking-page";
 import ProposalsPage from "@/pages/proposals/proposals-page";
-import EditBookingPage from "@/pages/edit-booking/edit-booking";
 import AnalyticsPage from "@/pages/analytics/analytics-page";
 import usePageView from "@/shared/hooks/use-page-view";
-import NewPublicBookingPage from "@/pages/home/new-public-booking-page";
 import EditProfilePage from "@/pages/auth/profile/edit-profile-page";
-// import SubscriptionsPageShort from "@/pages/subscribe/subscribe-page-short";
+import { PublicBookingPage } from "@/pages/home";
+import ChooseCreateBookingPage from "@/pages/create-booking/choose-create-booking-page";
+import CreateShortBookingPage from "@/pages/create-booking/create-short-booking-page";
+import CreateDetailBookingPage from "@/pages/create-booking/create-detail-booking-page";
+import MyBookingPage from "@/pages/my-booking/my-booking";
+import EditDetailBookingPage from "@/pages/edit-booking/edit-detail-booking";
+import EditShortBookingPage from "@/pages/edit-booking/edit-short-booking";
+import SubscribePage from "@/pages/subscribe/subscribe-page";
 
 function App() {
   usePageView();
@@ -26,10 +27,9 @@ function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        {/* <Route path="" element={<PublicBookingPage />} /> */}
-        <Route path="" element={<NewPublicBookingPage />} />
+        <Route path="" element={<PublicBookingPage />} />
 
-        {/* <Route path="subscribe" element={<SubscriptionsPageShort />} /> */}
+        <Route path="subscribe" element={<SubscribePage />} />
         <Route
           path="profile"
           element={
@@ -50,15 +50,23 @@ function App() {
           path="my-booking"
           element={
             <Authentication>
-              <MyBooking />
+              <MyBookingPage />
             </Authentication>
           }
         />
         <Route
-          path="edit-booking/:bookingId"
+          path="edit-booking-short/:bookingId"
           element={
             <Authentication>
-              <EditBookingPage />
+              <EditShortBookingPage />
+            </Authentication>
+          }
+        />
+        <Route
+          path="edit-booking-detail/:bookingId"
+          element={
+            <Authentication>
+              <EditDetailBookingPage />
             </Authentication>
           }
         />
@@ -66,7 +74,23 @@ function App() {
           path="create-booking"
           element={
             <Authentication>
-              <CreateBookingPage />
+              <ChooseCreateBookingPage />
+            </Authentication>
+          }
+        />
+        <Route
+          path="create-booking/short"
+          element={
+            <Authentication>
+              <CreateShortBookingPage />
+            </Authentication>
+          }
+        />
+        <Route
+          path="create-booking/detail"
+          element={
+            <Authentication>
+              <CreateDetailBookingPage />
             </Authentication>
           }
         />

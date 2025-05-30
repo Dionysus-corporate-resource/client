@@ -21,7 +21,7 @@ type RegisterData = {
   email: string;
   password: string;
   phone: string;
-  nameCompany?: string;
+  companyName?: string;
 };
 // приходит в ответ на вызов функции login
 type LoginDataDto = IUserDto & {

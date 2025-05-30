@@ -67,24 +67,24 @@ export default function SortPublicBookingPanel({
             value={sortField || "none"}
             onValueChange={(e) => handleSortFieldChange(e as ISortField)}
           >
-            <SelectTrigger className="w-full py-7  rounded-xl border text-base font-medium text-primary/80">
+            <SelectTrigger className="w-full py-7 rounded-[30px] border text-base font-medium text-primary/80">
               <SelectValue placeholder="Поля сортировки" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-[30px]">
               <SelectGroup>
-                <SelectLabel className="text-xs font-normal text-primary/60">
+                <SelectLabel className="text-xs font-normal text-primary/60 p-4">
                   Тип сортировки
                 </SelectLabel>
-                <SelectItem value="none">
+                <SelectItem value="none" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Не выбрано</div>
                 </SelectItem>
-                <SelectItem value="distance">
+                <SelectItem value="distance" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Расстояние</div>
                 </SelectItem>
-                <SelectItem value="ratePerTon">
+                <SelectItem value="ratePerTon" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Ценна</div>
                 </SelectItem>
-                <SelectItem value="tonnage">
+                <SelectItem value="tonnage" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">Тоннаж</div>
                 </SelectItem>
               </SelectGroup>
@@ -96,20 +96,20 @@ export default function SortPublicBookingPanel({
             value={sortDirection || "asc"}
             onValueChange={(e) => setSortDirection(e as "asc" | "desc")}
           >
-            <SelectTrigger className="w-full py-7 px-5 rounded-xl border text-base font-medium text-primary/80">
+            <SelectTrigger className="w-full py-7 px-5 rounded-[30px] border text-base font-medium text-primary/80">
               <SelectValue placeholder="Тип сортировки" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-[30px]">
               <SelectGroup>
-                <SelectLabel className="text-xs font-normal text-primary/60">
+                <SelectLabel className="text-xs font-normal text-primary/60 p-4">
                   Тип сортировки
                 </SelectLabel>
-                <SelectItem value="asc">
+                <SelectItem value="asc" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">
                     От большего к меньшему
                   </div>
                 </SelectItem>
-                <SelectItem value="desc">
+                <SelectItem value="desc" className="rounded-[30px]">
                   <div className="text-base py-1 px-4">
                     От меньшего к большему
                   </div>
@@ -154,7 +154,7 @@ export default function SortPublicBookingPanel({
                 id="date"
                 variant={"outline"}
                 className={cn(
-                  "w-full justify-between py-7 px-5 rounded-xl border text-base font-medium text-primary/80",
+                  "w-full justify-between py-7 px-5 rounded-[30px] border text-base font-medium text-primary/80",
                   !filters.date && "text-muted-foreground",
                 )}
               >
@@ -197,7 +197,7 @@ export default function SortPublicBookingPanel({
               <Button
                 variant="outline"
                 role="combobox"
-                className="w-full justify-start py-7 px-5 rounded-xl border text-base font-medium text-primary/80"
+                className="w-full justify-start py-7 px-5 rounded-[30px] border text-base font-medium text-primary/80"
               >
                 {filters.companyNameFilter.length > 0
                   ? `Выбрано: ${filters.companyNameFilter}`
@@ -205,20 +205,20 @@ export default function SortPublicBookingPanel({
                 {/* <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" /> */}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
+            <PopoverContent className="w-full p-2 rounded-[30px]" align="start">
               <Command>
                 {/* <CommandInput placeholder="Поиск заказчика..." /> */}
                 <CommandList>
                   <CommandEmpty>Ничего не найдено.</CommandEmpty>
                   <CommandGroup>
-                    <span className="px-2 py-1 text-xs font-normal text-primary/60">
+                    <span className="p-4 text-xs font-normal text-primary/60">
                       Заказчики
                     </span>
                     <CommandItem
                       onSelect={() =>
                         setFilters.setCompanyNameFilter("Все заказчики")
                       }
-                      className="text-base py-2 px-4"
+                      className="text-base py-2 px-4 rounded-[30px]"
                     >
                       <Check
                         className={cn(
@@ -234,7 +234,7 @@ export default function SortPublicBookingPanel({
                       <CommandItem
                         key={index}
                         onSelect={() => setFilters.setCompanyNameFilter(name)}
-                        className="text-base py-2 px-4"
+                        className="text-base py-2 px-4 rounded-[30px]"
                       >
                         <Check
                           className={cn(

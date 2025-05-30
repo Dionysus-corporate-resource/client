@@ -3,8 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink } from "react-router";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAuth } from "@/app/providers/auth-provider";
 import { toast } from "@/shared/hooks/use-toast";
@@ -19,7 +18,6 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const authContext = useAuth();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -68,8 +66,8 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-lg font-semibold">Вход в аккаунт</h1>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-3xl font-medium">Вход в аккаунт</h1>
             <div className="text-sm font-medium text-primary/60">
               Приветствуем вас снова!
             </div>
@@ -83,7 +81,7 @@ export function LoginForm({
               value={formData.email}
               onChange={handleChange}
               placeholder="Почта"
-              className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+              className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
               required
             />
             <div className="grid gap-2 relative">
@@ -94,7 +92,7 @@ export function LoginForm({
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Пароль"
-                className="border-none bg-primary/5 py-6 px-5 rounded-xl"
+                className="border-none bg-primary/5 py-6 px-5 rounded-[30px]"
                 required
               />
               <span
@@ -113,7 +111,7 @@ export function LoginForm({
           <div className="space-y-3">
             <Button
               type="submit"
-              className="w-full py-6 px-5 rounded-xl bg-[hsl(var(--access-primary))]"
+              className="w-full py-6 px-5 rounded-[30px] bg-[hsl(var(--access-primary))]"
             >
               Войти
             </Button>

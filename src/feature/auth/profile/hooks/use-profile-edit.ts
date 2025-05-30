@@ -12,7 +12,7 @@ type IFormData = {
   email: string;
   phone: string;
   roles: IUserRoles;
-  nameCompany: string | null;
+  companyName: string | null;
 };
 
 export default function useProfileEdit() {
@@ -37,7 +37,7 @@ export default function useProfileEdit() {
     email: "",
     phone: "",
     roles: "driver",
-    nameCompany: null,
+    companyName: null,
   });
 
   // logic
@@ -50,7 +50,7 @@ export default function useProfileEdit() {
         email: userData.email || "",
         phone: userData.phone || "",
         roles: userData.roles || "driver",
-        nameCompany: userData.companyPublicData?.nameCompany || null,
+        companyName: userData.companyName || null,
       });
     }
   }, [userData, authContext]);
@@ -74,7 +74,7 @@ export default function useProfileEdit() {
     event.preventDefault();
     setIsChangeForm(false);
 
-    if (formData.roles === "customer" && !formData.nameCompany) {
+    if (formData.roles === "customer" && !formData.companyName) {
       return toast({
         title: "Ошибка валидации",
         description: "Введите название компании",
@@ -86,7 +86,7 @@ export default function useProfileEdit() {
       userName: formData.userName,
       phone: handlePhoneChange(formData.phone),
       roles: formData.roles,
-      nameCompany: formData.nameCompany || null,
+      companyName: formData.companyName || null,
     };
 
     console.log("Edit profile", data);

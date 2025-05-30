@@ -1,12 +1,12 @@
 import { YMaps, Map, Placemark, Clusterer } from "@pbe/react-yandex-maps";
 import { useState } from "react";
 import BookingDetailSheet from "../booking/booking-detail/booking-detail-sheet";
-import { IBookingDto } from "@/shared/model/types/booking";
+import { TBookingDto } from "@/shared/model/types/booking";
 
 export default function MapBackgroundYandex({
   bookings,
 }: {
-  bookings: IBookingDto[] | undefined;
+  bookings: TBookingDto[] | undefined;
 }) {
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [openDetailBooking, setOpenDetailBooking] = useState(false);
