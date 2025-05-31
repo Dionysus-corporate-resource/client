@@ -1,8 +1,12 @@
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { paymentApi, TTypeSubscripe } from "./paymentApi";
+import { useAuth } from "@/app/providers/auth-provider";
+import { useNavigate } from "react-router";
 
 export default function SubscribePage() {
+  const { token } = useAuth();
+
   return (
     <div className="container mx-auto flex items-center justify-center">
       <div className="flex flex-col gap-16">
@@ -17,16 +21,17 @@ export default function SubscribePage() {
         </div>
 
         <div className="grid grid-cols-3 gap-4 w-full px-6">
-          <SubscribeCardOne />
-          <SubscribeCardTwo />
-          <SubscribeCardThree />
+          <SubscribeCardOne token={token} />
+          <SubscribeCardTwo token={token} />
+          <SubscribeCardThree token={token} />
         </div>
       </div>
     </div>
   );
 }
 
-function SubscribeCardOne() {
+function SubscribeCardOne({ token }: { token: string | null }) {
+  const navigate = useNavigate();
   const [countB, setCountB] = useState(1);
   const incBooking = () => {
     setCountB((prev) => prev + 1);
@@ -36,6 +41,9 @@ function SubscribeCardOne() {
   };
 
   const handlePayment = () => {
+    if (!token) {
+      return navigate("/login");
+    }
     const data = {
       priceOneBooking: 100,
       countBooking: countB,
@@ -105,8 +113,12 @@ function SubscribeCardOne() {
   );
 }
 
-function SubscribeCardTwo() {
+function SubscribeCardTwo({ token }: { token: string | null }) {
+  const navigate = useNavigate();
   const handlePayment = () => {
+    if (!token) {
+      return navigate("/login");
+    }
     const data = {
       priceOneBooking: 100,
       countBooking: 27,
@@ -162,8 +174,12 @@ function SubscribeCardTwo() {
   );
 }
 
-function SubscribeCardThree() {
+function SubscribeCardThree({ token }: { token: string | null }) {
+  const navigate = useNavigate();
   const handlePayment = () => {
+    if (!token) {
+      return navigate("/login");
+    }
     const data = {
       typeSubscriprion: "unLimited" as TTypeSubscripe,
       countMonthSubscribe: 1,

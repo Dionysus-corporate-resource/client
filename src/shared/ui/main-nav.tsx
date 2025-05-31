@@ -20,6 +20,7 @@ function imgRoleVariant(role: "customer" | "driver" | undefined) {
 
 export function MainNav() {
   const {
+    token,
     user: { userData },
   } = useAuth();
 
@@ -99,11 +100,27 @@ export function MainNav() {
           ))}
         </div>
 
-        <span className="font-medium text-sm text-background/60">
-          Заявки:{" "}
-          {userData?.activeSubscriptions?.purchasedBooking?.remainingBookings}{" "}
-          шт.
-        </span>
+        {token && (
+          <div className="flex gap-2">
+            <span className="font-medium text-sm text-background/60">
+              Заявки:{" "}
+              {userData &&
+              userData?.activeSubscriptions?.purchasedBooking
+                ?.remainingBookings > 0
+                ? userData?.activeSubscriptions?.purchasedBooking
+                    ?.remainingBookings
+                : " 0"}{" "}
+              шт.
+            </span>
+            <span className="font-medium text-sm text-background/60">
+              Подписка:{" "}
+              {userData?.activeSubscriptions?.unLimitedBookingSubscription
+                ?.isPurchased
+                ? "активна"
+                : "не активна"}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -22,7 +22,12 @@ export default function ProfilePage() {
   const { formatPhoneNumber } = useFormatters();
 
   if (isLoadingDataUser) return <PageLoader />;
-  if (isErrorDataUser) return <div>Ошибка при запросе</div>;
+  if (isErrorDataUser)
+    return (
+      <div className="container mx-auto flex items-center justify-center font-medium text-base">
+        Обновите страницу
+      </div>
+    );
 
   return (
     <div className="container mx-auto w-full rounded-2xl bg-background mt-10 p-5">
@@ -110,22 +115,38 @@ export default function ProfilePage() {
                 шт.
               </span>
             </div>
-            <div className="flex justify-between pb-2 border-dashed border-b">
-              <span className="text-xl font-normal">Безлимитная подписка</span>
-              <span className="text-xl font-medium">
-                {userData?.activeSubscriptions?.unLimitedBookingSubscription
-                  ?.isPurchased === true
-                  ? "Активна"
-                  : "Не активна"}
-              </span>
+            <div className="flex flex-col items-end justify-between w-full pb-2 border-dashed border-b">
+              <div className="flex justify-between w-full">
+                <span className="text-xl font-normal">
+                  Безлимитная подписка
+                </span>
+                <span className="text-xl font-medium">
+                  {userData?.activeSubscriptions?.unLimitedBookingSubscription
+                    ?.isPurchased === true
+                    ? "Активна"
+                    : "Не активна"}
+                </span>
+              </div>
+              {userData?.activeSubscriptions?.unLimitedBookingSubscription
+                ?.isPurchased && (
+                <span className="text-sm font-base">
+                  До:{" "}
+                  {new Date(
+                    userData?.activeSubscriptions?.unLimitedBookingSubscription
+                      ?.expiresAt as Date,
+                  ).toLocaleDateString("ru-RU", {
+                    day: "2-digit",
+                    month: "long",
+                  })}{" "}
+                </span>
+              )}
             </div>
           </div>
         </div>
         {/* история покпок */}
-        <div className="px-3 mt-16 space-y-6">
+        {/* <div className="px-3 mt-16 space-y-6">
           <span className="text-base font-medium">История операций:</span>
           <div className="flex flex-col gap-3">
-            {/* картточка истории оплаты*/}
             <div className="flex flex-col items-end gap-4 bg-primary/5 rounded-[30px] py-4 px-6">
               <div className="w-full flex justify-between items-start">
                 <span className="text-xl font-normal text-primary/90">
@@ -140,7 +161,6 @@ export default function ProfilePage() {
                 Дата покупки: 23.05.2025
               </span>
             </div>
-            {/* картточка истории оплаты*/}
             <div className="flex flex-col items-end gap-4 bg-primary/5 rounded-[30px] py-4 px-6">
               <div className="w-full flex justify-between items-start">
                 <span className="text-xl font-normal text-primary/90">
@@ -156,7 +176,7 @@ export default function ProfilePage() {
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

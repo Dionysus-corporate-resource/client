@@ -1,7 +1,7 @@
 import { YMaps, Map, Placemark, Clusterer } from "@pbe/react-yandex-maps";
 import { useState } from "react";
-import BookingDetailSheet from "../booking/booking-detail/booking-detail-sheet";
 import { TBookingDto } from "@/shared/model/types/booking";
+import BookingDetailSheetMap from "../booking/booking-detail/booking-detail-sheet-map";
 
 export default function MapBackgroundYandex({
   bookings,
@@ -9,7 +9,7 @@ export default function MapBackgroundYandex({
   bookings: TBookingDto[] | undefined;
 }) {
   const [bookingId, setBookingId] = useState<string | null>(null);
-  // const [openDetailBooking, setOpenDetailBooking] = useState(false);
+  const [openDetailBooking, setOpenDetailBooking] = useState(false);
 
   const handleMapClick = (event: ymaps.IEvent) => {
     const coords = event.get("coords");
@@ -50,7 +50,7 @@ export default function MapBackgroundYandex({
                   key={booking._id}
                   onClick={() => {
                     setBookingId(booking._id);
-                    // setOpenDetailBooking(true);
+                    setOpenDetailBooking(true);
                   }}
                   geometry={
                     booking?.basicInfo?.loadingLocation?.coordinates ?? [
@@ -66,10 +66,10 @@ export default function MapBackgroundYandex({
           </Clusterer>
         </Map>
       </YMaps>
-      <BookingDetailSheet
+      <BookingDetailSheetMap
         bookingId={bookingId}
-        // open={openDetailBooking}
-        // onOpenChange={setOpenDetailBooking}
+        open={openDetailBooking}
+        onOpenChange={setOpenDetailBooking}
       />
     </>
   );
