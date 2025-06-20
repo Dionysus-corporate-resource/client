@@ -14,9 +14,26 @@ export default function SubscribePage() {
           <h4 className="font-semibold text-3xl text-center max-w-xl w-full">
             Выберите подходящий тариф
           </h4>
-          <span className="font-normal text-base text-center max-w-xl w-full">
-            Мы сотрудничаем с QKassa, проверенным платежным сервисом, чтобы
-            гарантировать безопасность ваших данных.
+          <span className="font-normal text-base text-center max-w-3xl w-full">
+            «Перед оплатой ознакомьтесь с{" "}
+            <a
+              href="https://docs.google.com/document/d/1UxzUhPxwIFXjyX0ufn7wfewNSb0lnWuU7DAqKyARZxU/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              публичной офертой
+            </a>{" "}
+            и{" "}
+            <a
+              href="https://docs.google.com/document/d/1KT599uyijO9sGzPTbtelYpP8ELLcewmspw7amGwHsEI/edit?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              пользовательским соглашением
+            </a>
+            . Платежи обрабатываются через защищенный сервис QKassa».
           </span>
         </div>
 

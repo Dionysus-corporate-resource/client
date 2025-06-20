@@ -11,10 +11,8 @@ import { bookingQueryOption } from "./api/query-option";
 import useFilteredAndSortedBooking from "./hooks/use-filtered-booking";
 
 export default function PublicBookingPage() {
-  // get bookings
   const { data: bookings } = useQuery(bookingQueryOption.getAll());
 
-  // filtering bookings
   const {
     filter: {
       filteredBooking,
@@ -26,7 +24,6 @@ export default function PublicBookingPage() {
     sort,
   } = useFilteredAndSortedBooking({ bookings });
 
-  // pagination bookings
   const { paginatedBookings, setPage, page, itemsPerPage } =
     usePaginationPublicBooking({
       filteredBooking,
